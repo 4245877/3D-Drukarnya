@@ -57,6 +57,21 @@ section {
     text-align: center;
 }
 
+/* ==================== НОВИЙ ЗАГАЛЬНИЙ КЛАС CARD ==================== */
+.card {
+    background-color: var(--bg-color);
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
 /* ==================== СТИЛІ КНОПОК ==================== */
 .btn {
     display: inline-block;
@@ -160,6 +175,18 @@ section {
     margin-left: 30px;
 }
 
+/* СТИЛІ ДЛЯ ГАМБУРГЕР-МЕНЮ */
+.hamburger-menu {
+    display: none; /* Ховаємо на десктопі */
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    cursor: pointer;
+    z-index: 1001; /* Поверх навігації */
+}
+
+
 /* ==================== ГОЛОВНИЙ ЕКРАН ==================== */
 .hero {
     background-color: var(--light-gray-bg);
@@ -178,44 +205,147 @@ section {
     margin-left: 10px;
 }
 
+/* ==================== Секція Переваги ==================== */
+.advantages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+.advantage-card {
+    text-align: center;
+}
+.advantage-card .icon {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+}
+.advantage-card h3 {
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+/* ==================== Секція "Як це працює?" ==================== */
+.how-it-works {
+    background-color: var(--light-gray-bg);
+}
+.how-it-works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+.step-card {
+    text-align: center;
+}
+.step-icon {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 auto 20px;
+}
+.step-card h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #333;
+}
+.step-card p {
+    font-size: 15px;
+    line-height: 1.6;
+}
+
 /* ==================== ТЕХНОЛОГІЇ ==================== */
 .technologies {
     background-color: var(--bg-color);
 }
-
 .tech-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 колонки */
+    /* У вас одна картка, тому можна задати максимальну ширину */
+    grid-template-columns: 1fr;
+    max-width: 700px; /* Приклад */
+    margin: 0 auto;
     gap: 30px;
 }
-
 .tech-card {
-    background-color: #fff;
-    padding: 30px;
-    text-align: center;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-.tech-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    text-align: left; /* У цієї картки текст зліва */
+    padding: 40px;
 }
 .tech-card .icon {
     font-size: 3rem;
     color: var(--accent-color);
     margin-bottom: 20px;
+    display: block;
+    text-align: center;
 }
 .tech-card h3 {
+    text-align: center;
     margin-bottom: 15px;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
 }
+.tech-card h4 {
+    margin-top: 25px;
+    font-size: 1.2rem;
+}
+.tech-card ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+.tech-card ul li {
+    margin-bottom: 8px;
+}
+
+/* ==================== Секція Матеріали ==================== */
+.materials .section-subtitle {
+    text-align: center;
+    margin-bottom: 40px;
+}
+.materials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+.material-card {
+    /* Робить картки однакової висоти в рядку */
+    display: flex;
+    flex-direction: column;
+}
+.material-card h3 {
+    color: var(--primary-color);
+}
+.material-card p {
+    flex-grow: 1; /* Дозволяє параграфу займати вільне місце */
+    margin-bottom: 15px;
+}
+.material-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+}
+.material-features li {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+.material-features .fa-solid {
+    margin-right: 10px;
+}
+.material-features .fa-check {
+    color: #28a745; /* Зелений */
+}
+.material-features .fa-times {
+    color: #dc3545; /* Червоний */
+}
+
 
 /* ==================== ПОРТФОЛІО ==================== */
 .portfolio {
     background-color: var(--light-gray-bg);
 }
-
 .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -257,41 +387,6 @@ section {
     opacity: 0.8;
 }
 
-/* ==================== ВІДГУКИ ==================== */
-.testimonial-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-}
-.testimonial-card {
-    background-color: var(--light-gray-bg);
-    padding: 30px;
-    border-left: 5px solid var(--accent-color);
-    border-radius: 5px;
-}
-.testimonial-card p {
-    font-style: italic;
-    margin-bottom: 20px;
-}
-.testimonial-author {
-    display: flex;
-    align-items: center;
-}
-.testimonial-author img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 15px;
-}
-.testimonial-author strong {
-    display: block;
-    color: var(--primary-color);
-}
-.testimonial-author span {
-    font-size: 0.9rem;
-    color: var(--text-light);
-}
-
 /* ==================== ПІДВАЛ (ФУТЕР) ==================== */
 .footer {
     background-color: var(--primary-color);
@@ -307,7 +402,7 @@ section {
 }
 .footer-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     margin-bottom: 40px;
 }
@@ -359,13 +454,52 @@ section {
 @media (max-width: 992px) {
     h2 { font-size: 2.2rem; }
     .hero h1 { font-size: 3rem; }
-    .tech-grid, .portfolio-grid {
+    
+    .portfolio-grid {
         grid-template-columns: 1fr 1fr; /* 2 колонки */
     }
     .footer-grid {
         grid-template-columns: 1fr 1fr;
     }
-    .main-nav { display: none; } /* Спрощений варіант: ховаємо навігацію на менших екранах */
+    .nav-btn {
+        display: none; /* Ховаємо кнопку замовлення в шапці */
+    }
+    .hamburger-menu {
+        display: block; /* Показуємо гамбургер */
+    }
+
+    .main-nav {
+        position: absolute;
+        top: 100%; /* Розташовуємо під шапкою */
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-color);
+        border-top: 1px solid var(--border-color);
+        
+        /* Ховаємо меню за замовчуванням */
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out;
+    }
+    .main-nav.active {
+        max-height: 500px; /* Висота для показу меню */
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        padding: 20px;
+    }
+    .main-nav ul li {
+        margin: 0;
+        text-align: center;
+    }
+    .main-nav ul li a {
+        display: block;
+        padding: 15px 0;
+    }
+    .main-nav ul li a::after {
+        display: none; /* Вимикаємо ефект підкреслення на мобільних */
+    }
 }
 
 /* Мобільні пристрої (до 768px) */
@@ -375,139 +509,7 @@ section {
     .hero h1 { font-size: 2.5rem; }
     .hero .subtitle { font-size: 1.2rem; }
     
-    .tech-grid, .portfolio-grid, .testimonial-grid, .footer-grid {
+    .portfolio-grid, .footer-grid {
         grid-template-columns: 1fr; /* 1 колонка */
     }
-
-    .header .container {
-        justify-content: space-between;
-    }
-    .nav-btn {
-      display: none; /* Ховаємо кнопку в шапці, щоб залишити місце */
-    }
-}
-
-/*
-========================================
-Стилі для секції "Як це працює?"
-========================================
-*/
-.how-it-works {
-    padding: 60px 0;
-    background-color: #f9f9f9; /* Світлий фон для візуального відділення */
-}
-
-.how-it-works h2 {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.how-it-works-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-}
-
-.step-card {
-    background-color: #fff;
-    padding: 30px;
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.step-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-}
-
-.step-icon {
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    border-radius: 50%;
-    background-color: var(--primary-color, #007bff); /* Використовуємо змінну, якщо вона є */
-    color: #fff;
-    font-size: 24px;
-    font-weight: 700;
-    margin: 0 auto 20px;
-}
-
-.step-card h3 {
-    margin-bottom: 10px;
-    font-size: 20px;
-    color: #333;
-}
-
-.step-card p {
-    font-size: 15px;
-    line-height: 1.6;
-}
-
-
-/*
-========================================
-Стилі для секції "Матеріали"
-========================================
-*/
-.materials {
-    padding: 60px 0;
-}
-
-.materials h2, .materials .section-subtitle {
-    text-align: center;
-}
-
-.materials .section-subtitle {
-    margin-bottom: 40px;
-}
-
-.materials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-}
-
-.material-card {
-    border: 1px solid #e0e0e0;
-    padding: 25px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-}
-
-.material-card h3 {
-    margin-bottom: 15px;
-    color: var(--primary-color, #007bff);
-}
-
-.material-card p {
-    flex-grow: 1; /* Робить так, щоб картки були однакової висоти */
-    margin-bottom: 15px;
-}
-
-.material-features {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 14px;
-}
-
-.material-features li {
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-}
-
-.material-features .fa-solid {
-    margin-right: 10px;
-}
-
-.material-features .fa-check {
-    color: #28a745; /* Зелений */
-}
-
-.material-features .fa-times {
-    color: #dc3545; /* Червоний */
 }

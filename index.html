@@ -19,8 +19,8 @@
 
     <header class="header">
         <div class="container">
-            <a href="#" class="logo">3D Print <span>Kyiv</span></a>
-            <nav class="main-nav">
+            <a href="/" class="logo">3D Print <span>Kyiv</span></a>
+            <nav class="main-nav" id="mainNav">
                 <ul>
                     <li><a href="index.html" class="active">Головна</a></li>
                     <li><a href="#advantages">Переваги</a></li>
@@ -32,6 +32,9 @@
                 </ul>
             </nav>
             <a href="#contacts" class="btn btn-primary nav-btn">Замовити друк</a>
+            <button class="hamburger-menu" id="hamburgerMenu" aria-label="Відкрити меню">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
     </header>
 
@@ -48,22 +51,22 @@
             <div class="container">
                 <h2>Чому варто замовити у мене?</h2>
                 <div class="advantages-grid">
-                    <div class="advantage-card">
+                    <div class="card advantage-card">
                         <i class="fa-solid fa-rocket icon"></i>
                         <h3>Висока швидкість</h3>
                         <p>Друк на сучасному принтері Creality Ender 3 V3 KE дозволяє виконувати замовлення значно швидше без втрати якості.</p>
                     </div>
-                    <div class="advantage-card">
+                    <div class="card advantage-card">
                         <i class="fa-solid fa-ruler-combined icon"></i>
                         <h3>Точність та якість</h3>
                         <p>Спеціалізація на FDM-технології та професійне обладнання гарантують високу точність та відмінну якість поверхні деталей.</p>
                     </div>
-                    <div class="advantage-card">
+                    <div class="card advantage-card">
                         <i class="fa-solid fa-map-location-dot icon"></i>
                         <h3>Зручна локація</h3>
                         <p>Знаходжусь у Києві, м. Академмістечко. Можлива швидка доставка по місту або зручний самовивіз.</p>
                     </div>
-                     <div class="advantage-card">
+                     <div class="card advantage-card">
                         <i class="fa-solid fa-comments icon"></i>
                         <h3>Прямий контакт</h3>
                         <p>Ви спілкуєтесь безпосередньо з виконавцем. Це дозволяє уникнути непорозумінь та швидко узгодити всі технічні деталі.</p>
@@ -76,22 +79,22 @@
             <div class="container">
                 <h2>Як це працює?</h2>
                 <div class="how-it-works-grid">
-                    <div class="step-card">
+                    <div class="card step-card">
                         <div class="step-icon">1</div>
                         <h3>Надсилаєте модель</h3>
                         <p>Ви відправляєте 3D-модель (у форматі .stl, .obj, .step) та опис задачі мені в Telegram або на пошту.</p>
                     </div>
-                    <div class="step-card">
+                    <div class="card step-card">
                         <div class="step-icon">2</div>
                         <h3>Розрахунок вартості</h3>
                         <p>Я аналізую модель, розраховую вартість та терміни виконання, і узгоджую всі деталі з вами.</p>
                     </div>
-                    <div class="step-card">
+                    <div class="card step-card">
                         <div class="step-icon">3</div>
                         <h3>Процес друку</h3>
                         <p>Після узгодження я запускаю процес друку, контролюючи якість на кожному етапі.</p>
                     </div>
-                    <div class="step-card">
+                    <div class="card step-card">
                         <div class="step-icon">4</div>
                         <h3>Отримання замовлення</h3>
                         <p>Ви можете забрати готову деталь самовивозом або я організую доставку зручним для вас способом.</p>
@@ -103,8 +106,8 @@
         <section id="technology" class="technologies">
             <div class="container">
                 <h2>Моя технологія та обладнання</h2>
-                <div class="tech-grid-single">
-                    <div class="tech-card">
+                <div class="tech-grid">
+                    <div class="card tech-card">
                         <i class="fa-solid fa-layer-group icon"></i>
                         <h3>FDM (Fused Deposition Modeling)</h3>
                         <p>Це технологія пошарового наплавлення пластику. Ідеально підходить для створення міцних прототипів, корпусів, функціональних деталей, кріплень та багато іншого.</p>
@@ -127,7 +130,7 @@
                 <h2>Матеріали для друку</h2>
                 <p class="section-subtitle">Я використовую лише якісні та перевірені матеріали для досягнення найкращого результату.</p>
                 <div class="materials-grid">
-                    <div class="material-card">
+                    <div class="card material-card">
                         <h3>PLA (Полілактид)</h3>
                         <p>Біорозкладний та простий у друці пластик. Ідеальний для декоративних моделей, прототипів, іграшок та виробів, що не зазнають високих навантажень і температур.</p>
                         <ul class="material-features">
@@ -136,7 +139,7 @@
                             <li><i class="fa-solid fa-times"></i> Низька термостійкість</li>
                         </ul>
                     </div>
-                    <div class="material-card">
+                    <div class="card material-card">
                         <h3>PETG (Поліетилентерефталат-гліколь)</h3>
                         <p>Міцний, гнучкий та стійкий до хімічних речовин матеріал. Чудово підходить для функціональних деталей, механічних частин, контейнерів та захисних екранів.</p>
                          <ul class="material-features">
@@ -145,7 +148,7 @@
                             <li><i class="fa-solid fa-times"></i> Схильний до подряпин</li>
                         </ul>
                     </div>
-                    <div class="material-card">
+                    <div class="card material-card">
                         <h3>ABS (Акрилонітрилбутадієнстирол)</h3>
                         <p>Термостійкий та ударостійкий пластик, який використовується в промисловості (наприклад, кубики LEGO). Підходить для корпусів електроніки та деталей автомобілів.</p>
                          <ul class="material-features">
@@ -154,7 +157,7 @@
                             <li><i class="fa-solid fa-times"></i> Потребує спец. умов друку</li>
                         </ul>
                     </div>
-                    <div class="material-card">
+                    <div class="card material-card">
                         <h3>TPU (Термопластичний поліуретан)</h3>
                         <p>Гнучкий, еластичний матеріал, схожий на гуму. Використовується для створення чохлів для телефонів, прокладок, гнучких з'єднань та іграшок.</p>
                          <ul class="material-features">
@@ -228,6 +231,31 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Знаходимо кнопку гамбургера і навігаційне меню в документі
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const mainNav = document.getElementById('mainNav');
+
+        // Додаємо обробник події "click" на кнопку
+        hamburgerMenu.addEventListener('click', () => {
+            // При кожному кліку додаємо/видаляємо клас 'active' у навігаційного меню
+            // Це дозволить нам показувати або ховати меню за допомогою CSS
+            mainNav.classList.toggle('active');
+
+            // Також можна змінювати іконку з "бургер" на "хрестик"
+            const icon = hamburgerMenu.querySelector('i');
+            if (mainNav.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+                hamburgerMenu.setAttribute('aria-label', 'Закрити меню');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                hamburgerMenu.setAttribute('aria-label', 'Відкрити меню');
+            }
+        });
+    </script>
 
 </body>
 </html>
