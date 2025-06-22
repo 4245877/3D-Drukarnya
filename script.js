@@ -20,101 +20,160 @@
                 hamburgerMenu.setAttribute('aria-label', 'Відкрити меню');
             }
         });
-         // --- Логіка розрахунку вартості 3D-моделі ---
-        const calculateBtn = document.getElementById('calculateBtn');
-        const modelUploader = document.getElementById('modelUploader');
-        const resultDiv = document.getElementById('calculationResult');
+         /* === Нова логіка розрахунку вартості 3D-моделі === */
+    const calculateBtn = document.getElementById('calculateBtn');
+    const modelUploader = document.getElementById('modelUploader');
+    const resultDiv = document.getElementById('calculationResult');
 
-        const PRICE_PER_GRAM = 2; // Ціна за грам в гривнях
-        const PLA_DENSITY_G_CM3 = 1.24; // Щільність PLA пластику в г/см³
+    // --- Параметри для розрахунку ---
+    // ОНОВЛЕНО: Нова ціна за грам пластику
+    const PRICE_PER_GRAM = 2.50; 
+    // Щільність PLA пластику в г/см³. Це значення можна коригувати.
+    const PLA_DENSITY_G_CM3 = 1.24; 
 
-        calculateBtn.addEventListener('click', (e) => {
-            e.preventDefault(); // Запобігаємо переходу за посиланням
-            modelUploader.click(); // Відкриваємо вікно вибору файлу
-        });
+    // Обробник кліку на кнопку "Розрахувати"
+    calculateBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Запобігаємо стандартній поведінці посилання
+        modelUploader.click(); // Імітуємо клік на прихований input для завантаження файлу
+    });
 
-        modelUploader.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (!file) {
-                return;
+    // Обробник зміни файлу в input
+    modelUploader.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) {
+            return; // Якщо файл не вибрано, нічого не робимо
+        }
+
+        // Показуємо блок з результатом та повідомлення про аналіз
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = '<div class="loader"></div><p>Аналізую модель, будь ласка, зачекайте...</p>';
+
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const fileContent = e.target.result;
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            let loader;
+            
+            // Вибираємо потрібний завантажувач залежно від розширення файлу
+            switch (fileExtension) {
+                case 'stl':
+                    loader = new THREE.STLLoader();
+                    break;
+                case 'obj':
+                    loader = new THREE.OBJLoader();
+                    break;
+                default:
+                    resultDiv.innerHTML = `<p>Помилка: формат файлу .${fileExtension} не підтримується. Будь ласка, завантажте .STL або .OBJ файл.</p>`;
+                    return;
             }
 
-            // Показуємо блок з результатом та повідомлення про аналіз
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '<p>Аналізую модель...</p>';
+            try {
+                // Парсимо модель і отримуємо геометрію
+                const geometryOrObject = loader.parse(fileContent);
+                let geometry;
 
-            const reader = new FileReader();
-            const loader = new THREE.STLLoader();
-
-            reader.onload = (e) => {
-                try {
-                    const geometry = loader.parse(e.target.result);
-                    
-                    // Моделі зазвичай створюються в мм, тому об'єм буде в мм³.
-                    // Конвертуємо в см³ (1 см³ = 1000 мм³)
-                    const volumeCm3 = calculateVolume(geometry) / 1000;
-                    
-                    if (volumeCm3 > 0) {
-                        const weightGrams = volumeCm3 * PLA_DENSITY_G_CM3;
-                        const priceUah = weightGrams * PRICE_PER_GRAM;
-
-                        resultDiv.innerHTML = `
-                            <p><strong>Орієнтовний розрахунок для PLA пластику:</strong></p>
-                            <p>Об'єм моделі: ${volumeCm3.toFixed(2)} см³</p>
-                            <p>Вага моделі: ${weightGrams.toFixed(2)} г</p>
-                            <p><strong>Вартість друку: ~${priceUah.toFixed(2)} грн</strong></p>
-                            <hr style="border-top: 1px solid #ccc; border-bottom: none; margin: 10px 0;">
-                            <small>Це попередня вартість. Точна ціна буде відома після професійного аналізу моделі у слайсері та узгодження всіх деталей.</small>
-                        `;
-                    } else {
-                         resultDiv.innerHTML = '<p>Не вдалося розрахувати об\'єм. Будь ласка, перевір, що модель є цілісною (watertight) та спробуй ще раз.</p>';
-                    }
-
-                } catch (error) {
-                    console.error('Помилка обробки STL файлу:', error);
-                    resultDiv.innerHTML = '<p>Помилка. Не вдалося обробити файл. Будь ласка, завантажте коректний .STL файл.</p>';
+                // STLLoader повертає BufferGeometry, а OBJLoader - Group (об'єкт).
+                // Нам потрібно знайти геометрію всередині об'єкта.
+                if (geometryOrObject.isBufferGeometry) {
+                    geometry = geometryOrObject;
+                } else {
+                    // Шукаємо перший Mesh в сцені і беремо його геометрію
+                    geometryOrObject.traverse(function (child) {
+                        if (child.isMesh) {
+                            geometry = child.geometry;
+                        }
+                    });
                 }
-            };
+                
+                if (!geometry) {
+                    throw new Error("Не вдалося знайти геометрію у файлі.");
+                }
 
-            reader.onerror = () => {
-                resultDiv.innerHTML = '<p>Не вдалося прочитати файл.</p>';
+                // Моделі зазвичай створюються в мм, тому об'єм буде в мм³.
+                // Конвертуємо в см³ (1 см³ = 1000 мм³)
+                const volumeCm3 = calculateVolume(geometry) / 1000;
+                
+                if (volumeCm3 > 0) {
+                    const weightGrams = volumeCm3 * PLA_DENSITY_G_CM3;
+                    const priceUah = weightGrams * PRICE_PER_GRAM;
+
+                    // Формуємо красивий вивід результату
+                    resultDiv.innerHTML = `
+                        <p><strong>Орієнтовний розрахунок для PLA пластику:</strong></p>
+                        <p>Об'єм моделі: ${volumeCm3.toFixed(2)} см³</p>
+                        <p>Приблизна вага: ${weightGrams.toFixed(2)} г</p>
+                        <p class="price"><strong>Вартість друку: ~${priceUah.toFixed(2)} грн</strong></p>
+                        <hr style="border-top: 1px solid #ccc; border-bottom: none; margin: 10px 0;">
+                        <small><strong>Увага:</strong> Це попередня вартість для суцільної моделі. Точна ціна буде відома після обробки моделі у професійному слайсері та узгодження параметрів друку (заповнення, підтримки тощо).</small>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<p>Не вдалося розрахувати об\'єм. Будь ласка, перевірте, що модель є цілісною (watertight) та має коректний масштаб.</p>';
+                }
+
+            } catch (error) {
+                console.error('Помилка обробки 3D файлу:', error);
+                resultDiv.innerHTML = `<p>Помилка. Не вдалося обробити файл. Будь ласка, завантажте коректний .STL або .OBJ файл.</p>`;
             }
+        };
 
-            reader.readAsArrayBuffer(file);
-        });
+        reader.onerror = () => {
+            resultDiv.innerHTML = '<p>Не вдалося прочитати файл.</p>';
+        };
 
-        /**
-         * Розраховує об'єм геометрії (mesh).
-         * @param {THREE.BufferGeometry} geometry - геометрія моделі.
-         * @returns {number} - об'єм моделі (в одиницях моделі, зазвичай мм³).
-         */
-        function calculateVolume(geometry) {
-            if (!geometry.isBufferGeometry) {
-                console.error('Geometry is not BufferGeometry');
-                return 0;
+        // Для STLLoader потрібен ArrayBuffer, для OBJLoader - текст. 
+        // readAsArrayBuffer працює для обох, тому що OBJLoader може обробляти і його.
+        reader.readAsArrayBuffer(file);
+    });
+
+    /**
+     * Розраховує об'єм геометрії (mesh) методом тетраедрів.
+     * @param {THREE.BufferGeometry} geometry - геометрія моделі.
+     * @returns {number} - об'єм моделі (в одиницях моделі, зазвичай мм³).
+     */
+    function calculateVolume(geometry) {
+        if (!geometry.isBufferGeometry) {
+            console.error('На вхід подано не BufferGeometry');
+            return 0;
+        }
+
+        let volume = 0;
+        const position = geometry.attributes.position;
+        const p1 = new THREE.Vector3();
+        const p2 = new THREE.Vector3();
+        const p3 = new THREE.Vector3();
+        
+        // Перевіряємо, чи геометрія індексована
+        if (geometry.index) {
+            const index = geometry.index;
+            for (let i = 0; i < index.count; i += 3) {
+                p1.fromBufferAttribute(position, index.getX(i));
+                p2.fromBufferAttribute(position, index.getX(i + 1));
+                p3.fromBufferAttribute(position, index.getX(i + 2));
+                volume += signedVolumeOfTriangle(p1, p2, p3);
             }
-
-            let volume = 0;
-            const position = geometry.attributes.position;
-            const p1 = new THREE.Vector3();
-            const p2 = new THREE.Vector3();
-            const p3 = new THREE.Vector3();
-
-            // STLLoader створює неіндексовану геометрію,
-            // тому ми можемо просто ітерувати по трійках вершин.
+        } else {
+            // Для неіндексованої геометрії (як у STL)
             for (let i = 0; i < position.count; i += 3) {
                 p1.fromBufferAttribute(position, i);
                 p2.fromBufferAttribute(position, i + 1);
                 p3.fromBufferAttribute(position, i + 2);
-
-                // Формула для знакового об'єму тетраедра
-                volume += p1.dot(p2.clone().cross(p3));
+                volume += signedVolumeOfTriangle(p1, p2, p3);
             }
-
-            return Math.abs(volume / 6.0);
         }
-        
-        // Дозволяє завантажувати той самий файл повторно
-        modelUploader.addEventListener('click', function() {
-            this.value = null;
-        });
+
+        return Math.abs(volume);
+    }
+    
+    /**
+     * Допоміжна функція для розрахунку знакового об'єму тетраедра.
+     */
+    function signedVolumeOfTriangle(p1, p2, p3) {
+        return p1.dot(p2.cross(p3)) / 6.0;
+    }
+
+    // Дозволяє завантажувати той самий файл повторно (корисно для тестування)
+    modelUploader.addEventListener('click', function() {
+        this.value = null;
+    });
+});
