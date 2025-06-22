@@ -1,0 +1,388 @@
+/* ==================== ЗАГАЛЬНІ СТИЛІ ТА ЗМІННІ ==================== */
+:root {
+    /* Визначаємо основні кольори для всього сайту. 
+       Це дозволяє легко змінити палітру в одному місці. */
+    --primary-color: #2c3e50; /* Темно-синій */
+    --secondary-color: #3498db; /* Синій */
+    --accent-color: #e67e22; /* Помаранчевий (акцент) */
+    --bg-color: #ffffff; /* Білий фон */
+    --light-gray-bg: #f8f9fa; /* Світло-сірий фон для секцій */
+    --text-color: #333333; /* Основний колір тексту */
+    --text-light: #777777; /* Світлий колір тексту */
+    --border-color: #dddddd; /* Колір рамок */
+
+    /* Визначаємо шрифти */
+    --font-primary: 'Roboto', sans-serif;
+    --font-secondary: 'Montserrat', sans-serif;
+}
+
+/* Скидання стандартних відступів браузера */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-primary);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-secondary);
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+}
+
+section {
+    padding: 80px 0;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* ==================== СТИЛІ КНОПОК ==================== */
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-secondary);
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+.btn-secondary:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn-accent {
+    background-color: var(--accent-color);
+    color: #fff;
+    font-size: 1.1rem;
+    padding: 15px 35px;
+}
+.btn-accent:hover {
+    background-color: #d35400;
+    transform: translateY(-2px); /* Легкий ефект при наведенні */
+}
+
+/* ==================== ШАПКА САЙТУ ==================== */
+.header {
+    background-color: var(--bg-color);
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky; /* Робимо шапку "липкою" */
+    top: 0;
+    z-index: 1000;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: var(--font-secondary);
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--primary-color);
+}
+.logo span {
+    color: var(--accent-color);
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+}
+.main-nav ul li {
+    margin-left: 25px;
+}
+.main-nav ul li a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 5px;
+}
+/* Ефект підкреслення при наведенні */
+.main-nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent-color);
+    transition: width 0.3s ease;
+}
+.main-nav ul li a:hover::after,
+.main-nav ul li a.active::after {
+    width: 100%;
+}
+
+.nav-btn {
+    margin-left: 30px;
+}
+
+/* ==================== ГОЛОВНИЙ ЕКРАН ==================== */
+.hero {
+    background-color: var(--light-gray-bg);
+    text-align: center;
+    padding: 120px 0;
+}
+.hero h1 {
+    font-size: 3.5rem;
+}
+.hero .subtitle {
+    font-size: 1.5rem;
+    color: var(--text-light);
+    margin-bottom: 40px;
+}
+.hero .btn i {
+    margin-left: 10px;
+}
+
+/* ==================== ТЕХНОЛОГІЇ ==================== */
+.technologies {
+    background-color: var(--bg-color);
+}
+
+.tech-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 колонки */
+    gap: 30px;
+}
+
+.tech-card {
+    background-color: #fff;
+    padding: 30px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.tech-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+.tech-card .icon {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+}
+.tech-card h3 {
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+/* ==================== ПОРТФОЛІО ==================== */
+.portfolio {
+    background-color: var(--light-gray-bg);
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+.portfolio-item {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+.portfolio-item img {
+    width: 100%;
+    display: block;
+    transition: transform 0.4s;
+}
+.portfolio-item:hover img {
+    transform: scale(1.05);
+}
+.portfolio-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: #fff;
+    padding: 40px 20px 20px;
+    transition: opacity 0.4s;
+}
+.portfolio-caption h4 {
+    color: #fff;
+    margin-bottom: 5px;
+}
+.portfolio-caption p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* ==================== ВІДГУКИ ==================== */
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+.testimonial-card {
+    background-color: var(--light-gray-bg);
+    padding: 30px;
+    border-left: 5px solid var(--accent-color);
+    border-radius: 5px;
+}
+.testimonial-card p {
+    font-style: italic;
+    margin-bottom: 20px;
+}
+.testimonial-author {
+    display: flex;
+    align-items: center;
+}
+.testimonial-author img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+.testimonial-author strong {
+    display: block;
+    color: var(--primary-color);
+}
+.testimonial-author span {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* ==================== ПІДВАЛ (ФУТЕР) ==================== */
+.footer {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 60px 0 20px;
+}
+.footer a {
+    color: #fff;
+    text-decoration: none;
+}
+.footer a:hover {
+    text-decoration: underline;
+}
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+.footer-col h4 {
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+.footer-col.logo span {
+    color: var(--accent-color);
+}
+.footer-col ul {
+    list-style: none;
+}
+.footer-col ul li {
+    margin-bottom: 10px;
+}
+.footer-col p {
+    color: rgba(255,255,255,0.7);
+}
+.footer-col i {
+    margin-right: 10px;
+}
+.social-links a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255,255,255,0.2);
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+}
+.social-links a:hover {
+    background-color: var(--accent-color);
+    text-decoration: none;
+}
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.5);
+    font-size: 0.9rem;
+}
+
+/* ==================== АДАПТИВНІСТЬ (RESPONSIVENESS) ==================== */
+/* Планшети (до 992px) */
+@media (max-width: 992px) {
+    h2 { font-size: 2.2rem; }
+    .hero h1 { font-size: 3rem; }
+    .tech-grid, .portfolio-grid {
+        grid-template-columns: 1fr 1fr; /* 2 колонки */
+    }
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .main-nav { display: none; } /* Спрощений варіант: ховаємо навігацію на менших екранах */
+}
+
+/* Мобільні пристрої (до 768px) */
+@media (max-width: 768px) {
+    section { padding: 60px 0; }
+    h2 { font-size: 1.8rem; }
+    .hero h1 { font-size: 2.5rem; }
+    .hero .subtitle { font-size: 1.2rem; }
+    
+    .tech-grid, .portfolio-grid, .testimonial-grid, .footer-grid {
+        grid-template-columns: 1fr; /* 1 колонка */
+    }
+
+    .header .container {
+        justify-content: space-between;
+    }
+    .nav-btn {
+      display: none; /* Ховаємо кнопку в шапці, щоб залишити місце */
+    }
+}
