@@ -386,3 +386,128 @@ section {
       display: none; /* Ховаємо кнопку в шапці, щоб залишити місце */
     }
 }
+
+/*
+========================================
+Стилі для секції "Як це працює?"
+========================================
+*/
+.how-it-works {
+    padding: 60px 0;
+    background-color: #f9f9f9; /* Світлий фон для візуального відділення */
+}
+
+.how-it-works h2 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.how-it-works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.step-card {
+    background-color: #fff;
+    padding: 30px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.step-icon {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    background-color: var(--primary-color, #007bff); /* Використовуємо змінну, якщо вона є */
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 auto 20px;
+}
+
+.step-card h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #333;
+}
+
+.step-card p {
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/*
+========================================
+Стилі для секції "Матеріали"
+========================================
+*/
+.materials {
+    padding: 60px 0;
+}
+
+.materials h2, .materials .section-subtitle {
+    text-align: center;
+}
+
+.materials .section-subtitle {
+    margin-bottom: 40px;
+}
+
+.materials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.material-card {
+    border: 1px solid #e0e0e0;
+    padding: 25px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.material-card h3 {
+    margin-bottom: 15px;
+    color: var(--primary-color, #007bff);
+}
+
+.material-card p {
+    flex-grow: 1; /* Робить так, щоб картки були однакової висоти */
+    margin-bottom: 15px;
+}
+
+.material-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+}
+
+.material-features li {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.material-features .fa-solid {
+    margin-right: 10px;
+}
+
+.material-features .fa-check {
+    color: #28a745; /* Зелений */
+}
+
+.material-features .fa-times {
+    color: #dc3545; /* Червоний */
+}
