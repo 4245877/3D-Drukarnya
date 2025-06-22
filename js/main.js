@@ -176,4 +176,3 @@
     modelUploader.addEventListener('click', function() {
         this.value = null;
     });
-});
