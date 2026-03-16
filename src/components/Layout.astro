@@ -1,0 +1,108 @@
+---
+import '../styles/base.css';
+import '../styles/layout.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  image?: string;
+  keywords?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalPath = '/',
+  image,
+  keywords = '3D друк Київ, 3D друкарня, друк на замовлення, 3D товари, FDM друк',
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://4245877.github.io');
+const absoluteBaseUrl = new URL(import.meta.env.BASE_URL, site);
+const normalizedCanonicalPath =
+  canonicalPath === '/' ? '' : canonicalPath.replace(/^\/+/, '');
+const canonicalUrl = new URL(normalizedCanonicalPath, absoluteBaseUrl).toString();
+
+const resolvedImage = image
+  ? new URL(image.replace(/^\/+/, ''), absoluteBaseUrl).toString()
+  : undefined;
+
+const currentYear = new Date().getFullYear();
+---
+
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="google-site-verification"
+      content="Tl9FVjxmrqwkZmthujRbUlfNyj9DIqujas0TUkC0MzM"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="3D Друкарня" />
+    <meta property="og:locale" content="uk_UA" />
+
+    {resolvedImage && <meta property="og:image" content={resolvedImage} />}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {resolvedImage && <meta name="twitter:image" content={resolvedImage} />}
+
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <slot name="head" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="site-logo" href={import.meta.env.BASE_URL}>
+          <span class="site-logo__mark">3D</span>
+          <span class="site-logo__text">3D Друкарня</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Основна навігація">
+          <a href={import.meta.env.BASE_URL}>Каталог</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__inner">
+        <div>
+          <strong>3D Друкарня</strong>
+          <p class="site-footer__text">
+            Вітринний каталог товарів для GitHub Pages без бекенду.
+          </p>
+        </div>
+
+        <div class="site-footer__meta">
+          <span>© {currentYear}</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

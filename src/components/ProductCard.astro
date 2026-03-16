@@ -1,0 +1,52 @@
+---
+import ProductPrice from './ProductPrice.astro';
+import type { Product } from '../utils/products';
+import { withBase } from '../utils/products';
+
+import '../styles/components/product-card.css';
+import ProductPrice from './ProductPrice.astro';
+import type { Product } from '../utils/products';
+import { withBase } from '../utils/products';
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const href = `${import.meta.env.BASE_URL}products/${product.slug}/`;
+const imageSrc = withBase(product.images[0]);
+---
+
+<article class="product-card">
+  <a
+    class="product-card__image-link"
+    href={href}
+    aria-label={`Перейти до товару ${product.title}`}
+  >
+    <img
+      class="product-card__image"
+      src={imageSrc}
+      alt={product.title}
+      loading="lazy"
+      width="640"
+      height="640"
+    />
+  </a>
+
+  <div class="product-card__body">
+    <div class="product-card__content">
+      <p class="product-card__category">{product.category ?? 'Товар'}</p>
+      <h2 class="product-card__title">
+        <a href={href}>{product.title}</a>
+      </h2>
+      <p class="product-card__description">
+        {product.shortDescription}
+      </p>
+    </div>
+
+    <div class="product-card__footer">
+      <ProductPrice amount={product.price} />
+      <a class="product-card__button" href={href}>Детальніше</a>
+    </div>
+  </div>
+</article>

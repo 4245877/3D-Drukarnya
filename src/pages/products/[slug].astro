@@ -1,0 +1,125 @@
+---
+import '../../styles/pages/product.css';
+import Layout from '../../components/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProductGallery from '../../components/ProductGallery.astro';
+import ProductPrice from '../../components/ProductPrice.astro';
+import { getAllProducts, withBase } from '../../utils/products';
+import type { Product } from '../../utils/products';
+
+export function getStaticPaths() {
+  return getAllProducts().map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+
+const pageTitle = `${product.title} | 3D Друкарня`;
+const pageDescription = product.shortDescription || product.description;
+
+const site = Astro.site ?? new URL('https://4245877.github.io');
+const absoluteBaseUrl = new URL(import.meta.env.BASE_URL, site);
+
+const productUrl = new URL(`products/${product.slug}/`, absoluteBaseUrl).toString();
+const imageUrls = product.images.map((image) =>
+  new URL(image.replace(/^\/+/, ''), absoluteBaseUrl).toString()
+);
+
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: product.title,
+  description: product.description,
+  image: imageUrls,
+  category: product.category,
+  material: product.material,
+  offers: {
+    '@type': 'Offer',
+    price: product.price,
+    priceCurrency: 'UAH',
+    availability: 'https://schema.org/InStock',
+    url: productUrl,
+  },
+};
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalPath={`/products/${product.slug}/`}
+  image={product.images[0]}
+>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(productSchema)}
+  ></script>
+
+  <section class="product-section">
+    <div class="container">
+      <Breadcrumbs
+        items={[
+          { label: 'Каталог', href: import.meta.env.BASE_URL },
+          { label: product.title },
+        ]}
+      />
+
+      <div class="product-page">
+        <div class="product-page__gallery">
+          <ProductGallery title={product.title} images={product.images} />
+        </div>
+
+        <article class="product-page__info">
+          <p class="product-page__category">{product.category ?? 'Товар'}</p>
+          <h1 class="product-page__title">{product.title}</h1>
+
+          <ProductPrice amount={product.price} large={true} />
+
+          <p class="product-page__short">{product.shortDescription}</p>
+
+          <dl class="product-page__meta">
+            {product.material && (
+              <>
+                <dt>Матеріал</dt>
+                <dd>{product.material}</dd>
+              </>
+            )}
+
+            {product.leadTime && (
+              <>
+                <dt>Термін виготовлення</dt>
+                <dd>{product.leadTime}</dd>
+              </>
+            )}
+          </dl>
+
+          <div class="product-page__description">
+            {product.description.split('\n\n').map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
+
+          <div class="product-page__actions">
+            <a class="button button--primary" href={import.meta.env.BASE_URL}>
+              ← Повернутися до каталогу
+            </a>
+            <a
+              class="button button--secondary"
+              href={withBase(product.images[0])}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Відкрити головне фото
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</Layout>

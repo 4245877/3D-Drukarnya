@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://4245877.github.io/4245877-3d-drukarnya/sitemap.xml

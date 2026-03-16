@@ -1,0 +1,144 @@
+---
+import Layout from '../components/Layout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { getAllProducts } from '../utils/products';
+
+import '../styles/pages/catalog.css';
+
+const products = getAllProducts();
+
+const title =
+  '3D Друк Київ | Каталог 3D-друкованих товарів та виробів на замовлення';
+
+const description =
+  'Каталог 3D-друкованих товарів: аксесуари, органайзери, корисні вироби для дому, офісу та майстерні. Окрема сторінка для кожного товару з фото, описом і ціною.';
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: '3D Друкарня',
+  url: new URL(
+    import.meta.env.BASE_URL,
+    Astro.site ?? new URL('https://4245877.github.io')
+  ).toString(),
+  inLanguage: 'uk-UA',
+  description,
+};
+---
+
+<Layout title={title} description={description} canonicalPath="/">
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(websiteSchema)}
+  ></script>
+
+  <main class="catalog-page">
+    <section class="catalog-hero">
+      <div class="container">
+        <div class="catalog-hero__inner">
+          <div class="catalog-hero__left">
+            <p class="catalog-hero__eyebrow">Каталог товарів</p>
+
+            <h1 class="catalog-hero__title">
+              3D-друковані <span class="highlight">вироби</span> та корисні аксесуари
+            </h1>
+
+            <p class="catalog-hero__subtitle">
+              Простий статичний каталог без бекенду. Для кожного товару є окрема
+              сторінка з описом, ціною та кількома фотографіями.
+            </p>
+
+            <div class="catalog-hero__stats">
+              <div class="catalog-hero__stat-pill">
+                <span class="catalog-hero__stat-pill-value">{products.length}</span>
+                <span class="catalog-hero__stat-pill-label">товарів</span>
+              </div>
+
+              <div class="catalog-hero__stat-pill">
+                <span class="catalog-hero__stat-pill-value">2–10</span>
+                <span class="catalog-hero__stat-pill-label">фото на товар</span>
+              </div>
+
+              <div class="catalog-hero__stat-pill">
+                <span class="catalog-hero__stat-pill-value">100%</span>
+                <span class="catalog-hero__stat-pill-label">static site</span>
+              </div>
+
+              <div class="catalog-hero__stat-pill">
+                <span class="catalog-hero__stat-pill-value">GH</span>
+                <span class="catalog-hero__stat-pill-label">GitHub Pages</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="catalog-controls">
+          <div class="catalog-controls__left">
+            <p class="catalog-results-count">
+              У каталозі <strong>{products.length}</strong> товар(и) з окремими сторінками.
+            </p>
+          </div>
+        </div>
+
+        <div class="catalog-layout">
+          <aside class="catalog-sidebar">
+            <div class="catalog-filter-section is-open">
+              <div class="catalog-filter-section__head">
+                <span class="catalog-filter-section__label">Про каталог</span>
+              </div>
+
+              <div class="catalog-filter-section__body">
+                <div class="catalog-filter-section__inner">
+                  <p class="catalog-results-count">
+                    Статичний каталог без бекенду. Кожен товар має свою сторінку,
+                    опис, ціну та кілька зображень.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="catalog-filter-section is-open">
+              <div class="catalog-filter-section__head">
+                <span class="catalog-filter-section__label">Переваги</span>
+              </div>
+
+              <div class="catalog-filter-section__body">
+                <div class="catalog-filter-section__inner">
+                  <div class="catalog-pill-grid">
+                    <span class="catalog-pill-option is-selected">Окремі сторінки</span>
+                    <span class="catalog-pill-option is-selected">Фото товарів</span>
+                    <span class="catalog-pill-option is-selected">Зручна структура</span>
+                    <span class="catalog-pill-option is-selected">GitHub Pages</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <div class="catalog-content">
+            {
+              products.length > 0 ? (
+                <div class="catalog-grid">
+                  {products.map((product) => <ProductCard product={product} />)}
+                </div>
+              ) : (
+                <div class="catalog-no-results">
+                  <div class="catalog-no-results__art">∅</div>
+                  <h2 class="catalog-no-results__title">Каталог поки що порожній</h2>
+                  <p class="catalog-no-results__text">
+                    Додай перший товар у джерело даних, і він з’явиться тут автоматично.
+                  </p>
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

@@ -1,0 +1,17 @@
+{
+  "name": "4245877-3d-drukarnya",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "devDependencies": {
+    "astro": "^6.0.5",
+    "typescript": "^5.0.0"
+  }
+}
