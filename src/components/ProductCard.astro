@@ -31,25 +31,33 @@ const imageSrc = withBase(product.images[0]);
   </a>
 
   <div class="product-card__body">
-    <div class="product-card__content">
-      <p class="product-card__category tag tag--copper">
-        {product.category ?? 'Товар'}
-      </p>
+    <p class="product-card__category tag tag--copper">
+      {product.category ?? 'Товар'}
+    </p>
 
-      <h2 class="product-card__title">
-        <a href={href}>{product.title}</a>
-      </h2>
+    <h2 class="product-card__title">
+      <a href={href}>{product.title}</a>
+    </h2>
 
-      {product.shortDescription && (
-        <p class="product-card__description">
-          {product.shortDescription}
-        </p>
-      )}
+    <div class="product-card__price-block" aria-label="Ціна товару">
+      <span class="product-card__price-label">Ціна</span>
+      <div class="product-card__price">
+        <ProductPrice amount={product.price} />
+      </div>
     </div>
 
+    {product.shortDescription && (
+      <p class="product-card__description">
+        {product.shortDescription}
+      </p>
+    )}
+
     <div class="product-card__footer">
-      <ProductPrice amount={product.price} />
-      <a class="btn btn--primary btn--sm" href={href}>
+      <a
+        class="btn btn--primary btn--sm product-card__button"
+        href={href}
+        aria-label={`Детальніше про ${product.title}`}
+      >
         Детальніше
       </a>
     </div>

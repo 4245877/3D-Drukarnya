@@ -4,7 +4,7 @@ import Layout from '../../components/Layout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ProductGallery from '../../components/ProductGallery.astro';
 import ProductPrice from '../../components/ProductPrice.astro';
-import { getAllProducts, withBase } from '../../utils/products';
+import { getAllProducts } from '../../utils/products';
 import type { Product } from '../../utils/products';
 
 export function getStaticPaths() {
@@ -18,7 +18,7 @@ interface Props {
   product: Product;
 }
 
-const { product } = Astro.props;
+const { product } = Astro.props as Props;
 
 const pageTitle = `${product.title} | 3D Друкарня`;
 const pageDescription = product.shortDescription || product.description;
@@ -26,10 +26,35 @@ const pageDescription = product.shortDescription || product.description;
 const site = Astro.site ?? new URL('https://4245877.github.io');
 const absoluteBaseUrl = new URL(import.meta.env.BASE_URL, site);
 
+const toImageUrl = (image: string) => {
+  if (!image) return '';
+
+  if (/^https?:\/\//i.test(image)) return image;
+  if (/^\/\//.test(image)) return `https:${image}`;
+
+  return new URL(image.replace(/^\/+/, ''), absoluteBaseUrl).toString();
+};
+
+const imageUrls = product.images.map(toImageUrl).filter(Boolean);
+const ogImage = imageUrls[0] ?? '';
+
 const productUrl = new URL(`products/${product.slug}/`, absoluteBaseUrl).toString();
-const imageUrls = product.images.map((image) =>
-  new URL(image.replace(/^\/+/, ''), absoluteBaseUrl).toString()
-);
+
+const descriptionParagraphs = product.description
+  .split('\n\n')
+  .map((paragraph) => paragraph.trim())
+  .filter(Boolean);
+
+const descriptionIntro = descriptionParagraphs[0] ?? '';
+const descriptionRest = descriptionParagraphs.slice(1);
+
+const productFacts = [
+  product.material ? { label: 'Матеріал', value: product.material } : null,
+  product.leadTime ? { label: 'Термін виготовлення', value: product.leadTime } : null,
+  product.category ? { label: 'Категорія', value: product.category } : null,
+].filter((item): item is { label: string; value: string } => Boolean(item));
+
+const hasFacts = productFacts.length > 0;
 
 const productSchema = {
   '@context': 'https://schema.org',
@@ -53,7 +78,7 @@ const productSchema = {
   title={pageTitle}
   description={pageDescription}
   canonicalPath={`/products/${product.slug}/`}
-  image={product.images[0]}
+  image={ogImage}
 >
   <script
     slot="head"
@@ -61,7 +86,7 @@ const productSchema = {
     set:html={JSON.stringify(productSchema)}
   ></script>
 
-  <section class="product-section">
+  <section class="product-page">
     <div class="container">
       <Breadcrumbs
         items={[
@@ -70,55 +95,111 @@ const productSchema = {
         ]}
       />
 
-      <div class="product-page">
-        <div class="product-page__gallery">
+      <div class="product-page__hero">
+        <section
+          id="product-gallery"
+          class="product-page__gallery-card"
+          aria-label="Фотографії товару"
+        >
           <ProductGallery title={product.title} images={product.images} />
-        </div>
+        </section>
 
-        <article class="product-page__info">
-          <p class="product-page__category">{product.category ?? 'Товар'}</p>
-          <h1 class="product-page__title">{product.title}</h1>
+        <aside class="product-page__summary-card" aria-labelledby="product-title">
+          <div class="product-page__header">
+            <p class="product-page__eyebrow">{product.category ?? 'Товар'}</p>
 
-          <ProductPrice amount={product.price} large={true} />
+            <h1 id="product-title" class="product-page__title">
+              {product.title}
+            </h1>
 
-          <p class="product-page__short">{product.shortDescription}</p>
-
-          <dl class="product-page__meta">
-            {product.material && (
-              <>
-                <dt>Матеріал</dt>
-                <dd>{product.material}</dd>
-              </>
+            {product.shortDescription && (
+              <p class="product-page__lead">{product.shortDescription}</p>
             )}
+          </div>
+
+          <section
+            id="product-price"
+            class="product-page__price-card"
+            aria-labelledby="product-price-title"
+          >
+            <p id="product-price-title" class="product-page__price-label">
+              Ціна
+            </p>
+
+            <div class="product-page__price">
+              <ProductPrice amount={product.price} large={true} />
+            </div>
 
             {product.leadTime && (
-              <>
-                <dt>Термін виготовлення</dt>
-                <dd>{product.leadTime}</dd>
-              </>
+              <p class="product-page__price-note">
+                Термін виготовлення: <strong>{product.leadTime}</strong>
+              </p>
             )}
-          </dl>
+          </section>
 
-          <div class="product-page__description">
-            {product.description.split('\n\n').map((paragraph) => (
-              <p>{paragraph}</p>
-            ))}
+          {hasFacts && (
+            <ul class="product-page__chips" aria-label="Ключові характеристики">
+              {productFacts.map((fact) => (
+                <li class="product-page__chip">
+                  <span>{fact.label}:</span> {fact.value}
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <nav class="product-page__anchors" aria-label="Навігація по сторінці товару">
+            <a href="#product-description">Опис</a>
+            {hasFacts && <a href="#product-details">Характеристики</a>}
+            <a href="#product-gallery">Фото</a>
+          </nav>
+        </aside>
+      </div>
+
+      <div class="product-page__sections">
+        <section
+          id="product-description"
+          class="product-page__section-card"
+          aria-labelledby="product-description-title"
+        >
+          <div class="product-page__section-head">
+            <p class="product-page__section-kicker">Опис товару</p>
+            <h2 id="product-description-title">Опис</h2>
           </div>
 
-          <div class="product-page__actions">
-            <a class="button button--primary" href={import.meta.env.BASE_URL}>
-              ← Повернутися до каталогу
-            </a>
-            <a
-              class="button button--secondary"
-              href={withBase(product.images[0])}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Відкрити головне фото
-            </a>
-          </div>
-        </article>
+          {descriptionIntro && (
+            <p class="product-page__description-intro">{descriptionIntro}</p>
+          )}
+
+          {descriptionRest.length > 0 && (
+            <div class="product-page__description">
+              {descriptionRest.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {hasFacts && (
+          <section
+            id="product-details"
+            class="product-page__section-card"
+            aria-labelledby="product-details-title"
+          >
+            <div class="product-page__section-head">
+              <p class="product-page__section-kicker">Деталі</p>
+              <h2 id="product-details-title">Характеристики</h2>
+            </div>
+
+            <dl class="product-page__details">
+              {productFacts.map((fact) => (
+                <div class="product-page__details-item">
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
       </div>
     </div>
   </section>

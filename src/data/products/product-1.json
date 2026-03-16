@@ -1,15 +1,17 @@
 {
-"slug": "modulna-mini-stiika-dlia-homelab-raspberry-pi-mini-pc-merezha",
-"title": "модульна міні-стійка для HomeLab (Raspberry Pi/mini-PC/мережа)",
-"shortDescription": "Модульна 10-дюймова 5U стійка для HomeLab: Raspberry Pi, mini-PC, роутерів, комутаторів і патч-панелей.",
-"description": "Модульна 10-дюймова стійка 5U для домашнього серверного куточка. Підійде для розміщення Raspberry Pi, mini-PC, комутаторів, роутерів, патч-панелей, кейстоунів та іншого мережевого обладнання. Допомагає акуратно організувати техніку на полиці або столі та зручно зібрати компактний HomeLab. Конструкція модульна: стійку можна зібрати, розширювати та підлаштовувати під свої задачі. Доступні кольори: чорний, білий, синій або зелений. Можливе комбінування кольорів, інші варіанти — за домовленістю. У комплект входить набір надрукованих деталей для складання без електроніки. Кріплення та вставки (гвинти, гайки) — за домовленістю: можна використати свої або я підберу та додам у замовлення. Доступні OLX Доставка або самовивіз з району Академмістечко.",
-"price": 1200,
-"category": "Мережеві аксесуари",
-"material": "PETG",
-"leadTime": "1–3 дні",
-"images": [
-"images/products/modulna-mini-stiika-dlia-homelab-raspberry-pi-mini-pc-merezha/1.webp",
-"images/products/modulna-mini-stiika-dlia-homelab-raspberry-pi-mini-pc-merezha/2.webp",
-"images/products/modulna-mini-stiika-dlia-homelab-raspberry-pi-mini-pc-merezha/3.webp"
-]
+  "slug": "modulna-mini-stiika-dlia-homelab-raspberry-pi-mini-pc-merezha",
+  "title": "Модульна міні-стійка для HomeLab (Raspberry Pi / mini-PC / мережа)",
+  "shortDescription": "Модульна 10-дюймова 5U стійка для HomeLab: Raspberry Pi, mini-PC, роутерів, комутаторів і патч-панелей.",
+  "description": "Модульна 10-дюймова стійка 5U для домашнього серверного куточка.\n\nПідійде для розміщення Raspberry Pi, mini-PC, комутаторів, роутерів, патч-панелей, кейстоунів та іншого мережевого обладнання. Допомагає акуратно організувати техніку на полиці або столі та зручно зібрати компактний HomeLab.\n\nКонструкція модульна: стійку можна зібрати, розширювати та підлаштовувати під свої задачі.\n\nДоступні кольори: чорний, білий, синій або зелений. Можливе комбінування кольорів, інші варіанти — за домовленістю.\n\nУ комплект входить набір надрукованих деталей для складання без електроніки. Кріплення та вставки (гвинти, гайки) — за домовленістю: можна використати свої або я підберу та додам у замовлення.\n\nДоступні OLX Доставка або самовивіз з району Академмістечко.",
+  "price": 1200,
+  "category": "Мережеві аксесуари",
+  "material": "PETG",
+  "leadTime": "1–3 дні",
+  "images": [
+    "https://makerworld.bblmw.com/makerworld/model/US23479b0cddd03e/design/2025-06-24_eea2d5aaa888c8.png?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US23479b0cddd03e/design/2025-04-07_8adc67d418a25.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US23479b0cddd03e/design/2025-04-07_d4007fad2f227.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US23479b0cddd03e/design/2025-04-07_c992a20bd1377.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US23479b0cddd03e/design/2025-04-07_d433f4039b1d2.jpeg?x-oss-process=image/resize,w_1000/format,webp"
+  ]
 }

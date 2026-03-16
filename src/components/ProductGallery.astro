@@ -1,55 +1,74 @@
 ---
-import { withBase } from '../utils/products';
-
 import '../styles/components/gallery.css';
-import { withBase } from '../utils/products';
 
 interface Props {
   title: string;
   images: string[];
 }
 
-const { title, images } = Astro.props;
-const [mainImage, ...otherImages] = images;
+const { title, images } = Astro.props as Props;
+
+const normalizeImageUrl = (image: string) => {
+  if (!image) return '';
+
+  if (/^https?:\/\//i.test(image)) return image;
+  if (/^\/\//.test(image)) return `https:${image}`;
+
+  const base = import.meta.env.BASE_URL || '/';
+  return `${base.replace(/\/$/, '')}/${image.replace(/^\/+/, '')}`;
+};
+
+const preparedImages = images
+  .map((image) => normalizeImageUrl(image))
+  .filter(Boolean);
+
+const [mainImage, ...otherImages] = preparedImages;
 ---
 
-<div class="product-gallery">
-  <a
-    class="product-gallery__main"
-    href={withBase(mainImage)}
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label={`Відкрити головне фото товару ${title}`}
-  >
-    <img
-      src={withBase(mainImage)}
-      alt={`${title} — головне фото`}
-      width="900"
-      height="900"
-    />
-  </a>
+{
+  mainImage && (
+    <div class="product-gallery">
+      <a
+        class="product-gallery__main"
+        href={mainImage}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Відкрити головне фото товару ${title}`}
+      >
+        <img
+          src={mainImage}
+          alt={`${title} — головне фото`}
+          width="1200"
+          height="1200"
+          loading="eager"
+          decoding="async"
+        />
+      </a>
 
-  {
-    otherImages.length > 0 && (
-      <div class="product-gallery__thumbs">
-        {otherImages.map((image, index) => (
-          <a
-            class="product-gallery__thumb"
-            href={withBase(image)}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Відкрити фото ${index + 2} товару ${title}`}
-          >
-            <img
-              src={withBase(image)}
-              alt={`${title} — фото ${index + 2}`}
-              loading="lazy"
-              width="320"
-              height="320"
-            />
-          </a>
-        ))}
-      </div>
-    )
-  }
-</div>
+      {
+        otherImages.length > 0 && (
+          <div class="product-gallery__thumbs">
+            {otherImages.map((image, index) => (
+              <a
+                class="product-gallery__thumb"
+                href={image}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Відкрити фото ${index + 2} товару ${title}`}
+              >
+                <img
+                  src={image}
+                  alt={`${title} — фото ${index + 2}`}
+                  loading="lazy"
+                  decoding="async"
+                  width="320"
+                  height="320"
+                />
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  )
+}

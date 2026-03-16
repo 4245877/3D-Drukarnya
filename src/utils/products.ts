@@ -35,6 +35,10 @@ export function formatPrice(price: number): string {
 }
 
 export function withBase(path: string): string {
+  if (/^https?:\/\//i.test(path)) {
+    return path;
+  }
+
   const normalized = path.replace(/^\/+/, '');
   return `${import.meta.env.BASE_URL}${normalized}`;
 }
