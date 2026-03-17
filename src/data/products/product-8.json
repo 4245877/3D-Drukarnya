@@ -6,7 +6,7 @@
   "price": 900,
   "category": "Комп'ютерні комплектуючі",
   "material": "PETG",
-  "leadTime": 3,
+  "leadTime": null,
   "images": [
     "https://makerworld.bblmw.com/makerworld/model/USdd9f707772d159/design/2025-05-09_6e25f61e9811e.jpg?x-oss-process=image/resize,w_1000/format,webp",
     "https://makerworld.bblmw.com/makerworld/model/USdd9f707772d159/design/2025-05-09_4022c1e8a1d79.jpg?x-oss-process=image/resize,w_1000/format,webp",

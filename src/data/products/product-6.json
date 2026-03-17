@@ -1,0 +1,18 @@
+{
+  "slug": "nuc-nas-korpus-dlia-nas-na-bazi-intel-nuc",
+  "title": "Корпус NUC NAS для NAS-системи на базі Intel NUC",
+  "shortDescription": "Компактний корпус NUC NAS для Intel NUC 8/10/11/12/13 з основою 112×117 мм, з багатодисковим кошиком і можливістю адаптації під інші mini-PC.",
+  "description": "Компактний корпус NUC NAS для складання домашнього NAS, файлового сервера або HomeLab-системи на базі Intel NUC.\n\nКорпус напряму сумісний з NUC8 i5BEH, i5BEHS та іншими NUC-моделями з розміром нижньої частини корпуса 112×117 мм. За словами автора, більшість NUC 8 / 10 / 11 / 12 / 13 мають такий формат, тому повинні підійти. Інші моделі NUC або mini-PC теж можна адаптувати через зміну верхньої панелі.\n\nКонструкція поєднує mini-PC формату NUC і багатодисковий NAS-корпус. У проєкті використовуються окремі комплектуючі та аксесуари від qnasmini. Такий варіант дозволяє отримати компактну NAS-систему з кількома накопичувачами для Linux, Synology-подібних сценаріїв та інших домашніх серверних задач. Автор також окремо зазначає сумісність сценарію з macOS на NUC8.\n\nУ комплект входить набір пластикових деталей для складання корпуса. Електроніка, накопичувачі, кабелі, вентилятори, кошики та інші комплектуючі в комплект не входять.\n\nЗа потреби корпус можна доопрацювати під іншу конфігурацію або сумісний mini-PC.",
+  "price": 1100,
+  "category": "Комп'ютерні комплектуючі",
+  "material": "пластик",
+  "leadTime": null,
+  "images": [
+    "https://makerworld.bblmw.com/makerworld/model/US9d23c574cefc0d/design/2024-05-18_3d5734175b9.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US9d23c574cefc0d/design/2024-05-17_e5762b36349a3.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US9d23c574cefc0d/design/2024-05-17_66b68a99853c9.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US9d23c574cefc0d/design/2024-05-17_f29ddfcddf395.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US9d23c574cefc0d/design/2024-05-17_afa214784ba9d.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US9d23c574cefc0d/design/2024-05-17_7b4a536d48161.jpg?x-oss-process=image/resize,w_1000/format,webp"
+  ]
+}

@@ -1,20 +1,20 @@
 {
-  "slug": "modulna-10-serverna-stiika-mini-rack-1u-4u-dlia-homelab-merezhevoho",
-  "title": "модульна 10\" серверна стійка (mini rack) 1U–4U для HomeLab / мережевого",
-  "shortDescription": "Компактна модульна 10\" серверна стійка 1U–4U для HomeLab і мережевого обладнання.",
-  "description": "Модульна 10\" серверна стійка (mini rack) для HomeLab, мережевого та іншого компактного обладнання.\n\nКонструкція збирається з модулів 1U, 2U, 3U та 4U, тому її можна нарощувати під конкретні задачі та конфігурацію. Підійде для тих, хто хоче компактно й акуратно організувати «залізо» вдома, у майстерні, на полиці або на столі.\n\nОсобливості:\n- формат 10\" rack і компактні габарити;\n- модульна конструкція з можливістю додавати секції та підсилювачі жорсткості;\n- друк під замовлення з PETG;\n- PETG рекомендований, якщо в тумбі або шафі може бути підвищена температура;\n- кольори: чорний, білий, зелений, синій або комбінований;\n- акуратна післяобробка кромок без «колючок».\n\nДля складання потрібні M6 cage nuts (кліткові гайки) та гвинти. Оптимальна довжина гвинта — близько 20 мм. За потреби підкажу, що саме докупити.\n\nДоступні OLX Доставка або самовивіз.",
-  "price": 750,
-  "category": "Мережеві аксесуари",
-  "material": "PETG",
-  "leadTime": "1–3 дні",
+  "slug": "korpus-dlia-nas-servera-na-8-dyskiv-mini-itx-analoh-jonsbo-n2",
+  "title": "Корпус для NAS-сервера на 8 дисків (Mini-ITX / SFX / Low Profile PCIe)",
+  "shortDescription": "Компактний корпус для NAS-сервера на 8 дисків у стилі Jonsbo N2: Mini-ITX, SFX, low-profile PCIe і підтримка SATA/SAS.",
+  "description": "Компактний корпус для NAS-сервера на 8 дисків у стилі Jonsbo N2.\n\nПідійде для складання домашнього NAS, файлового сервера або HomeLab-системи з великою кількістю накопичувачів у компактному корпусі.\n\nСумісний з материнськими платами формату Mini-ITX, блоками живлення SFX і низькопрофільними PCIe-картами (Low Profile). Кошик розрахований на 8 накопичувачів з підтримкою SATA/SAS.\n\nКонструкція має компактний кубічний формат, продуману вентиляцію для жорстких дисків і магнітне кріплення панелей. Використовуються неодимові магніти 6×3 мм.\n\nДоступні кольори: чорний, білий, синій, зелений або комбінований варіант на вибір.\n\nУ комплект входить набір пластикових деталей для складання без електроніки та комплектуючих. Є інструкція зі складання, а також список деталей і «заліза», які потрібно докупити.",
+  "price": 2700,
+  "category": "Комп'ютерні комплектуючі",
+  "material": "пластик",
+  "leadTime": null,
   "images": [
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-26_3f99754be566c8.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-26_276374592931c8.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_5b7c2f49870468.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-07-12_2ad0be628ff728.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_7c9176762c2ad.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_d5078071f0a198.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_ebcaa9defaed78.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_ed28055ee05be8.jpg?x-oss-process=image/resize,w_1000/format,webp"
+    "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_66a649e0d484b.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_ccae4d1e30b98.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_43a0cab4acb4f.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_d64c48b285115.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_d7372f9baa4ee.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_edacc5d9af44f.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_ea44a7a1bea12.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_dc3dcac5852f2.jpg?x-oss-process=image/resize,w_1000/format,webp"
   ]
 }

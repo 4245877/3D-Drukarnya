@@ -1,20 +1,18 @@
 {
-  "slug": "modulna-10-serverna-stiika-mini-rack-1u-4u-dlia-homelab-merezhevoho",
-  "title": "модульна 10\" серверна стійка (mini rack) 1U–4U для HomeLab / мережевого",
-  "shortDescription": "Компактна модульна 10\" серверна стійка 1U–4U для HomeLab і мережевого обладнання.",
-  "description": "Модульна 10\" серверна стійка (mini rack) для HomeLab, мережевого та іншого компактного обладнання.\n\nКонструкція збирається з модулів 1U, 2U, 3U та 4U, тому її можна нарощувати під конкретні задачі та конфігурацію. Підійде для тих, хто хоче компактно й акуратно організувати «залізо» вдома, у майстерні, на полиці або на столі.\n\nОсобливості:\n- формат 10\" rack і компактні габарити;\n- модульна конструкція з можливістю додавати секції та підсилювачі жорсткості;\n- друк під замовлення з PETG;\n- PETG рекомендований, якщо в тумбі або шафі може бути підвищена температура;\n- кольори: чорний, білий, зелений, синій або комбінований;\n- акуратна післяобробка кромок без «колючок».\n\nДля складання потрібні M6 cage nuts (кліткові гайки) та гвинти. Оптимальна довжина гвинта — близько 20 мм. За потреби підкажу, що саме докупити.\n\nДоступні OLX Доставка або самовивіз.",
-  "price": 750,
-  "category": "Мережеві аксесуари",
+  "slug": "thinknas-6x-korpus-dlia-nas-na-6-dyskiv-dlia-lenovo-m920q",
+  "title": "Корпус ThinkNAS для NAS на 6 дисків для Lenovo M920q",
+  "shortDescription": "Компактний корпус ThinkNAS на 6 HDD для Lenovo ThinkCentre M920q / M920x / M720x, з підтримкою RJ45 keystone і версіями під 120 або 140 мм вентилятор.",
+  "description": "Компактний корпус ThinkNAS для NAS-системи на 6 жорстких дисків, сумісний з Lenovo ThinkCentre M920q, а також M920x і M720x. Також підходить для інших ThinkCentre Tiny з вільним слотом M.2 NVMe.\n\nПідійде для складання домашнього NAS, файлового сервера або HomeLab-системи на базі компактного mini-PC. Підходить для сценаріїв з TrueNAS, Proxmox, XCP-ng та подібних платформ.\n\nКонструкція розрахована на 6 HDD і має два варіанти виконання: з 120-мм або 140-мм вентилятором. У корпусі також передбачене місце під RJ45 keystone, щоб вивести мережевий порт назовні.\n\nГабарити корпусу: 22.4 × 19.5 × 24.7 см.\n\nДля складання, окрім надрукованих деталей, знадобляться додаткові комплектуючі: сумісний PCIe riser для M920q, SATA-контролер ASM1166 (PCIe або NVMe-версія), SATA backplane/адаптер, SATA-кабелі, контролер для вентилятора, блок живлення 12V, розгалужувач живлення SATA, вентилятор і кріплення.\n\nРекомендований матеріал друку — PETG, оскільки він краще витримує нагрівання, ніж PLA.\n\nУ комплект входить набір пластикових деталей для складання. Електроніка, кабелі, вентилятор, блок живлення та інші комплектуючі в комплект не входять.",
+  "price": 1300,
+  "category": "Комп'ютерні комплектуючі",
   "material": "PETG",
-  "leadTime": "1–3 дні",
+  "leadTime": 3,
   "images": [
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-26_3f99754be566c8.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-26_276374592931c8.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_5b7c2f49870468.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-07-12_2ad0be628ff728.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_7c9176762c2ad.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_d5078071f0a198.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_ebcaa9defaed78.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_ed28055ee05be8.jpg?x-oss-process=image/resize,w_1000/format,webp"
+    "https://makerworld.bblmw.com/makerworld/model/USfa400e1834649c/design/2025-08-27_39dcd5e6bed26.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USfa400e1834649c/design/2025-08-27_7fd6cc32d9641.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USfa400e1834649c/design/2025-08-27_ac64224b42b72.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USfa400e1834649c/design/2025-08-27_a4091fe3962fa8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USfa400e1834649c/design/2025-08-27_f6d6ffb5a60c.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USfa400e1834649c/design/2025-08-27_55912876210b6.jpg?x-oss-process=image/resize,w_1000/format,webp"
   ]
 }
