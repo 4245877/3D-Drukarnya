@@ -141,7 +141,7 @@
   --container-px: clamp(1rem, 5vw, 3rem);
 
   /* Nav */
-  --nav-h: 72px;
+  --nav-h: 0px;
 }
 
 /* ── Reset & Base ─────────────────────────────────────────── */
@@ -2016,7 +2016,7 @@ blockquote {
 }
 
 @media (max-width: 1024px) {
-  :root { --nav-h: 64px; }
+  :root { --nav-h: 0px; }
 
   .anime-detail     { grid-template-columns: 220px 1fr; gap: var(--space-8); }
   .layout--sidebar  { grid-template-columns: 1fr; }
@@ -2026,7 +2026,7 @@ blockquote {
 }
 
 @media (max-width: 768px) {
-  :root { --nav-h: 60px; }
+  :root { --nav-h: 0px; }
 
   h1 { font-size: var(--fs-3xl); }
   h2 { font-size: var(--fs-2xl); }
@@ -2064,7 +2064,7 @@ blockquote {
 @media (max-width: 480px) {
   :root {
     --container-px: 1rem;
-    --nav-h: 56px;
+    --nav-h: 0px;
   }
 
   .grid-anime   { grid-template-columns: repeat(2, 1fr); }

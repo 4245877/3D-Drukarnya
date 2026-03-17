@@ -6,7 +6,7 @@ interface Props {
   images: string[];
 }
 
-const { title, images } = Astro.props as Props;
+const { title, images = [] } = Astro.props as Props;
 
 const normalizeImageUrl = (image: string) => {
   if (!image) return '';

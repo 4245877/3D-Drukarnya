@@ -22,6 +22,15 @@
   animation: pageEnter var(--dur-slow) var(--ease-out) both;
 }
 
+.site-main {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.site-main > :first-child {
+  margin-top: 0 !important;
+}
+
 @keyframes pageEnter {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }

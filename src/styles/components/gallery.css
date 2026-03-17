@@ -6,6 +6,7 @@
 .product-gallery__main,
 .product-gallery__thumb {
   display: block;
+  position: relative;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -13,22 +14,34 @@
   box-shadow: var(--shadow);
 }
 
+.product-gallery__main {
+  aspect-ratio: 1 / 1;
+}
+
 .product-gallery__main img {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  height: 100%;
+  display: block;
   object-fit: cover;
+  object-position: center;
 }
 
 .product-gallery__thumbs {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(96px, 132px));
   gap: 0.85rem;
+}
+
+.product-gallery__thumb {
+  aspect-ratio: 1 / 1;
 }
 
 .product-gallery__thumb img {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  height: 100%;
+  display: block;
   object-fit: cover;
+  object-position: center;
 }
 
 .product-gallery__main:hover,

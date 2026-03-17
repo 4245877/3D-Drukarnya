@@ -22,6 +22,7 @@
 .product-page__gallery-card {
   padding: var(--space-4);
   overflow: hidden;
+  align-self: start;
 }
 
 .product-page__summary-card {
