@@ -1,17 +1,16 @@
 {
-  "slug": "thinknas-4x-korpus-dlia-nas-na-4-dysky-dlia-lenovo-m920q",
-  "title": "Корпус ThinkNAS для NAS на 4 диски для Lenovo M920q",
-  "shortDescription": "Компактний корпус ThinkNAS на 4 HDD для Lenovo ThinkCentre M920q / M920x / M720x, з 120-мм вентилятором і підтримкою TrueNAS, Proxmox та XCP-ng.",
-  "description": "Компактний корпус ThinkNAS для NAS-системи на 4 жорсткі диски, сумісний з Lenovo ThinkCentre M920q, а також M920x і M720x.\n\nПідійде для складання домашнього NAS, файлового сервера або HomeLab-системи на базі компактного mini-PC. Підходить для сценаріїв з TrueNAS, Proxmox, XCP-ng та подібних платформ.\n\nКонструкція розрахована на 4 HDD і використовує 120-мм вентилятор ззаду для охолодження компонентів і накопичувачів. Габарити корпусу: 16.8 × 19.6 × 25.1 см.\n\nДля складання, окрім надрукованих деталей, знадобляться додаткові комплектуючі: сумісний PCIe riser для M920q, SATA-контролер ASM1166, SATA backplane/адаптер, кабелі SATA, 120-мм вентилятор, блок живлення 12V та кріплення.\n\nРекомендований матеріал друку — PETG, оскільки він краще витримує нагрівання, ніж PLA.\n\nУ комплект входить набір пластикових деталей для складання. Електроніка, кабелі, вентилятор, блок живлення та інші комплектуючі в комплект не входять.",
-  "price": 900,
+  "slug": "thinkbox-v2-korpus-dlia-nas-na-4-dysky-dlia-lenovo-m720q-m920q",
+  "title": "Корпус ThinkBox V2 для NAS на 4 диски для Lenovo M720q / M920q",
+  "shortDescription": "Компактний корпус ThinkBox V2 на 4 HDD для Lenovo ThinkCentre M720q / M920q, з підтримкою SATA/SAS, LSI HBA і покращеним охолодженням.",
+  "description": "Компактний корпус ThinkBox V2 для NAS-системи на 4 жорсткі диски, сумісний з Lenovo ThinkCentre M720q та M920q.\n\nПідійде для складання домашнього NAS, файлового сервера або HomeLab-системи на базі компактного mini-PC. Конструкція побудована навколо LSI HBA-карти та підтримує пряме підключення дисків з коректною передачею SMART/ідентифікації накопичувачів. Кошик для дисків працює з SATA і SAS накопичувачами через backplane 12 Гбіт/с.\n\nПлатформа Lenovo M720q / M920q на процесорах покоління Coffee Lake дає доступ до Intel Quick Sync, що зручно для домашніх медіасерверів на кшталт Plex або Jellyfin.\n\nВерсія V2 перероблена для кращого охолодження та доступу до кабелів: корпус підтримує 140-мм вентилятор і 7-дюймову щіткову кабельну панель на задній частині. Це покращує відведення тепла і дозволяє отримати доступ до заднього I/O без зняття корпусу.\n\nУ комплекті передбачений build guide: вступ, список потрібних деталей, інструментів, посилання на комплектуючі та можливі апгрейди. Важливо: LSI HBA-карту для цієї збірки потрібно перевести в IT mode; це не входить до інструкції зі складання.\n\nУ комплект входить набір пластикових деталей для складання корпуса. Електроніка, Lenovo Tiny, диски, HBA-карта, вентилятор, кабелі, backplane та інші комплектуючі в комплект не входять.",
+  "price": 1700,
   "category": "Комп'ютерні комплектуючі",
-  "material": "PETG",
-  "leadTime": null,
+  "material": "пластик",
+  "leadTime": "1–3 дні",
   "images": [
-    "https://makerworld.bblmw.com/makerworld/model/USdd9f707772d159/design/2025-05-09_6e25f61e9811e.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USdd9f707772d159/design/2025-05-09_4022c1e8a1d79.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USdd9f707772d159/design/2025-05-09_6471f211eb71a8.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USdd9f707772d159/design/2025-05-09_231dc810ff329.jpg?x-oss-process=image/resize,w_1000/format,webp",
-    "https://makerworld.bblmw.com/makerworld/model/USdd9f707772d159/design/2025-05-09_5bda642652f66.jpg?x-oss-process=image/resize,w_1000/format,webp"
+    "https://makerworld.bblmw.com/makerworld/model/US5deec9b1efe4f/design/69d25df2074edee6.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US5deec9b1efe4f/design/97ffd57cbb59a4b0.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US5deec9b1efe4f/design/0119fc3244d618db.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US5deec9b1efe4f/design/68459184ebcc01e3.jpg?x-oss-process=image/resize,w_1000/format,webp"
   ]
 }
