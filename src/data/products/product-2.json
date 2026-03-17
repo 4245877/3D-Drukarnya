@@ -1,14 +1,20 @@
 {
-  "slug": "product-2",
-  "title": "Підставка для навушників",
-  "shortDescription": "Настільна 3D-друкована підставка для зручного зберігання навушників.",
-  "description": "Акуратна настільна підставка для навушників у сучасному мінімалістичному стилі.\n\nДопомагає звільнити місце на столі та захищає навушники від випадкових пошкоджень. Виріб має стійку основу та добре виглядає як вдома, так і в офісі.\n\nМожливий друк у кількох кольорах, а також незначні зміни розмірів під конкретну модель.",
-  "price": 420,
-  "category": "Аксесуари",
-  "material": "PLA / PETG",
-  "leadTime": "2–3 дні",
+  "slug": "modulna-10-serverna-stiika-mini-rack-1u-4u-dlia-homelab-merezhevoho",
+  "title": "модульна 10\" серверна стійка (mini rack) 1U–4U для HomeLab / мережевого",
+  "shortDescription": "Компактна модульна 10\" серверна стійка 1U–4U для HomeLab і мережевого обладнання.",
+  "description": "Модульна 10\" серверна стійка (mini rack) для HomeLab, мережевого та іншого компактного обладнання.\n\nКонструкція збирається з модулів 1U, 2U, 3U та 4U, тому її можна нарощувати під конкретні задачі та конфігурацію. Підійде для тих, хто хоче компактно й акуратно організувати «залізо» вдома, у майстерні, на полиці або на столі.\n\nОсобливості:\n- формат 10\" rack і компактні габарити;\n- модульна конструкція з можливістю додавати секції та підсилювачі жорсткості;\n- друк під замовлення з PETG;\n- PETG рекомендований, якщо в тумбі або шафі може бути підвищена температура;\n- кольори: чорний, білий, зелений, синій або комбінований;\n- акуратна післяобробка кромок без «колючок».\n\nДля складання потрібні M6 cage nuts (кліткові гайки) та гвинти. Оптимальна довжина гвинта — близько 20 мм. За потреби підкажу, що саме докупити.\n\nДоступні OLX Доставка або самовивіз.",
+  "price": 750,
+  "category": "Мережеві аксесуари",
+  "material": "PETG",
+  "leadTime": "1–3 дні",
   "images": [
-    "images/products/product-2/1.webp",
-    "images/products/product-2/2.webp"
+    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-26_3f99754be566c8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-26_276374592931c8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_5b7c2f49870468.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-07-12_2ad0be628ff728.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_7c9176762c2ad.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_d5078071f0a198.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_ebcaa9defaed78.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_ed28055ee05be8.jpg?x-oss-process=image/resize,w_1000/format,webp"
   ]
 }
