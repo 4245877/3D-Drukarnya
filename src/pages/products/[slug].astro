@@ -21,7 +21,13 @@ interface Props {
 const { product } = Astro.props as Props;
 
 const pageTitle = `${product.title} | 3D Друкарня`;
-const pageDescription = product.shortDescription || product.description;
+
+const rawPageDescription = product.shortDescription || product.description;
+
+const pageDescription =
+  rawPageDescription.length > 160
+    ? `${rawPageDescription.slice(0, 157).trim()}...`
+    : rawPageDescription;
 
 const site = Astro.site ?? new URL('https://4245877.github.io');
 const absoluteBaseUrl = new URL(import.meta.env.BASE_URL, site);
@@ -47,6 +53,7 @@ const descriptionParagraphs = product.description
 
 const descriptionIntro = descriptionParagraphs[0] ?? '';
 const descriptionRest = descriptionParagraphs.slice(1);
+const hasDescription = descriptionParagraphs.length > 0;
 
 const productFacts = [
   product.material ? { label: 'Матеріал', value: product.material } : null,
@@ -166,16 +173,24 @@ const productSchema = {
             <h2 id="product-description-title">Опис</h2>
           </div>
 
-          {descriptionIntro && (
-            <p class="product-page__description-intro">{descriptionIntro}</p>
-          )}
+          {hasDescription ? (
+            <>
+              {descriptionIntro && (
+                <p class="product-page__description-intro">{descriptionIntro}</p>
+              )}
 
-          {descriptionRest.length > 0 && (
-            <div class="product-page__description">
-              {descriptionRest.map((paragraph) => (
-                <p>{paragraph}</p>
-              ))}
-            </div>
+              {descriptionRest.length > 0 && (
+                <div class="product-page__description">
+                  {descriptionRest.map((paragraph) => (
+                    <p>{paragraph}</p>
+                  ))}
+                </div>
+              )}
+            </>
+          ) : (
+            <p class="product-page__description-intro">
+              Опис товару буде додано найближчим часом.
+            </p>
           )}
         </section>
 

@@ -11,7 +11,7 @@ const title =
   '3D Друк Київ | Каталог 3D-друкованих товарів та виробів на замовлення';
 
 const description =
-  'Каталог 3D-друкованих товарів: аксесуари, органайзери, корисні вироби для дому, офісу та майстерні. Окрема сторінка для кожного товару з фото, описом і ціною.';
+  '3D-друковані товари, аксесуари, органайзери та корисні вироби для дому, офісу й майстерні. Готові позиції та друк на замовлення в Києві.';
 
 const websiteSchema = {
   '@context': 'https://schema.org',
@@ -45,8 +45,8 @@ const websiteSchema = {
             </h1>
 
             <p class="catalog-hero__subtitle">
-              Простий статичний каталог без бекенду. Для кожного товару є окрема
-              сторінка з описом, ціною та кількома фотографіями.
+              Обирай готові 3D-друковані вироби або замовляй друк деталей під свої задачі.
+              Для кожного товару є фото, опис, ціна та окрема сторінка.
             </p>
 
             <div class="catalog-hero__stats">
@@ -70,12 +70,15 @@ const websiteSchema = {
                 <span class="catalog-hero__stat-pill-label">друк</span>
               </div>
 
-              <div class="catalog-hero__stat-pill" 
-                  onclick="window.open('https://www.olx.ua/uk/list/user/15L7LS/', '_blank')"
-                  style="cursor: pointer;">
+              <a
+                class="catalog-hero__stat-pill catalog-hero__stat-pill--link"
+                href="https://www.olx.ua/uk/list/user/15L7LS/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span class="catalog-hero__stat-pill-value">OLX</span>
                 <span class="catalog-hero__stat-pill-label">профіль OLX</span>
-              </div>
+              </a>
             </div>
           </div>
         </div>
@@ -87,7 +90,7 @@ const websiteSchema = {
         <div class="catalog-controls">
           <div class="catalog-controls__left">
             <p class="catalog-results-count">
-              У каталозі <strong>{products.length}</strong> товар(и) з окремими сторінками.
+              У каталозі <strong>{products.length}</strong> товарів з окремими сторінками.
             </p>
           </div>
         </div>
@@ -102,8 +105,7 @@ const websiteSchema = {
               <div class="catalog-filter-section__body">
                 <div class="catalog-filter-section__inner">
                   <p class="catalog-results-count">
-                    Статичний каталог без бекенду. Кожен товар має свою сторінку,
-                    опис, ціну та кілька зображень.
+                    Кожен товар має окрему сторінку з фото, описом, ціною та основними характеристиками.
                   </p>
                 </div>
               </div>
@@ -120,7 +122,7 @@ const websiteSchema = {
                     <span class="catalog-pill-option is-selected">Окремі сторінки</span>
                     <span class="catalog-pill-option is-selected">Фото товарів</span>
                     <span class="catalog-pill-option is-selected">Зручна структура</span>
-                    <span class="catalog-pill-option is-selected">GitHub Pages</span>
+                    <span class="catalog-pill-option is-selected">Друк на замовлення</span>
                   </div>
                 </div>
               </div>

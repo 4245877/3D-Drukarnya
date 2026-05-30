@@ -141,7 +141,7 @@
   --container-px: clamp(1rem, 5vw, 3rem);
 
   /* Nav */
-  --nav-h: 0px;
+  --nav-h: 72px;
 }
 
 /* ── Reset & Base ─────────────────────────────────────────── */
@@ -194,8 +194,10 @@ body {
 }
 
 /* Media */
-img, video, svg { display: block; max-width: 100%; }
-img { object-fit: cover; }
+img, video, svg {
+  display: block;
+  max-width: 100%;
+}
 
 /* Links */
 a {
@@ -382,7 +384,11 @@ blockquote {
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: var(--border-faint);
-  transition: all var(--dur-normal) var(--ease-out);
+  transition:
+    height var(--dur-normal) var(--ease-out),
+    background-color var(--dur-normal) var(--ease-out),
+    box-shadow var(--dur-normal) var(--ease-out),
+    border-color var(--dur-normal) var(--ease-out);
 }
 
 .nav.nav--scrolled {
@@ -495,25 +501,32 @@ blockquote {
 
 /* Mobile nav drawer */
 .nav__drawer {
-  display: none;
+  display: flex;
   position: fixed;
   inset: var(--nav-h) 0 0 0;
   background: rgba(245,237,224,.97);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: var(--space-4);
   z-index: var(--z-overlay);
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity var(--dur-normal) var(--ease-out);
+  transform: translateY(-8px);
+  transition:
+    opacity var(--dur-normal) var(--ease-out),
+    transform var(--dur-normal) var(--ease-out),
+    visibility var(--dur-normal) var(--ease-out);
 }
 
 .nav__drawer.is-open {
-  display: flex;
   opacity: 1;
-  pointer-events: all;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .nav__drawer .nav__link {
@@ -930,7 +943,9 @@ blockquote {
   border-radius: var(--radius-full);
   background: rgba(142,63,67,.25);
   cursor: pointer;
-  transition: all var(--dur-normal) var(--ease-spring);
+  transition:
+    width var(--dur-normal) var(--ease-spring),
+    background-color var(--dur-normal) var(--ease-out);
   border: none;
 }
 
@@ -950,7 +965,10 @@ blockquote {
   padding: 0.3em 0.9em;
   border-radius: var(--radius-full);
   white-space: nowrap;
-  transition: all var(--dur-fast) var(--ease-out);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
 }
 
 .tag--genre {
@@ -1144,7 +1162,6 @@ blockquote {
   border-color: var(--copper);
   box-shadow: 0 0 0 3px rgba(217,154,116,.20);
   background: rgba(232,216,190,.6);
-  width: 110%;
 }
 
 /* Checkbox & Radio */
@@ -2016,7 +2033,7 @@ blockquote {
 }
 
 @media (max-width: 1024px) {
-  :root { --nav-h: 0px; }
+  :root { --nav-h: 64px; }
 
   .anime-detail     { grid-template-columns: 220px 1fr; gap: var(--space-8); }
   .layout--sidebar  { grid-template-columns: 1fr; }
@@ -2026,7 +2043,7 @@ blockquote {
 }
 
 @media (max-width: 768px) {
-  :root { --nav-h: 0px; }
+  :root { --nav-h: 64px; }
 
   h1 { font-size: var(--fs-3xl); }
   h2 { font-size: var(--fs-2xl); }
@@ -2064,7 +2081,7 @@ blockquote {
 @media (max-width: 480px) {
   :root {
     --container-px: 1rem;
-    --nav-h: 0px;
+    --nav-h: 60px;
   }
 
   .grid-anime   { grid-template-columns: repeat(2, 1fr); }
