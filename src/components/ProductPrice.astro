@@ -2,14 +2,13 @@
 import { formatPrice } from '../utils/products';
 
 import '../styles/components/price.css';
-import { formatPrice } from '../utils/products';
 
 interface Props {
   amount: number;
   large?: boolean;
 }
 
-const { amount, large = false } = Astro.props;
+const { amount, large = false } = Astro.props as Props;
 ---
 
 <p class:list={['product-price', { 'product-price--large': large }]}>

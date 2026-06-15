@@ -23,12 +23,17 @@
 }
 
 .site-main {
-  padding-top: var(--nav-h);
+  flex: 1;
   margin-top: 0;
 }
 
 .site-main > :first-child {
   margin-top: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes pageEnter {
