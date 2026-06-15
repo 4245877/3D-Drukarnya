@@ -22,18 +22,18 @@ const preparedImages = images
   .map((image) => normalizeImageUrl(image))
   .filter(Boolean);
 
-const [mainImage, ...otherImages] = preparedImages;
+const [mainImage] = preparedImages;
 ---
 
 {
   mainImage && (
-    <div class="product-gallery">
-      <a
+    <div class="product-gallery" data-product-gallery>
+      <button
+        type="button"
         class="product-gallery__main"
-        href={mainImage}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`Відкрити головне фото товару ${title}`}
+        aria-label={`Збільшити вибране фото товару ${title}`}
+        aria-haspopup="dialog"
+        data-gallery-open
       >
         <img
           src={mainImage}
@@ -42,33 +42,102 @@ const [mainImage, ...otherImages] = preparedImages;
           height="1200"
           loading="eager"
           decoding="async"
+          data-gallery-main-image
         />
-      </a>
+      </button>
 
       {
-        otherImages.length > 0 && (
-          <div class="product-gallery__thumbs">
-            {otherImages.map((image, index) => (
-              <a
+        preparedImages.length > 1 && (
+          <div class="product-gallery__thumbs" aria-label={`Фото товару ${title}`}>
+            {preparedImages.map((image, index) => (
+              <button
+                type="button"
                 class="product-gallery__thumb"
-                href={image}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Відкрити фото ${index + 2} товару ${title}`}
+                aria-label={`Показати фото ${index + 1} товару ${title}`}
+                aria-pressed={index === 0 ? 'true' : 'false'}
+                data-gallery-thumb
+                data-image={image}
+                data-alt={index === 0 ? `${title} — головне фото` : `${title} — фото ${index + 1}`}
               >
                 <img
                   src={image}
-                  alt={`${title} — фото ${index + 2}`}
+                  alt=""
                   loading="lazy"
                   decoding="async"
                   width="320"
                   height="320"
                 />
-              </a>
+              </button>
             ))}
           </div>
         )
       }
+
+      <dialog
+        class="product-gallery__dialog"
+        aria-label={`Збільшене фото товару ${title}`}
+        data-gallery-dialog
+      >
+        <button
+          type="button"
+          class="product-gallery__close"
+          aria-label="Закрити збільшене фото"
+          data-gallery-close
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+        <img
+          src={mainImage}
+          alt={`${title} — головне фото`}
+          width="1600"
+          height="1600"
+          data-gallery-dialog-image
+        />
+      </dialog>
     </div>
   )
 }
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-product-gallery]').forEach((gallery) => {
+    const mainImage = gallery.querySelector<HTMLImageElement>('[data-gallery-main-image]');
+    const openButton = gallery.querySelector<HTMLButtonElement>('[data-gallery-open]');
+    const dialog = gallery.querySelector<HTMLDialogElement>('[data-gallery-dialog]');
+    const dialogImage = gallery.querySelector<HTMLImageElement>('[data-gallery-dialog-image]');
+    const closeButton = gallery.querySelector<HTMLButtonElement>('[data-gallery-close]');
+    const thumbnails = gallery.querySelectorAll<HTMLButtonElement>('[data-gallery-thumb]');
+
+    if (!mainImage || !openButton || !dialog || !dialogImage || !closeButton) return;
+
+    thumbnails.forEach((thumbnail) => {
+      thumbnail.addEventListener('click', () => {
+        const image = thumbnail.dataset.image;
+        const alt = thumbnail.dataset.alt;
+
+        if (!image || !alt) return;
+
+        mainImage.src = image;
+        mainImage.alt = alt;
+        dialogImage.src = image;
+        dialogImage.alt = alt;
+
+        thumbnails.forEach((item) => {
+          item.setAttribute('aria-pressed', String(item === thumbnail));
+        });
+      });
+    });
+
+    openButton.addEventListener('click', () => {
+      dialogImage.src = mainImage.currentSrc || mainImage.src;
+      dialogImage.alt = mainImage.alt;
+      dialog.showModal();
+    });
+
+    closeButton.addEventListener('click', () => dialog.close());
+
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  });
+</script>
