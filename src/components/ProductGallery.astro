@@ -23,15 +23,18 @@ const preparedImages = images
   .filter(Boolean);
 
 const [mainImage] = preparedImages;
+const imageCount = preparedImages.length;
 ---
 
 {
   mainImage && (
-    <div class="product-gallery" data-product-gallery>
-      <button
-        type="button"
+    <div class="product-gallery" data-product-gallery data-gallery-title={title}>
+      <a
         class="product-gallery__main"
-        aria-label={`Збільшити вибране фото товару ${title}`}
+        href={mainImage}
+        target="_blank"
+        rel="noopener"
+        aria-label={`Збільшити фото 1 з ${imageCount} товару ${title}`}
         aria-haspopup="dialog"
         data-gallery-open
       >
@@ -44,17 +47,19 @@ const [mainImage] = preparedImages;
           decoding="async"
           data-gallery-main-image
         />
-      </button>
+      </a>
 
       {
-        preparedImages.length > 1 && (
+        imageCount > 1 && (
           <div class="product-gallery__thumbs" aria-label={`Фото товару ${title}`}>
             {preparedImages.map((image, index) => (
-              <button
-                type="button"
+              <a
                 class="product-gallery__thumb"
+                href={image}
+                target="_blank"
+                rel="noopener"
                 aria-label={`Показати фото ${index + 1} товару ${title}`}
-                aria-pressed={index === 0 ? 'true' : 'false'}
+                aria-current={index === 0 ? 'true' : 'false'}
                 data-gallery-thumb
                 data-image={image}
                 data-alt={index === 0 ? `${title} — головне фото` : `${title} — фото ${index + 1}`}
@@ -67,7 +72,7 @@ const [mainImage] = preparedImages;
                   width="320"
                   height="320"
                 />
-              </button>
+              </a>
             ))}
           </div>
         )
@@ -87,11 +92,45 @@ const [mainImage] = preparedImages;
           <span aria-hidden="true">&times;</span>
         </button>
 
+        {
+          imageCount > 1 && (
+            <>
+              <button
+                type="button"
+                class="product-gallery__nav product-gallery__nav--previous"
+                aria-label="Показати попереднє фото"
+                data-gallery-previous
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+              </button>
+
+              <button
+                type="button"
+                class="product-gallery__nav product-gallery__nav--next"
+                aria-label="Показати наступне фото"
+                data-gallery-next
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </button>
+
+              <p class="product-gallery__counter" aria-live="polite" aria-atomic="true">
+                <span data-gallery-current>1</span> / {imageCount}
+              </p>
+            </>
+          )
+        }
+
         <img
           src={mainImage}
           alt={`${title} — головне фото`}
           width="1600"
           height="1600"
+          decoding="async"
+          draggable="false"
           data-gallery-dialog-image
         />
       </dialog>
@@ -101,43 +140,115 @@ const [mainImage] = preparedImages;
 
 <script>
   document.querySelectorAll<HTMLElement>('[data-product-gallery]').forEach((gallery) => {
+    if (gallery.dataset.galleryInitialized === 'true') return;
+
     const mainImage = gallery.querySelector<HTMLImageElement>('[data-gallery-main-image]');
-    const openButton = gallery.querySelector<HTMLButtonElement>('[data-gallery-open]');
+    const openLink = gallery.querySelector<HTMLAnchorElement>('[data-gallery-open]');
     const dialog = gallery.querySelector<HTMLDialogElement>('[data-gallery-dialog]');
     const dialogImage = gallery.querySelector<HTMLImageElement>('[data-gallery-dialog-image]');
     const closeButton = gallery.querySelector<HTMLButtonElement>('[data-gallery-close]');
-    const thumbnails = gallery.querySelectorAll<HTMLButtonElement>('[data-gallery-thumb]');
+    const previousButton = gallery.querySelector<HTMLButtonElement>('[data-gallery-previous]');
+    const nextButton = gallery.querySelector<HTMLButtonElement>('[data-gallery-next]');
+    const currentNumber = gallery.querySelector<HTMLElement>('[data-gallery-current]');
+    const thumbnails = Array.from(
+      gallery.querySelectorAll<HTMLAnchorElement>('[data-gallery-thumb]'),
+    );
 
-    if (!mainImage || !openButton || !dialog || !dialogImage || !closeButton) return;
+    if (!mainImage || !openLink || !dialog || !dialogImage || !closeButton) return;
 
-    thumbnails.forEach((thumbnail) => {
-      thumbnail.addEventListener('click', () => {
-        const image = thumbnail.dataset.image;
-        const alt = thumbnail.dataset.alt;
+    const galleryTitle = gallery.dataset.galleryTitle ?? '';
+    const items =
+      thumbnails.length > 0
+        ? thumbnails.map((thumbnail) => ({
+            image: thumbnail.dataset.image ?? '',
+            alt: thumbnail.dataset.alt ?? '',
+          }))
+        : [{ image: openLink.href, alt: mainImage.alt }];
 
-        if (!image || !alt) return;
+    if (items.some(({ image, alt }) => !image || !alt)) return;
 
-        mainImage.src = image;
-        mainImage.alt = alt;
-        dialogImage.src = image;
-        dialogImage.alt = alt;
+    gallery.dataset.galleryInitialized = 'true';
 
-        thumbnails.forEach((item) => {
-          item.setAttribute('aria-pressed', String(item === thumbnail));
-        });
+    let currentIndex = Math.max(
+      0,
+      thumbnails.findIndex((thumbnail) => thumbnail.getAttribute('aria-current') === 'true'),
+    );
+
+    const selectImage = (index: number) => {
+      currentIndex = (index + items.length) % items.length;
+
+      const { image, alt } = items[currentIndex];
+      mainImage.src = image;
+      mainImage.alt = alt;
+      dialogImage.src = image;
+      dialogImage.alt = alt;
+      openLink.href = image;
+      openLink.setAttribute(
+        'aria-label',
+        `Збільшити фото ${currentIndex + 1} з ${items.length} товару ${galleryTitle}`,
+      );
+
+      if (currentNumber) {
+        currentNumber.textContent = String(currentIndex + 1);
+      }
+
+      thumbnails.forEach((thumbnail, thumbnailIndex) => {
+        thumbnail.setAttribute('aria-current', String(thumbnailIndex === currentIndex));
+      });
+    };
+
+    thumbnails.forEach((thumbnail, index) => {
+      thumbnail.addEventListener('click', (event) => {
+        event.preventDefault();
+        selectImage(index);
       });
     });
 
-    openButton.addEventListener('click', () => {
+    openLink.addEventListener('click', (event) => {
+      if (typeof dialog.showModal !== 'function') return;
+
+      event.preventDefault();
       dialogImage.src = mainImage.currentSrc || mainImage.src;
       dialogImage.alt = mainImage.alt;
-      dialog.showModal();
+
+      if (!dialog.open) {
+        dialog.showModal();
+      }
     });
 
-    closeButton.addEventListener('click', () => dialog.close());
+    closeButton.addEventListener('click', () => {
+      if (dialog.open) dialog.close();
+    });
+
+    previousButton?.addEventListener('click', () => selectImage(currentIndex - 1));
+    nextButton?.addEventListener('click', () => selectImage(currentIndex + 1));
 
     dialog.addEventListener('click', (event) => {
       if (event.target === dialog) dialog.close();
+    });
+
+    dialog.addEventListener('keydown', (event) => {
+      if (items.length < 2) return;
+
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        selectImage(currentIndex - 1);
+      }
+
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        selectImage(currentIndex + 1);
+      }
+
+      if (event.key === 'Home') {
+        event.preventDefault();
+        selectImage(0);
+      }
+
+      if (event.key === 'End') {
+        event.preventDefault();
+        selectImage(items.length - 1);
+      }
     });
   });
 </script>
