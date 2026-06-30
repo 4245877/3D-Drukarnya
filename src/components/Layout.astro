@@ -7,6 +7,7 @@ interface Props {
   description: string;
   canonicalPath?: string;
   image?: string;
+  imageAlt?: string;
   keywords?: string;
 }
 
@@ -15,18 +16,34 @@ const {
   description,
   canonicalPath = '/',
   image,
+  imageAlt,
   keywords = '3D друк Київ, 3D друкарня, друк на замовлення, 3D товари, FDM друк',
 } = Astro.props;
 
+const DEFAULT_OG_IMAGE = '/OGimage.png';
+const DEFAULT_OG_IMAGE_WIDTH = '1983';
+const DEFAULT_OG_IMAGE_HEIGHT = '793';
+
 const site = Astro.site ?? new URL('https://4245877.github.io');
-const absoluteBaseUrl = new URL(import.meta.env.BASE_URL, site);
+const basePath = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const absoluteBaseUrl = new URL(basePath, site);
 const normalizedCanonicalPath =
   canonicalPath === '/' ? '' : canonicalPath.replace(/^\/+/, '');
 const canonicalUrl = new URL(normalizedCanonicalPath, absoluteBaseUrl).toString();
 
-const resolvedImage = image
-  ? new URL(image.replace(/^\/+/, ''), absoluteBaseUrl).toString()
-  : undefined;
+const toAbsoluteUrl = (value: string) => {
+  if (/^https?:\/\//i.test(value)) return value;
+  if (/^\/\//.test(value)) return `https:${value}`;
+
+  return new URL(value.replace(/^\/+/, ''), absoluteBaseUrl).toString();
+};
+
+const imagePath = image?.trim() || DEFAULT_OG_IMAGE;
+const resolvedImage = toAbsoluteUrl(imagePath);
+const isDefaultOgImage = resolvedImage === toAbsoluteUrl(DEFAULT_OG_IMAGE);
+const resolvedImageAlt = imageAlt || title;
 
 const currentYear = new Date().getFullYear();
 const logoPath = `${import.meta.env.BASE_URL}logo.svg`;
@@ -54,12 +71,18 @@ const logoPath = `${import.meta.env.BASE_URL}logo.svg`;
     <meta property="og:site_name" content="3D Друкарня" />
     <meta property="og:locale" content="uk_UA" />
 
-    {resolvedImage && <meta property="og:image" content={resolvedImage} />}
+    <meta property="og:image" content={resolvedImage} />
+    <meta property="og:image:secure_url" content={resolvedImage} />
+    {isDefaultOgImage && <meta property="og:image:type" content="image/png" />}
+    {isDefaultOgImage && <meta property="og:image:width" content={DEFAULT_OG_IMAGE_WIDTH} />}
+    {isDefaultOgImage && <meta property="og:image:height" content={DEFAULT_OG_IMAGE_HEIGHT} />}
+    <meta property="og:image:alt" content={resolvedImageAlt} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    {resolvedImage && <meta name="twitter:image" content={resolvedImage} />}
+    <meta name="twitter:image" content={resolvedImage} />
+    <meta name="twitter:image:alt" content={resolvedImageAlt} />
 
     <link rel="icon" type="image/svg+xml" href={logoPath} />
     <link rel="shortcut icon" href={logoPath} />

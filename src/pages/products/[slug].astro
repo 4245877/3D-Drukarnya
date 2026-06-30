@@ -30,7 +30,10 @@ const pageDescription =
     : rawPageDescription;
 
 const site = Astro.site ?? new URL('https://4245877.github.io');
-const absoluteBaseUrl = new URL(import.meta.env.BASE_URL, site);
+const basePath = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const absoluteBaseUrl = new URL(basePath, site);
 
 const toImageUrl = (image: string) => {
   if (!image) return '';
