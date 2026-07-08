@@ -1,0 +1,49 @@
+{
+  "slug": "12-trays-hdd-enclosure-3u-rack-mountable",
+  "title": "12 Trays HDD Enclosure — 3U rack-корпус для NAS / сервера",
+  "shortDescription": "3U rack-корпус для NAS або JBOD-сховища на 12 HDD/SSD tray з SATA/SAS підключенням, місцем під 120 мм вентилятори та Mini-ITX / Flex ATX блок живлення.",
+  "description": "12 Trays HDD Enclosure — великий 3U rack-корпус для NAS, домашнього сервера або JBOD-сховища на 12 накопичувачів.\n\nКорпус розрахований на встановлення у rack-форматі та дозволяє зібрати окремий дисковий модуль без складної бекплейн-електроніки. Підключення дисків робиться через довгі SATA або SAS кабелі та окремі SATA male-to-female адаптери, тому конфігурацію можна підібрати під вашу материнську плату, HBA-контролер або серверну збірку.\n\nКонструкція повністю друкована й має місця під 12 tray. Доступні tray для 3.5\" HDD, а також варіанти під 2.5\" HDD/SSD. Це зручно для домашнього NAS, файлового сервера, архівного сховища або лабораторної стійки, де потрібна велика кількість дисків у компактній 3U висоті.\n\nДля охолодження передбачені два 120 мм вентилятори. Для живлення можна використовувати Mini-ITX / Flex ATX блок живлення, а також окрему кнопку живлення 16 мм. Електроніка, вентилятори, накопичувачі, кабелі, SATA/SAS адаптери, блок живлення, кнопка, кріплення та інші комплектуючі в базовий комплект друку не входять і підбираються окремо під конкретну збірку.\n\nБазовий профіль MakerWorld: шар 0.2 мм, 3 стінки, 15% заповнення. Повний корпус друкується кількома великими пластинами, тому перед замовленням варто узгодити матеріал, колір, потрібний тип tray і фінальний комплект кріплення.\n\nДля функціонального серверного використання рекомендую PETG. PLA можливий для холодних, добре вентильованих умов, але для закритих шаф, NAS і обладнання з постійним тепловиділенням краще обирати PETG.\n\nЗа потреби можна окремо погодити суміжні варіанти цієї лінійки: корпуси на 2, 4 або 8 tray, інший тип tray, інший колір або частковий друк окремих деталей для ремонту чи модифікації.",
+  "price": 3200,
+  "priceLabel": "Ціна від",
+  "priceNote": "Базова ціна для друку пластикових деталей корпусу. Накопичувачі, вентилятори, блок живлення, кабелі, SATA/SAS адаптери, кнопка та кріплення рахуються окремо.",
+  "category": "Комп'ютерні комплектуючі",
+  "material": "PETG",
+  "leadTime": "4–6 днів",
+  "variantSummary": "12 tray, 3.5\" / 2.5\" tray, SATA або SAS",
+  "variants": [
+    {
+      "name": "Базовий корпус 12 tray",
+      "badge": "3U",
+      "description": "Повний rack-корпус на 12 відсіків для дисків з місцями під охолодження, живлення та кабельне підключення накопичувачів."
+    },
+    {
+      "name": "Tray під 3.5\" HDD",
+      "description": "Варіант для класичних 3.5-дюймових жорстких дисків у NAS або JBOD-сховищі."
+    },
+    {
+      "name": "Tray під 2.5\" HDD/SSD",
+      "description": "Варіант для 2.5-дюймових HDD або SSD, якщо потрібна компактніша або змішана конфігурація накопичувачів."
+    },
+    {
+      "name": "SATA / SAS підключення",
+      "description": "Підключення підбирається під вашу збірку: довгі SATA або SAS кабелі, окремі male-to-female SATA адаптери та сумісний контролер."
+    },
+    {
+      "name": "Менші конфігурації",
+      "description": "За потреби можна окремо погодити друк споріднених корпусів цієї лінійки на 2, 4 або 8 tray."
+    }
+  ],
+  "images": [
+    "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_0b9280c6321b2.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_cf0636d3ba98d.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_8554108aaa6c4.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_fa3609e963981.webp?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_098226edc.png?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_6ad6e932c57fd.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_c9bc0755d1f27.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_48b381d7b27c6.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_e4ea74cbcb65b.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_2394a31f9a002.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_df880a31ed7ca.jpg?x-oss-process=image/resize,w_1000/format,webp"
+  ]
+}
