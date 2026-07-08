@@ -4,10 +4,20 @@ export interface Product {
   shortDescription: string;
   description: string;
   price: number;
+  priceLabel?: string;
+  priceNote?: string;
   images: string[];
   category?: string;
   material?: string;
   leadTime?: string;
+  variantSummary?: string;
+  variants?: ProductVariant[];
+}
+
+export interface ProductVariant {
+  name: string;
+  description: string;
+  badge?: string;
 }
 
 type ProductModule = {

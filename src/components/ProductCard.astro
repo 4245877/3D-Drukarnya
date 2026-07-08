@@ -42,7 +42,7 @@ const imageSrc = withBase(product.images[0]);
     <p class="product-card__description">{product.shortDescription}</p>
 
     <div class="product-card__price-block" aria-label="Ціна товару">
-      <span class="product-card__price-label">Ціна</span>
+      <span class="product-card__price-label">{product.priceLabel ?? 'Ціна'}</span>
       <div class="product-card__price">
         <ProductPrice amount={product.price} />
       </div>

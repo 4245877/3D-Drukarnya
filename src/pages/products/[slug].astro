@@ -86,11 +86,19 @@ const descriptionParagraphs = product.description
 const descriptionIntro = descriptionParagraphs[0] ?? '';
 const descriptionRest = descriptionParagraphs.slice(1);
 const hasDescription = descriptionParagraphs.length > 0;
+const variants = product.variants ?? [];
+const hasVariants = variants.length > 0;
 
 const productFacts = [
   product.material ? { label: 'Матеріал', value: product.material } : null,
   product.leadTime ? { label: 'Термін виготовлення', value: product.leadTime } : null,
   product.category ? { label: 'Категорія', value: product.category } : null,
+  hasVariants
+    ? {
+        label: 'Варіанти',
+        value: product.variantSummary ?? `${variants.length} конфігурацій`,
+      }
+    : null,
 ].filter((item): item is { label: string; value: string } => Boolean(item));
 
 const hasFacts = productFacts.length > 0;
@@ -108,6 +116,13 @@ const additionalProperties = [
         '@type': 'PropertyValue',
         name: 'Термін виготовлення',
         value: product.leadTime,
+      }
+    : null,
+  hasVariants
+    ? {
+        '@type': 'PropertyValue',
+        name: 'Варіанти',
+        value: variants.map((variant) => variant.name).join(', '),
       }
     : null,
 ].filter(Boolean);
@@ -225,7 +240,7 @@ const structuredData = {
             aria-labelledby="product-price-title"
           >
             <p id="product-price-title" class="product-page__price-label">
-              Ціна
+              {product.priceLabel ?? 'Ціна'}
             </p>
 
             <div class="product-page__price">
@@ -236,6 +251,10 @@ const structuredData = {
               <p class="product-page__price-note">
                 Термін виготовлення: <strong>{product.leadTime}</strong>
               </p>
+            )}
+
+            {product.priceNote && (
+              <p class="product-page__price-note">{product.priceNote}</p>
             )}
           </section>
 
@@ -251,6 +270,7 @@ const structuredData = {
 
           <nav class="product-page__anchors" aria-label="Навігація по сторінці товару">
             <a href="#product-description">Опис</a>
+            {hasVariants && <a href="#product-variants">Варіанти</a>}
             {hasFacts && <a href="#product-details">Характеристики</a>}
             <a href="#fdm-print-use-cases">FDM-друк</a>
             <a href="#product-gallery">Фото</a>
@@ -309,6 +329,32 @@ const structuredData = {
                 </div>
               ))}
             </dl>
+          </section>
+        )}
+
+        {hasVariants && (
+          <section
+            id="product-variants"
+            class="product-page__section-card product-page__section-card--wide"
+            aria-labelledby="product-variants-title"
+          >
+            <div class="product-page__section-head">
+              <p class="product-page__section-kicker">Конфігурації</p>
+              <h2 id="product-variants-title">Варіанти</h2>
+            </div>
+
+            <ul class="product-page__variants" aria-label="Варіанти товару">
+              {variants.map((variant) => (
+                <li class="product-page__variant">
+                  <div class="product-page__variant-head">
+                    <h3>{variant.name}</h3>
+                    {variant.badge && <span>{variant.badge}</span>}
+                  </div>
+
+                  <p>{variant.description}</p>
+                </li>
+              ))}
+            </ul>
           </section>
         )}
 
