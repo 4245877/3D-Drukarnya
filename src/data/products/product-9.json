@@ -1,0 +1,29 @@
+{
+  "slug": "kws-rack-v2-posylena-10-diuimova-stiika-dlia-homelab",
+  "title": "KWS Rack v.2 — посилена 10-дюймова стійка для HomeLab",
+  "shortDescription": "Модульна посилена 10-дюймова стійка KWS Rack v.2 для NAS, mini-PC, Raspberry Pi, мережевого обладнання та компактної HomeLab-збірки.",
+  "description": "KWS Rack v.2 — модульна посилена 10-дюймова стійка для домашньої лабораторії, мережевого обладнання та компактних серверних збірок.\n\nКонструкція розрахована на реальне обладнання: NAS, mini-PC, Raspberry Pi-кластери, блоки живлення, екрани, комутатори, патч-панелі та інші 10-дюймові rack-аксесуари. Формат добре підходить для акуратної організації техніки на столі, полиці або в окремому HomeLab-куточку.\n\nСистема модульна: мінімальна конфігурація починається з 3U, рекомендована базова збірка — 6U, а за потреби стійку можна нарощувати секціями 3U або 6U. Автор тестував конструкцію до 30U, тому вона підходить не тільки для невеликої збірки, а й для поступового розширення.\n\nОсобливості моделі: посилена рама, справжній 10-дюймовий rack-стандарт, можливість встановлення друкованих або акрилових 3-мм бокових і верхніх панелей, місця під магніти для інструментів та гвинтів, а також сумісність з екосистемою додаткових модулів KWS Rack.\n\nРекомендований матеріал друку — PETG, оскільки PLA може деформуватися в теплих шафах або біля обладнання, яке постійно працює.\n\nДля складання, окрім надрукованих деталей, знадобляться додаткові комплектуючі: латунні термовставки M5, гвинти M6×8 мм і M6×10 мм, самоконтрні гайки M6, гвинти M5×10 мм для панелей, а також опційні магніти 10×5 мм. Точну конфігурацію і кількість кріплення краще узгодити під потрібну висоту стійки.\n\nУ комплект входить набір пластикових деталей для складання стійки. Електроніка, NAS, mini-PC, мережеве обладнання, патч-панелі, кабелі, магніти, гвинти, гайки, термовставки, акрилові панелі та інші комплектуючі в комплект не входять.",
+  "price": 1800,
+  "category": "Мережеві аксесуари",
+  "material": "PETG",
+  "leadTime": "3–4 дні",
+  "images": [
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/98df26abb6c91fa9.png?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/67308df03abc7fa2.png?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/2026-01-16_79fbf42d2b9168.png?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/a6e08d27f99ae78d.gif?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/2025-12-20_34c8ebb3dc2698.png?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/0fecad013b312a94.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/cb319bc62b20a42d.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/8661a942a2f38939.webp?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/5cf409fcc33fd81a.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/be007c063715c179.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/6731521bbf64117a.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/9d2376284cedd847.webp?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/ee79a3e48e490dd7.png?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/8e04d29a5e5b230d.webp?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/e56f2e990a755c37.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/aae04a93f6e9a79d.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/2025-12-20_f8ed20d6f9a21.png?x-oss-process=image/resize,w_1000/format,webp"
+  ]
+}
