@@ -26,6 +26,7 @@ const SITE_NAME = '3D Друкарня';
 const DEFAULT_OG_IMAGE = '/OGimage.png';
 const DEFAULT_OG_IMAGE_WIDTH = '1983';
 const DEFAULT_OG_IMAGE_HEIGHT = '793';
+const SKUFNYA_URL = 'https://www.skufnya.com/';
 
 const site = Astro.site ?? new URL('https://4245877.github.io');
 const basePath = import.meta.env.BASE_URL.endsWith('/')
@@ -125,6 +126,14 @@ const appleTouchIconPath = `${import.meta.env.BASE_URL}apple-touch-icon.png`;
         </div>
 
         <div class="site-footer__meta">
+          <a
+            class="site-footer__link"
+            href={SKUFNYA_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            SKUFNYA
+          </a>
           <span>© {currentYear}</span>
         </div>
       </div>

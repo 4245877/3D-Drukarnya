@@ -1,6 +1,7 @@
 ---
 import Layout from '../components/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
+import SkufnyaPromo from '../components/SkufnyaPromo.astro';
 import { getAllProducts } from '../utils/products';
 
 import '../styles/pages/catalog.css';
@@ -16,6 +17,7 @@ const keywords =
   '3D-друк Київ, FDM друк Київ, 3D друк на замовлення, друк PLA Київ, друк PETG Київ, друк корпусів для електроніки, прототипування Київ';
 
 const olxUrl = 'https://www.olx.ua/uk/list/user/15L7LS/';
+const skufnyaUrl = 'https://www.skufnya.com/';
 const site = Astro.site ?? new URL('https://4245877.github.io');
 const basePath = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
@@ -68,7 +70,7 @@ const catalogSchema = {
         { '@type': 'Country', name: 'Україна' },
       ],
       priceRange: '₴₴',
-      sameAs: [olxUrl],
+      sameAs: [olxUrl, skufnyaUrl],
       knowsAbout: [
         'FDM 3D-друк',
         '3D-друк Київ',
@@ -260,6 +262,8 @@ const catalogSchema = {
         </div>
       </div>
     </section>
+
+    <SkufnyaPromo />
 
     <section class="catalog-seo" aria-labelledby="services-title">
       <div class="container">

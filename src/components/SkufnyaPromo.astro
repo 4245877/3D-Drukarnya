@@ -1,0 +1,468 @@
+---
+const SKUFNYA_URL = 'https://www.skufnya.com/';
+const SKUFNYA_PRODUCTS_API = 'https://api.skufnya.com/api/catalog/products/home';
+const MAX_PRODUCTS = 4;
+const FETCH_TIMEOUT_MS = 3500;
+
+interface SkufnyaProductCard {
+  title: string;
+  url: string;
+  imageUrl: string;
+  imageAlt: string;
+  label: string;
+  meta: string;
+  description: string;
+  price: string;
+}
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null;
+
+const getString = (value: unknown) =>
+  typeof value === 'string' ? value.trim() : '';
+
+const truncate = (value: string, maxLength: number) => {
+  if (value.length <= maxLength) return value;
+
+  const shortened = value.slice(0, maxLength - 3);
+  const lastSpaceIndex = shortened.lastIndexOf(' ');
+  const boundary = lastSpaceIndex > maxLength * 0.6 ? lastSpaceIndex : shortened.length;
+
+  return `${shortened.slice(0, boundary).trim()}...`;
+};
+
+const formatPrice = (amount: unknown, currencyValue: unknown) => {
+  if (typeof amount !== 'number' || !Number.isFinite(amount) || amount <= 0) {
+    return '';
+  }
+
+  const currency = getString(currencyValue) || 'UAH';
+  const currencyLabel = currency === 'UAH' ? '₴' : currency;
+
+  return `від ${new Intl.NumberFormat('uk-UA').format(amount)} ${currencyLabel}`;
+};
+
+const normalizeProduct = (item: unknown): SkufnyaProductCard | null => {
+  if (!isRecord(item)) return null;
+
+  const title = getString(item.title);
+  const rawSlug = getString(item.slug);
+
+  if (!title || !rawSlug) return null;
+
+  const slug = rawSlug.replace(/^\/+|\/+$/g, '');
+  const coverImage = isRecord(item.coverImage) ? item.coverImage : {};
+  const category = isRecord(item.category) ? item.category : {};
+  const defaultVariant = isRecord(item.defaultVariant) ? item.defaultVariant : {};
+  const categoryName = getString(category.name);
+  const series = getString(item.series);
+  const sizeLabel = getString(defaultVariant.sizeLabel);
+
+  return {
+    title,
+    url: new URL(`product/${slug}/`, SKUFNYA_URL).toString(),
+    imageUrl: getString(coverImage.url),
+    imageAlt: getString(coverImage.alt) || title,
+    label: categoryName || 'Колекційна модель',
+    meta: [series, sizeLabel].filter(Boolean).join(' · '),
+    description: truncate(getString(item.shortDescription), 132),
+    price: formatPrice(item.priceFrom, item.currency),
+  };
+};
+
+const parseProducts = (payload: unknown) => {
+  if (!isRecord(payload) || !Array.isArray(payload.items)) return [];
+
+  return payload.items
+    .map(normalizeProduct)
+    .filter((product): product is SkufnyaProductCard => product !== null)
+    .slice(0, MAX_PRODUCTS);
+};
+
+const fetchSkufnyaProducts = async () => {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(SKUFNYA_PRODUCTS_API, {
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      throw new Error(`SKUFNYA API responded with ${response.status}`);
+    }
+
+    return parseProducts(await response.json());
+  } catch (error) {
+    console.warn(
+      'SKUFNYA promo fallback is used because products could not be loaded.',
+      error
+    );
+    return [];
+  } finally {
+    clearTimeout(timeoutId);
+  }
+};
+
+const products = await fetchSkufnyaProducts();
+const hasProducts = products.length > 0;
+---
+
+<section class="skufnya-promo" aria-labelledby="skufnya-promo-title">
+  <div class="container">
+    <div class="skufnya-promo__header">
+      <div class="skufnya-promo__copy">
+        <p class="skufnya-promo__eyebrow">Друга вітрина</p>
+        <h2 id="skufnya-promo-title">Також наш магазин: SKUFNYA</h2>
+        <p>
+          Аніме-фігурки, колекційні моделі та товари для фанатів з доставкою по Україні.
+        </p>
+      </div>
+
+      <a
+        class="btn btn--ghost skufnya-promo__main-link"
+        href={SKUFNYA_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Перейти до SKUFNYA
+      </a>
+    </div>
+
+    {
+      hasProducts ? (
+        <div class="skufnya-promo__grid" aria-label="Рекомендовані товари SKUFNYA">
+          {products.map((product) => (
+            <article class="skufnya-promo-card">
+              <a
+                class="skufnya-promo-card__image-link"
+                href={product.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Відкрити товар SKUFNYA: ${product.title}`}
+              >
+                {product.imageUrl ? (
+                  <img
+                    class="skufnya-promo-card__image"
+                    src={product.imageUrl}
+                    alt={product.imageAlt}
+                    width="420"
+                    height="420"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <span class="skufnya-promo-card__image-placeholder">SKUFNYA</span>
+                )}
+              </a>
+
+              <div class="skufnya-promo-card__body">
+                <p class="skufnya-promo-card__label">{product.label}</p>
+
+                <h3 class="skufnya-promo-card__title">
+                  <a href={product.url} target="_blank" rel="noopener noreferrer">
+                    {product.title}
+                  </a>
+                </h3>
+
+                {product.meta && <p class="skufnya-promo-card__meta">{product.meta}</p>}
+                {product.description && (
+                  <p class="skufnya-promo-card__description">{product.description}</p>
+                )}
+                {product.price && <p class="skufnya-promo-card__price">{product.price}</p>}
+
+                <a
+                  class="btn btn--secondary btn--sm skufnya-promo-card__link"
+                  href={product.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Дивитися товар
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="skufnya-promo__fallback">
+          <ul class="skufnya-promo__benefits" aria-label="Переваги SKUFNYA">
+            <li>Аніме-фігурки та фан-арт моделі</li>
+            <li>Добірка для колекцій і подарунків</li>
+            <li>Доставка Новою поштою та Укрпоштою</li>
+          </ul>
+
+          <a
+            class="btn btn--secondary skufnya-promo__fallback-link"
+            href={SKUFNYA_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Дивитися товари SKUFNYA
+          </a>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .skufnya-promo {
+    padding: var(--space-10) 0 var(--space-12);
+    background:
+      linear-gradient(180deg, rgba(245, 237, 224, 0.72), rgba(232, 216, 190, 0.46));
+    border-top: var(--border-faint);
+    border-bottom: var(--border-faint);
+  }
+
+  .skufnya-promo__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+
+  .skufnya-promo__copy {
+    max-width: 720px;
+  }
+
+  .skufnya-promo__eyebrow {
+    margin: 0 0 var(--space-2);
+    color: var(--copper);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-bold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .skufnya-promo__copy h2 {
+    margin: 0 0 var(--space-3);
+    color: var(--chocolate);
+    font-size: clamp(1.45rem, 2.7vw, 2.25rem);
+  }
+
+  .skufnya-promo__copy p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .skufnya-promo__main-link,
+  .skufnya-promo__fallback-link {
+    flex-shrink: 0;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .skufnya-promo__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  .skufnya-promo-card {
+    display: flex;
+    min-width: 0;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    background: rgba(245, 237, 224, 0.82);
+    border: 1px solid rgba(184, 154, 97, 0.24);
+    border-radius: 8px;
+    box-shadow: 0 10px 26px rgba(42, 20, 8, 0.09);
+    transition:
+      border-color var(--dur-normal) var(--ease-out),
+      box-shadow var(--dur-normal) var(--ease-out),
+      transform var(--dur-normal) var(--ease-out);
+  }
+
+  .skufnya-promo-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(142, 63, 67, 0.28);
+    box-shadow: 0 16px 32px rgba(42, 20, 8, 0.13);
+  }
+
+  .skufnya-promo-card__image-link {
+    display: grid;
+    aspect-ratio: 1 / 1;
+    place-items: center;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.2), transparent 44%),
+      linear-gradient(135deg, rgba(217, 154, 116, 0.16), rgba(142, 63, 67, 0.1));
+  }
+
+  .skufnya-promo-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--dur-slow) var(--ease-out);
+  }
+
+  .skufnya-promo-card:hover .skufnya-promo-card__image {
+    transform: scale(1.04);
+  }
+
+  .skufnya-promo-card__image-placeholder {
+    color: var(--burgundy);
+    font-family: var(--font-display);
+    font-size: var(--fs-lg);
+    font-weight: 900;
+    letter-spacing: 0.08em;
+  }
+
+  .skufnya-promo-card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-4);
+  }
+
+  .skufnya-promo-card__label,
+  .skufnya-promo-card__meta,
+  .skufnya-promo-card__description,
+  .skufnya-promo-card__price {
+    margin: 0;
+  }
+
+  .skufnya-promo-card__label {
+    align-self: flex-start;
+    max-width: 100%;
+    padding: 0.25rem 0.65rem;
+    overflow: hidden;
+    border: 1px solid rgba(184, 154, 97, 0.26);
+    border-radius: var(--radius-full);
+    background: rgba(232, 216, 190, 0.7);
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: var(--fw-semibold);
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .skufnya-promo-card__title {
+    margin: 0;
+    color: var(--chocolate);
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    line-height: 1.25;
+  }
+
+  .skufnya-promo-card__title a {
+    display: -webkit-box;
+    overflow: hidden;
+    color: inherit;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .skufnya-promo-card__title a:hover {
+    color: var(--burgundy);
+  }
+
+  .skufnya-promo-card__meta {
+    overflow: hidden;
+    color: var(--text-muted);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    line-height: 1.4;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .skufnya-promo-card__description {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--text-secondary);
+    font-size: var(--fs-sm);
+    line-height: 1.55;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .skufnya-promo-card__price {
+    margin-top: auto;
+    color: var(--burgundy);
+    font-family: var(--font-serif);
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-semibold);
+    line-height: 1.2;
+  }
+
+  .skufnya-promo-card__link {
+    width: 100%;
+    min-height: 2.4rem;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .skufnya-promo__fallback {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding-top: var(--space-2);
+  }
+
+  .skufnya-promo__benefits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .skufnya-promo__benefits li {
+    padding: 0.4rem 0.85rem;
+    border: 1px solid rgba(184, 154, 97, 0.28);
+    border-radius: var(--radius-full);
+    background: rgba(245, 237, 224, 0.66);
+    color: var(--text-secondary);
+    font-size: var(--fs-sm);
+    line-height: 1.45;
+  }
+
+  @media (max-width: 1100px) {
+    .skufnya-promo__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 768px) {
+    .skufnya-promo {
+      padding: var(--space-8) 0;
+    }
+
+    .skufnya-promo__header,
+    .skufnya-promo__fallback {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .skufnya-promo__main-link,
+    .skufnya-promo__fallback-link {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .skufnya-promo__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skufnya-promo-card,
+    .skufnya-promo-card__image {
+      transition: none;
+    }
+
+    .skufnya-promo-card:hover {
+      transform: none;
+    }
+
+    .skufnya-promo-card:hover .skufnya-promo-card__image {
+      transform: none;
+    }
+  }
+</style>

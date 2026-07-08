@@ -60,6 +60,8 @@ const productUrl = new URL(`products/${product.slug}/`, absoluteBaseUrl).toStrin
 const catalogUrl = absoluteBaseUrl.toString();
 const sellerId = `${catalogUrl}#local-business`;
 const logoUrl = new URL('apple-touch-icon.png', absoluteBaseUrl).toString();
+const olxUrl = 'https://www.olx.ua/uk/list/user/15L7LS/';
+const skufnyaUrl = 'https://www.skufnya.com/';
 const priceValidUntil = new Date(Date.UTC(new Date().getUTCFullYear(), 11, 31))
   .toISOString()
   .slice(0, 10);
@@ -163,6 +165,7 @@ const structuredData = {
           name: '3D Друкарня',
           url: catalogUrl,
           logo: logoUrl,
+          sameAs: [olxUrl, skufnyaUrl],
         },
       },
     },
