@@ -18,10 +18,11 @@ const {
   canonicalPath = '/',
   image,
   imageAlt,
-  keywords = 'HomeLab, homelab магазин, домашня лабораторія, серверна стійка, NAS корпус, mini rack, мережеве обладнання, домашній сервер, 3D друк для серверів',
+  keywords = '3D-друк Київ, FDM друк Київ, 3D друк на замовлення, друк PLA Київ, друк PETG Київ, корпуси для електроніки, прототипування Київ',
   ogType = 'website',
 } = Astro.props;
 
+const SITE_NAME = '3D Друкарня';
 const DEFAULT_OG_IMAGE = '/OGimage.png';
 const DEFAULT_OG_IMAGE_WIDTH = '1983';
 const DEFAULT_OG_IMAGE_HEIGHT = '793';
@@ -49,7 +50,10 @@ const isDefaultOgImage = resolvedImage === toAbsoluteUrl(DEFAULT_OG_IMAGE);
 const resolvedImageAlt = imageAlt || title;
 
 const currentYear = new Date().getFullYear();
-const logoPath = `${import.meta.env.BASE_URL}logo.svg`;
+const faviconIcoPath = `${import.meta.env.BASE_URL}favicon.ico`;
+const favicon16Path = `${import.meta.env.BASE_URL}favicon-16x16.png`;
+const favicon32Path = `${import.meta.env.BASE_URL}favicon-32x32.png`;
+const appleTouchIconPath = `${import.meta.env.BASE_URL}apple-touch-icon.png`;
 ---
 
 <!DOCTYPE html>
@@ -65,7 +69,7 @@ const logoPath = `${import.meta.env.BASE_URL}logo.svg`;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords} />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="robots" content="index, follow" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="sitemap" type="application/xml" href={sitemapUrl} />
 
@@ -73,7 +77,7 @@ const logoPath = `${import.meta.env.BASE_URL}logo.svg`;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:site_name" content="3D Друкарня HomeLab" />
+    <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:locale" content="uk_UA" />
 
     <meta property="og:image" content={resolvedImage} />
@@ -86,13 +90,15 @@ const logoPath = `${import.meta.env.BASE_URL}logo.svg`;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:url" content={canonicalUrl} />
     <meta name="twitter:image" content={resolvedImage} />
     <meta name="twitter:image:alt" content={resolvedImageAlt} />
     <meta name="theme-color" content="#8E3F43" />
 
-    <link rel="icon" type="image/svg+xml" href={logoPath} />
-    <link rel="shortcut icon" href={logoPath} />
-    <link rel="apple-touch-icon" href={logoPath} />
+    <link rel="icon" href={faviconIcoPath} sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href={favicon32Path} />
+    <link rel="icon" type="image/png" sizes="16x16" href={favicon16Path} />
+    <link rel="apple-touch-icon" sizes="180x180" href={appleTouchIconPath} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -112,9 +118,9 @@ const logoPath = `${import.meta.env.BASE_URL}logo.svg`;
     <footer class="site-footer">
       <div class="container site-footer__inner">
         <div>
-          <strong>3D Друкарня HomeLab</strong>
+          <strong>{SITE_NAME}</strong>
           <p class="site-footer__text">
-            Каталог 3D-друкованих рішень для HomeLab, NAS, mini rack, серверних стійок і мережевого обладнання.
+            FDM 3D-друк у Києві: PLA, PETG, корпуси для електроніки, прототипи та деталі на замовлення.
           </p>
         </div>
 

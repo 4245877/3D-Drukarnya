@@ -20,7 +20,7 @@ interface Props {
 
 const { product } = Astro.props as Props;
 
-const pageTitle = `${product.title} | 3D Друкарня HomeLab`;
+const pageTitle = `${product.title} | FDM 3D-друк Київ`;
 
 const truncateDescription = (value: string, maxLength = 160) => {
   if (value.length <= maxLength) return value;
@@ -32,9 +32,8 @@ const truncateDescription = (value: string, maxLength = 160) => {
   return `${safeCut.trim()}...`;
 };
 
-const hasHomelabTerm = /homelab/i.test(product.shortDescription);
 const rawPageDescription = product.shortDescription
-  ? `${product.shortDescription}${hasHomelabTerm ? '' : ' Для HomeLab, NAS і домашніх серверів.'}`
+  ? `${product.shortDescription} FDM 3D-друк у Києві з PLA/PETG під замовлення.`
   : product.description;
 
 const pageDescription = truncateDescription(rawPageDescription);
@@ -59,23 +58,22 @@ const ogImage = imageUrls[0] ?? '';
 
 const productUrl = new URL(`products/${product.slug}/`, absoluteBaseUrl).toString();
 const catalogUrl = absoluteBaseUrl.toString();
+const sellerId = `${catalogUrl}#local-business`;
+const logoUrl = new URL('apple-touch-icon.png', absoluteBaseUrl).toString();
+const priceValidUntil = new Date(Date.UTC(new Date().getUTCFullYear(), 11, 31))
+  .toISOString()
+  .slice(0, 10);
 
 const pageKeywords = [
   product.title,
   product.category,
   product.material,
-  'HomeLab',
-  'homelab Україна',
-  'домашня лабораторія',
-  'домашній сервер',
-  'серверна стійка',
-  'mini rack',
-  'NAS корпус',
-  'корпус для NAS',
-  'мережеве обладнання',
-  'Raspberry Pi',
-  'mini-PC',
-  '3D друк серверних аксесуарів',
+  'FDM 3D-друк Київ',
+  '3D друк на замовлення',
+  'друк PLA Київ',
+  'друк PETG Київ',
+  'корпуси для електроніки',
+  'прототипування Київ',
 ]
   .filter(Boolean)
   .join(', ');
@@ -97,6 +95,23 @@ const productFacts = [
 
 const hasFacts = productFacts.length > 0;
 
+const additionalProperties = [
+  product.material
+    ? {
+        '@type': 'PropertyValue',
+        name: 'Матеріал',
+        value: product.material,
+      }
+    : null,
+  product.leadTime
+    ? {
+        '@type': 'PropertyValue',
+        name: 'Термін виготовлення',
+        value: product.leadTime,
+      }
+    : null,
+].filter(Boolean);
+
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -111,20 +126,28 @@ const structuredData = {
       material: product.material,
       brand: {
         '@type': 'Brand',
-        name: '3D Друкарня HomeLab',
+        name: '3D Друкарня',
       },
+      additionalProperty: additionalProperties.length > 0 ? additionalProperties : undefined,
       mainEntityOfPage: productUrl,
       offers: {
         '@type': 'Offer',
         price: product.price,
         priceCurrency: 'UAH',
+        priceValidUntil,
         availability: 'https://schema.org/InStock',
         itemCondition: 'https://schema.org/NewCondition',
         url: productUrl,
+        eligibleRegion: {
+          '@type': 'Country',
+          name: 'UA',
+        },
         seller: {
-          '@type': 'Store',
-          name: '3D Друкарня HomeLab',
+          '@type': 'LocalBusiness',
+          '@id': sellerId,
+          name: '3D Друкарня',
           url: catalogUrl,
+          logo: logoUrl,
         },
       },
     },
@@ -135,7 +158,7 @@ const structuredData = {
         {
           '@type': 'ListItem',
           position: 1,
-          name: 'HomeLab каталог',
+          name: 'Каталог 3D-друку',
           item: catalogUrl,
         },
         {
@@ -169,7 +192,7 @@ const structuredData = {
     <div class="container">
       <Breadcrumbs
         items={[
-          { label: 'HomeLab каталог', href: import.meta.env.BASE_URL },
+          { label: 'Каталог 3D-друку', href: import.meta.env.BASE_URL },
           { label: product.title },
         ]}
       />
@@ -229,7 +252,7 @@ const structuredData = {
           <nav class="product-page__anchors" aria-label="Навігація по сторінці товару">
             <a href="#product-description">Опис</a>
             {hasFacts && <a href="#product-details">Характеристики</a>}
-            <a href="#homelab-use-cases">HomeLab</a>
+            <a href="#fdm-print-use-cases">FDM-друк</a>
             <a href="#product-gallery">Фото</a>
           </nav>
         </aside>
@@ -290,26 +313,25 @@ const structuredData = {
         )}
 
         <section
-          id="homelab-use-cases"
+          id="fdm-print-use-cases"
           class="product-page__section-card product-page__section-card--wide"
-          aria-labelledby="homelab-use-cases-title"
+          aria-labelledby="fdm-print-use-cases-title"
         >
           <div class="product-page__section-head">
-            <p class="product-page__section-kicker">HomeLab сценарії</p>
-            <h2 id="homelab-use-cases-title">Для домашньої лабораторії та серверної збірки</h2>
+            <p class="product-page__section-kicker">FDM-друк під замовлення</p>
+            <h2 id="fdm-print-use-cases-title">Для корпусів, кріплень і прототипів</h2>
           </div>
 
           <p class="product-page__description-intro">
-            Цей товар можна використовувати в компактній HomeLab-інфраструктурі:
-            для домашнього NAS, mini-PC, файлового сервера, мережевої полиці або
-            акуратного розміщення серверних аксесуарів.
+            Цей виріб друкується під замовлення методом FDM. Перед друком можна узгодити
+            матеріал, колір, заповнення, міцність і невеликі зміни моделі під вашу задачу.
           </p>
 
           <ul class="product-page__use-list">
-            <li>організація NAS, TrueNAS, Proxmox, Plex або Jellyfin-сценаріїв;</li>
-            <li>монтаж і впорядкування mini-PC, Raspberry Pi, Synology або Lenovo Tiny;</li>
-            <li>інтеграція з router, switch, patch panel, keystone та rack-аксесуарами;</li>
-            <li>3D-друк або адаптація деталей під конкретне homelab обладнання.</li>
+            <li>друк PLA або PETG залежно від температури, навантаження та умов використання;</li>
+            <li>адаптація отворів, посадкових місць, товщини стінок або кольору;</li>
+            <li>виготовлення корпусів для електроніки, кронштейнів, панелей і прототипів;</li>
+            <li>самовивіз у Києві або відправлення OLX Доставкою по Україні.</li>
           </ul>
         </section>
       </div>
