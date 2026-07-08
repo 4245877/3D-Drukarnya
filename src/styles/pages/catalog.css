@@ -3136,6 +3136,81 @@ input[type="range"].catalog-range__input::-webkit-slider-thumb:active {
   color: #fff;
 }
 
+.catalog-seo,
+.catalog-faq {
+  padding: var(--space-12) 0;
+}
+
+.catalog-seo {
+  background:
+    linear-gradient(180deg, rgba(245, 237, 224, 0.95), rgba(232, 216, 190, 0.62));
+  border-top: var(--border-faint);
+}
+
+.catalog-seo__intro {
+  max-width: 880px;
+  margin-bottom: var(--space-8);
+}
+
+.catalog-seo__eyebrow {
+  margin: 0 0 var(--space-2);
+  color: var(--copper);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.catalog-seo__intro h2,
+.catalog-faq__inner h2 {
+  margin: 0 0 var(--space-4);
+  color: var(--chocolate);
+  font-size: clamp(1.6rem, 3vw, 2.5rem);
+}
+
+.catalog-seo__intro p,
+.catalog-seo__item p,
+.catalog-faq__item p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+.catalog-seo__grid,
+.catalog-faq__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.catalog-seo__item,
+.catalog-faq__item {
+  padding: var(--space-5);
+  background: rgba(245, 237, 224, 0.72);
+  border: 1px solid rgba(184, 154, 97, 0.22);
+  border-radius: var(--radius-lg);
+}
+
+.catalog-seo__item h3,
+.catalog-faq__item h3 {
+  margin: 0 0 var(--space-3);
+  color: var(--chocolate);
+  font-size: var(--fs-lg);
+  line-height: 1.25;
+}
+
+.catalog-faq {
+  background: var(--bg-base);
+}
+
+.catalog-faq__inner {
+  max-width: var(--max-w-xl);
+}
+
+.catalog-faq__list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 
 /* ─────────────────────────────────────────────────────────── */
 /* 16. RESPONSIVE BREAKPOINTS                                  */
@@ -3190,6 +3265,11 @@ input[type="range"].catalog-range__input::-webkit-slider-thumb:active {
 
   .catalog-banner__slide-body {
     padding: 0 var(--space-10);
+  }
+
+  .catalog-seo__grid,
+  .catalog-faq__list {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -3275,6 +3355,16 @@ input[type="range"].catalog-range__input::-webkit-slider-thumb:active {
   .catalog-quickview__related-grid { grid-template-columns: repeat(4, 1fr); }
 
   .catalog-back-top { bottom: var(--space-5); right: var(--space-4); }
+
+  .catalog-seo,
+  .catalog-faq {
+    padding: var(--space-8) 0;
+  }
+
+  .catalog-seo__item,
+  .catalog-faq__item {
+    padding: var(--space-4);
+  }
 }
 
 /* ── 480px: compact everything ───────────────────────────── */

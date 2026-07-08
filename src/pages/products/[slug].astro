@@ -20,14 +20,24 @@ interface Props {
 
 const { product } = Astro.props as Props;
 
-const pageTitle = `${product.title} | 3D Друкарня`;
+const pageTitle = `${product.title} | 3D Друкарня HomeLab`;
 
-const rawPageDescription = product.shortDescription || product.description;
+const truncateDescription = (value: string, maxLength = 160) => {
+  if (value.length <= maxLength) return value;
 
-const pageDescription =
-  rawPageDescription.length > 160
-    ? `${rawPageDescription.slice(0, 157).trim()}...`
-    : rawPageDescription;
+  const truncated = value.slice(0, maxLength - 3);
+  const lastSpaceIndex = truncated.lastIndexOf(' ');
+  const safeCut = lastSpaceIndex > 120 ? truncated.slice(0, lastSpaceIndex) : truncated;
+
+  return `${safeCut.trim()}...`;
+};
+
+const hasHomelabTerm = /homelab/i.test(product.shortDescription);
+const rawPageDescription = product.shortDescription
+  ? `${product.shortDescription}${hasHomelabTerm ? '' : ' Для HomeLab, NAS і домашніх серверів.'}`
+  : product.description;
+
+const pageDescription = truncateDescription(rawPageDescription);
 
 const site = Astro.site ?? new URL('https://4245877.github.io');
 const basePath = import.meta.env.BASE_URL.endsWith('/')
@@ -48,6 +58,27 @@ const imageUrls = product.images.map(toImageUrl).filter(Boolean);
 const ogImage = imageUrls[0] ?? '';
 
 const productUrl = new URL(`products/${product.slug}/`, absoluteBaseUrl).toString();
+const catalogUrl = absoluteBaseUrl.toString();
+
+const pageKeywords = [
+  product.title,
+  product.category,
+  product.material,
+  'HomeLab',
+  'homelab Україна',
+  'домашня лабораторія',
+  'домашній сервер',
+  'серверна стійка',
+  'mini rack',
+  'NAS корпус',
+  'корпус для NAS',
+  'мережеве обладнання',
+  'Raspberry Pi',
+  'mini-PC',
+  '3D друк серверних аксесуарів',
+]
+  .filter(Boolean)
+  .join(', ');
 
 const descriptionParagraphs = product.description
   .split('\n\n')
@@ -66,21 +97,56 @@ const productFacts = [
 
 const hasFacts = productFacts.length > 0;
 
-const productSchema = {
+const structuredData = {
   '@context': 'https://schema.org',
-  '@type': 'Product',
-  name: product.title,
-  description: product.description,
-  image: imageUrls,
-  category: product.category,
-  material: product.material,
-  offers: {
-    '@type': 'Offer',
-    price: product.price,
-    priceCurrency: 'UAH',
-    availability: 'https://schema.org/InStock',
-    url: productUrl,
-  },
+  '@graph': [
+    {
+      '@type': 'Product',
+      '@id': `${productUrl}#product`,
+      name: product.title,
+      description: product.description,
+      image: imageUrls,
+      sku: product.slug,
+      category: product.category,
+      material: product.material,
+      brand: {
+        '@type': 'Brand',
+        name: '3D Друкарня HomeLab',
+      },
+      mainEntityOfPage: productUrl,
+      offers: {
+        '@type': 'Offer',
+        price: product.price,
+        priceCurrency: 'UAH',
+        availability: 'https://schema.org/InStock',
+        itemCondition: 'https://schema.org/NewCondition',
+        url: productUrl,
+        seller: {
+          '@type': 'Store',
+          name: '3D Друкарня HomeLab',
+          url: catalogUrl,
+        },
+      },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${productUrl}#breadcrumbs`,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'HomeLab каталог',
+          item: catalogUrl,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: product.title,
+          item: productUrl,
+        },
+      ],
+    },
+  ],
 };
 ---
 
@@ -89,18 +155,21 @@ const productSchema = {
   description={pageDescription}
   canonicalPath={`/products/${product.slug}/`}
   image={ogImage}
+  imageAlt={product.title}
+  keywords={pageKeywords}
+  ogType="product"
 >
   <script
     slot="head"
     type="application/ld+json"
-    set:html={JSON.stringify(productSchema)}
+    set:html={JSON.stringify(structuredData)}
   ></script>
 
   <section class="product-page">
     <div class="container">
       <Breadcrumbs
         items={[
-          { label: 'Каталог', href: import.meta.env.BASE_URL },
+          { label: 'HomeLab каталог', href: import.meta.env.BASE_URL },
           { label: product.title },
         ]}
       />
@@ -160,6 +229,7 @@ const productSchema = {
           <nav class="product-page__anchors" aria-label="Навігація по сторінці товару">
             <a href="#product-description">Опис</a>
             {hasFacts && <a href="#product-details">Характеристики</a>}
+            <a href="#homelab-use-cases">HomeLab</a>
             <a href="#product-gallery">Фото</a>
           </nav>
         </aside>
@@ -218,6 +288,30 @@ const productSchema = {
             </dl>
           </section>
         )}
+
+        <section
+          id="homelab-use-cases"
+          class="product-page__section-card product-page__section-card--wide"
+          aria-labelledby="homelab-use-cases-title"
+        >
+          <div class="product-page__section-head">
+            <p class="product-page__section-kicker">HomeLab сценарії</p>
+            <h2 id="homelab-use-cases-title">Для домашньої лабораторії та серверної збірки</h2>
+          </div>
+
+          <p class="product-page__description-intro">
+            Цей товар можна використовувати в компактній HomeLab-інфраструктурі:
+            для домашнього NAS, mini-PC, файлового сервера, мережевої полиці або
+            акуратного розміщення серверних аксесуарів.
+          </p>
+
+          <ul class="product-page__use-list">
+            <li>організація NAS, TrueNAS, Proxmox, Plex або Jellyfin-сценаріїв;</li>
+            <li>монтаж і впорядкування mini-PC, Raspberry Pi, Synology або Lenovo Tiny;</li>
+            <li>інтеграція з router, switch, patch panel, keystone та rack-аксесуарами;</li>
+            <li>3D-друк або адаптація деталей під конкретне homelab обладнання.</li>
+          </ul>
+        </section>
       </div>
     </div>
   </section>
