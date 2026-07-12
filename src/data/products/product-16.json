@@ -1,0 +1,48 @@
+{
+  "slug": "modcase-mass-modulnyi-nas-korpus-mini-itx",
+  "title": "MODCASE MASS — модульний NAS-корпус Mini-ITX",
+  "shortDescription": "Вертикальний модульний корпус для NAS на платі Mini-ITX: базово 4×3.5\" + 3×2.5\" диски, стековане розширення до 8×3.5\" і потужне охолодження вентиляторами 120/140 мм.",
+  "description": "MODCASE MASS (Modular Attached Storage Stack) — компактний вертикальний корпус для домашнього NAS, файлового сервера або HomeLab на базі материнської плати Mini-ITX. Модульна конструкція дозволяє почати з основного комп'ютерного блока та одного дискового модуля, а згодом додати ще один рівень для накопичувачів.\n\nБезкоштовна версія MASS, на яку веде посилання MakerWorld, розрахована на 4 накопичувачі 3.5\" і до 3 накопичувачів 2.5\". Завдяки стекованій конструкції можна встановити другий дисковий модуль і збільшити місткість до 8 дисків 3.5\"; для підключення понад чотирьох SATA-пристроїв знадобиться сумісний M.2 SATA-контролер. Premium-версія з низькопрофільним PCIe-слотом і підтримкою до 10×3.5\" + 3×2.5\" є окремим набором файлів та не входить у базову пропозицію.\n\nКорпус підтримує плати Mini-ITX, блоки живлення SFX або SFX-L і процесорні кулери висотою до 55 мм. Розмір основного модуля становить приблизно 203×199×151 мм (6.1 л), дискового — 199×150×150 мм (4.5 л). Для друку потрібна робоча область щонайменше 200×200 мм.\n\nВертикальний повітряний потік проходить через усю збірку. У безкоштовній конфігурації можна встановити до трьох вентиляторів 120 або 140 мм. Бокові панелі знімаються без інструментів, накопичувачі залишаються доступними окремо, а для дисплея діагоналлю до 5\" передбачений опційний мод із регульованим CAD-шаблоном.\n\nМодель оптимізована для FDM-друку з PETG. Вказаний профіль MakerWorld використовує сопло 0.4 мм, шар 0.2 мм, 4 стінки та 30% заповнення; в авторських примітках для особливо навантажених деталей рекомендовані 5 стінок і суцільне rectilinear-заповнення. Охолодження PETG — 25%, температура сопла — 255 °C, столу — 90 °C. Точні параметри погоджуються перед друком залежно від філаменту та обраних модулів.\n\nПовний комплект залежно від конфігурації потребує приблизно 1–2 кг PETG і друкується багатьма окремими деталями. У базову вартість входять лише пластикові елементи корпусу у стандартній конфігурації MASS Free. Материнська плата, процесор і кулер, накопичувачі, блок живлення, вентилятори, SATA-кабелі та розгалужувачі живлення, контролери, кнопка живлення 16 мм, гвинти M3×20 й інша електроніка не входять і рахуються окремо.\n\nПеред замовленням потрібно погодити кількість дискових модулів, тип блока живлення, набір панелей, колір і бажаний варіант охолодження. Друк доступний за умови наявності належного дозволу на використання моделі.",
+  "price": 3500,
+  "priceLabel": "Ціна від",
+  "priceNote": "Базова ціна за друк пластикових деталей стандартного корпусу MASS Free з PETG. Другий дисковий модуль, дисплейні панелі, електроніка, накопичувачі, вентилятори, кабелі, контролери, блок живлення та кріплення рахуються окремо.",
+  "category": "Комп'ютерні комплектуючі",
+  "material": "PETG",
+  "leadTime": "5–8 днів",
+  "variantSummary": "Mini-ITX, 4–8×3.5\" + до 3×2.5\", SFX/SFX-L, 120/140 мм",
+  "variants": [
+    {
+      "name": "MASS Free — базова конфігурація",
+      "badge": "ціна від",
+      "description": "Основний Mini-ITX модуль і один дисковий рівень на 4×3.5\" HDD з місцями для накопичувачів 2.5\", блока живлення SFX/SFX-L та вертикального охолодження."
+    },
+    {
+      "name": "Розширення до 8 дисків 3.5\"",
+      "description": "Другий стекований дисковий модуль для ще чотирьох HDD. Додатковий пластик, вентилятор, SATA-контролер, кабелі та живлення розраховуються окремо."
+    },
+    {
+      "name": "Панель під дисплей до 5\"",
+      "description": "Опційна бокова панель із місцем під дисплей. Перед друком необхідно звірити точну модель екрана, розташування роз'ємів і потрібний CAD-шаблон."
+    },
+    {
+      "name": "Варіанти передньої панелі",
+      "description": "Можна погодити стандартну панель, версію без відсіків 2.5\" або фронт під 4×2.5\" для компактного окремого NAS з блоком живлення FlexATX."
+    }
+  ],
+  "images": [
+    "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_e56cbb5a8214e.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_72c735feaa011.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2024-07-08_9ea0e00a5fa73.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2024-07-08_336893e757d52.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2024-07-08_679d464259a1a.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_7fe75e719d888.png?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_9c0f7d76fefe6.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_b3d2da89b28a8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_c8bba76d490a9.png?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_164717c886d36.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_3abfa01ad68c7.png?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_3137063b9f4f2.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_1f2de7642b952.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_f7c5a2e9db1e9.jpg?x-oss-process=image/resize,w_1000/format,webp"
+  ]
+}
