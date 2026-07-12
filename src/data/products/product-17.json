@@ -1,0 +1,54 @@
+{
+  "slug": "open-frame-pc-case-atx-vidkrytyi-korpus",
+  "title": "Open Frame PC Case — відкритий корпус ATX / mATX / Mini-ITX",
+  "shortDescription": "Модульний відкритий корпус для повнорозмірної ATX, mATX або Mini-ITX збірки з підтримкою ATX-блока живлення, відеокарт і AIO 120–360 мм.",
+  "description": "Open Frame PC Case — відкритий модульний корпус для робочого, ігрового або ретро-ПК. Класичне компонування залишає всі комплектуючі доступними, спрощує обслуговування та забезпечує вільний приплив повітря. Мінімалістична рама повністю складається з FDM-друкованих деталей без алюмінієвих профілів.\n\nКорпус сумісний із материнськими платами ATX, mATX і Mini-ITX. Для ATX нижня поперечка материнської плати встановлюється у найнижче положення без mATX-адаптера; для mATX використовується адаптер і середнє або верхнє положення залежно від габаритів плати; Mini-ITX монтується без адаптера. Перед замовленням бажано повідомити точну модель материнської плати, відеокарти, блока живлення та системи охолодження.\n\nБазова конструкція розрахована на стандартний ATX-блок живлення. SFX або SFX-L можна встановити через окремий перехідник SFX-to-ATX. Передбачені кронштейни відеокарти, регульована нижня опора для важких GPU та опційний комплект вертикального монтажу через PCIe-riser. Для вертикального встановлення потрібно окремо погодити кількість слотів і модель riser-кабелю.\n\nРама підтримує AIO-радіатори 120, 140, 240 і 280 мм у штатній конфігурації. Для 360-мм AIO потрібні додаткові адаптери ніжок, які збільшують висоту приблизно на 50–60 мм. Також доступна оновлена версія рами без штатного бокового місця під AIO та верхні кронштейни для радіаторів 240/280 мм.\n\nУ базовому профілі є кріплення для накопичувача 2.5\". Опційний кронштейн дозволяє розмістити 1×3.5\" і 1×2.5\" диск під 120-мм AIO або 2×3.5\" і 1×2.5\" замість радіатора. Окремий адаптер дає змогу встановити 3.5-дюймовий диск на місце одного заднього накопичувача 2.5\".\n\nВказаний профіль MakerWorld друкується з PETG соплом 0.4 мм, шаром 0.2 мм, трьома стінками та 20% заповненням. Базовий комплект займає 10 пластин, близько 18 годин машинного часу та приблизно 638 г пластику. Для корпусу біля гарячих компонентів рекомендований PETG; автор також передбачає друк з ABS/ASA.\n\nУ базову ціну входять лише FDM-друковані деталі основної PETG-рами за вибраним профілем. Материнська плата, процесор і кулер, відеокарта, AIO, блок живлення, накопичувачі, PCIe-riser, 12-мм кнопка живлення, кабельні стяжки, латунні термовставки M3, гвинти M3 і #6-32 та інша електроніка або кріплення не входять і рахуються окремо. Детальна PDF-інструкція зі складання доступна на сторінці моделі.\n\nПеред друком узгоджуються форм-фактор плати, варіант охолодження, орієнтація відеокарти, набір кронштейнів, колір і матеріал. Виготовлення на замовлення можливе за умови наявності належного дозволу автора моделі на комерційний друк.",
+  "price": 2200,
+  "priceLabel": "Ціна від",
+  "priceNote": "Базова ціна за друк основної рами з PETG за профілем на 638 г. Ніжки для 360-мм AIO, верхні кронштейни 240/280 мм, вертикальний монтаж GPU, опори, тримачі накопичувачів, кріплення, електроніка та складання рахуються окремо.",
+  "category": "Комп'ютерні комплектуючі",
+  "material": "PETG",
+  "leadTime": "3–5 днів",
+  "variantSummary": "ATX / mATX / Mini-ITX, ATX PSU, AIO 120–360 мм, 638 г PETG",
+  "variants": [
+    {
+      "name": "Базова PETG-рама з підтримкою AIO",
+      "badge": "ціна від",
+      "description": "Основний комплект вибраного профілю MakerWorld: 10 пластин, приблизно 638 г PETG і 18 годин друку. Підтримує ATX, mATX, Mini-ITX та AIO 120/140/240/280 мм; для 360 мм потрібні додаткові ніжки."
+    },
+    {
+      "name": "Версія без бокового AIO",
+      "description": "Полегшена конфігурація рами приблизно на 566 г PETG. За потреби можна додати оновлені верхні кронштейни під радіатор 240 або 280 мм."
+    },
+    {
+      "name": "Адаптери ніжок для 360-мм AIO",
+      "description": "Додатковий комплект, що збільшує висоту корпусу приблизно на 50–60 мм і звільняє місце для 360-мм радіатора. Друкується та розраховується окремо."
+    },
+    {
+      "name": "Вертикальний монтаж відеокарти",
+      "description": "Опційні кронштейни на два або три слоти та кріплення під сумісний PCIe-riser. Riser-кабель не входить; перед друком потрібно погодити його модель і габарити відеокарти."
+    },
+    {
+      "name": "Опори GPU та кріплення накопичувачів",
+      "description": "Регульована опора для важкої відеокарти, тримачі 2.5\"/3.5\" і потрібні адаптери можна додати до комплекту після перевірки конкретної конфігурації ПК."
+    }
+  ],
+  "images": [
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_945e447e212b78.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_440d505eeaa468.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_a3afc01341614.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_c5230ae97ea2d.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_1f15678b8ab6a8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_a389c128826818.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_20eab80f93d338.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_3e60f56e06a4b8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_de27aa2f2264f.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_d96fd97c8c0ca.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_c586d3ccb4ddc.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_8f7c713c432708.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_5d6c840d97c258.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_08d7f5b58ed33.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_16f9f486855fc.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_67d34079984f88.jpg?x-oss-process=image/resize,w_1000/format,webp"
+  ]
+}
