@@ -1,0 +1,45 @@
+{
+  "slug": "shukhliady-dlia-10-inch-lab-rax-rack-gridfinity-1u-2u",
+  "title": "Шухляди для 10\" Lab Rax — Gridfinity 1U / 2U",
+  "shortDescription": "Висувні шухляди для повноглибинної 10-дюймової стійки Lab Rax: низька версія 1U та висока 2U з внутрішньою сіткою Gridfinity 5×5.",
+  "description": "Шухляди для 10\" Lab Rax перетворюють вільне місце у компактній HomeLab-стійці на зручне сховище для кабелів, перехідників, кріплення, інструментів та інших дрібниць.\n\nДоступні дві основні версії з внутрішньою сіткою Gridfinity 5×5. Низька шухляда займає 1U у стійці та має корисну висоту Gridfinity 5U. Висока версія займає 2U й розрахована на контейнери Gridfinity висотою до 11U. Також можна надрукувати окремі шухляди з рівним дном без Gridfinity.\n\nМодель створена спеціально для стандартної повноглибинної Lab Rax. Напрямні використовують передні та задні точки кріплення, тому навантаження розподіляється на чотири точки. Через це сумісність з іншими 10-дюймовими стійками не гарантована — перед замовленням варто звірити глибину й розташування отворів.\n\nДля обох розмірів використовуються однакові основні напрямні на рівні першого U. Для високої шухляди можна додати бічні напрямні висотою 1U у другій позиції, але вони не є обов'язковими. Стандартно напрямні та бічні упори друкуються вертикально з підтримками.\n\nДоступна додаткова засувка, яка запобігає випадковому відкриванню шухляди. Для неї потрібен гвинт M6×16; різьбу необхідно зафіксувати анаеробним фіксатором на кшталт Loctite, щоб гвинт не послаблювався під час користування.\n\nБазовий профіль MakerWorld: PETG, шар 0.2 мм, 4 стінки та 15% заповнення. Повний профіль з деталями обох розмірів займає 4 пластини, близько 19 годин друку та приблизно 885 г PETG. Окремий профіль шухляд без Gridfinity-днища займає 2 пластини, близько 6 годин 14 хвилин і 408 г PETG.\n\nІснує експериментальний профіль, у якому напрямні друкуються плазом на всій площі столу. Він потребує вимкнення забороненої зони друку та зовнішньої котушки без AMS, тому стандартно не використовується; такий варіант можна погодити окремо.\n\nУ базову вартість входять пластикові деталі однієї шухляди обраної висоти та її напрямні. Контейнери Gridfinity, стійка Lab Rax, кріплення, гвинт M6×16, фіксатор різьби, обладнання й інші комплектуючі не входять і рахуються окремо. Перед друком потрібно погодити висоту 1U або 2U, тип дна, колір, засувку та необхідність додаткових бічних напрямних.",
+  "price": 1700,
+  "priceLabel": "Ціна від",
+  "priceNote": "Базова ціна за друк однієї шухляди з напрямними із PETG. Gridfinity-контейнери, засувка, кріплення, фіксатор різьби та стійка Lab Rax рахуються окремо.",
+  "category": "Мережеві аксесуари",
+  "material": "PETG",
+  "leadTime": "3–5 днів",
+  "variantSummary": "1U / 2U, Gridfinity 5×5 або рівне дно, опційна засувка",
+  "variants": [
+    {
+      "name": "Низька шухляда 1U",
+      "badge": "ціна від",
+      "description": "Компактна версія з внутрішньою сіткою Gridfinity 5×5 і корисною висотою 5U. Займає одну rack-позицію у повноглибинній Lab Rax."
+    },
+    {
+      "name": "Висока шухляда 2U",
+      "description": "Збільшена версія з сіткою Gridfinity 5×5 і корисною висотою 11U. За потреби комплектується додатковими бічними напрямними у другій rack-позиції."
+    },
+    {
+      "name": "Шухляда без Gridfinity-днища",
+      "description": "Варіант із рівним внутрішнім дном для зберігання речей без Gridfinity-контейнерів; доступний у низькому та високому розмірі."
+    },
+    {
+      "name": "Засувка від випадкового відкривання",
+      "description": "Додаткова друкована засувка під гвинт M6×16. Гвинт і анаеробний фіксатор різьби до базового комплекту не входять."
+    }
+  ],
+  "images": [
+    "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/7f00be176af03d0e.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/55ad1f487fc74849.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/ac78a0d882874a55.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/e2b339cf3b954e9a.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/98afee3297a5b399.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/3fca0a494216cd83.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/7597096b40ce17f7.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/780987835162330f.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/c244c9c3abfd7399.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/f55c8c654f5cb792.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/72b054043426747b.jpg?x-oss-process=image/resize,w_1000/format,webp"
+  ]
+}
