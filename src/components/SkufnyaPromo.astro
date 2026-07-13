@@ -228,12 +228,25 @@ const hasProducts = products.length > 0;
   }
 
   .skufnya-promo__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
     margin: 0 0 var(--space-2);
-    color: var(--copper);
+    color: var(--text-kicker);
     font-size: var(--fs-xs);
     font-weight: var(--fw-bold);
     letter-spacing: 0.12em;
     text-transform: uppercase;
+  }
+
+  .skufnya-promo__eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: currentColor;
+    transform: rotate(45deg);
+    opacity: 0.85;
+    flex-shrink: 0;
   }
 
   .skufnya-promo__copy h2 {

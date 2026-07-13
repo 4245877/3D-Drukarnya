@@ -191,6 +191,60 @@ const catalogSchema = {
               </a>
             </div>
           </div>
+
+          <div class="catalog-hero__aside" aria-hidden="true">
+            <div class="catalog-hero__emblem">
+              <svg viewBox="0 0 200 236" role="presentation" focusable="false">
+                <defs>
+                  <linearGradient id="heroShield" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#8E3F43" />
+                    <stop offset="0.55" stop-color="#AC4151" />
+                    <stop offset="1" stop-color="#C88463" />
+                  </linearGradient>
+                  <radialGradient id="heroCore" cx="0.5" cy="0.42" r="0.6">
+                    <stop offset="0" stop-color="#E8D8BE" stop-opacity="0.95" />
+                    <stop offset="1" stop-color="#E8D8BE" stop-opacity="0" />
+                  </radialGradient>
+                  <clipPath id="heroShieldClip">
+                    <path d="M100 16 C130 32 158 36 178 40 C178 96 176 164 100 220 C24 164 22 96 22 40 C42 36 70 32 100 16 Z" />
+                  </clipPath>
+                </defs>
+
+                <path
+                  d="M100 16 C130 32 158 36 178 40 C178 96 176 164 100 220 C24 164 22 96 22 40 C42 36 70 32 100 16 Z"
+                  fill="url(#heroShield)"
+                />
+
+                <g clip-path="url(#heroShieldClip)" fill="none" stroke="#E8D8BE" stroke-linecap="round">
+                  <circle cx="100" cy="120" r="54" stroke-opacity="0.16" stroke-width="12" />
+                  <circle cx="100" cy="120" r="36" stroke-opacity="0.26" stroke-width="10" />
+                </g>
+
+                <circle cx="100" cy="120" r="18" fill="url(#heroCore)" />
+
+                <path
+                  d="M100 30 C126 44 150 48 167 52 C167 100 165 158 100 205 C35 158 33 100 33 52 C50 48 74 44 100 30 Z"
+                  fill="none"
+                  stroke="#E8D8BE"
+                  stroke-opacity="0.32"
+                  stroke-width="2"
+                />
+
+                <path
+                  class="emblem-spark"
+                  d="M150 58 l3.2 9.4 9.4 3.2 -9.4 3.2 -3.2 9.4 -3.2 -9.4 -9.4 -3.2 9.4 -3.2 z"
+                  fill="#E8D8BE"
+                  fill-opacity="0.9"
+                />
+                <path
+                  class="emblem-spark emblem-spark--sm"
+                  d="M60 84 l2.2 6.4 6.4 2.2 -6.4 2.2 -2.2 6.4 -2.2 -6.4 -6.4 -2.2 6.4 -2.2 z"
+                  fill="#E8D8BE"
+                  fill-opacity="0.75"
+                />
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -231,12 +285,12 @@ const catalogSchema = {
 
               <div class="catalog-filter-section__body">
                 <div class="catalog-filter-section__inner">
-                  <div class="catalog-pill-grid">
-                    <span class="catalog-pill-option is-selected">PLA</span>
-                    <span class="catalog-pill-option is-selected">PETG</span>
-                    <span class="catalog-pill-option is-selected">Корпуси</span>
-                    <span class="catalog-pill-option is-selected">Прототипи</span>
-                  </div>
+                  <ul class="catalog-tag-list">
+                    <li class="tag tag--copper">PLA</li>
+                    <li class="tag tag--copper">PETG</li>
+                    <li class="tag tag--copper">Корпуси</li>
+                    <li class="tag tag--copper">Прототипи</li>
+                  </ul>
                 </div>
               </div>
             </div>

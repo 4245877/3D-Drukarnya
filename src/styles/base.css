@@ -28,6 +28,10 @@
   --text-muted:    #725848;
   --text-inverse:  #F5EDE0;
   --text-accent:   #AC4151;
+  /* Kicker/eyebrow labels on LIGHT backgrounds. Copper (#D99A74) only reaches
+     ~2:1 on cream and fails WCAG; burgundy gives ~6:1. Use --copper only on
+     dark surfaces (hero, footer). */
+  --text-kicker:   #8E3F43;
 
   --accent-primary:  #AC4151;        /* Raphtalia red - CTAs, highlights */
   --accent-hover:    #8E3F43;
@@ -53,7 +57,9 @@
   --shadow-rose: 0 0 24px rgba(162,90,108,.25);
 
   /* Typography */
-  --font-display: 'Cinzel Decorative', serif;
+  /* Display font must cover Cyrillic — Playfair Display ships full Cyrillic,
+     unlike Cinzel Decorative (Latin-only), which broke Ukrainian headings. */
+  --font-display: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
   --font-serif:   'Cormorant Garamond', Georgia, serif;
   --font-body:    'Mulish', system-ui, sans-serif;
 
@@ -140,6 +146,7 @@
 
   /* Nav */
   --nav-h: 72px;
+  --header-h: 64px;
 }
 
 /* ── Reset & Base ─────────────────────────────────────────── */
@@ -151,6 +158,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Offset anchor jumps so targets clear the sticky header */
+  scroll-padding-top: calc(var(--header-h) + var(--space-4));
   -webkit-text-size-adjust: 100%;
   font-size: 16px;
   line-height: var(--lh-normal);
@@ -163,8 +172,10 @@ body {
   color: var(--text-primary);
   background-color: var(--bg-base);
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(142,63,67,.12) 0%, transparent 60%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ccircle cx='40' cy='40' r='.7' fill='%23B89A61' fill-opacity='.18'/%3E%3C/svg%3E");
+    radial-gradient(ellipse 90% 55% at 50% -12%, rgba(142,63,67,.12) 0%, transparent 62%),
+    radial-gradient(ellipse 55% 45% at 94% 106%, rgba(217,154,116,.10) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96'%3E%3Cpath d='M48 34 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z' fill='%23C88463' fill-opacity='.09'/%3E%3Ccircle cx='11' cy='13' r='.8' fill='%23B89A61' fill-opacity='.20'/%3E%3Ccircle cx='83' cy='75' r='.8' fill='%23B89A61' fill-opacity='.20'/%3E%3C/svg%3E");
+  background-attachment: fixed, fixed, scroll;
   min-height: 100dvh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;

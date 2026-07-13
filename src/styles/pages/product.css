@@ -27,7 +27,7 @@
 
 .product-page__summary-card {
   position: sticky;
-  top: var(--space-4);
+  top: calc(var(--header-h) + var(--space-4));
   padding: var(--space-6);
   display: flex;
   flex-direction: column;
@@ -47,8 +47,8 @@
   padding: 0.45rem 0.8rem;
   margin: 0;
   border-radius: var(--radius-full);
-  background: rgba(184, 154, 97, 0.12);
-  color: var(--copper);
+  background: rgba(142, 63, 67, 0.1);
+  color: var(--text-kicker);
   font-size: var(--fs-xs);
   font-weight: var(--fw-bold);
   letter-spacing: 0.08em;
@@ -201,12 +201,25 @@
 }
 
 .product-page__section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
   margin: 0 0 var(--space-2);
   font-size: var(--fs-xs);
   font-weight: var(--fw-bold);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--copper);
+  color: var(--text-kicker);
+}
+
+.product-page__section-kicker::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+  transform: rotate(45deg);
+  opacity: 0.85;
+  flex-shrink: 0;
 }
 
 .product-page__section-card h2 {

@@ -1,0 +1,38 @@
+---
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+const OLX_URL = 'https://www.olx.ua/uk/list/user/15L7LS/';
+
+const links = [
+  { label: 'Каталог', href: base },
+  { label: 'Послуги', href: `${base}#services-title` },
+  { label: 'Матеріали', href: `${base}#materials-title` },
+  { label: 'Доставка', href: `${base}#order-title` },
+];
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-header__logo" href={base} aria-label="3D Друкарня — на головну">
+      <span class="site-header__logo-mark" aria-hidden="true">3D</span>
+      <span class="site-header__logo-text">Друкарня</span>
+    </a>
+
+    <nav class="site-header__nav" aria-label="Головна навігація">
+      {links.map((link) => (
+        <a class="site-header__link" href={link.href}>{link.label}</a>
+      ))}
+    </nav>
+
+    <a
+      class="btn btn--primary btn--sm site-header__cta"
+      href={OLX_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Замовити
+    </a>
+  </div>
+</header>
