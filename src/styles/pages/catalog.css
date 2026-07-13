@@ -33,7 +33,9 @@
 .catalog-hero {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(130deg, #1A0E08 0%, #2E1B10 40%, #6B3040 75%, #C88463 100%);
+  /* Lighter than the old near-black start so the block reads clean/lively,
+     while keeping the Raphtalia burgundy→copper run and cream-text contrast. */
+  background: linear-gradient(130deg, #281A12 0%, #3E2718 38%, #743445 72%, #C88463 100%);
   padding: var(--space-10) 0;
 }
 
@@ -42,6 +44,8 @@
   position: absolute;
   inset: 0;
   background:
+    /* Cool steel note (Raphtalia's blue/steel accent) to lift the warm mass */
+    radial-gradient(ellipse 46% 58% at 82% 8%, rgba(169,174,184,.16) 0%, transparent 60%),
     radial-gradient(ellipse 60% 90% at 90% 60%, rgba(217,154,116,.22) 0%, transparent 55%),
     radial-gradient(ellipse 40% 55% at 10% 80%, rgba(181,106,124,.18) 0%, transparent 55%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ccircle cx='50' cy='50' r='.8' fill='%23E8D8BE' fill-opacity='.10'/%3E%3C/svg%3E");
@@ -110,7 +114,7 @@
   color: var(--cream);
   line-height: 1.08;
   letter-spacing: -0.04em;
-  text-shadow: 0 4px 32px rgba(0,0,0,.45);
+  text-shadow: 0 4px 28px rgba(0,0,0,.35);
   margin-bottom: var(--space-3);
   overflow-wrap: break-word;
   animation: fadeUp var(--dur-slow) var(--ease-out) 120ms both;
@@ -178,7 +182,8 @@
   font-size: var(--fs-xs);
   font-weight: var(--fw-medium);
   letter-spacing: 0.06em;
-  color: rgba(232,216,190,.55);
+  /* Raised from .55 → .72 so the small caps clear WCAG on the dark hero */
+  color: rgba(232,216,190,.72);
   text-transform: uppercase;
 }
 
@@ -650,17 +655,29 @@
   }
 }
 
-/* ── 900px: hide the rack, center the hero copy ──────────── */
+/* ── 900px: stack the rack under the centered copy (never hide it) ── */
 
 @media (max-width: 900px) {
-  .catalog-hero__aside {
-    display: none;
+  .catalog-hero__inner {
+    flex-direction: column;
+    justify-content: center;
   }
 
-  .catalog-hero__inner { justify-content: center; }
-  .catalog-hero__left  { text-align: center; }
-  .catalog-hero__stats { justify-content: center; }
+  .catalog-hero__left {
+    text-align: center;
+    min-width: 0;
+  }
+
+  .catalog-hero__stats,
   .catalog-hero__eyebrow { justify-content: center; }
+
+  /* Rack drops below the text, centered and smaller — stays a live accent */
+  .catalog-hero__aside {
+    order: 2;
+    margin-top: var(--space-6);
+  }
+
+  .catalog-hero__rack { width: clamp(200px, 60vw, 300px); }
 }
 
 /* ── 1024px: sidebar becomes drawer ──────────────────────── */
@@ -735,6 +752,8 @@
   .catalog-hero { padding: var(--space-6) 0; }
 
   .catalog-hero__stat-pill { padding: var(--space-1) var(--space-3); }
+
+  .catalog-hero__rack { width: clamp(180px, 66vw, 260px); }
 
   .catalog-grid {
     grid-template-columns: repeat(2, 1fr);

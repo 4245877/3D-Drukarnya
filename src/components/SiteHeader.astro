@@ -34,5 +34,50 @@ const links = [
     >
       Замовити
     </a>
+
+    <button
+      class="site-header__burger"
+      type="button"
+      aria-label="Відкрити меню"
+      aria-expanded="false"
+      aria-controls="site-header-menu"
+    >
+      <span></span><span></span><span></span>
+    </button>
   </div>
+
+  <nav
+    id="site-header-menu"
+    class="site-header__drawer"
+    aria-label="Мобільна навігація"
+  >
+    {links.map((link) => (
+      <a class="site-header__drawer-link" href={link.href}>{link.label}</a>
+    ))}
+  </nav>
 </header>
+
+<script>
+  const burger = document.querySelector<HTMLButtonElement>('.site-header__burger');
+  const drawer = document.getElementById('site-header-menu');
+
+  if (burger && drawer) {
+    const setOpen = (open: boolean) => {
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Закрити меню' : 'Відкрити меню');
+      drawer.classList.toggle('is-open', open);
+    };
+
+    burger.addEventListener('click', () => {
+      setOpen(burger.getAttribute('aria-expanded') !== 'true');
+    });
+
+    drawer.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setOpen(false));
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    });
+  }
+</script>

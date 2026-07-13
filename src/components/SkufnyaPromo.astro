@@ -142,7 +142,10 @@ const hasProducts = products.length > 0;
                 rel="noopener noreferrer"
                 aria-label={`Відкрити товар SKUFNYA: ${product.title}`}
               >
-                {product.imageUrl ? (
+                <span class="skufnya-promo-card__image-placeholder" aria-hidden="true">
+                  SKUFNYA
+                </span>
+                {product.imageUrl && (
                   <img
                     class="skufnya-promo-card__image"
                     src={product.imageUrl}
@@ -151,9 +154,8 @@ const hasProducts = products.length > 0;
                     height="420"
                     loading="lazy"
                     decoding="async"
+                    onerror="this.remove()"
                   />
-                ) : (
-                  <span class="skufnya-promo-card__image-placeholder">SKUFNYA</span>
                 )}
               </a>
 
@@ -304,6 +306,12 @@ const hasProducts = products.length > 0;
     background:
       radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.2), transparent 44%),
       linear-gradient(135deg, rgba(217, 154, 116, 0.16), rgba(142, 63, 67, 0.1));
+  }
+
+  /* Placeholder and image share one cell: the image covers the placeholder
+     while it loads, and the branded fallback stays visible if it never does. */
+  .skufnya-promo-card__image-link > * {
+    grid-area: 1 / 1;
   }
 
   .skufnya-promo-card__image {

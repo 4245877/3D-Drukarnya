@@ -87,6 +87,11 @@
 
 .product-card__category {
   align-self: flex-start;
+  /* Global .tag is nowrap; in the 2-col mobile grid a long category name is
+     wider than the column and gets clipped by the card's overflow:hidden.
+     Cap to the card width and let it wrap instead. */
+  max-width: 100%;
+  white-space: normal;
 }
 
 .product-card__title {
