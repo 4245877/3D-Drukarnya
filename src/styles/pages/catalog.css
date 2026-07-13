@@ -2,7 +2,7 @@
    CATALOG.CSS — 3D Друкарня catalog page
    Depends on: base.css · layout.css
    Sections:
-     1. Catalog hero (slim) + Raphtalia emblem
+     1. Catalog hero (slim) + Home Lab rack illustration
      5. Controls bar (results count)
      6. Main layout — sidebar + product grid
     11. Empty state
@@ -188,7 +188,7 @@
   50%      { background-position: 100% center; }
 }
 
-/* ── Catalog Hero — Raphtalia emblem (Shield Hero crest) ──── */
+/* ── Catalog Hero — Home Lab rack illustration ────────────── */
 
 .catalog-hero__aside {
   position: relative;
@@ -199,51 +199,69 @@
   animation: fadeUp var(--dur-slow) var(--ease-out) 320ms both;
 }
 
-.catalog-hero__emblem {
+/* Static, grounded rack: no float — only quiet LED/cable/sheen life */
+.catalog-hero__rack {
   position: relative;
-  width: clamp(190px, 17vw, 264px);
-  animation: heroEmblemFloat 6s var(--ease-in-out) infinite;
-  filter: drop-shadow(0 20px 42px rgba(42, 20, 8, 0.42));
+  width: clamp(240px, 22vw, 340px);
+  filter: drop-shadow(0 18px 38px rgba(26, 10, 6, 0.45));
 }
 
-.catalog-hero__emblem::before {
+.catalog-hero__rack::before {
   content: '';
   position: absolute;
-  inset: -24%;
+  inset: -10% -14%;
   z-index: -1;
-  background: radial-gradient(circle at 50% 42%, rgba(217, 154, 116, 0.4), transparent 62%);
-  animation: heroEmblemPulse 5s var(--ease-in-out) infinite;
+  background: radial-gradient(circle at 50% 55%, rgba(217, 154, 116, 0.32), transparent 64%);
+  animation: rackGlowPulse 9s var(--ease-in-out) infinite;
 }
 
-.catalog-hero__emblem svg {
+.catalog-hero__rack svg {
   width: 100%;
   height: auto;
   display: block;
 }
 
-.catalog-hero__emblem .emblem-spark {
-  transform-origin: center;
-  animation: emblemTwinkle 3.6s var(--ease-in-out) infinite;
+/* Warm LEDs: staggered activity blink on three indicators */
+.catalog-hero__rack .rack-led--blink-a { animation: rackLedBlink 3.4s var(--ease-in-out) infinite; }
+.catalog-hero__rack .rack-led--blink-b { animation: rackLedBlink 4.6s var(--ease-in-out) infinite 1.2s; }
+.catalog-hero__rack .rack-led--blink-c { animation: rackLedBlink 5.6s var(--ease-in-out) infinite 2.4s; }
+
+/* Rare light pulse travelling along the patch cable (pathLength=100) */
+.catalog-hero__rack .rack-cable-pulse {
+  stroke-dasharray: 14 114;
+  stroke-dashoffset: 130;
+  opacity: 0;
+  animation: rackCablePulse 7s linear infinite 1.5s;
 }
 
-.catalog-hero__emblem .emblem-spark--sm {
-  animation-delay: 1.4s;
-  animation-duration: 4.2s;
+/* Barely-there sheen drift on the front plane */
+.catalog-hero__rack .rack-sheen {
+  animation: rackSheenDrift 11s var(--ease-in-out) infinite alternate;
 }
 
-@keyframes heroEmblemFloat {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-10px); }
-}
-
-@keyframes heroEmblemPulse {
-  0%, 100% { opacity: 0.65; }
+@keyframes rackGlowPulse {
+  0%, 100% { opacity: 0.7; }
   50%      { opacity: 1; }
 }
 
-@keyframes emblemTwinkle {
-  0%, 100% { opacity: 0.35; transform: scale(0.82); }
-  50%      { opacity: 0.95; transform: scale(1.12); }
+@keyframes rackLedBlink {
+  0%, 100% { opacity: 1; }
+  12%      { opacity: 0.25; }
+  24%      { opacity: 0.9; }
+  36%      { opacity: 0.45; }
+  50%      { opacity: 1; }
+}
+
+@keyframes rackCablePulse {
+  0%        { stroke-dashoffset: 130; opacity: 0; }
+  4%        { opacity: 0.9; }
+  30%       { opacity: 0.9; }
+  36%, 100% { stroke-dashoffset: -104; opacity: 0; }
+}
+
+@keyframes rackSheenDrift {
+  from { transform: translateX(-10px); }
+  to   { transform: translateX(12px); }
 }
 
 /* ─────────────────────────────────────────────────────────── */
@@ -266,11 +284,10 @@
   flex-wrap: wrap;
 }
 
-/* Results count */
+/* Results count (also reused for sidebar info paragraphs — must wrap) */
 .catalog-results-count {
   font-size: var(--fs-sm);
   color: var(--text-muted);
-  white-space: nowrap;
 }
 
 .catalog-results-count strong {
@@ -625,9 +642,17 @@
   }
 }
 
-/* ── 1200px: collapse hero preview strip ─────────────────── */
+/* ── 1200px: shrink the hero rack, keep it beside the text ── */
 
 @media (max-width: 1200px) {
+  .catalog-hero__rack {
+    width: clamp(190px, 24vw, 250px);
+  }
+}
+
+/* ── 900px: hide the rack, center the hero copy ──────────── */
+
+@media (max-width: 900px) {
   .catalog-hero__aside {
     display: none;
   }
@@ -726,9 +751,16 @@
 @media (prefers-reduced-motion: reduce) {
   .catalog-hero__title .highlight { animation: none; }
 
-  .catalog-hero__emblem,
-  .catalog-hero__emblem::before,
-  .catalog-hero__emblem .emblem-spark { animation: none; }
+  .catalog-hero__rack::before,
+  .catalog-hero__rack .rack-led--blink-a,
+  .catalog-hero__rack .rack-led--blink-b,
+  .catalog-hero__rack .rack-led--blink-c,
+  .catalog-hero__rack .rack-sheen { animation: none; }
+
+  .catalog-hero__rack .rack-cable-pulse {
+    animation: none;
+    opacity: 0;
+  }
 
   .catalog-no-results__art { animation: none; }
 }

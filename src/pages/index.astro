@@ -193,55 +193,205 @@ const catalogSchema = {
           </div>
 
           <div class="catalog-hero__aside" aria-hidden="true">
-            <div class="catalog-hero__emblem">
-              <svg viewBox="0 0 200 236" role="presentation" focusable="false">
+            <div class="catalog-hero__rack">
+              <!--
+                Isometric open 10" home-lab rack (5U): patch panel, switch,
+                mini-PC on a printed shelf, 4-bay NAS. 2:1 isometric grid:
+                front-plane lines slope dy = +dx/2, side-plane dy = -dx/2.
+                Printed parts (frame, rail, shelf, feet) = burgundy/copper,
+                equipment = graphite/steel, highlights = cream, LEDs = warm.
+              -->
+              <svg viewBox="0 0 400 300" role="presentation" focusable="false">
                 <defs>
-                  <linearGradient id="heroShield" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stop-color="#8E3F43" />
-                    <stop offset="0.55" stop-color="#AC4151" />
-                    <stop offset="1" stop-color="#C88463" />
+                  <linearGradient id="hlr-print-front" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#A64B52" />
+                    <stop offset="0.55" stop-color="#8E3F43" />
+                    <stop offset="1" stop-color="#6F3036" />
                   </linearGradient>
-                  <radialGradient id="heroCore" cx="0.5" cy="0.42" r="0.6">
-                    <stop offset="0" stop-color="#E8D8BE" stop-opacity="0.95" />
+                  <linearGradient id="hlr-print-side" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#78333A" />
+                    <stop offset="1" stop-color="#54262C" />
+                  </linearGradient>
+                  <linearGradient id="hlr-print-top" x1="0" y1="0" x2="1" y2="0.5">
+                    <stop offset="0" stop-color="#D99A74" />
+                    <stop offset="1" stop-color="#BC7551" />
+                  </linearGradient>
+                  <linearGradient id="hlr-gear-front" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#545B66" />
+                    <stop offset="1" stop-color="#3A414B" />
+                  </linearGradient>
+                  <linearGradient id="hlr-tray-front" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#5A616C" />
+                    <stop offset="1" stop-color="#434A55" />
+                  </linearGradient>
+                  <linearGradient id="hlr-shelf-front" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#D2916B" />
+                    <stop offset="1" stop-color="#AC5F45" />
+                  </linearGradient>
+                  <linearGradient id="hlr-sheen-grad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stop-color="#E8D8BE" stop-opacity="0" />
+                    <stop offset="0.5" stop-color="#E8D8BE" stop-opacity="0.07" />
                     <stop offset="1" stop-color="#E8D8BE" stop-opacity="0" />
-                  </radialGradient>
-                  <clipPath id="heroShieldClip">
-                    <path d="M100 16 C130 32 158 36 178 40 C178 96 176 164 100 220 C24 164 22 96 22 40 C42 36 70 32 100 16 Z" />
+                  </linearGradient>
+                  <clipPath id="hlr-front-clip">
+                    <path d="M105 42 L229 104 L229 272 L105 210 Z" />
                   </clipPath>
+                  <clipPath id="hlr-bay-clip">
+                    <path d="M131 99 L231 149 L231 179 L131 129 Z" />
+                  </clipPath>
+                  <filter id="hlr-shadow-blur" x="-25%" y="-40%" width="150%" height="180%">
+                    <feGaussianBlur stdDeviation="5" />
+                  </filter>
                 </defs>
 
-                <path
-                  d="M100 16 C130 32 158 36 178 40 C178 96 176 164 100 220 C24 164 22 96 22 40 C42 36 70 32 100 16 Z"
-                  fill="url(#heroShield)"
-                />
+                <!-- Ground shadow hugging the footprint -->
+                <path class="rack-shadow" d="M94 218 L229 285 L306 247 L171 180 Z" fill="#160B06" opacity="0.36" filter="url(#hlr-shadow-blur)" />
 
-                <g clip-path="url(#heroShieldClip)" fill="none" stroke="#E8D8BE" stroke-linecap="round">
-                  <circle cx="100" cy="120" r="54" stroke-opacity="0.16" stroke-width="12" />
-                  <circle cx="100" cy="120" r="36" stroke-opacity="0.26" stroke-width="10" />
+                <!-- Printed rubber-like feet -->
+                <g class="rack-feet" fill="#4A2226">
+                  <rect x="100" y="208" width="12" height="8" rx="2" />
+                  <rect x="223" y="270" width="12" height="8" rx="2" />
+                  <rect x="289" y="237" width="12" height="8" rx="2" />
                 </g>
 
-                <circle cx="100" cy="120" r="18" fill="url(#heroCore)" />
+                <!-- Printed base slab (floor of the frame) -->
+                <g class="rack-base">
+                  <path d="M105 198 L229 260 L295 227 L171 165 Z" fill="url(#hlr-print-top)" />
+                  <path d="M105 210 L229 272 L229 260 L105 198 Z" fill="url(#hlr-print-front)" />
+                  <path d="M229 272 L295 239 L295 227 L229 260 Z" fill="url(#hlr-print-side)" />
+                </g>
 
-                <path
-                  d="M100 30 C126 44 150 48 167 52 C167 100 165 158 100 205 C35 158 33 100 33 52 C50 48 74 44 100 30 Z"
-                  fill="none"
-                  stroke="#E8D8BE"
-                  stroke-opacity="0.32"
-                  stroke-width="2"
-                />
+                <!-- Dark interior behind the equipment -->
+                <g class="rack-interior">
+                  <path d="M125 52 L231 105 L231 249 L125 196 Z" fill="#17100C" />
+                  <path d="M231 105 L283 79 L283 223 L231 249 Z" fill="#120C09" />
+                </g>
 
-                <path
-                  class="emblem-spark"
-                  d="M150 58 l3.2 9.4 9.4 3.2 -9.4 3.2 -3.2 9.4 -3.2 -9.4 -9.4 -3.2 9.4 -3.2 z"
-                  fill="#E8D8BE"
-                  fill-opacity="0.9"
-                />
-                <path
-                  class="emblem-spark emblem-spark--sm"
-                  d="M60 84 l2.2 6.4 6.4 2.2 -6.4 2.2 -2.2 6.4 -2.2 -6.4 -6.4 -2.2 6.4 -2.2 z"
-                  fill="#E8D8BE"
-                  fill-opacity="0.75"
-                />
+                <!-- Equipment stack (top to bottom) -->
+                <g class="rack-gear">
+                  <!-- 1U patch panel -->
+                  <g class="gear-patch">
+                    <path d="M131 57 L231 107 L241 102 L141 52 Z" fill="#4A515B" />
+                    <path d="M131 57 L231 107 L231 125 L131 75 Z" fill="url(#hlr-gear-front)" />
+                    <path d="M231 107 L281 82 L281 100 L231 125 Z" fill="#2B3037" />
+                    <path d="M131 57 L231 107" stroke="#E8D8BE" stroke-opacity="0.2" stroke-width="1" fill="none" />
+                    <g fill="#15100D">
+                      <path d="M139 74 L149 79 L149 71 L139 66 Z" />
+                      <path d="M153 81 L163 86 L163 78 L153 73 Z" />
+                      <path d="M167 88 L177 93 L177 85 L167 80 Z" />
+                      <path d="M181 95 L191 100 L191 92 L181 87 Z" />
+                      <path d="M195 102 L205 107 L205 99 L195 94 Z" />
+                      <path d="M209 109 L219 114 L219 106 L209 101 Z" />
+                    </g>
+                    <path d="M154 80 L162 84 L162 76 L154 72 Z" fill="#C88463" />
+                  </g>
+
+                  <!-- 1U network switch -->
+                  <g class="gear-switch">
+                    <path d="M131 77 L231 127 L231 147 L131 97 Z" fill="url(#hlr-gear-front)" />
+                    <path d="M231 127 L281 102 L281 122 L231 147 Z" fill="#2B3037" />
+                    <path d="M131 77 L231 127" stroke="#E8D8BE" stroke-opacity="0.18" stroke-width="1" fill="none" />
+                    <g fill="#15100D">
+                      <path d="M139 95 L147 99 L147 92 L139 88 Z" />
+                      <path d="M151 101 L159 105 L159 98 L151 94 Z" />
+                      <path d="M163 107 L171 111 L171 104 L163 100 Z" />
+                      <path d="M175 113 L183 117 L183 110 L175 106 Z" />
+                    </g>
+                    <path d="M175.5 112 L182.5 115.5 L182.5 109 L175.5 105.5 Z" fill="#C88463" />
+                    <g class="rack-led">
+                      <circle cx="203" cy="123" r="2.4" fill="#FFC98A" opacity="0.85" />
+                    </g>
+                    <g class="rack-led rack-led--blink-a">
+                      <circle cx="212" cy="127.5" r="5" fill="#FFB25E" opacity="0.25" />
+                      <circle cx="212" cy="127.5" r="2.5" fill="#FFC98A" />
+                    </g>
+                    <g class="rack-led">
+                      <circle cx="221" cy="132" r="2.4" fill="#FFC98A" opacity="0.85" />
+                    </g>
+                  </g>
+
+                  <!-- Mini-PC bay on a printed shelf -->
+                  <g class="gear-bay">
+                    <path d="M131 99 L231 149 L231 179 L131 129 Z" fill="#1B1511" />
+                    <path d="M231 149 L281 124 L281 154 L231 179 Z" fill="#1A1E24" />
+                    <g clip-path="url(#hlr-bay-clip)">
+                      <path d="M131 123 L231 173 L241 168 L141 118 Z" fill="#D99A74" />
+                      <path d="M139 110 L185 133 L201 125 L155 102 Z" fill="#59606B" />
+                      <path d="M139 110 L185 133 L185 150 L139 127 Z" fill="url(#hlr-gear-front)" />
+                      <path d="M185 133 L201 125 L201 142 L185 150 Z" fill="#2A2F36" />
+                      <g fill="#15100D">
+                        <path d="M146 129 L151 131.5 L151 126.5 L146 124 Z" />
+                        <path d="M154 133 L159 135.5 L159 130.5 L154 128 Z" />
+                      </g>
+                      <g class="rack-led rack-led--blink-c">
+                        <circle cx="177" cy="139" r="4.5" fill="#FFB25E" opacity="0.25" />
+                        <circle cx="177" cy="139" r="2.3" fill="#FFC98A" />
+                      </g>
+                    </g>
+                    <path d="M131 123 L231 173 L231 179 L131 129 Z" fill="url(#hlr-shelf-front)" />
+                    <path d="M231 173 L281 148 L281 154 L231 179 Z" fill="#8F4A38" />
+                    <path d="M131 125.5 L231 175.5" stroke="#5A2A20" stroke-opacity="0.3" stroke-width="1" fill="none" />
+                  </g>
+
+                  <!-- 2U NAS with four drive trays -->
+                  <g class="gear-nas">
+                    <path d="M131 131 L231 181 L231 243 L131 193 Z" fill="url(#hlr-gear-front)" />
+                    <path d="M231 181 L281 156 L281 218 L231 243 Z" fill="#2B3037" />
+                    <path d="M131 131 L231 181" stroke="#E8D8BE" stroke-opacity="0.18" stroke-width="1" fill="none" />
+                    <path d="M241 182 L241 232 M249 178 L249 228 M257 174 L257 224" stroke="#E8D8BE" stroke-opacity="0.12" stroke-width="1.5" fill="none" />
+                    <g fill="url(#hlr-tray-front)" stroke="#1E2126" stroke-width="1">
+                      <path d="M137 139 L179 160 L179 184 L137 163 Z" />
+                      <path d="M185 163 L227 184 L227 208 L185 187 Z" />
+                      <path d="M137 167 L179 188 L179 212 L137 191 Z" />
+                      <path d="M185 191 L227 212 L227 236 L185 215 Z" />
+                    </g>
+                    <path d="M141 160 L175 177 M189 184 L223 201 M141 188 L175 205 M189 212 L223 229" stroke="#1D2126" stroke-width="2" fill="none" stroke-linecap="round" />
+                    <g class="rack-led rack-led--blink-b">
+                      <circle cx="173" cy="161" r="4" fill="#FFB25E" opacity="0.25" />
+                      <circle cx="173" cy="161" r="2.1" fill="#FFC98A" />
+                    </g>
+                    <g class="rack-led">
+                      <circle cx="221" cy="185" r="2" fill="#FFC98A" opacity="0.8" />
+                      <circle cx="173" cy="189" r="2" fill="#FFC98A" opacity="0.8" />
+                      <circle cx="221" cy="213" r="2" fill="#FFC98A" opacity="0.8" />
+                    </g>
+                  </g>
+                </g>
+
+                <!-- Patch cable: panel port -> switch port, with light pulse -->
+                <g class="rack-cable-group" fill="none" stroke-linecap="round">
+                  <path class="rack-cable" d="M158 84 C149 94 147 105 157 110 C163 113 172 111 179 107" stroke="#E2A87C" stroke-width="3" />
+                  <path class="rack-cable-pulse" d="M158 84 C149 94 147 105 157 110 C163 113 172 111 179 107" pathLength="100" stroke="#F6E7CB" stroke-width="3" />
+                </g>
+
+                <!-- Printed frame: rail, posts, top slab -->
+                <g class="rack-frame">
+                  <path d="M131 55 L135 57 L135 199 L131 197 Z" fill="#C88463" />
+                  <path d="M117 204 L129 198 L129 54 L117 60 Z" fill="url(#hlr-print-side)" />
+                  <path d="M105 198 L117 204 L117 60 L105 54 Z" fill="url(#hlr-print-front)" />
+                  <path d="M229 260 L241 254 L241 110 L229 116 Z" fill="url(#hlr-print-side)" />
+                  <path d="M217 254 L229 260 L229 116 L217 110 Z" fill="url(#hlr-print-front)" />
+                  <path d="M283 233 L295 227 L295 83 L283 89 Z" fill="url(#hlr-print-side)" />
+                  <path d="M105 54 L229 116 L229 104 L105 42 Z" fill="url(#hlr-print-front)" />
+                  <path d="M229 116 L295 83 L295 71 L229 104 Z" fill="url(#hlr-print-side)" />
+                  <path d="M105 42 L229 104 L295 71 L171 9 Z" fill="url(#hlr-print-top)" />
+                  <path d="M186 57 L200 64 L214 57 L200 50 Z" fill="#2E1B10" opacity="0.5" />
+                  <path d="M105 42 L229 104 M105 198 L229 260 M105 54 L105 198" stroke="#E8D8BE" stroke-opacity="0.16" stroke-width="1" fill="none" />
+                </g>
+
+                <!-- FDM layer texture, printed parts only -->
+                <g class="rack-fdm" stroke="#2E1B10" stroke-opacity="0.2" stroke-width="1" fill="none">
+                  <path d="M105 78 L117 84 M105 106 L117 112 M105 134 L117 140 M105 162 L117 168" />
+                  <path d="M217 130 L229 136 M217 158 L229 164 M217 186 L229 192 M217 214 L229 220 M217 242 L229 248" />
+                  <path d="M283 110 L295 104 M283 140 L295 134 M283 170 L295 164 M283 200 L295 194" />
+                  <path d="M105 47 L229 109 M105 51 L229 113" />
+                  <path d="M105 202 L229 264 M105 206 L229 268" />
+                </g>
+
+                <!-- Slow-drifting sheen across the front plane -->
+                <g clip-path="url(#hlr-front-clip)">
+                  <path class="rack-sheen" d="M150 30 L196 53 L176 292 L130 269 Z" fill="url(#hlr-sheen-grad)" />
+                </g>
               </svg>
             </div>
           </div>
