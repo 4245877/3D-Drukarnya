@@ -3,6 +3,7 @@ import Layout from '../components/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import SkufnyaPromo from '../components/SkufnyaPromo.astro';
 import { getAllProducts } from '../utils/products';
+import { toJsonLd } from '../utils/text';
 
 import '../styles/pages/catalog.css';
 
@@ -139,7 +140,7 @@ const catalogSchema = {
   <script
     slot="head"
     type="application/ld+json"
-    set:html={JSON.stringify(catalogSchema)}
+    set:html={toJsonLd(catalogSchema)}
   ></script>
 
   <div class="catalog-page">

@@ -3,12 +3,20 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
+  # SKUFNYA promo prices and the Offer priceValidUntil date are baked in at
+  # build time, so rebuild weekly to keep them from drifting out of date.
+  schedule:
+    - cron: '17 3 * * 1'
   workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -19,6 +27,8 @@ jobs:
 
       - name: Install, build, and upload your site
         uses: withastro/action@v5
+        with:
+          node-version: 22
 
   deploy:
     needs: build

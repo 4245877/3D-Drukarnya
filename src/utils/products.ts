@@ -44,7 +44,11 @@ export function formatPrice(price: number): string {
   return `${new Intl.NumberFormat('uk-UA').format(price)} ₴`;
 }
 
-export function withBase(path: string): string {
+export function withBase(path: string | undefined): string {
+  if (!path) {
+    return '';
+  }
+
   if (/^https?:\/\//i.test(path)) {
     return path;
   }

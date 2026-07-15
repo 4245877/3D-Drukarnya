@@ -20,15 +20,17 @@ const imageSrc = withBase(product.images[0]);
     href={href}
     aria-label={`Перейти до товару ${product.title}`}
   >
-    <img
-      class="product-card__image"
-      src={imageSrc}
-      alt={product.title}
-      loading="lazy"
-      decoding="async"
-      width="640"
-      height="640"
-    />
+    {imageSrc && (
+      <img
+        class="product-card__image"
+        src={imageSrc}
+        alt={product.title}
+        loading="lazy"
+        decoding="async"
+        width="640"
+        height="640"
+      />
+    )}
   </a>
 
   <div class="product-card__body">

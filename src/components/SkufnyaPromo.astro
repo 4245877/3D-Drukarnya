@@ -1,4 +1,6 @@
 ---
+import { truncate } from '../utils/text';
+
 const SKUFNYA_URL = 'https://www.skufnya.com/';
 const SKUFNYA_PRODUCTS_API = 'https://api.skufnya.com/api/catalog/products/home';
 const MAX_PRODUCTS = 4;
@@ -20,16 +22,6 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
 
 const getString = (value: unknown) =>
   typeof value === 'string' ? value.trim() : '';
-
-const truncate = (value: string, maxLength: number) => {
-  if (value.length <= maxLength) return value;
-
-  const shortened = value.slice(0, maxLength - 3);
-  const lastSpaceIndex = shortened.lastIndexOf(' ');
-  const boundary = lastSpaceIndex > maxLength * 0.6 ? lastSpaceIndex : shortened.length;
-
-  return `${shortened.slice(0, boundary).trim()}...`;
-};
 
 const formatPrice = (amount: unknown, currencyValue: unknown) => {
   if (typeof amount !== 'number' || !Number.isFinite(amount) || amount <= 0) {
