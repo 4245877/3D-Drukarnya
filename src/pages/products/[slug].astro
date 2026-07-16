@@ -362,7 +362,7 @@ const structuredData = {
           </div>
 
           {hasFacts && (
-            <ul class="product-page__chips" aria-label="Ключові характеристики">
+            <ul class="product-page__chips" role="list" aria-label="Ключові характеристики">
               {productFacts.map((fact) => (
                 <li class="product-page__chip">
                   <span>{fact.label}:</span> {fact.value}
@@ -388,7 +388,7 @@ const structuredData = {
           aria-labelledby="product-description-title"
         >
           <div class="product-page__section-head">
-            <p class="product-page__section-kicker">Опис товару</p>
+            <p class="kicker">Опис товару</p>
             <h2 id="product-description-title">Опис</h2>
           </div>
 
@@ -402,7 +402,7 @@ const structuredData = {
                 <div class="product-page__description">
                   {bodyBlocks.map((block) =>
                     block.type === 'list' ? (
-                      <ul class="product-page__description-list">
+                      <ul class="product-page__description-list" role="list">
                         {block.items.map((item) => (
                           <li>{item}</li>
                         ))}
@@ -428,7 +428,7 @@ const structuredData = {
             aria-labelledby="product-details-title"
           >
             <div class="product-page__section-head">
-              <p class="product-page__section-kicker">Деталі</p>
+              <p class="kicker">Деталі</p>
               <h2 id="product-details-title">Характеристики</h2>
             </div>
 
@@ -450,11 +450,11 @@ const structuredData = {
             aria-labelledby="product-variants-title"
           >
             <div class="product-page__section-head">
-              <p class="product-page__section-kicker">Конфігурації</p>
+              <p class="kicker">Конфігурації</p>
               <h2 id="product-variants-title">Варіанти</h2>
             </div>
 
-            <ul class="product-page__variants" aria-label="Варіанти товару">
+            <ul class="product-page__variants" role="list" aria-label="Варіанти товару">
               {variants.map((variant) => (
                 <li class="product-page__variant">
                   <div class="product-page__variant-head">
@@ -475,7 +475,7 @@ const structuredData = {
           aria-labelledby="fdm-print-use-cases-title"
         >
           <div class="product-page__section-head">
-            <p class="product-page__section-kicker">FDM-друк під замовлення</p>
+            <p class="kicker">FDM-друк під замовлення</p>
             <h2 id="fdm-print-use-cases-title">Для корпусів, кріплень і прототипів</h2>
           </div>
 
@@ -484,7 +484,7 @@ const structuredData = {
             матеріал, колір, заповнення, міцність і невеликі зміни моделі під вашу задачу.
           </p>
 
-          <ul class="product-page__use-list">
+          <ul class="product-page__use-list" role="list">
             <li>друк PLA або PETG залежно від температури, навантаження та умов використання;</li>
             <li>адаптація отворів, посадкових місць, товщини стінок або кольору;</li>
             <li>виготовлення корпусів для електроніки, кронштейнів, панелей і прототипів;</li>

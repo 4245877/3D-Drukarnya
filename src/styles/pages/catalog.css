@@ -3,13 +3,14 @@
    Depends on: base.css · layout.css
    Sections:
      1. Catalog hero (slim) + Home Lab rack illustration
-     5. Controls bar (results count)
-     6. Main layout — sidebar + product grid
-    11. Empty state
-    15. Sidebar filter/info panels + tags
-    16. Responsive breakpoints
+     2. Controls bar (results count)
+     3. Main layout — sidebar + product grid
+     4. Empty state
+     5. Sidebar info panels + tags · SEO/FAQ sections
+     6. Responsive breakpoints
    (Unused anime-catalog boilerplate — banners, card variants,
-    quick-filters, quick-view, drawers, skeletons — has been removed.)
+    quick-filters, quick-view, drawers, skeletons, list/dense
+    grid modes, error states — has been removed.)
    ============================================================ */
 
 
@@ -110,7 +111,7 @@
 .catalog-hero__title {
   font-family: var(--font-display);
   font-size: clamp(1.8rem, 4vw, 3.2rem);
-  font-weight: 900;
+  font-weight: var(--fw-black);
   color: var(--cream);
   line-height: 1.08;
   letter-spacing: -0.04em;
@@ -157,22 +158,39 @@
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
-  background: rgba(232,216,190,.08);
-  border: 1px solid rgba(232,216,190,.14);
+  /* Dark glass, not light: guarantees label contrast no matter which part
+     of the burgundy→copper gradient sits behind the pill. */
+  background: rgba(40, 26, 18, 0.45);
+  border: 1px solid rgba(232,216,190,.16);
   border-radius: var(--radius-full);
   backdrop-filter: blur(8px);
-  transition: all var(--dur-fast) var(--ease-out);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-.catalog-hero__stat-pill:hover {
-  background: rgba(232,216,190,.14);
-  border-color: rgba(232,216,190,.25);
+/* Only the link pill is interactive — static pills get no hover state. */
+.catalog-hero__stat-pill--link {
+  border-color: rgba(232,216,190,.34);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.catalog-hero__stat-pill--link:hover,
+.catalog-hero__stat-pill--link:focus-visible {
+  background: rgba(40, 26, 18, 0.7);
+  border-color: rgba(232,216,190,.55);
+}
+
+.catalog-hero__stat-pill--link .catalog-hero__stat-pill-label {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-color: rgba(232,216,190,.5);
 }
 
 .catalog-hero__stat-pill-value {
   font-family: var(--font-display);
   font-size: var(--fs-base);
-  font-weight: 900;
+  font-weight: var(--fw-black);
   color: var(--copper);
   letter-spacing: -0.03em;
   line-height: 1;
@@ -182,9 +200,20 @@
   font-size: var(--fs-xs);
   font-weight: var(--fw-medium);
   letter-spacing: 0.06em;
-  /* Raised from .55 → .72 so the small caps clear WCAG on the dark hero */
-  color: rgba(232,216,190,.72);
+  /* .85 on the dark pill background clears WCAG AA with room to spare */
+  color: rgba(232,216,190,.85);
   text-transform: uppercase;
+}
+
+/* Dark surface: the global burgundy focus ring and dark-on-burgundy
+   selection are invisible here — flip both to cream. */
+.catalog-hero :focus-visible {
+  outline-color: var(--cream);
+}
+
+.catalog-hero ::selection {
+  background: rgba(232,216,190,.9);
+  color: var(--chocolate);
 }
 
 /* Shimmer for the highlighted word in the hero title */
@@ -270,7 +299,7 @@
 }
 
 /* ─────────────────────────────────────────────────────────── */
-/* 5. SORT & VIEW CONTROLS BAR                                 */
+/* 2. CONTROLS BAR                                             */
 /* ─────────────────────────────────────────────────────────── */
 
 .catalog-controls {
@@ -301,7 +330,7 @@
 }
 
 /* ─────────────────────────────────────────────────────────── */
-/* 6. MAIN LAYOUT — GRID & LIST CONTAINERS                     */
+/* 3. MAIN LAYOUT — SIDEBAR + PRODUCT GRID                     */
 /* ─────────────────────────────────────────────────────────── */
 
 .catalog-layout {
@@ -317,7 +346,9 @@
 .catalog-sidebar {
   position: sticky;
   top: calc(var(--header-h) + var(--space-4));
-  max-height: calc(100dvh - var(--space-12));
+  /* Viewport minus the sticky offset above and a matching gap below,
+     so the panel never extends past the bottom edge */
+  max-height: calc(100dvh - var(--header-h) - var(--space-8));
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
@@ -342,28 +373,9 @@
   gap: var(--space-5);
 }
 
-/* Dense grid */
-.catalog-grid.is-dense {
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: var(--space-4);
-}
-
-/* Wide grid (2 column) */
-.catalog-grid.is-wide {
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--space-5);
-}
-
-/* List view */
-.catalog-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
 
 /* ─────────────────────────────────────────────────────────── */
-/* 11. EMPTY & ERROR STATES                                    */
+/* 4. EMPTY STATE                                              */
 /* ─────────────────────────────────────────────────────────── */
 
 .catalog-no-results {
@@ -407,63 +419,14 @@
   margin-top: var(--space-2);
 }
 
-/* Suggestions when no results */
-.catalog-no-results__suggestions {
-  margin-top: var(--space-6);
-  text-align: left;
-  width: 100%;
-  max-width: 440px;
-}
-
-.catalog-no-results__suggestions-title {
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-semibold);
-  color: var(--text-muted);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: var(--space-4);
-}
-
-.catalog-no-results__suggestion-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-  gap: var(--space-3);
-}
-
-/* Error state */
-.catalog-error {
-  grid-column: 1 / -1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: var(--space-16) var(--space-8);
-  gap: var(--space-4);
-}
-
-.catalog-error__icon {
-  font-size: 2.5rem;
-  opacity: .45;
-}
-
-.catalog-error__title {
-  font-family: var(--font-serif);
-  font-size: var(--fs-xl);
-  color: var(--chocolate);
-  font-weight: var(--fw-semibold);
-}
-
-.catalog-error__text {
-  font-size: var(--fs-sm);
-  color: var(--text-muted);
-  max-width: 38ch;
-}
-
 
 /* ─────────────────────────────────────────────────────────── */
-/* 15. FILTER PANEL COMPONENTS (sidebar & drawer shared)      */
+/* 5. SIDEBAR INFO PANELS + TAGS · SEO/FAQ SECTIONS            */
 /* ─────────────────────────────────────────────────────────── */
 
+/* Static info panels. These are not accordions: there is no toggle in the
+   markup, so the head carries no cursor/hover affordance and the body is
+   always expanded. */
 .catalog-filter-section {
   background: var(--bg-surface);
   border: var(--border-faint);
@@ -476,12 +439,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-4) var(--space-5);
-  cursor: pointer;
-  user-select: none;
-  transition: background var(--dur-fast) var(--ease-out);
 }
-
-.catalog-filter-section__head:hover { background: rgba(142,63,67,.04); }
 
 .catalog-filter-section__label {
   font-size: var(--fs-sm);
@@ -492,37 +450,8 @@
   gap: var(--space-2);
 }
 
-.catalog-filter-section__count {
-  font-size: 11px;
-  font-weight: var(--fw-bold);
-  color: var(--burgundy);
-  background: rgba(142,63,67,.10);
-  border-radius: var(--radius-full);
-  padding: 1px 6px;
-}
-
-.catalog-filter-section__chevron {
-  width: 14px;
-  height: 14px;
-  color: var(--text-muted);
-  transition: transform var(--dur-normal) var(--ease-spring);
-  flex-shrink: 0;
-}
-
-.catalog-filter-section.is-open .catalog-filter-section__chevron {
-  transform: rotate(180deg);
-}
-
 .catalog-filter-section__body {
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height var(--dur-slow) var(--ease-out);
-  border-top: 0 solid rgba(184,154,97,.15);
-}
-
-.catalog-filter-section.is-open .catalog-filter-section__body {
-  max-height: 500px;
-  border-top-width: 1px;
+  border-top: var(--border-faint);
 }
 
 .catalog-filter-section__inner {
@@ -558,27 +487,7 @@
   margin-bottom: var(--space-8);
 }
 
-.catalog-seo__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6em;
-  margin: 0 0 var(--space-2);
-  color: var(--text-kicker);
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-bold);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.catalog-seo__eyebrow::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  background: currentColor;
-  transform: rotate(45deg);
-  opacity: 0.85;
-  flex-shrink: 0;
-}
+/* Eyebrow labels use the shared .kicker component from base.css */
 
 .catalog-seo__intro h2,
 .catalog-faq__inner h2 {
@@ -606,7 +515,7 @@
 .catalog-faq__item {
   padding: var(--space-5);
   background: rgba(245, 237, 224, 0.72);
-  border: 1px solid rgba(184, 154, 97, 0.22);
+  border: var(--border-faint);
   border-radius: var(--radius-lg);
 }
 
@@ -622,9 +531,8 @@
   background: var(--bg-base);
 }
 
-.catalog-faq__inner {
-  max-width: var(--max-w-xl);
-}
+/* (no max-width on .catalog-faq__inner — the parent .container already
+   constrains the section to the same width) */
 
 .catalog-faq__list {
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -632,7 +540,7 @@
 
 
 /* ─────────────────────────────────────────────────────────── */
-/* 16. RESPONSIVE BREAKPOINTS                                  */
+/* 6. RESPONSIVE BREAKPOINTS                                   */
 /* ─────────────────────────────────────────────────────────── */
 
 /* ── 1400px: tighten sidebar ──────────────────────────────── */
@@ -766,29 +674,46 @@
 }
 
 /* ── Reduced Motion ───────────────────────────────────────── */
-
-@media (prefers-reduced-motion: reduce) {
-  .catalog-hero__title .highlight { animation: none; }
-
-  .catalog-hero__rack::before,
-  .catalog-hero__rack .rack-led--blink-a,
-  .catalog-hero__rack .rack-led--blink-b,
-  .catalog-hero__rack .rack-led--blink-c,
-  .catalog-hero__rack .rack-sheen { animation: none; }
-
-  .catalog-hero__rack .rack-cable-pulse {
-    animation: none;
-    opacity: 0;
-  }
-
-  .catalog-no-results__art { animation: none; }
-}
+/* No page-specific rules needed: the global reduced-motion block in
+   base.css (0.01ms duration, single iteration) already neutralises every
+   animation on this page, and none of them move elements on hover. */
 
 /* ── Print ────────────────────────────────────────────────── */
 
 @media print {
   .catalog-controls,
-  .catalog-sidebar { display: none !important; }
+  .catalog-sidebar,
+  .catalog-hero__aside { display: none !important; }
+
+  /* Browsers skip backgrounds when printing — without these resets the
+     cream hero text would land invisible on white paper, and the
+     gradient-clipped .highlight would print as transparent glyphs. */
+  .catalog-hero {
+    background: none;
+    padding: var(--space-4) 0;
+  }
+
+  .catalog-hero::before,
+  .catalog-hero::after { display: none; }
+
+  .catalog-hero__title,
+  .catalog-hero__subtitle,
+  .catalog-hero__eyebrow,
+  .catalog-hero__stat-pill-value,
+  .catalog-hero__stat-pill-label {
+    color: #000;
+    text-shadow: none;
+  }
+
+  .catalog-hero__title .highlight {
+    background: none;
+    color: #000;
+  }
+
+  .catalog-hero__stat-pill {
+    background: none;
+    border-color: #999;
+  }
 
   .catalog-layout { grid-template-columns: 1fr; }
   .catalog-grid { grid-template-columns: repeat(4, 1fr); }

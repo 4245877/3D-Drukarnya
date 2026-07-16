@@ -37,7 +37,7 @@ body {
   background: rgba(245, 237, 224, 0.85);
   backdrop-filter: blur(18px) saturate(180%);
   -webkit-backdrop-filter: blur(18px) saturate(180%);
-  border-bottom: 1px solid rgba(184, 154, 97, 0.28);
+  border-bottom: var(--border-soft);
 }
 
 /* Warm signature accent line under the header */
@@ -76,7 +76,7 @@ body {
   gap: 0.35em;
   font-family: var(--font-display);
   font-size: var(--fs-lg);
-  font-weight: 800;
+  font-weight: var(--fw-extrabold);
   letter-spacing: -0.01em;
   color: var(--chocolate);
   white-space: nowrap;
@@ -93,7 +93,7 @@ body {
   border-radius: var(--radius-sm);
   background: linear-gradient(135deg, var(--burgundy), var(--raphtalia-red));
   color: var(--cream);
-  font-weight: 900;
+  font-weight: var(--fw-black);
   letter-spacing: -0.02em;
   box-shadow: 0 3px 10px rgba(142, 63, 67, 0.3);
 }
@@ -141,6 +141,8 @@ body {
 
 .site-header__cta {
   flex-shrink: 0;
+  /* Comfortable tap target (~44px) for the primary header action */
+  min-height: 44px;
 }
 
 /* ── Mobile burger + drawer (hidden on desktop) ───────────── */
@@ -188,7 +190,7 @@ body {
   background: rgba(245, 237, 224, 0.97);
   backdrop-filter: blur(18px) saturate(180%);
   -webkit-backdrop-filter: blur(18px) saturate(180%);
-  border-bottom: 1px solid rgba(184, 154, 97, 0.28);
+  border-bottom: var(--border-soft);
   box-shadow: var(--shadow-md);
 }
 
@@ -208,7 +210,9 @@ body {
   background: rgba(142, 63, 67, 0.07);
 }
 
-@media (max-width: 720px) {
+/* 768px: aligned with the site-wide breakpoint ladder (was a bespoke
+   720px). Collapsing to the burger slightly earlier is always safe. */
+@media (max-width: 768px) {
   .site-header__nav { display: none; }
   .site-header__inner { gap: var(--space-3); }
   /* Logo stays left; CTA + burger group on the right */

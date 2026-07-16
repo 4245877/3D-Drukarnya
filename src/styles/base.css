@@ -4,10 +4,14 @@
 
    Tokens (custom properties) + the shared building blocks that
    the site actually renders: reset, typography, .container,
-   buttons, cards, tags, breadcrumbs, site footer, utilities.
+   buttons, kicker, tags, breadcrumbs, site footer, utilities.
    Component-library blocks that no template/script referenced
-   (nav, hero, modal, tabs, forms, toasts, …) were removed after
-   a usage audit — see tests/build-output.test.mjs checks.
+   (nav, hero, modal, tabs, forms, toasts, cards, …) and unused
+   tokens were removed after a usage audit — see
+   tests/build-output.test.mjs checks.
+
+   Canonical breakpoints: 1400 / 1200 / 1024 / 900 / 768 / 480
+   (560 is a content-driven exception for the SKUFNYA promo grid).
    ============================================================ */
 
 /* ── CSS Custom Properties ────────────────────────────────── */
@@ -47,21 +51,11 @@
   --accent-gold:     #B89A61;        /* gold — borders, stars */
   --accent-steel:    #A9AEB8;        /* steel — icons, meta */
 
-  /* Gradients */
-  --grad-hero:   linear-gradient(135deg, #5A3A2E 0%, #8E3F43 50%, #C88463 100%);
-  --grad-warm:   linear-gradient(160deg, #E8D8BE 0%, #D99A74 60%, #C88463 100%);
-  --grad-card:   linear-gradient(180deg, rgba(232,216,190,0) 50%, rgba(90,58,46,.85) 100%);
-  --grad-glow:   radial-gradient(ellipse at 50% 0%, rgba(142,63,67,.25) 0%, transparent 70%);
-  --grad-subtle: linear-gradient(135deg, rgba(217,154,116,.08) 0%, rgba(181,106,124,.08) 100%);
-
   /* Shadows */
   --shadow-xs:   0 1px 3px rgba(42,20,8,.10);
   --shadow-sm:   0 2px 8px rgba(42,20,8,.12);
   --shadow-md:   0 6px 20px rgba(42,20,8,.15);
-  --shadow-lg:   0 16px 48px rgba(42,20,8,.20);
   --shadow-xl:   0 32px 80px rgba(42,20,8,.28);
-  --shadow-glow: 0 0 40px rgba(142,63,67,.30);
-  --shadow-rose: 0 0 24px rgba(162,90,108,.25);
 
   /* Typography */
   /* Display font must cover Cyrillic — Playfair Display ships full Cyrillic,
@@ -79,18 +73,18 @@
   --fs-2xl:  2.25rem;    /*  36px */
   --fs-3xl:  3rem;       /*  48px */
   --fs-4xl:  4rem;       /*  64px */
-  --fs-hero: clamp(2.5rem, 7vw, 5.5rem);
 
-  --lh-tight:  1.1;
   --lh-snug:   1.3;
   --lh-normal: 1.6;
   --lh-loose:  1.8;
 
-  --fw-light:    300;
-  --fw-regular:  400;
-  --fw-medium:   500;
-  --fw-semibold: 600;
-  --fw-bold:     700;
+  --fw-light:     300;
+  --fw-regular:   400;
+  --fw-medium:    500;
+  --fw-semibold:  600;
+  --fw-bold:      700;
+  --fw-extrabold: 800;
+  --fw-black:     900;
 
   /* Spacing scale */
   --space-1:  0.25rem;
@@ -113,40 +107,26 @@
   --radius-md:   10px;
   --radius-lg:   16px;
   --radius-xl:   24px;
-  --radius-2xl:  36px;
   --radius-full: 9999px;
 
-  /* Borders */
+  /* Borders — the two canonical gold hairlines. Use these instead of
+     ad-hoc rgba(184,154,97,…) alphas. */
   --border-faint:  1px solid rgba(184,154,97,.20);
-  --border-soft:   1px solid rgba(184,154,97,.40);
-  --border-medium: 1px solid rgba(142,63,67,.35);
-  --border-strong: 1px solid #8E3F43;
+  --border-soft:   1px solid rgba(184,154,97,.28);
 
-  /* Z-index stack */
-  --z-below:   -1;
-  --z-base:     0;
-  --z-raised:   10;
-  --z-dropdown: 100;
-  --z-sticky:   200;
-  --z-overlay:  300;
-  --z-modal:    400;
-  --z-toast:    500;
+  /* Z-index (single layer in use: the sticky header) */
+  --z-sticky: 200;
 
   /* Transitions */
   --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
 
   --dur-fast:   150ms;
   --dur-normal: 280ms;
   --dur-slow:   500ms;
-  --dur-lazy:   800ms;
 
   /* Layout */
-  --max-w-sm:   640px;
-  --max-w-md:   768px;
-  --max-w-lg:   1024px;
   --max-w-xl:   1280px;
   --max-w-2xl:  1440px;
   --container-px: clamp(1rem, 5vw, 3rem);
@@ -167,7 +147,8 @@ html {
   /* Offset anchor jumps so targets clear the sticky header */
   scroll-padding-top: calc(var(--header-h) + var(--space-4));
   -webkit-text-size-adjust: 100%;
-  font-size: 16px;
+  /* 100%, not a px value: respects the user's browser font-size setting */
+  font-size: 100%;
   line-height: var(--lh-normal);
 }
 
@@ -181,9 +162,13 @@ body {
     radial-gradient(ellipse 90% 55% at 50% -12%, rgba(142,63,67,.12) 0%, transparent 62%),
     radial-gradient(ellipse 55% 45% at 94% 106%, rgba(217,154,116,.10) 0%, transparent 60%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96'%3E%3Cpath d='M48 34 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z' fill='%23C88463' fill-opacity='.09'/%3E%3Ccircle cx='11' cy='13' r='.8' fill='%23B89A61' fill-opacity='.20'/%3E%3Ccircle cx='83' cy='75' r='.8' fill='%23B89A61' fill-opacity='.20'/%3E%3C/svg%3E");
-  background-attachment: fixed, fixed, scroll;
+  /* No background-attachment: fixed — it forces repaints on scroll and
+     misbehaves on iOS; the gradients simply scroll with the page. */
   min-height: 100dvh;
+  /* clip guards against stray horizontal overflow without creating a
+     scroll container (hidden is the fallback for older engines) */
   overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -202,9 +187,22 @@ body {
   border-radius: var(--radius-xs);
 }
 
+/* Burgundy is invisible against dark surfaces — switch to cream there.
+   (The catalog hero applies the same override in catalog.css.) */
+.site-footer :focus-visible {
+  outline-color: var(--cream);
+}
+
 /* Selection */
 ::selection {
   background: rgba(142,63,67,.25);
+  color: var(--chocolate);
+}
+
+/* On dark surfaces the default (dark text on translucent burgundy) is
+   unreadable — flip to a light selection with dark text. */
+.site-footer ::selection {
+  background: rgba(232,216,190,.9);
   color: var(--chocolate);
 }
 
@@ -284,12 +282,12 @@ p {
     transform        var(--dur-fast)   var(--ease-spring);
 }
 
-/* Ripple */
+/* Pressed-state flash (centered; no JS-driven coordinates) */
 .btn::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,.3) 0%, transparent 60%);
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.3) 0%, transparent 60%);
   opacity: 0;
   transition: opacity var(--dur-fast);
 }
@@ -327,7 +325,9 @@ p {
 .btn--ghost {
   background: transparent;
   color: var(--text-secondary);
-  border-color: rgba(142,63,67,.25);
+  /* Solid rose: ≥3:1 against the cream page background (WCAG 1.4.11),
+     unlike the old rgba(142,63,67,.25) hairline. */
+  border-color: var(--accent-soft);
 }
 .btn--ghost:hover {
   border-color: var(--copper);
@@ -346,46 +346,31 @@ p {
   box-shadow: none !important;
 }
 
-/* ── Cards ────────────────────────────────────────────────── */
-.card {
-  background: var(--bg-surface);
-  border-radius: var(--radius-lg);
-  border: var(--border-faint);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-  position: relative;
-  transition:
-    box-shadow  var(--dur-normal) var(--ease-out),
-    transform   var(--dur-normal) var(--ease-out),
-    border-color var(--dur-normal) var(--ease-out);
+/* ── Kicker (eyebrow label above section headings) ────────── */
+/* One shared component for what used to be three near-identical
+   copies (.catalog-seo__eyebrow, .skufnya-promo__eyebrow,
+   .product-page__section-kicker). */
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  margin: 0 0 var(--space-2);
+  color: var(--text-kicker);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-.card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
-  border-color: rgba(184,154,97,.45);
-}
-
-/* Feature card */
-.card--feature {
-  padding: var(--space-8);
-  background: linear-gradient(135deg, var(--bg-surface) 0%, var(--cream) 100%);
-}
-
-.card--feature::before {
+.kicker::before {
   content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--burgundy), var(--dusty-rose), var(--copper));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--dur-slow) var(--ease-out);
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+  transform: rotate(45deg);
+  opacity: 0.85;
+  flex-shrink: 0;
 }
-
-.card--feature:hover::before { transform: scaleX(1); }
 
 /* ── Tags & Badges ────────────────────────────────────────── */
 .tag {
@@ -529,9 +514,6 @@ p {
 
 /* ── Utility Classes ──────────────────────────────────────── */
 .sr-only        { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-
-/* Overflow */
-.overflow-hidden { overflow: hidden; }
 
 /* ── Media Queries ────────────────────────────────────────── */
 @media (max-width: 768px) {

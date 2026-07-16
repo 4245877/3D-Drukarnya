@@ -2,13 +2,15 @@
   margin: 0;
   color: var(--burgundy);
   font-family: var(--font-serif);
-  font-size: 1.35rem;
+  font-size: var(--fs-lg);
   font-weight: var(--fw-semibold);
   line-height: 1;
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
 }
 
+/* The single source of the product-page price size (the `large` prop of
+   <ProductPrice>); pages must not override it. */
 .product-price--large {
-  font-size: clamp(2rem, 3vw, 2.65rem);
+  font-size: clamp(1.75rem, 2vw, 2.35rem);
 }

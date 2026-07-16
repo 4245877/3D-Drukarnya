@@ -12,7 +12,9 @@ const { items } = Astro.props;
 ---
 
 <nav class="breadcrumbs" aria-label="Хлібні крихти">
-  <ol class="breadcrumbs__list">
+  {/* role="list" restores list semantics removed by the global
+      `ul, ol { list-style: none }` reset in WebKit/VoiceOver */}
+  <ol class="breadcrumbs__list" role="list">
     {
       items.map((item, index) => (
         <li class="breadcrumbs__item">

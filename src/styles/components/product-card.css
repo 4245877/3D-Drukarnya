@@ -1,14 +1,19 @@
 /* ============================================================
    PRODUCT-CARD.CSS — Catalog product card
-   Depends on: base.css (tokens, .card, .card--feature, .tag, .btn)
+   Depends on: base.css (tokens, .tag, .btn).
+   Self-contained: no .card/.card--feature inheritance, so nothing
+   here depends on base-vs-component bundle order.
    ============================================================ */
 
 .product-card {
   display: flex;
   flex-direction: column;
+  position: relative;
   height: 100%;
   padding: 0;
-  border: 1px solid rgba(184, 154, 97, 0.28);
+  overflow: hidden;
+  border: var(--border-soft);
+  border-radius: var(--radius-lg);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(232, 216, 190, 0.96) 100%);
   box-shadow:
@@ -21,8 +26,15 @@
     border-color var(--dur-normal) var(--ease-out);
 }
 
+/* Signature accent bar along the top edge (always visible) */
 .product-card::before {
-  transform: scaleX(1);
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--burgundy), var(--dusty-rose), var(--copper));
   opacity: 0.9;
 }
 
@@ -121,7 +133,7 @@
   flex-direction: column;
   gap: var(--space-1);
   padding: var(--space-4);
-  border: 1px solid rgba(184, 154, 97, 0.22);
+  border: var(--border-faint);
   border-radius: var(--radius-md);
   background: rgba(245, 237, 224, 0.72);
   box-shadow:

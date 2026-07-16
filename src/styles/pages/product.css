@@ -67,7 +67,7 @@
 .product-page__lead {
   margin: 0;
   font-size: var(--fs-base);
-  line-height: var(--lh-relaxed, 1.7);
+  line-height: 1.7;
   color: var(--text-secondary);
   max-width: 48ch;
 }
@@ -85,7 +85,7 @@
       rgba(184, 154, 97, 0.03)
     ),
     var(--bg-elevated);
-  border: 1px solid rgba(184, 154, 97, 0.22);
+  border: var(--border-faint);
 }
 
 .product-page__price-label {
@@ -103,9 +103,8 @@
   min-height: 3rem;
 }
 
-.product-page__price .product-price {
-  font-size: clamp(1.75rem, 2vw, 2.35rem);
-}
+/* Price size comes from the `large` prop of <ProductPrice>
+   (.product-price--large in price.css) — no page-level override. */
 
 .product-page__price-note {
   margin: 0;
@@ -226,7 +225,7 @@
   padding: 0.6rem 0.9rem;
   border-radius: var(--radius-full);
   background: var(--bg-elevated);
-  border: 1px solid rgba(184, 154, 97, 0.18);
+  border: var(--border-faint);
   color: var(--text-secondary);
   font-size: var(--fs-sm);
   line-height: 1.4;
@@ -250,7 +249,7 @@
   min-height: 44px;
   padding: 0.7rem 1rem;
   border-radius: var(--radius-md);
-  border: 1px solid rgba(184, 154, 97, 0.22);
+  border: var(--border-faint);
   background: transparent;
   color: var(--chocolate);
   text-decoration: none;
@@ -266,7 +265,7 @@
 .product-page__anchors a:hover,
 .product-page__anchors a:focus-visible {
   background: rgba(184, 154, 97, 0.08);
-  border-color: rgba(184, 154, 97, 0.42);
+  border-color: rgba(184, 154, 97, 0.45);
   color: var(--burgundy);
   transform: translateY(-1px);
 }
@@ -281,7 +280,8 @@
 
 .product-page__section-card {
   padding: var(--space-6);
-  scroll-margin-top: var(--space-4);
+  /* No scroll-margin-top: html's scroll-padding-top (base.css) already
+     clears the sticky header; adding a margin here would double-offset. */
 }
 
 .product-page__section-card:only-child {
@@ -296,27 +296,7 @@
   margin-bottom: var(--space-4);
 }
 
-.product-page__section-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6em;
-  margin: 0 0 var(--space-2);
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-bold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-kicker);
-}
-
-.product-page__section-kicker::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  background: currentColor;
-  transform: rotate(45deg);
-  opacity: 0.85;
-  flex-shrink: 0;
-}
+/* Section kickers use the shared .kicker component from base.css */
 
 .product-page__section-card h2 {
   margin: 0;
@@ -388,7 +368,7 @@
   padding: var(--space-4);
   border-radius: var(--radius-lg);
   background: var(--bg-elevated);
-  border: 1px solid rgba(184, 154, 97, 0.14);
+  border: var(--border-faint);
 }
 
 .product-page__details-item dt {
@@ -413,7 +393,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid rgba(184, 154, 97, 0.18);
+  border-top: var(--border-faint);
 }
 
 .product-page__variant {
@@ -421,7 +401,7 @@
   grid-template-columns: minmax(14rem, 0.42fr) minmax(0, 0.58fr);
   gap: var(--space-4);
   padding: var(--space-4) 0;
-  border-bottom: 1px solid rgba(184, 154, 97, 0.18);
+  border-bottom: var(--border-faint);
 }
 
 .product-page__variant-head {
@@ -470,7 +450,7 @@
 .product-page__use-list li {
   position: relative;
   padding: var(--space-4) var(--space-4) var(--space-4) var(--space-8);
-  border: 1px solid rgba(184, 154, 97, 0.16);
+  border: var(--border-faint);
   border-radius: var(--radius-md);
   background: var(--bg-elevated);
   color: var(--text-secondary);

@@ -137,7 +137,7 @@ const hasProducts = products.length > 0;
   <div class="container">
     <div class="skufnya-promo__header">
       <div class="skufnya-promo__copy">
-        <p class="skufnya-promo__eyebrow">Друга вітрина</p>
+        <p class="kicker">Друга вітрина</p>
         <h2 id="skufnya-promo-title">Також наш магазин: SKUFNYA</h2>
         <p>
           Аніме-фігурки, колекційні моделі та товари для фанатів з доставкою по Україні.
@@ -211,7 +211,7 @@ const hasProducts = products.length > 0;
         </div>
       ) : (
         <div class="skufnya-promo__fallback">
-          <ul class="skufnya-promo__benefits" aria-label="Переваги SKUFNYA">
+          <ul class="skufnya-promo__benefits" role="list" aria-label="Переваги SKUFNYA">
             <li>Аніме-фігурки та фан-арт моделі</li>
             <li>Добірка для колекцій і подарунків</li>
             <li>Доставка Новою поштою та Укрпоштою</li>
@@ -269,27 +269,7 @@ const hasProducts = products.length > 0;
     max-width: 720px;
   }
 
-  .skufnya-promo__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6em;
-    margin: 0 0 var(--space-2);
-    color: var(--text-kicker);
-    font-size: var(--fs-xs);
-    font-weight: var(--fw-bold);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .skufnya-promo__eyebrow::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    background: currentColor;
-    transform: rotate(45deg);
-    opacity: 0.85;
-    flex-shrink: 0;
-  }
+  /* Eyebrow uses the shared global .kicker component from base.css */
 
   .skufnya-promo__copy h2 {
     margin: 0 0 var(--space-3);
@@ -316,6 +296,8 @@ const hasProducts = products.length > 0;
     gap: var(--space-4);
   }
 
+  /* Same radius/border/shadow tokens as the product cards, so the two
+     card families on the page read as one system. */
   .skufnya-promo-card {
     display: flex;
     min-width: 0;
@@ -323,9 +305,9 @@ const hasProducts = products.length > 0;
     flex-direction: column;
     overflow: hidden;
     background: rgba(245, 237, 224, 0.82);
-    border: 1px solid rgba(184, 154, 97, 0.24);
-    border-radius: 8px;
-    box-shadow: 0 10px 26px rgba(42, 20, 8, 0.09);
+    border: var(--border-soft);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
     transition:
       border-color var(--dur-normal) var(--ease-out),
       box-shadow var(--dur-normal) var(--ease-out),
@@ -335,7 +317,7 @@ const hasProducts = products.length > 0;
   .skufnya-promo-card:hover {
     transform: translateY(-3px);
     border-color: rgba(142, 63, 67, 0.28);
-    box-shadow: 0 16px 32px rgba(42, 20, 8, 0.13);
+    box-shadow: var(--shadow-md);
   }
 
   .skufnya-promo-card__image-link {
@@ -369,7 +351,7 @@ const hasProducts = products.length > 0;
     color: var(--burgundy);
     font-family: var(--font-display);
     font-size: var(--fs-lg);
-    font-weight: 900;
+    font-weight: var(--fw-black);
     letter-spacing: 0.08em;
   }
 
@@ -393,11 +375,11 @@ const hasProducts = products.length > 0;
     max-width: 100%;
     padding: 0.25rem 0.65rem;
     overflow: hidden;
-    border: 1px solid rgba(184, 154, 97, 0.26);
+    border: var(--border-soft);
     border-radius: var(--radius-full);
     background: rgba(232, 216, 190, 0.7);
     color: var(--text-muted);
-    font-size: 0.72rem;
+    font-size: var(--fs-xs);
     font-weight: var(--fw-semibold);
     line-height: 1.3;
     text-overflow: ellipsis;
@@ -417,6 +399,7 @@ const hasProducts = products.length > 0;
     color: inherit;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
   }
 
   .skufnya-promo-card__title a:hover {
@@ -441,6 +424,7 @@ const hasProducts = products.length > 0;
     line-height: 1.55;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
 
   .skufnya-promo-card__price {
@@ -475,7 +459,7 @@ const hasProducts = products.length > 0;
 
   .skufnya-promo__benefits li {
     padding: 0.4rem 0.85rem;
-    border: 1px solid rgba(184, 154, 97, 0.28);
+    border: var(--border-soft);
     border-radius: var(--radius-full);
     background: rgba(245, 237, 224, 0.66);
     color: var(--text-secondary);
@@ -483,7 +467,8 @@ const hasProducts = products.length > 0;
     line-height: 1.45;
   }
 
-  @media (max-width: 1100px) {
+  /* 1024px: aligned with the site-wide breakpoint ladder (was 1100px) */
+  @media (max-width: 1024px) {
     .skufnya-promo__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -506,9 +491,17 @@ const hasProducts = products.length > 0;
     }
   }
 
+  /* 560px is content-driven: below it two promo cards no longer fit */
   @media (max-width: 560px) {
     .skufnya-promo__grid {
       grid-template-columns: 1fr;
+    }
+  }
+
+  /* External promo has no value on paper */
+  @media print {
+    .skufnya-promo {
+      display: none;
     }
   }
 
