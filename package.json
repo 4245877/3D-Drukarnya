@@ -3,16 +3,22 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "validate:data": "node scripts/validate-data.mjs",
+    "test": "node --test \"tests/*.test.mjs\""
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
-    "astro": "^6.0.5",
-    "typescript": "^5.0.0"
+    "astro": "^7.0.9",
+    "typescript": "^5.0.0",
+    "zod": "^4.4.3"
   }
 }

@@ -1,10 +1,16 @@
 ---
 import { truncate } from '../utils/text';
+import { isSafeSlug, normalizeSlug } from '../data/product.schema.mjs';
 
 const SKUFNYA_URL = 'https://www.skufnya.com/';
 const SKUFNYA_PRODUCTS_API = 'https://api.skufnya.com/api/catalog/products/home';
 const MAX_PRODUCTS = 4;
 const FETCH_TIMEOUT_MS = 3500;
+
+// Only images from these hosts (or their subdomains) are rendered; anything
+// else falls back to the branded placeholder. Extend deliberately if SKUFNYA
+// moves its media to a CDN.
+const TRUSTED_IMAGE_HOSTS = ['skufnya.com'];
 
 interface SkufnyaProductCard {
   title: string;
@@ -34,15 +40,41 @@ const formatPrice = (amount: unknown, currencyValue: unknown) => {
   return `від ${new Intl.NumberFormat('uk-UA').format(amount)} ${currencyLabel}`;
 };
 
+const isTrustedImageHost = (hostname: string) =>
+  TRUSTED_IMAGE_HOSTS.some(
+    (trusted) => hostname === trusted || hostname.endsWith(`.${trusted}`),
+  );
+
+// Accepts only absolute https:// URLs pointing at a trusted host. Rejects
+// javascript:, data: and every other scheme, so the value is safe to put
+// into an <img src>.
+const sanitizeImageUrl = (value: unknown): string => {
+  const raw = getString(value);
+  if (!raw) return '';
+
+  let url: URL;
+  try {
+    url = new URL(raw);
+  } catch {
+    return '';
+  }
+
+  if (url.protocol !== 'https:' || !isTrustedImageHost(url.hostname)) return '';
+
+  return url.toString();
+};
+
 const normalizeProduct = (item: unknown): SkufnyaProductCard | null => {
   if (!isRecord(item)) return null;
 
   const title = getString(item.title);
-  const rawSlug = getString(item.slug);
+  // Normalize first (trim, strip surrounding slashes), then validate: a value
+  // like "///" normalizes to an empty string and is rejected by the slug
+  // pattern instead of slipping through into the URL.
+  const slug = normalizeSlug(item.slug);
 
-  if (!title || !rawSlug) return null;
+  if (!title || !isSafeSlug(slug)) return null;
 
-  const slug = rawSlug.replace(/^\/+|\/+$/g, '');
   const coverImage = isRecord(item.coverImage) ? item.coverImage : {};
   const category = isRecord(item.category) ? item.category : {};
   const defaultVariant = isRecord(item.defaultVariant) ? item.defaultVariant : {};
@@ -52,8 +84,8 @@ const normalizeProduct = (item: unknown): SkufnyaProductCard | null => {
 
   return {
     title,
-    url: new URL(`product/${slug}/`, SKUFNYA_URL).toString(),
-    imageUrl: getString(coverImage.url),
+    url: new URL(`product/${encodeURIComponent(slug)}/`, SKUFNYA_URL).toString(),
+    imageUrl: sanitizeImageUrl(coverImage.url),
     imageAlt: getString(coverImage.alt) || title,
     label: categoryName || 'Колекційна модель',
     meta: [series, sizeLabel].filter(Boolean).join(' · '),
@@ -146,7 +178,6 @@ const hasProducts = products.length > 0;
                     height="420"
                     loading="lazy"
                     decoding="async"
-                    onerror="this.remove()"
                   />
                 )}
               </a>
@@ -199,6 +230,23 @@ const hasProducts = products.length > 0;
     }
   </div>
 </section>
+
+<script>
+  // Replaces the former inline `onerror="this.remove()"` handler (removed to
+  // keep the markup free of inline event handlers, CSP-ready). If a promo
+  // image fails to load, drop it so the branded placeholder underneath shows.
+  document
+    .querySelectorAll<HTMLImageElement>('.skufnya-promo-card__image')
+    .forEach((image) => {
+      // Already failed before this script ran (e.g. eager cache miss).
+      if (image.complete && image.naturalWidth === 0) {
+        image.remove();
+        return;
+      }
+
+      image.addEventListener('error', () => image.remove(), { once: true });
+    });
+</script>
 
 <style>
   .skufnya-promo {
