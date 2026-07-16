@@ -1,0 +1,48 @@
+---
+import Layout from '../components/Layout.astro';
+import '../styles/pages/catalog.css';
+
+// GitHub Pages serves dist/404.html for every missing URL under the site.
+// The page reuses the catalog's anime-styled empty-state block, the shared
+// header/footer and the standard buttons — no separate design.
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+const title = 'Сторінку не знайдено (404) | 3D Друкарня';
+const description =
+  'Такої сторінки немає або її було переміщено. Поверніться до каталогу FDM 3D-друку — корпуси, кріплення та прототипи в Києві.';
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath="/404.html"
+  noindex={true}
+>
+  <div class="catalog-page">
+    <section aria-labelledby="not-found-title">
+      <div class="container">
+        <div class="catalog-no-results">
+          <div class="catalog-no-results__art" aria-hidden="true">∅</div>
+
+          <h1 id="not-found-title" class="catalog-no-results__title">
+            Сторінку не знайдено
+          </h1>
+
+          <p class="catalog-no-results__text">
+            Схоже, такої сторінки немає, її було переміщено або в адресі
+            допущено помилку (404).
+          </p>
+
+          <div class="catalog-no-results__actions">
+            <a class="btn btn--primary" href={base}>До каталогу 3D-друку</a>
+            <a class="btn btn--secondary" href={`${base}#order-title`}>
+              Строки та доставка
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

@@ -12,6 +12,8 @@ interface Props {
 const { product } = Astro.props;
 const href = `${import.meta.env.BASE_URL}products/${product.slug}/`;
 const imageSrc = withBase(product.images[0]);
+// Same typed field that drives the product page and the JSON-LD offer shape.
+const priceLabel = product.priceType === 'from' ? 'Ціна від' : 'Ціна';
 ---
 
 <article class="product-card card card--feature overflow-hidden">
@@ -29,6 +31,7 @@ const imageSrc = withBase(product.images[0]);
         decoding="async"
         width="640"
         height="640"
+        data-img-fallback
       />
     )}
   </a>
@@ -45,7 +48,7 @@ const imageSrc = withBase(product.images[0]);
     <p class="product-card__description">{product.shortDescription}</p>
 
     <div class="product-card__price-block" aria-label="Ціна товару">
-      <span class="product-card__price-label">{product.priceLabel ?? 'Ціна'}</span>
+      <span class="product-card__price-label">{priceLabel}</span>
       <div class="product-card__price">
         <ProductPrice amount={product.price} />
       </div>

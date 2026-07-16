@@ -11,6 +11,7 @@ interface Props {
   imageAlt?: string;
   keywords?: string;
   ogType?: 'website' | 'product';
+  noindex?: boolean;
 }
 
 const {
@@ -21,13 +22,31 @@ const {
   imageAlt,
   keywords = '3D-друк Київ, FDM друк Київ, 3D друк на замовлення, друк PLA Київ, друк PETG Київ, корпуси для електроніки, прототипування Київ',
   ogType = 'website',
+  noindex = false,
 } = Astro.props;
 
 const SITE_NAME = '3D Друкарня';
+// The site's branded OG image. Dimensions verified against the actual file
+// (PNG IHDR: 1983×793) — never publish unconfirmed sizes.
 const DEFAULT_OG_IMAGE = '/OGimage.png';
 const DEFAULT_OG_IMAGE_WIDTH = '1983';
 const DEFAULT_OG_IMAGE_HEIGHT = '793';
+const DEFAULT_OG_IMAGE_ALT = 'FDM 3D-друк у Києві — 3D Друкарня';
 const SKUFNYA_URL = 'https://www.skufnya.com/';
+
+/**
+ * MIME type of an image URL, only when it can be derived from the URL itself
+ * (extension or an explicit `format,<type>` CDN directive). Product photos
+ * from the CDN are `…format,webp`, so they must never be declared image/png.
+ */
+const detectImageMime = (url: string): string | undefined => {
+  const value = url.toLowerCase();
+  if (/format,webp/.test(value) || /\.webp(?:[?#]|$)/.test(value)) return 'image/webp';
+  if (/format,png/.test(value) || /\.png(?:[?#]|$)/.test(value)) return 'image/png';
+  if (/format,jpe?g/.test(value) || /\.jpe?g(?:[?#]|$)/.test(value)) return 'image/jpeg';
+  if (/\.svg(?:[?#]|$)/.test(value)) return 'image/svg+xml';
+  return undefined;
+};
 
 const site = Astro.site ?? new URL('https://4245877.github.io');
 const basePath = import.meta.env.BASE_URL.endsWith('/')
@@ -48,8 +67,12 @@ const toAbsoluteUrl = (value: string) => {
 
 const imagePath = image?.trim() || DEFAULT_OG_IMAGE;
 const resolvedImage = toAbsoluteUrl(imagePath);
-const isDefaultOgImage = resolvedImage === toAbsoluteUrl(DEFAULT_OG_IMAGE);
-const resolvedImageAlt = imageAlt || title;
+const defaultOgImageUrl = toAbsoluteUrl(DEFAULT_OG_IMAGE);
+const isDefaultOgImage = resolvedImage === defaultOgImageUrl;
+const resolvedImageAlt = isDefaultOgImage
+  ? imageAlt || DEFAULT_OG_IMAGE_ALT
+  : imageAlt || title;
+const resolvedImageMime = detectImageMime(resolvedImage);
 
 const currentYear = new Date().getFullYear();
 const faviconIcoPath = `${import.meta.env.BASE_URL}favicon.ico`;
@@ -79,7 +102,7 @@ const appleTouchIconPath = `${import.meta.env.BASE_URL}apple-touch-icon.png`;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="sitemap" type="application/xml" href={sitemapUrl} />
 
@@ -90,12 +113,33 @@ const appleTouchIconPath = `${import.meta.env.BASE_URL}apple-touch-icon.png`;
     <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:locale" content="uk_UA" />
 
+    {/*
+      Primary og:image. og:image:type is only declared when the MIME type can
+      be derived from the URL itself (product CDN photos are WebP — they must
+      not be labelled image/png); width/height only for the branded default,
+      whose dimensions are verified against the real file.
+    */}
     <meta property="og:image" content={resolvedImage} />
     <meta property="og:image:secure_url" content={resolvedImage} />
-    {isDefaultOgImage && <meta property="og:image:type" content="image/png" />}
+    {resolvedImageMime && <meta property="og:image:type" content={resolvedImageMime} />}
     {isDefaultOgImage && <meta property="og:image:width" content={DEFAULT_OG_IMAGE_WIDTH} />}
     {isDefaultOgImage && <meta property="og:image:height" content={DEFAULT_OG_IMAGE_HEIGHT} />}
     <meta property="og:image:alt" content={resolvedImageAlt} />
+    {/*
+      Branded fallback: when the primary image is a remote product photo, the
+      site's own OG image is offered as a second candidate for scrapers that
+      cannot use the remote WebP.
+    */}
+    {!isDefaultOgImage && (
+      <>
+        <meta property="og:image" content={defaultOgImageUrl} />
+        <meta property="og:image:secure_url" content={defaultOgImageUrl} />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content={DEFAULT_OG_IMAGE_WIDTH} />
+        <meta property="og:image:height" content={DEFAULT_OG_IMAGE_HEIGHT} />
+        <meta property="og:image:alt" content={DEFAULT_OG_IMAGE_ALT} />
+      </>
+    )}
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -149,5 +193,43 @@ const appleTouchIconPath = `${import.meta.env.BASE_URL}apple-touch-icon.png`;
         </div>
       </div>
     </footer>
+
+    <script>
+      // Local fallback for product images (~170 of them come from a single
+      // external CDN). Opt-in via data-img-fallback; no inline onerror, the
+      // <img> is never removed, and swapping to the local placeholder can
+      // never loop (a failing placeholder just marks the image as final).
+      const PLACEHOLDER_SRC = `${import.meta.env.BASE_URL}images/product-placeholder.svg`;
+
+      const applyFallback = (image: HTMLImageElement) => {
+        if (image.dataset.fallbackApplied === 'true') return;
+        image.dataset.fallbackApplied = 'true';
+        if (new URL(image.src, document.baseURI).pathname.endsWith('product-placeholder.svg')) return;
+        image.src = PLACEHOLDER_SRC;
+        if (image.srcset) image.removeAttribute('srcset');
+      };
+
+      // Capture-phase listener: <img> error events do not bubble.
+      document.addEventListener(
+        'error',
+        (event) => {
+          const target = event.target;
+          if (
+            target instanceof HTMLImageElement &&
+            target.hasAttribute('data-img-fallback')
+          ) {
+            applyFallback(target);
+          }
+        },
+        true,
+      );
+
+      // Images that already failed before this module ran.
+      document
+        .querySelectorAll<HTMLImageElement>('img[data-img-fallback]')
+        .forEach((image) => {
+          if (image.complete && image.naturalWidth === 0) applyFallback(image);
+        });
+    </script>
   </body>
 </html>

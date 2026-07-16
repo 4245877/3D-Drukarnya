@@ -6,6 +6,8 @@ import ProductGallery from '../../components/ProductGallery.astro';
 import ProductPrice from '../../components/ProductPrice.astro';
 import { getAllProducts } from '../../utils/products';
 import type { Product } from '../../utils/products';
+import { parseDescription } from '../../utils/description.mjs';
+import { buildProductTitle } from '../../utils/seo.mjs';
 import { truncate, toJsonLd } from '../../utils/text';
 
 export function getStaticPaths() {
@@ -21,7 +23,9 @@ interface Props {
 
 const { product } = Astro.props as Props;
 
-const pageTitle = `${product.title} | FDM 3D-друк Київ`;
+// Short SEO <title> (shared rules in src/utils/seo.mjs); the visible <h1>
+// below keeps the full product title.
+const pageTitle = buildProductTitle(product.title);
 
 const META_DESCRIPTION_MAX = 160;
 const META_DESCRIPTION_SUFFIX = 'FDM 3D-друк у Києві з PLA/PETG під замовлення.';
@@ -52,6 +56,8 @@ const toImageUrl = (image: string) => {
 
 const imageUrls = product.images.map(toImageUrl).filter(Boolean);
 const hasImages = imageUrls.length > 0;
+// When the product has no usable image, Layout falls back to the site's
+// branded OG image on its own (empty string → default).
 const ogImage = imageUrls[0] ?? '';
 
 const productUrl = new URL(`products/${product.slug}/`, absoluteBaseUrl).toString();
@@ -65,6 +71,35 @@ const skufnyaUrl = 'https://www.skufnya.com/';
 const priceValidUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
   .toISOString()
   .slice(0, 10);
+
+// ── Price & availability: one typed source for the card, this page and the
+// JSON-LD offer (see src/data/product.schema.mjs). ─────────────────────────
+const isFromPrice = product.priceType === 'from';
+const priceLabel = isFromPrice ? 'Ціна від' : 'Ціна';
+
+const AVAILABILITY_SCHEMA_URL: Partial<Record<Product['availability'], string>> = {
+  in_stock: 'https://schema.org/InStock',
+  made_to_order: 'https://schema.org/MadeToOrder',
+  unavailable: 'https://schema.org/OutOfStock',
+};
+const AVAILABILITY_VISIBLE_TEXT: Partial<Record<Product['availability'], string>> = {
+  in_stock: 'В наявності',
+  made_to_order: 'Виготовлення під замовлення',
+  unavailable: 'Тимчасово недоступно',
+};
+// `unconfirmed` stays undefined in both maps: no availability is published
+// and no status line is rendered until the status is confirmed.
+const schemaAvailability = AVAILABILITY_SCHEMA_URL[product.availability];
+const availabilityText = AVAILABILITY_VISIBLE_TEXT[product.availability];
+
+// ── Order CTA. A validated per-product orderUrl (https, allow-listed host —
+// enforced by the schema) wins; otherwise the shared OLX profile is used and
+// the note says so honestly. ───────────────────────────────────────────────
+const orderHref = product.orderUrl ?? olxUrl;
+const hasDirectOrderUrl = Boolean(product.orderUrl);
+const orderNote = hasDirectOrderUrl
+  ? 'Посилання відкриває сторінку цього товару на OLX.'
+  : 'Окремої сторінки товару на OLX немає: кнопка відкриває загальний профіль продавця. Напишіть у повідомленні, який саме виріб вас цікавить.';
 
 const pageKeywords = [
   product.title,
@@ -80,16 +115,22 @@ const pageKeywords = [
   .filter(Boolean)
   .join(', ');
 
-const descriptionParagraphs = product.description
-  .split('\n\n')
-  .map((paragraph) => paragraph.trim())
-  .filter(Boolean);
+// ── Description: paragraphs + simple "- " bullet lists, parsed by a pure
+// utility (tested in tests/description.test.mjs) and rendered with regular
+// escaping — no set:html anywhere near the raw text. ───────────────────────
+const descriptionBlocks = parseDescription(product.description);
+const introBlock =
+  descriptionBlocks[0]?.type === 'paragraph' ? descriptionBlocks[0] : undefined;
+const bodyBlocks = introBlock ? descriptionBlocks.slice(1) : descriptionBlocks;
+const hasDescription = descriptionBlocks.length > 0;
 
-const descriptionIntro = descriptionParagraphs[0] ?? '';
-const descriptionRest = descriptionParagraphs.slice(1);
-const hasDescription = descriptionParagraphs.length > 0;
 const variants = product.variants ?? [];
 const hasVariants = variants.length > 0;
+
+const warnings = product.safetyWarnings ?? [];
+const hasWarnings = warnings.length > 0;
+const warningDefaultTitle = (level: 'notice' | 'critical') =>
+  level === 'critical' ? 'Важливе попередження щодо безпеки' : 'Зверніть увагу';
 
 const productFacts = [
   product.material ? { label: 'Матеріал', value: product.material } : null,
@@ -129,6 +170,38 @@ const additionalProperties = [
     : null,
 ].filter(Boolean);
 
+const seller = {
+  '@type': 'LocalBusiness',
+  '@id': sellerId,
+  name: '3D Друкарня',
+  url: catalogUrl,
+  logo: logoUrl,
+  sameAs: [olxUrl, skufnyaUrl],
+};
+
+const offerShared = {
+  priceCurrency: 'UAH',
+  priceValidUntil,
+  ...(schemaAvailability ? { availability: schemaAvailability } : {}),
+  itemCondition: 'https://schema.org/NewCondition',
+  url: productUrl,
+  eligibleRegion: {
+    '@type': 'Country',
+    name: 'UA',
+  },
+  seller,
+};
+
+// "Ціна від" publishes an AggregateOffer with only the confirmed minimum
+// (lowPrice) — no invented highPrice and no exact Offer.price. All current
+// "from" products genuinely aggregate several configurations (variants).
+// publishOffer: false keeps the offer out of JSON-LD entirely.
+const offers = !product.publishOffer
+  ? undefined
+  : isFromPrice
+    ? { '@type': 'AggregateOffer', lowPrice: product.price, ...offerShared }
+    : { '@type': 'Offer', price: product.price, ...offerShared };
+
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -147,27 +220,7 @@ const structuredData = {
       },
       additionalProperty: additionalProperties.length > 0 ? additionalProperties : undefined,
       mainEntityOfPage: productUrl,
-      offers: {
-        '@type': 'Offer',
-        price: product.price,
-        priceCurrency: 'UAH',
-        priceValidUntil,
-        availability: 'https://schema.org/InStock',
-        itemCondition: 'https://schema.org/NewCondition',
-        url: productUrl,
-        eligibleRegion: {
-          '@type': 'Country',
-          name: 'UA',
-        },
-        seller: {
-          '@type': 'LocalBusiness',
-          '@id': sellerId,
-          name: '3D Друкарня',
-          url: catalogUrl,
-          logo: logoUrl,
-          sameAs: [olxUrl, skufnyaUrl],
-        },
-      },
+      offers,
     },
     {
       '@type': 'BreadcrumbList',
@@ -245,12 +298,18 @@ const structuredData = {
             aria-labelledby="product-price-title"
           >
             <p id="product-price-title" class="product-page__price-label">
-              {product.priceLabel ?? 'Ціна'}
+              {priceLabel}
             </p>
 
             <div class="product-page__price">
               <ProductPrice amount={product.price} large={true} />
             </div>
+
+            {availabilityText && (
+              <p class="product-page__price-note product-page__availability">
+                <strong>{availabilityText}</strong>
+              </p>
+            )}
 
             {product.leadTime && (
               <p class="product-page__price-note">
@@ -262,6 +321,45 @@ const structuredData = {
               <p class="product-page__price-note">{product.priceNote}</p>
             )}
           </section>
+
+          {hasWarnings && (
+            <div class="product-page__warnings">
+              {warnings.map((warning, index) => (
+                <section
+                  class:list={[
+                    'product-warning',
+                    { 'product-warning--critical': warning.level === 'critical' },
+                  ]}
+                  role="note"
+                  aria-labelledby={`product-warning-title-${index}`}
+                >
+                  <p
+                    id={`product-warning-title-${index}`}
+                    class="product-warning__title"
+                  >
+                    <span class="product-warning__icon" aria-hidden="true">⚠</span>
+                    <span class="product-warning__badge">
+                      {warning.level === 'critical' ? 'Небезпека' : 'Увага'}
+                    </span>
+                    {warning.title ?? warningDefaultTitle(warning.level)}
+                  </p>
+                  <p class="product-warning__text">{warning.text}</p>
+                </section>
+              ))}
+            </div>
+          )}
+
+          <div class="product-page__cta">
+            <a
+              class="btn btn--primary btn--lg product-page__cta-button"
+              href={orderHref}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Замовити цей виріб
+            </a>
+            <p class="product-page__cta-note">{orderNote}</p>
+          </div>
 
           {hasFacts && (
             <ul class="product-page__chips" aria-label="Ключові характеристики">
@@ -296,15 +394,23 @@ const structuredData = {
 
           {hasDescription ? (
             <>
-              {descriptionIntro && (
-                <p class="product-page__description-intro">{descriptionIntro}</p>
+              {introBlock && (
+                <p class="product-page__description-intro">{introBlock.text}</p>
               )}
 
-              {descriptionRest.length > 0 && (
+              {bodyBlocks.length > 0 && (
                 <div class="product-page__description">
-                  {descriptionRest.map((paragraph) => (
-                    <p>{paragraph}</p>
-                  ))}
+                  {bodyBlocks.map((block) =>
+                    block.type === 'list' ? (
+                      <ul class="product-page__description-list">
+                        {block.items.map((item) => (
+                          <li>{item}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>{block.text}</p>
+                    ),
+                  )}
                 </div>
               )}
             </>

@@ -2,6 +2,7 @@
 import Layout from '../components/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import SkufnyaPromo from '../components/SkufnyaPromo.astro';
+import { FAQ_ITEMS } from '../data/faq';
 import { getAllProducts } from '../utils/products';
 import { toJsonLd } from '../utils/text';
 
@@ -90,42 +91,27 @@ const catalogSchema = {
       provider: { '@id': `${homepageUrl}#local-business` },
       areaServed: { '@type': 'City', name: 'Київ' },
       description,
+      // No availability here: this is a made-to-order service, and InStock
+      // must not be published without a confirmed status.
       offers: {
         '@type': 'Offer',
         url: homepageUrl,
         priceCurrency: 'UAH',
-        availability: 'https://schema.org/InStock',
       },
     },
     {
       '@type': 'FAQPage',
       '@id': `${homepageUrl}#faq`,
-      mainEntity: [
-        {
-          '@type': 'Question',
-          name: 'З яких матеріалів можна замовити FDM 3D-друк у Києві?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Для більшості замовлень підходять PLA та PETG. PLA зручний для прототипів і декоративних деталей, PETG краще підходить для функціональних деталей, кріплень і корпусів.',
-          },
+      // Generated from the same FAQ_ITEMS array as the visible FAQ section
+      // below — same questions, same answers, same order, nothing hidden.
+      mainEntity: FAQ_ITEMS.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer,
         },
-        {
-          '@type': 'Question',
-          name: 'Чи можна надрукувати корпус для електроніки?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Так, можна замовити друк корпусів для електроніки, кронштейнів, панелей, адаптерів і прототипів з урахуванням розмірів плати, розʼємів та отворів під кріплення.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'Як передати модель для 3D-друку?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Найзручніше надати STL, 3MF або STEP-файл. Якщо є тільки ідея чи ескіз, можна обговорити підготовку або адаптацію моделі перед друком.',
-          },
-        },
-      ],
+      })),
     },
   ],
 };
@@ -559,41 +545,17 @@ const catalogSchema = {
     <section class="catalog-faq" aria-labelledby="order-title">
       <div class="container">
         <div class="catalog-faq__inner">
-          <h2 id="order-title">Строки, ціни, доставка і контакти</h2>
+          <h2 id="order-title">Часті питання: строки, ціни, доставка і контакти</h2>
 
           <div class="catalog-faq__list">
-            <article class="catalog-faq__item">
-              <h3>Строки виготовлення</h3>
-              <p>
-                Типові замовлення друкуються за 1–3 дні після узгодження моделі, матеріалу
-                та кольору. Великі деталі або партії оцінюються окремо за часом друку.
-              </p>
-            </article>
-
-            <article class="catalog-faq__item">
-              <h3>Ціни</h3>
-              <p>
-                Вартість залежить від матеріалу, ваги, часу друку, складності моделі та
-                потреби в адаптації. Для готових прикладів ціна вказана на окремих сторінках.
-              </p>
-            </article>
-
-            <article class="catalog-faq__item">
-              <h3>Доставка</h3>
-              <p>
-                У Києві можливий самовивіз. По Україні доступна OLX Доставка, якщо замовлення
-                підходить за розміром і умовами відправлення.
-              </p>
-            </article>
-
-            <article class="catalog-faq__item">
-              <h3>Контакти</h3>
-              <p>
-                Для замовлення надішліть модель, опис задачі або посилання на потрібну деталь
-                через OLX-профіль. Бажано одразу вказати матеріал, колір, кількість і вимоги
-                до міцності.
-              </p>
-            </article>
+            {
+              FAQ_ITEMS.map((item) => (
+                <article class="catalog-faq__item">
+                  <h3 data-faq-question>{item.question}</h3>
+                  <p data-faq-answer>{item.answer}</p>
+                </article>
+              ))
+            }
           </div>
         </div>
       </div>

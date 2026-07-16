@@ -8,6 +8,8 @@ import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
+import { checkBuild } from '../scripts/check-build.mjs';
+
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
 const distDir = path.join(projectRoot, 'dist');
 const productsDir = path.join(projectRoot, 'src', 'data', 'products');
@@ -79,5 +81,13 @@ test('production build generates every product page and the sitemap', async (t) 
       !/\son(?:error|click|load)\s*=/i.test(catalogHtml),
       'catalog page contains an inline event handler',
     );
+  });
+
+  await t.test('full artifact checks pass (scripts/check-build.mjs)', async () => {
+    // Same checks as `npm run check:build`: metadata uniqueness, JSON-LD
+    // validity and price/availability/FAQ consistency, internal links and
+    // anchors, image fallback wiring, branding assets, URL schemes.
+    const failures = await checkBuild();
+    assert.deepEqual(failures, []);
   });
 });

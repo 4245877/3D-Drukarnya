@@ -76,6 +76,84 @@ export const productVariantSchema = z.strictObject({
   badge: nonEmptyString.optional(),
 });
 
+/**
+ * Pricing model of the visible price and the JSON-LD offer.
+ * - `exact` — the number is the final price (rendered as "Ціна",
+ *   published as an Offer with `price`).
+ * - `from`  — the number is a confirmed minimum ("Ціна від"; published as an
+ *   AggregateOffer with `lowPrice` only — no invented upper bound).
+ */
+export const PRICE_TYPES = /** @type {const} */ (['exact', 'from']);
+
+/**
+ * Confirmed availability status. Maps to schema.org ItemAvailability:
+ * - `in_stock`      → https://schema.org/InStock
+ * - `made_to_order` → https://schema.org/MadeToOrder
+ * - `unavailable`   → https://schema.org/OutOfStock
+ * - `unconfirmed`   → the JSON-LD offer is published WITHOUT `availability`
+ *   (never guess InStock for a product whose status is not confirmed).
+ */
+export const AVAILABILITY_STATUSES = /** @type {const} */ ([
+  'in_stock',
+  'made_to_order',
+  'unavailable',
+  'unconfirmed',
+]);
+
+/** Warning severity levels for `safetyWarnings`. */
+export const WARNING_LEVELS = /** @type {const} */ (['notice', 'critical']);
+
+/**
+ * Hosts allowed in `orderUrl` (exact match or subdomain). Keep deliberately
+ * short: order links must point at the seller's own marketplace profile.
+ */
+export const ALLOWED_ORDER_URL_HOSTS = ['olx.ua'];
+
+/**
+ * Optional per-product order link. Only absolute https:// URLs on an
+ * allowed marketplace host pass; javascript:, data:, http: and unknown
+ * hosts are rejected.
+ */
+const orderUrlSchema = z
+  .string()
+  .trim()
+  .min(1, 'orderUrl must not be empty')
+  .superRefine((value, ctx) => {
+    let url;
+    try {
+      url = new URL(value);
+    } catch {
+      ctx.addIssue({ code: 'custom', message: `orderUrl is not a valid absolute URL: "${value}"` });
+      return;
+    }
+    if (url.protocol !== 'https:') {
+      ctx.addIssue({
+        code: 'custom',
+        message: `orderUrl must use https:, got "${url.protocol}"`,
+      });
+      return;
+    }
+    const allowed = ALLOWED_ORDER_URL_HOSTS.some(
+      (host) => url.hostname === host || url.hostname.endsWith(`.${host}`),
+    );
+    if (!allowed) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `orderUrl host "${url.hostname}" is not in the allowed list (${ALLOWED_ORDER_URL_HOSTS.join(', ')})`,
+      });
+    }
+  });
+
+/**
+ * Structured safety warning shown as a highlighted block on the product
+ * page. `critical` warnings are always rendered outside of any accordion.
+ */
+export const safetyWarningSchema = z.strictObject({
+  level: z.enum(WARNING_LEVELS),
+  title: nonEmptyString.optional(),
+  text: nonEmptyString,
+});
+
 // strictObject: unknown keys (typos such as "pirce" or "image") fail
 // validation instead of being silently ignored.
 export const productSchema = z.strictObject({
@@ -89,14 +167,28 @@ export const productSchema = z.strictObject({
   title: nonEmptyString,
   shortDescription: nonEmptyString,
   description: nonEmptyString,
-  // Also rendered as Offer.price in JSON-LD, so it must stay a plain number.
+  // Also rendered in JSON-LD (Offer.price for `exact`, AggregateOffer.lowPrice
+  // for `from`), so it must stay a plain number.
   price: z
     .number('price must be a number')
     .refine((value) => Number.isFinite(value) && value > 0, {
       message: 'price must be a finite positive number',
     }),
-  priceLabel: nonEmptyString.optional(),
+  // Single source of truth for the "Ціна" / "Ціна від" label on the card,
+  // the product page and the JSON-LD offer shape. Defaults to `exact`.
+  priceType: z.enum(PRICE_TYPES).default('exact'),
+  // Confirmed availability; defaults to `unconfirmed`, which keeps the
+  // `availability` property out of the published offer entirely.
+  availability: z.enum(AVAILABILITY_STATUSES).default('unconfirmed'),
+  // Escape hatch: set to false to keep the whole Offer/AggregateOffer out of
+  // JSON-LD until the commercial details are confirmed.
+  publishOffer: z.boolean().default(true),
   priceNote: nonEmptyString.optional(),
+  orderUrl: orderUrlSchema.optional(),
+  safetyWarnings: z
+    .array(safetyWarningSchema)
+    .min(1, 'safetyWarnings, when present, must not be empty')
+    .optional(),
   images: z.array(imageReference).min(1, 'images must contain at least one entry'),
   category: nonEmptyString.optional(),
   material: nonEmptyString.optional(),

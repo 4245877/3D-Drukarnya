@@ -24,6 +24,9 @@ const preparedImages = images
 
 const [mainImage] = preparedImages;
 const imageCount = preparedImages.length;
+
+const imageAlt = (index: number) =>
+  index === 0 ? `${title} — головне фото` : `${title} — фото ${index + 1}`;
 ---
 
 {
@@ -40,11 +43,13 @@ const imageCount = preparedImages.length;
       >
         <img
           src={mainImage}
-          alt={`${title} — головне фото`}
+          alt={imageAlt(0)}
           width="1200"
           height="1200"
           loading="eager"
+          fetchpriority="high"
           decoding="async"
+          data-img-fallback
           data-gallery-main-image
         />
       </a>
@@ -61,8 +66,6 @@ const imageCount = preparedImages.length;
                 aria-label={`Показати фото ${index + 1} товару ${title}`}
                 aria-current={index === 0 ? 'true' : 'false'}
                 data-gallery-thumb
-                data-image={image}
-                data-alt={index === 0 ? `${title} — головне фото` : `${title} — фото ${index + 1}`}
               >
                 <img
                   src={image}
@@ -71,6 +74,7 @@ const imageCount = preparedImages.length;
                   decoding="async"
                   width="320"
                   height="320"
+                  data-img-fallback
                 />
               </a>
             ))}
@@ -126,11 +130,13 @@ const imageCount = preparedImages.length;
 
         <img
           src={mainImage}
-          alt={`${title} — головне фото`}
+          alt={imageAlt(0)}
           width="1600"
           height="1600"
+          loading="lazy"
           decoding="async"
           draggable="false"
+          data-img-fallback
           data-gallery-dialog-image
         />
       </dialog>
@@ -157,15 +163,21 @@ const imageCount = preparedImages.length;
     if (!mainImage || !openLink || !dialog || !dialogImage || !closeButton) return;
 
     const galleryTitle = gallery.dataset.galleryTitle ?? '';
+    // The thumbnail hrefs are the single copy of each image URL in the
+    // markup; alts follow the same pattern the server rendered.
+    const imageAlt = (index: number) =>
+      index === 0
+        ? `${galleryTitle} — головне фото`
+        : `${galleryTitle} — фото ${index + 1}`;
     const items =
       thumbnails.length > 0
-        ? thumbnails.map((thumbnail) => ({
-            image: thumbnail.dataset.image ?? '',
-            alt: thumbnail.dataset.alt ?? '',
+        ? thumbnails.map((thumbnail, index) => ({
+            image: thumbnail.href,
+            alt: imageAlt(index),
           }))
         : [{ image: openLink.href, alt: mainImage.alt }];
 
-    if (items.some(({ image, alt }) => !image || !alt)) return;
+    if (items.some(({ image }) => !image)) return;
 
     gallery.dataset.galleryInitialized = 'true';
 
@@ -174,14 +186,20 @@ const imageCount = preparedImages.length;
       thumbnails.findIndex((thumbnail) => thumbnail.getAttribute('aria-current') === 'true'),
     );
 
+    // Give the swapped-in image a fresh chance at the CDN even if a previous
+    // one already fell back to the local placeholder (see Layout's handler).
+    const swapImage = (image: HTMLImageElement, src: string, alt: string) => {
+      delete image.dataset.fallbackApplied;
+      image.src = src;
+      image.alt = alt;
+    };
+
     const selectImage = (index: number) => {
       currentIndex = (index + items.length) % items.length;
 
       const { image, alt } = items[currentIndex];
-      mainImage.src = image;
-      mainImage.alt = alt;
-      dialogImage.src = image;
-      dialogImage.alt = alt;
+      swapImage(mainImage, image, alt);
+      swapImage(dialogImage, image, alt);
       openLink.href = image;
       openLink.setAttribute(
         'aria-label',
@@ -208,8 +226,7 @@ const imageCount = preparedImages.length;
       if (typeof dialog.showModal !== 'function') return;
 
       event.preventDefault();
-      dialogImage.src = mainImage.currentSrc || mainImage.src;
-      dialogImage.alt = mainImage.alt;
+      swapImage(dialogImage, mainImage.currentSrc || mainImage.src, mainImage.alt);
 
       if (!dialog.open) {
         dialog.showModal();
@@ -218,6 +235,12 @@ const imageCount = preparedImages.length;
 
     closeButton.addEventListener('click', () => {
       if (dialog.open) dialog.close();
+    });
+
+    // Escape is handled natively by <dialog> (cancel → close); returning
+    // focus to the element that opened the dialog is made explicit here.
+    dialog.addEventListener('close', () => {
+      openLink.focus();
     });
 
     previousButton?.addEventListener('click', () => selectImage(currentIndex - 1));

@@ -114,6 +114,102 @@
   line-height: 1.5;
 }
 
+.product-page__availability strong {
+  color: var(--chocolate);
+}
+
+/* ── Safety warnings (structured, never inside an accordion) ── */
+
+.product-page__warnings {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.product-warning {
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid rgba(184, 154, 97, 0.45);
+  border-left: 4px solid var(--gold-beige);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  background:
+    linear-gradient(180deg, rgba(184, 154, 97, 0.12), rgba(184, 154, 97, 0.05)),
+    var(--bg-elevated);
+}
+
+.product-warning--critical {
+  border-color: rgba(142, 63, 67, 0.5);
+  border-left-color: var(--burgundy);
+  background:
+    linear-gradient(180deg, rgba(142, 63, 67, 0.1), rgba(142, 63, 67, 0.04)),
+    var(--bg-elevated);
+}
+
+.product-warning__title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  line-height: 1.4;
+}
+
+.product-warning__icon {
+  flex-shrink: 0;
+  color: var(--burgundy);
+  font-size: var(--fs-md);
+  line-height: 1;
+}
+
+/* Text badge: the severity is readable, not colour-only. */
+.product-warning__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-full);
+  background: rgba(184, 154, 97, 0.28);
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.product-warning--critical .product-warning__badge {
+  background: var(--burgundy);
+  color: var(--cream);
+}
+
+.product-warning__text {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+  line-height: 1.65;
+}
+
+/* ── Order CTA ── */
+
+.product-page__cta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.product-page__cta-button {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  white-space: normal;
+}
+
+.product-page__cta-note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  line-height: 1.55;
+}
+
 .product-page__chips {
   display: flex;
   flex-wrap: wrap;
@@ -251,6 +347,35 @@
   color: var(--text-secondary);
   font-size: var(--fs-base);
   line-height: 1.8;
+}
+
+/* Bullet lists inside the description (parsed from "- " lines) — the same
+   burgundy-dot style as .product-page__use-list, in a compact text form. */
+.product-page__description-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.product-page__description-list li {
+  position: relative;
+  padding-left: var(--space-5);
+  color: var(--text-secondary);
+  font-size: var(--fs-base);
+  line-height: 1.7;
+}
+
+.product-page__description-list li::before {
+  content: '';
+  position: absolute;
+  left: 0.35rem;
+  top: 0.62em;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--burgundy);
 }
 
 .product-page__details {

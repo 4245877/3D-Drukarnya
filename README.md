@@ -21,6 +21,7 @@
 | `npm run check`         | Перевірка типів та діагностика Astro (`astro check`)                  |
 | `npm test`              | Тести (`node --test`): схема даних + реальний production build        |
 | `npm run build`         | Production-збірка у `dist/`                                           |
+| `npm run check:build`   | Перевірки готового артефакту в `dist/` (метадані, JSON-LD, посилання) |
 | `npm run preview`       | Локальний перегляд зібраного сайту                                    |
 | `npm audit`             | Перевірка залежностей на відомі вразливості                           |
 
@@ -40,18 +41,26 @@
 | `title`            | string     | так         | непорожній, унікальний (без урахування регістру)               |
 | `shortDescription` | string     | так         | непорожній                                                     |
 | `description`      | string     | так         | непорожній; абзаци розділяються `\n\n`                         |
-| `price`            | number     | так         | скінченне додатне число (грн); потрапляє в JSON-LD `Offer`     |
+| `price`            | number     | так         | скінченне додатне число (грн); `Offer.price` при `exact`, `AggregateOffer.lowPrice` при `from` |
+| `priceType`        | enum       | ні (`exact`) | `exact` \| `from`; керує написом «Ціна» / «Ціна від» на картці, сторінці й формою JSON-LD |
+| `availability`     | enum       | ні (`unconfirmed`) | `in_stock` \| `made_to_order` \| `unavailable` \| `unconfirmed`; при `unconfirmed` `availability` не публікується в JSON-LD |
+| `publishOffer`     | boolean    | ні (`true`) | `false` повністю прибирає `Offer`/`AggregateOffer` із JSON-LD, поки торгові параметри не підтверджені |
 | `images`           | string[]   | так         | непорожній масив; лише `https://`-URL або безпечний локальний шлях |
 | `category`         | string     | ні          | непорожній                                                     |
 | `material`         | string     | ні          | непорожній                                                     |
 | `leadTime`         | string     | ні          | непорожній                                                     |
-| `priceLabel`       | string     | ні          | непорожній                                                     |
 | `priceNote`        | string     | ні          | непорожній                                                     |
+| `orderUrl`         | string     | ні          | абсолютний `https://`-URL на дозволеному хості (`olx.ua` і піддомени); інші схеми/хости — помилка |
 | `variantSummary`   | string     | ні          | непорожній                                                     |
 | `variants`         | object[]   | ні          | непорожній масив `{ name, description, badge? }`               |
+| `safetyWarnings`   | object[]   | ні          | непорожній масив `{ level: 'notice'|'critical', title?, text }`; показується помітним блоком на сторінці товару |
 
 Невідомі ключі (наприклад, одруківка `pirce` замість `price`) — **помилка
 валідації**, а не попередження.
+
+Опис (`description`) підтримує прості марковані списки: рядки, що починаються
+з `- `, рендеряться як `<ul>` (парсер — `src/utils/description.mjs`, без
+`set:html`).
 
 ### Як додати новий товар
 
@@ -79,9 +88,20 @@
   назви унікальні; ціни та зображення коректні; свідомо зіпсований товар
   (порожній slug, `javascript:`-зображення, одруківки в ключах тощо)
   відхиляється.
+- `tests/description.test.mjs` — парсер описів: абзаци, марковані списки
+  (включно з реальним текстом `product-2`), українські символи, відсутність
+  HTML-инʼєкцій.
+- `tests/seo-title.test.mjs` — SEO-`<title>` товарних сторінок: унікальність
+  на реальних даних, розумна довжина, відсутність обрізань посеред слова.
 - `tests/build-output.test.mjs` — виконує справжній production build і
   перевіряє, що згенеровано сторінку кожного товару, що `sitemap.xml` містить
-  усі очікувані URL і що в HTML немає inline-обробників подій.
+  усі очікувані URL і що в HTML немає inline-обробників подій; після цього
+  проганяє повний набір перевірок артефакту (`scripts/check-build.mjs`, він же
+  `npm run check:build`): унікальність `<title>`/canonical/description,
+  валідність усіх JSON-LD, відповідність видимої ціни/наявності/FAQ
+  structured data, внутрішні посилання та якорі, наявність fallback для
+  зображень, збереження логотипа й OG-зображення, відсутність небезпечних
+  URL-схем і порожніх файлів.
 
 ## Деплой на GitHub Pages
 
@@ -91,7 +111,7 @@ Workflow: [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
 
 Job `build` (тільки `contents: read`): `npm ci` → `npm audit
 --audit-level=high` → `npm run validate:data` → `npm run check` → `npm test` →
-`npm run build` → завантаження артефакту Pages. Падіння будь-якого кроку
+`npm run build` → `npm run check:build` → завантаження артефакту Pages. Падіння будь-якого кроку
 зупиняє деплой. Job `deploy` — єдиний із правами `pages: write` +
 `id-token: write`. Усі сторонні actions закріплені за повними commit SHA;
 `concurrency` скасовує застарілий незавершений запуск. Оскільки всі залежності

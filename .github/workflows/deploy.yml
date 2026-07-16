@@ -59,6 +59,12 @@ jobs:
       - name: Production build
         run: npm run build
 
+      # Post-build artifact checks: metadata uniqueness, JSON-LD validity and
+      # consistency with the visible pages, internal links/anchors, branding
+      # assets, image fallback wiring, dangerous URL schemes.
+      - name: Check build artifact
+        run: npm run check:build
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
