@@ -245,7 +245,10 @@
   position: absolute;
   inset: -10% -14%;
   z-index: -1;
-  background: radial-gradient(circle at 50% 55%, rgba(217, 154, 116, 0.32), transparent 64%);
+  /* Keep the glow's transparent stop inside this wide box. A circle uses
+     farthest-corner sizing here and reaches the horizontal edge while it is
+     still visible, which clips the fade into a straight line below the rack. */
+  background: radial-gradient(ellipse 63% 68% at 50% 55%, rgba(217, 154, 116, 0.32), transparent 64%);
   animation: rackGlowPulse 9s var(--ease-in-out) infinite;
 }
 
