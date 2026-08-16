@@ -87,10 +87,18 @@ const AVAILABILITY_VISIBLE_TEXT: Partial<Record<Product['availability'], string>
   made_to_order: 'Виготовлення під замовлення',
   unavailable: 'Тимчасово недоступно',
 };
+// Colour tone of the status pill. The status is always spelled out in words —
+// the tone only reinforces it, it never carries the meaning on its own.
+const AVAILABILITY_TONE: Partial<Record<Product['availability'], string>> = {
+  in_stock: 'ready',
+  made_to_order: 'made',
+  unavailable: 'off',
+};
 // `unconfirmed` stays undefined in both maps: no availability is published
 // and no status line is rendered until the status is confirmed.
 const schemaAvailability = AVAILABILITY_SCHEMA_URL[product.availability];
 const availabilityText = AVAILABILITY_VISIBLE_TEXT[product.availability];
+const availabilityTone = AVAILABILITY_TONE[product.availability];
 
 // ── Order CTA. A validated per-product orderUrl (https, allow-listed host —
 // enforced by the schema) wins; otherwise the shared OLX profile is used and
@@ -99,7 +107,10 @@ const orderHref = product.orderUrl ?? olxUrl;
 const hasDirectOrderUrl = Boolean(product.orderUrl);
 const orderCtaText = hasDirectOrderUrl
   ? 'Переглянути оголошення цього товару'
-  : 'Перейти до профілю продавця на OLX';
+  : 'Перейти до продавця на OLX';
+// The sticky mobile bar has room for a few words only; both variants stay
+// honest about where the link actually goes.
+const orderCtaShortText = hasDirectOrderUrl ? 'Відкрити на OLX' : 'Перейти на OLX';
 const orderNote = hasDirectOrderUrl
   ? 'Кнопка відкриває окрему сторінку цього товару на OLX.'
   : 'Окремого оголошення для цього товару поки немає. Кнопка відкриває загальний профіль продавця — вкажіть артикул товару в повідомленні.';
@@ -149,6 +160,33 @@ const productFacts = [
 ].filter((item): item is { label: string; value: string } => Boolean(item));
 
 const hasFacts = productFacts.length > 0;
+
+// The first screen answers "what is it made of / when is it ready / which
+// item is this" with at most three short facts; the full table lives in the
+// #product-details section so the buy panel stays scannable.
+const keyFacts = [
+  product.material ? { label: 'Матеріал', value: product.material } : null,
+  product.leadTime ? { label: 'Термін', value: product.leadTime } : null,
+  { label: 'Артикул', value: product.sku },
+].filter((item): item is { label: string; value: string } => Boolean(item));
+
+// Short, factual reassurance shown under the CTA. Same claims the FDM
+// section below makes in prose — nothing new is promised here.
+const orderPoints = [
+  'Самовивіз у Києві або OLX Доставка по Україні',
+  'Матеріал, колір і заповнення узгоджуються перед друком',
+  'Невеликі зміни моделі під вашу задачу — за домовленістю',
+];
+
+// Page sections, in the order they appear. Drives both the sticky section
+// nav and its scroll-spy, so a link can never point at a missing section.
+const pageSections = [
+  { id: 'product-description', label: 'Опис' },
+  hasFacts ? { id: 'product-details', label: 'Характеристики' } : null,
+  hasVariants ? { id: 'product-variants', label: 'Варіанти' } : null,
+  { id: 'fdm-print-use-cases', label: 'FDM-друк' },
+  hasImages ? { id: 'product-gallery', label: 'Фото' } : null,
+].filter((item): item is { id: string; label: string } => Boolean(item));
 
 // Public attribution is intentionally separate from internal rights-review
 // statuses. Only factual author/source/license metadata is rendered here;
@@ -279,184 +317,259 @@ const structuredData = {
         ]}
       />
 
-      <div class="product-page__hero">
+      <div class:list={['product-page__hero', { 'product-page__hero--solo': !hasImages }]}>
         {hasImages && (
           <section
             id="product-gallery"
-            class="product-page__gallery-card"
+            class="product-page__gallery"
             aria-label="Фотографії товару"
           >
             <ProductGallery title={product.title} images={imageUrls} />
           </section>
         )}
 
-        <aside class="product-page__summary-card" aria-labelledby="product-title">
-          <div class="product-page__header">
-            <p class="product-page__eyebrow">{product.category ?? 'Товар'}</p>
+        <div class="product-page__summary">
+          <header class="product-summary__head">
+            <p class="product-summary__eyebrow">{product.category ?? 'Товар'}</p>
 
-            <h1 id="product-title" class="product-page__title">
+            <h1 id="product-title" class="product-summary__title">
               {product.title}
             </h1>
 
             {product.shortDescription && (
-              <p class="product-page__lead">{product.shortDescription}</p>
+              <p class="product-summary__lead">{product.shortDescription}</p>
             )}
-          </div>
+          </header>
 
           <section
             id="product-price"
-            class="product-page__price-card"
+            class="product-buy"
             aria-labelledby="product-price-title"
           >
-            <p id="product-price-title" class="product-page__price-label">
-              {priceLabel}
-            </p>
+            <div class="product-buy__price-row">
+              <div class="product-buy__price">
+                <p id="product-price-title" class="product-page__price-label">{priceLabel}</p>
+                <ProductPrice amount={product.price} large={true} />
+              </div>
 
-            <div class="product-page__price">
-              <ProductPrice amount={product.price} large={true} />
+              {availabilityText && (
+                <p class="product-buy__status" data-tone={availabilityTone}>
+                  <span class="product-buy__status-dot" aria-hidden="true"></span>
+                  {availabilityText}
+                </p>
+              )}
             </div>
 
-            {availabilityText && (
-              <p class="product-page__price-note product-page__availability">
-                <strong>{availabilityText}</strong>
-              </p>
-            )}
-
-            {product.leadTime && (
-              <p class="product-page__price-note">
-                Термін виготовлення: <strong>{product.leadTime}</strong>
-              </p>
-            )}
-
             {product.priceNote && (
-              <p class="product-page__price-note">{product.priceNote}</p>
+              <p class="product-buy__price-note">{product.priceNote}</p>
+            )}
+
+            {keyFacts.length > 0 && (
+              <dl class="product-buy__facts">
+                {keyFacts.map((fact) => (
+                  <div class="product-buy__fact">
+                    <dt>{fact.label}</dt>
+                    <dd>{fact.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+
+            {hasWarnings && (
+              <div class="product-page__warnings">
+                {warnings.map((warning, index) => (
+                  <section
+                    class:list={[
+                      'product-warning',
+                      { 'product-warning--critical': warning.level === 'critical' },
+                    ]}
+                    role="note"
+                    aria-labelledby={`product-warning-title-${index}`}
+                  >
+                    <p
+                      id={`product-warning-title-${index}`}
+                      class="product-warning__title"
+                    >
+                      <span class="product-warning__icon" aria-hidden="true">⚠</span>
+                      <span class="product-warning__badge">
+                        {warning.level === 'critical' ? 'Небезпека' : 'Увага'}
+                      </span>
+                      {warning.title ?? warningDefaultTitle(warning.level)}
+                    </p>
+                    <p class="product-warning__text">{warning.text}</p>
+                  </section>
+                ))}
+              </div>
+            )}
+
+            <div class="product-buy__cta">
+              <a
+                class="btn btn--primary btn--lg product-page__cta-button"
+                href={orderHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-order-cta
+              >
+                <span>{orderCtaText}</span>
+                <svg class="product-buy__cta-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M14 4h6v6" />
+                  <path d="M20 4 11 13" />
+                  <path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
+                </svg>
+              </a>
+              <p class="product-buy__cta-note">{orderNote}</p>
+            </div>
+          </section>
+
+          <ul class="product-summary__points" role="list">
+            {orderPoints.map((point) => (
+              <li>{point}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <nav class="product-nav" aria-label="Розділи сторінки товару" data-product-nav>
+        <div class="product-nav__track">
+          {pageSections.map((section, index) => (
+            <a
+              class="product-nav__link"
+              href={`#${section.id}`}
+              aria-current={index === 0 ? 'true' : 'false'}
+            >
+              {section.label}
+            </a>
+          ))}
+        </div>
+      </nav>
+
+      <div class="product-page__body">
+        <div class="product-page__main">
+          <section
+            id="product-description"
+            class="product-section"
+            aria-labelledby="product-description-title"
+          >
+            <div class="product-section__head">
+              <p class="kicker">Опис товару</p>
+              <h2 id="product-description-title" class="product-section__title">Опис</h2>
+            </div>
+
+            {hasDescription ? (
+              <>
+                {introBlock && (
+                  <p class="product-section__lead">{introBlock.text}</p>
+                )}
+
+                {bodyBlocks.length > 0 && (
+                  <div class="product-prose">
+                    {bodyBlocks.map((block) =>
+                      block.type === 'list' ? (
+                        <ul class="product-prose__list" role="list">
+                          {block.items.map((item) => (
+                            <li>{item}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p>{block.text}</p>
+                      ),
+                    )}
+                  </div>
+                )}
+              </>
+            ) : (
+              <p class="product-section__lead">
+                Опис товару буде додано найближчим часом.
+              </p>
             )}
           </section>
 
-          {hasWarnings && (
-            <div class="product-page__warnings">
-              {warnings.map((warning, index) => (
-                <section
-                  class:list={[
-                    'product-warning',
-                    { 'product-warning--critical': warning.level === 'critical' },
-                  ]}
-                  role="note"
-                  aria-labelledby={`product-warning-title-${index}`}
-                >
-                  <p
-                    id={`product-warning-title-${index}`}
-                    class="product-warning__title"
-                  >
-                    <span class="product-warning__icon" aria-hidden="true">⚠</span>
-                    <span class="product-warning__badge">
-                      {warning.level === 'critical' ? 'Небезпека' : 'Увага'}
-                    </span>
-                    {warning.title ?? warningDefaultTitle(warning.level)}
-                  </p>
-                  <p class="product-warning__text">{warning.text}</p>
-                </section>
-              ))}
+          {hasVariants && (
+            <section
+              id="product-variants"
+              class="product-section"
+              aria-labelledby="product-variants-title"
+            >
+              <div class="product-section__head">
+                <p class="kicker">Конфігурації</p>
+                <h2 id="product-variants-title" class="product-section__title">Варіанти</h2>
+              </div>
+
+              <ul class="product-variants" role="list" aria-label="Варіанти товару">
+                {variants.map((variant) => (
+                  <li class="product-variants__item">
+                    <div class="product-variants__head">
+                      <h3>{variant.name}</h3>
+                      {variant.badge && (
+                        <span class="product-variants__badge">{variant.badge}</span>
+                      )}
+                    </div>
+
+                    <p>{variant.description}</p>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          <section
+            id="fdm-print-use-cases"
+            class="product-section"
+            aria-labelledby="fdm-print-use-cases-title"
+          >
+            <div class="product-section__head">
+              <p class="kicker">FDM-друк під замовлення</p>
+              <h2 id="fdm-print-use-cases-title" class="product-section__title">
+                Для корпусів, кріплень і прототипів
+              </h2>
             </div>
-          )}
 
-          <div class="product-page__cta">
-            <a
-              class="btn btn--primary btn--lg product-page__cta-button"
-              href={orderHref}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {orderCtaText}
-            </a>
-            <p class="product-page__cta-note">{orderNote}</p>
-          </div>
-
-          {hasFacts && (
-            <ul class="product-page__chips" role="list" aria-label="Ключові характеристики">
-              {productFacts.map((fact) => (
-                <li class="product-page__chip">
-                  <span>{fact.label}:</span> {fact.value}
-                </li>
-              ))}
-            </ul>
-          )}
-
-          <nav class="product-page__anchors" aria-label="Навігація по сторінці товару">
-            <a href="#product-description">Опис</a>
-            {hasVariants && <a href="#product-variants">Варіанти</a>}
-            {hasFacts && <a href="#product-details">Характеристики</a>}
-            <a href="#fdm-print-use-cases">FDM-друк</a>
-            {hasImages && <a href="#product-gallery">Фото</a>}
-          </nav>
-        </aside>
-      </div>
-
-      <div class="product-page__sections">
-        <section
-          id="product-description"
-          class="product-page__section-card"
-          aria-labelledby="product-description-title"
-        >
-          <div class="product-page__section-head">
-            <p class="kicker">Опис товару</p>
-            <h2 id="product-description-title">Опис</h2>
-          </div>
-
-          {hasDescription ? (
-            <>
-              {introBlock && (
-                <p class="product-page__description-intro">{introBlock.text}</p>
-              )}
-
-              {bodyBlocks.length > 0 && (
-                <div class="product-page__description">
-                  {bodyBlocks.map((block) =>
-                    block.type === 'list' ? (
-                      <ul class="product-page__description-list" role="list">
-                        {block.items.map((item) => (
-                          <li>{item}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p>{block.text}</p>
-                    ),
-                  )}
-                </div>
-              )}
-            </>
-          ) : (
-            <p class="product-page__description-intro">
-              Опис товару буде додано найближчим часом.
+            <p class="product-section__lead">
+              Цей виріб друкується під замовлення методом FDM. Перед друком можна узгодити
+              матеріал, колір, заповнення, міцність і невеликі зміни моделі під вашу задачу.
             </p>
-          )}
 
-          {hasAttribution && (
-            <aside
-              class="product-attribution"
-              aria-labelledby="product-attribution-title"
+            <ul class="product-usecases" role="list">
+              <li>друк PLA або PETG залежно від температури, навантаження та умов використання;</li>
+              <li>адаптація отворів, посадкових місць, товщини стінок або кольору;</li>
+              <li>виготовлення корпусів для електроніки, кронштейнів, панелей і прототипів;</li>
+              <li>самовивіз у Києві або відправлення OLX Доставкою по Україні.</li>
+            </ul>
+          </section>
+        </div>
+
+        <aside class="product-page__rail">
+          {hasFacts && (
+            <section
+              id="product-details"
+              class="product-specs"
+              aria-labelledby="product-details-title"
             >
-              <p id="product-attribution-title" class="product-attribution__title">
-                Авторство та джерело моделі
-              </p>
+              <div class="product-section__head">
+                <p class="kicker">Деталі</p>
+                <h2 id="product-details-title" class="product-specs__title">Характеристики</h2>
+              </div>
 
-              <dl class="product-attribution__details">
+              <dl class="product-specs__list">
+                {productFacts.map((fact) => (
+                  <div class="product-specs__row">
+                    <dt>{fact.label}</dt>
+                    <dd>{fact.value}</dd>
+                  </div>
+                ))}
+
                 {product.author && (
-                  <div>
-                    <dt>Автор</dt>
+                  <div class="product-specs__row">
+                    <dt>Автор моделі</dt>
                     <dd>{product.author}</dd>
                   </div>
                 )}
 
                 {product.sourceUrl && (
-                  <div>
+                  <div class="product-specs__row">
                     <dt>Джерело</dt>
                     <dd>
-                      <a
-                        href={product.sourceUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
+                      <a href={product.sourceUrl} target="_blank" rel="noopener noreferrer">
                         Оригінальна публікація
                       </a>
                     </dd>
@@ -464,15 +577,11 @@ const structuredData = {
                 )}
 
                 {(product.license || product.licenseUrl) && (
-                  <div>
+                  <div class="product-specs__row">
                     <dt>Ліцензія</dt>
                     <dd>
                       {product.licenseUrl ? (
-                        <a
-                          href={product.licenseUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
+                        <a href={product.licenseUrl} target="_blank" rel="noopener noreferrer">
                           {product.license ?? 'Переглянути умови ліцензії'}
                         </a>
                       ) : (
@@ -482,81 +591,174 @@ const structuredData = {
                   </div>
                 )}
               </dl>
-            </aside>
+
+              {hasAttribution && (
+                <p class="product-specs__note">
+                  Модель створена стороннім автором. Тут наведені лише фактичні дані
+                  про авторство, джерело та ліцензію.
+                </p>
+              )}
+            </section>
           )}
-        </section>
 
-        {hasFacts && (
-          <section
-            id="product-details"
-            class="product-page__section-card"
-            aria-labelledby="product-details-title"
-          >
-            <div class="product-page__section-head">
-              <p class="kicker">Деталі</p>
-              <h2 id="product-details-title">Характеристики</h2>
-            </div>
-
-            <dl class="product-page__details">
-              {productFacts.map((fact) => (
-                <div class="product-page__details-item">
-                  <dt>{fact.label}</dt>
-                  <dd>{fact.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-        )}
-
-        {hasVariants && (
-          <section
-            id="product-variants"
-            class="product-page__section-card product-page__section-card--wide"
-            aria-labelledby="product-variants-title"
-          >
-            <div class="product-page__section-head">
-              <p class="kicker">Конфігурації</p>
-              <h2 id="product-variants-title">Варіанти</h2>
-            </div>
-
-            <ul class="product-page__variants" role="list" aria-label="Варіанти товару">
-              {variants.map((variant) => (
-                <li class="product-page__variant">
-                  <div class="product-page__variant-head">
-                    <h3>{variant.name}</h3>
-                    {variant.badge && <span>{variant.badge}</span>}
-                  </div>
-
-                  <p>{variant.description}</p>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        <section
-          id="fdm-print-use-cases"
-          class="product-page__section-card product-page__section-card--wide"
-          aria-labelledby="fdm-print-use-cases-title"
-        >
-          <div class="product-page__section-head">
-            <p class="kicker">FDM-друк під замовлення</p>
-            <h2 id="fdm-print-use-cases-title">Для корпусів, кріплень і прототипів</h2>
+          <div class="product-recap">
+            <p class="product-recap__label">{priceLabel}</p>
+            <ProductPrice amount={product.price} large={true} />
+            {product.leadTime && (
+              <p class="product-recap__meta">Термін виготовлення: {product.leadTime}</p>
+            )}
+            <a
+              class="btn btn--primary product-page__cta-button product-recap__button"
+              href={orderHref}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {orderCtaShortText}
+            </a>
           </div>
+        </aside>
+      </div>
+    </div>
 
-          <p class="product-page__description-intro">
-            Цей виріб друкується під замовлення методом FDM. Перед друком можна узгодити
-            матеріал, колір, заповнення, міцність і невеликі зміни моделі під вашу задачу.
-          </p>
+    <div class="product-buybar" data-buybar hidden>
+      <div class="product-buybar__inner">
+        <div class="product-buybar__price">
+          <p class="product-buybar__label">{priceLabel}</p>
+          <ProductPrice amount={product.price} />
+        </div>
 
-          <ul class="product-page__use-list" role="list">
-            <li>друк PLA або PETG залежно від температури, навантаження та умов використання;</li>
-            <li>адаптація отворів, посадкових місць, товщини стінок або кольору;</li>
-            <li>виготовлення корпусів для електроніки, кронштейнів, панелей і прототипів;</li>
-            <li>самовивіз у Києві або відправлення OLX Доставкою по Україні.</li>
-          </ul>
-        </section>
+        <a
+          class="btn btn--primary product-page__cta-button product-buybar__button"
+          href={orderHref}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {orderCtaShortText}
+        </a>
       </div>
     </div>
   </section>
 </Layout>
+
+<script>
+  // ── Sticky section nav: scroll-spy + a mobile buy bar that appears once the
+  // main CTA has scrolled away. Both are progressive enhancements — the links
+  // and the CTA work without any of this.
+  const nav = document.querySelector<HTMLElement>('[data-product-nav]');
+
+  if (nav) {
+    const track = nav.querySelector<HTMLElement>('.product-nav__track');
+
+    // Fade the edge the tabs continue past, so a narrow strip does not look
+    // like the whole set.
+    if (track) {
+      const updateEdges = () => {
+        const remaining = track.scrollWidth - track.clientWidth - track.scrollLeft;
+        nav.classList.toggle('has-start', track.scrollLeft > 4);
+        nav.classList.toggle('has-end', remaining > 4);
+      };
+
+      track.addEventListener('scroll', updateEdges, { passive: true });
+      window.addEventListener('resize', updateEdges, { passive: true });
+      updateEdges();
+    }
+
+    const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>('.product-nav__link'));
+    const sections = links
+      .map((link) => {
+        // The gallery sits above the nav and is a "jump back up" shortcut,
+        // not a section you read through — spying on it would light up
+        // "Фото" while the page is still at the top.
+        if (link.hash === '#product-gallery') return null;
+
+        const section = document.querySelector<HTMLElement>(link.hash);
+        return section ? { link, section } : null;
+      })
+      .filter((entry): entry is { link: HTMLAnchorElement; section: HTMLElement } => entry !== null);
+
+    if (sections.length > 0) {
+      const setActive = (active: HTMLAnchorElement) => {
+        for (const { link } of sections) {
+          link.setAttribute('aria-current', String(link === active));
+        }
+
+        // Keep the active tab in view on the horizontally scrolling mobile nav.
+        if (track && track.scrollWidth > track.clientWidth) {
+          const offset =
+            active.offsetLeft - track.clientWidth / 2 + active.offsetWidth / 2;
+          track.scrollTo({ left: Math.max(0, offset), behavior: 'smooth' });
+        }
+      };
+
+      // Track which sections are on screen and always highlight the topmost
+      // one, so short sections between long ones never get skipped.
+      const visible = new Set<HTMLElement>();
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            const target = entry.target as HTMLElement;
+            if (entry.isIntersecting) visible.add(target);
+            else visible.delete(target);
+          }
+
+          // Viewport coordinates, not offsetTop: the sticky rail is a
+          // positioned ancestor, so the specs card measures its offsetTop
+          // as 0 and would always win against the description next to it.
+          const topmost = sections
+            .filter(({ section }) => visible.has(section))
+            .sort(
+              (a, b) =>
+                a.section.getBoundingClientRect().top -
+                b.section.getBoundingClientRect().top,
+            )[0];
+
+          if (topmost) setActive(topmost.link);
+        },
+        {
+          // Only count a section as "current" once it reaches the area just
+          // under the sticky header + nav.
+          rootMargin: '-140px 0px -55% 0px',
+          threshold: 0,
+        },
+      );
+
+      for (const { section } of sections) observer.observe(section);
+    }
+  }
+
+  const buybar = document.querySelector<HTMLElement>('[data-buybar]');
+  const heroCta = document.querySelector<HTMLElement>('[data-order-cta]');
+
+  if (buybar && heroCta) {
+    // The bar is fixed to the bottom edge, so it would sit on top of the
+    // footer at the end of the page — it steps aside once the footer shows up.
+    const footer = document.querySelector('.site-footer');
+    let frame = 0;
+
+    // Measured per frame rather than through IntersectionObserver: a deep
+    // anchor jump moves the CTA out of view in a single frame, which the
+    // observer can coalesce into one stale notification.
+    const update = () => {
+      frame = 0;
+
+      const ctaPassed = heroCta.getBoundingClientRect().bottom < 0;
+      const atFooter = footer
+        ? footer.getBoundingClientRect().top < window.innerHeight
+        : false;
+
+      // `hidden` is only the no-JS state; from here on the bar slides in and
+      // out via a class so the transition has something to animate.
+      buybar.hidden = false;
+      buybar.classList.toggle('is-visible', ctaPassed && !atFooter);
+    };
+
+    const schedule = () => {
+      if (frame === 0) frame = requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    update();
+  }
+</script>

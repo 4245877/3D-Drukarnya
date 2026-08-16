@@ -65,7 +65,10 @@ body {
   align-items: center;
   gap: var(--space-6);
   width: 100%;
-  max-width: var(--max-w-2xl);
+  /* Same max-width as .container: the header used to be 1440px wide while
+     every page below it is 1280px, so the logo and the CTA sat 80px outside
+     the page's vertical axis on wide screens. */
+  max-width: var(--max-w-xl);
   margin-inline: auto;
   padding-inline: var(--container-px);
 }

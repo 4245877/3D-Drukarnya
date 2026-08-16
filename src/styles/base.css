@@ -33,6 +33,11 @@
   --bg-elevated:   #E8D8BE;          /* raised elements */
   --bg-deep:       #5A3A2E;          /* footers, dark sections */
   --bg-dark:       #3D2419;          /* darkest surface */
+  /* Milky card surface. The sand tones above sit too close to --bg-base for a
+     card to read as a separate plane; --bg-card is the light surface that
+     carries content, --bg-inset the quiet block *inside* such a card. */
+  --bg-card:       #FCF8F1;
+  --bg-inset:      #F4EADA;
 
   --text-primary:  #2E1B10;
   --text-secondary:#5A3A2E;
@@ -50,12 +55,19 @@
   --accent-warm:     #D99A74;        /* copper - decor, dividers */
   --accent-gold:     #B89A61;        /* gold — borders, stars */
   --accent-steel:    #A9AEB8;        /* steel — icons, meta */
+  /* Natural green, used sparingly for "ready / in stock" signals. Verified
+     ≥4.5:1 on --bg-card and --bg-base; never the only carrier of meaning. */
+  --accent-sage:     #4C6B4E;
 
   /* Shadows */
   --shadow-xs:   0 1px 3px rgba(42,20,8,.10);
   --shadow-sm:   0 2px 8px rgba(42,20,8,.12);
   --shadow-md:   0 6px 20px rgba(42,20,8,.15);
   --shadow-xl:   0 32px 80px rgba(42,20,8,.28);
+  /* Soft two-part shadow for milky cards: a tight contact edge plus a wide,
+     very light ambient pool. Keeps cards lifted without a heavy drop. */
+  --shadow-card: 0 1px 2px rgba(58,35,20,.05), 0 10px 28px -14px rgba(58,35,20,.22);
+  --shadow-card-hover: 0 2px 4px rgba(58,35,20,.06), 0 18px 40px -16px rgba(58,35,20,.28);
 
   /* Typography */
   /* Display font must cover Cyrillic — Playfair Display ships full Cyrillic,
@@ -113,6 +125,9 @@
      ad-hoc rgba(184,154,97,…) alphas. */
   --border-faint:  1px solid rgba(184,154,97,.20);
   --border-soft:   1px solid rgba(184,154,97,.28);
+  /* Hairline for milky cards: the gold alphas above wash out on --bg-card,
+     so this one is mixed from the warm ink instead. */
+  --border-card:   1px solid rgba(122,90,58,.16);
 
   /* Z-index (single layer in use: the sticky header) */
   --z-sticky: 200;
@@ -128,7 +143,6 @@
 
   /* Layout */
   --max-w-xl:   1280px;
-  --max-w-2xl:  1440px;
   --container-px: clamp(1rem, 5vw, 3rem);
 
   /* Nav */
@@ -230,6 +244,10 @@ h1, h2, h3, h4, h5, h6 {
   line-height: var(--lh-snug);
   color: var(--text-primary);
   letter-spacing: -0.01em;
+  /* Cormorant defaults to old-style figures, which rendered product model
+     numbers like "10 Inch" as "1o Inch". Headings carry SKUs, sizes and
+     rack units, so they ask for lining figures. */
+  font-variant-numeric: lining-nums;
 }
 
 h1 { font-size: var(--fs-4xl); font-weight: var(--fw-light); letter-spacing: -0.03em; }
@@ -295,16 +313,19 @@ p {
 .btn:active        { transform: scale(0.97); }
 
 /* Primary */
+/* Label is --text-inverse, not --cream: cream on the brand red is 4.13:1 and
+   misses AA for the 18px semibold CTA, while the lighter tint reaches 4.98:1
+   on the same background. */
 .btn--primary {
   background: var(--accent-primary);
-  color: var(--cream);
+  color: var(--text-inverse);
   border-color: var(--accent-primary);
   box-shadow: 0 4px 18px rgba(172,65,81,.35);
 }
 .btn--primary:hover {
   background: var(--accent-hover);
   border-color: var(--accent-hover);
-  color: var(--cream);
+  color: var(--text-inverse);
   box-shadow: 0 8px 28px rgba(142,63,67,.45);
   transform: translateY(-1px);
 }
@@ -424,6 +445,10 @@ p {
 }
 
 .breadcrumbs__item a {
+  /* padding-block lifts the tap target to ~29px without moving the text
+     (WCAG 2.5.8 asks for 24px); the row keeps its own line-height. */
+  display: inline-block;
+  padding-block: var(--space-1);
   color: var(--text-muted);
   text-decoration: none;
 }

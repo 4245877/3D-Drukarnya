@@ -1,120 +1,310 @@
+/* ============================================================
+   PRODUCT.CSS — Product page
+   Depends on: base.css (tokens, reset, .btn, .kicker, .container)
+
+   LAYOUT SYSTEM
+   The hero and the content body share one grid template, so the
+   gallery / summary split and the main / rail split sit on the
+   same two vertical axes down the whole page. Change the column
+   ratio in one place (--product-cols) and everything follows.
+
+   SPACING
+   Only 4/8/12/16/24/32/48/64 steps are used here
+   (--space-1..4, 6, 8, 12, 16); the 20px and 40px steps of the
+   global scale are deliberately skipped so the vertical rhythm
+   stays on one ladder.
+
+   TYPE SCALE (this page)
+   h1 .......... Playfair 700, clamp 30→44px   product name
+   h2 .......... Cormorant 600, clamp 26→34px  section titles
+   h3 .......... Mulish 700, 17px              variant names
+   lead ........ 17–18px / 1.65                intro paragraphs
+   body ........ 16px / 1.75                   prose
+   label ....... 13px 700 uppercase            dt, kickers, price label
+   price ....... Mulish 700, clamp 30→38px     tabular lining figures
+   meta ........ 14px / 1.55                   notes under the CTA
+   ============================================================ */
+
 .product-page {
-  padding: var(--space-6) 0 var(--space-12);
+  --product-cols: minmax(0, 1.28fr) minmax(min(100%, 25rem), 1fr);
+  --product-gap: var(--space-12);
+  --product-nav-h: 60px;
+
+  padding: var(--space-6) 0 var(--space-16);
+}
+
+/* One template for both halves of the page — this is what keeps every
+   section on the same axis as the gallery above it. */
+.product-page__hero,
+.product-page__body {
+  display: grid;
+  grid-template-columns: var(--product-cols);
+  gap: var(--product-gap);
+  align-items: start;
 }
 
 .product-page__hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.85fr);
-  gap: var(--space-6);
-  align-items: start;
-  margin-top: var(--space-4);
+  margin-top: var(--space-6);
 }
 
-.product-page__gallery-card,
-.product-page__summary-card,
-.product-page__section-card {
-  background: var(--bg-surface);
-  border: var(--border-faint);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-sm);
+.product-page__hero--solo {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
 }
 
-.product-page__gallery-card {
-  padding: var(--space-4);
-  overflow: hidden;
-  align-self: start;
+.product-page__hero--solo .product-page__summary {
+  max-width: 40rem;
 }
 
-.product-page__summary-card {
+/* The summary column is taller than the gallery, so the *gallery* is the
+   part that stays put while the buying information scrolls. */
+.product-page__gallery {
   position: sticky;
-  top: calc(var(--header-h) + var(--space-4));
-  padding: var(--space-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
+  top: calc(var(--header-h) + var(--space-6));
+  min-width: 0;
 }
 
-.product-page__header {
-  display: flex;
-  flex-direction: column;
+/* ── Summary column ───────────────────────────────────────── */
+
+.product-page__summary {
+  display: grid;
+  gap: var(--space-6);
+  min-width: 0;
+}
+
+.product-summary__head {
+  display: grid;
   gap: var(--space-3);
 }
 
-.product-page__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  align-self: flex-start;
-  padding: 0.45rem 0.8rem;
+.product-summary__eyebrow {
+  justify-self: start;
+  max-width: 100%;
   margin: 0;
-  border-radius: var(--radius-full);
-  background: rgba(142, 63, 67, 0.1);
   color: var(--text-kicker);
-  font-size: var(--fs-xs);
+  font-size: 0.8125rem;
   font-weight: var(--fw-bold);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
   text-transform: uppercase;
 }
 
-.product-page__title {
+.product-summary__title {
   margin: 0;
-  font-family: var(--font-serif);
-  font-size: clamp(1.9rem, 3vw, 3rem);
-  line-height: 1.08;
-  color: var(--chocolate);
-  letter-spacing: -0.02em;
+  /* Playfair, not Cormorant: product names carry model numbers ("10 Inch",
+     "M920q") and need lining figures plus a sturdier stroke. */
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.2rem + 1.5vw, 2.5rem);
+  font-weight: var(--fw-bold);
+  line-height: 1.14;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  /* Long single-token model names must never push the column wide. */
+  overflow-wrap: break-word;
 }
 
-.product-page__lead {
+.product-summary__lead {
+  max-width: 46ch;
   margin: 0;
-  font-size: var(--fs-base);
-  line-height: 1.7;
   color: var(--text-secondary);
-  max-width: 48ch;
+  font-size: var(--fs-md);
+  line-height: 1.65;
 }
 
-.product-page__price-card {
+/* ── Buy panel: price → status → key facts → CTA ──────────── */
+
+.product-buy {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border: var(--border-card);
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
+}
+
+.product-buy__price-row {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  padding: var(--space-5);
-  border-radius: var(--radius-lg);
-  background:
-    linear-gradient(
-      180deg,
-      rgba(184, 154, 97, 0.08),
-      rgba(184, 154, 97, 0.03)
-    ),
-    var(--bg-elevated);
-  border: var(--border-faint);
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-4);
 }
 
+.product-buy__price {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+/* Class name and inline text are asserted by scripts/check-build.mjs
+   (visible label vs JSON-LD offer type) — keep both as they are. */
 .product-page__price-label {
   margin: 0;
-  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-size: 0.8125rem;
   font-weight: var(--fw-bold);
   letter-spacing: 0.08em;
+  line-height: 1.2;
   text-transform: uppercase;
+}
+
+.product-buy__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  margin: 0;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-full);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  line-height: 1.3;
+  /* Default tone; the dot only reinforces the words next to it. */
   color: var(--text-muted);
 }
 
-.product-page__price {
-  display: flex;
-  align-items: center;
-  min-height: 3rem;
+.product-buy__status-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: currentColor;
 }
 
-/* Price size comes from the `large` prop of <ProductPrice>
-   (.product-price--large in price.css) — no page-level override. */
+.product-buy__status[data-tone='ready'] {
+  color: var(--accent-sage);
+  background: rgba(76, 107, 78, 0.08);
+}
 
-.product-page__price-note {
+.product-buy__status[data-tone='made'] {
+  color: #7A5A22;
+  background: rgba(184, 154, 97, 0.14);
+}
+
+.product-buy__status[data-tone='off'] {
+  color: var(--burgundy);
+  background: rgba(142, 63, 67, 0.08);
+}
+
+.product-buy__price-note {
+  max-width: none;
   margin: 0;
+  color: var(--text-muted);
   font-size: var(--fs-sm);
-  color: var(--text-secondary);
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-.product-page__availability strong {
-  color: var(--chocolate);
+.product-buy__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding-top: var(--space-4);
+  border-top: var(--border-card);
+}
+
+.product-buy__fact {
+  min-width: 0;
+}
+
+.product-buy__fact dt {
+  margin: 0 0 var(--space-1);
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.product-buy__fact dd {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.product-buy__cta {
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* ── Order CTA ─────────────────────────────────────────────
+   These rules are qualified with the button class on purpose: Astro emits
+   this page's CSS *before* base.css, so a single-class rule here would lose
+   to the base button on equal specificity — that is what kept white-space
+   at nowrap and clipped the label on mobile. */
+
+.btn.product-page__cta-button {
+  width: 100%;
+  min-height: 3.5rem;
+  padding: var(--space-3) var(--space-6);
+  /* A whole sentence in caps is unreadable and could not wrap; the main
+     action is the only sentence-case button on the site, which also makes
+     it read as the primary one. */
+  font-size: var(--fs-md);
+  letter-spacing: 0.005em;
+  text-align: center;
+  text-transform: none;
+  white-space: normal;
+}
+
+.product-buy__cta-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--dur-normal) var(--ease-out);
+}
+
+.btn.product-page__cta-button:hover .product-buy__cta-icon,
+.btn.product-page__cta-button:focus-visible .product-buy__cta-icon {
+  transform: translate(2px, -2px);
+}
+
+.product-buy__cta-note {
+  max-width: none;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+}
+
+/* ── Reassurance points under the panel ───────────────────── */
+
+.product-summary__points {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.product-summary__points li {
+  position: relative;
+  padding-left: var(--space-6);
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+}
+
+.product-summary__points li::before {
+  content: '';
+  position: absolute;
+  top: 0.42em;
+  left: 0;
+  width: 0.75rem;
+  height: 0.4rem;
+  border: 2px solid var(--accent-sage);
+  border-top: 0;
+  border-right: 0;
+  transform: rotate(-45deg);
 }
 
 /* ── Safety warnings (structured, never inside an accordion) ── */
@@ -125,21 +315,17 @@
 }
 
 .product-warning {
-  padding: var(--space-4) var(--space-5);
+  padding: var(--space-3) var(--space-4);
   border: 1px solid rgba(184, 154, 97, 0.45);
   border-left: 4px solid var(--gold-beige);
-  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-  background:
-    linear-gradient(180deg, rgba(184, 154, 97, 0.12), rgba(184, 154, 97, 0.05)),
-    var(--bg-elevated);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: rgba(184, 154, 97, 0.1);
 }
 
 .product-warning--critical {
-  border-color: rgba(142, 63, 67, 0.5);
+  border-color: rgba(142, 63, 67, 0.45);
   border-left-color: var(--burgundy);
-  background:
-    linear-gradient(180deg, rgba(142, 63, 67, 0.1), rgba(142, 63, 67, 0.04)),
-    var(--bg-elevated);
+  background: rgba(142, 63, 67, 0.07);
 }
 
 .product-warning__title {
@@ -147,6 +333,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: var(--space-2);
+  max-width: none;
   margin: 0 0 var(--space-2);
   color: var(--text-primary);
   font-size: var(--fs-sm);
@@ -181,157 +368,193 @@
 }
 
 .product-warning__text {
+  max-width: none;
   margin: 0;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   font-size: var(--fs-sm);
   line-height: 1.65;
 }
 
-/* ── Order CTA ── */
+/* ── Sticky section nav ───────────────────────────────────── */
 
-.product-page__cta {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.product-page__cta-button {
-  width: 100%;
-  justify-content: center;
-  text-align: center;
-  white-space: normal;
-}
-
-.product-page__cta-note {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: var(--fs-xs);
-  line-height: 1.55;
-}
-
-.product-page__chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.product-page__chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.6rem 0.9rem;
+.product-nav {
+  position: sticky;
+  /* Sits directly under the site header, which owns --z-sticky (200). */
+  top: var(--header-h);
+  z-index: 150;
+  /* A segmented control the width of its tabs, not an empty full-width
+     strip; it still starts on the page's left axis. */
+  width: fit-content;
+  max-width: 100%;
+  margin: var(--space-12) 0 var(--space-8);
+  border: var(--border-card);
   border-radius: var(--radius-full);
-  background: var(--bg-elevated);
-  border: var(--border-faint);
-  color: var(--text-secondary);
-  font-size: var(--fs-sm);
-  line-height: 1.4;
+  /* Nearly opaque on purpose: the blur is an enhancement, and where
+     backdrop-filter is unsupported the content underneath must not read
+     through a bar that scrolls over it. */
+  background: rgba(252, 248, 241, 0.97);
+  backdrop-filter: blur(16px) saturate(170%);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  box-shadow: var(--shadow-card);
 }
 
-.product-page__chip span {
-  color: var(--chocolate);
-  font-weight: var(--fw-semibold);
+.product-nav__track {
+  display: flex;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
 }
 
-.product-page__anchors {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
-  gap: var(--space-2);
+.product-nav__track::-webkit-scrollbar {
+  display: none;
 }
 
-.product-page__anchors a {
+/* Edge fades: on narrow screens the tabs scroll, and without them the strip
+   looks complete while two sections are still off to the right. The classes
+   are set from the page script only when there is really more to scroll. */
+.product-nav::before,
+.product-nav::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  width: 2.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.product-nav::before {
+  left: 1px;
+  border-radius: var(--radius-full) 0 0 var(--radius-full);
+  background: linear-gradient(90deg, rgba(252, 248, 241, 0.97), rgba(252, 248, 241, 0));
+}
+
+.product-nav::after {
+  right: 1px;
+  border-radius: 0 var(--radius-full) var(--radius-full) 0;
+  background: linear-gradient(270deg, rgba(252, 248, 241, 0.97), rgba(252, 248, 241, 0));
+}
+
+.product-nav.has-start::before,
+.product-nav.has-end::after {
+  opacity: 1;
+}
+
+.product-nav__link {
   display: inline-flex;
+  flex: 0 0 auto;
   align-items: center;
-  justify-content: center;
   min-height: 44px;
-  padding: 0.7rem 1rem;
-  border-radius: var(--radius-md);
-  border: var(--border-faint);
-  background: transparent;
-  color: var(--chocolate);
-  text-decoration: none;
-  font-size: var(--fs-sm);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-full);
+  /* A faint plate on every tab, not just the active one: it makes the strip
+     read as a segmented control, and a half-scrolled tab is then visibly a
+     cut-off tab instead of empty padding. */
+  background: rgba(122, 90, 58, 0.06);
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
   font-weight: var(--fw-semibold);
+  text-decoration: none;
+  white-space: nowrap;
+  scroll-snap-align: center;
   transition:
     background-color var(--dur-fast) var(--ease-out),
-    border-color var(--dur-fast) var(--ease-out),
-    color var(--dur-fast) var(--ease-out),
-    transform var(--dur-fast) var(--ease-out);
+    color var(--dur-fast) var(--ease-out);
 }
 
-.product-page__anchors a:hover,
-.product-page__anchors a:focus-visible {
-  background: rgba(184, 154, 97, 0.08);
-  border-color: rgba(184, 154, 97, 0.45);
+.product-nav__link:hover {
+  background: rgba(142, 63, 67, 0.08);
   color: var(--burgundy);
-  transform: translateY(-1px);
 }
 
-.product-page__sections {
-  margin-top: var(--space-8);
+.product-nav__link[aria-current='true'] {
+  background: var(--burgundy);
+  color: var(--cream);
+  box-shadow: 0 4px 14px -4px rgba(142, 63, 67, 0.55);
+}
+
+/* ── Content body ─────────────────────────────────────────── */
+
+.product-page__main {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
-  gap: var(--space-5);
-  align-items: start;
+  gap: var(--space-12);
+  min-width: 0;
 }
 
-.product-page__section-card {
-  padding: var(--space-6);
-  /* No scroll-margin-top: html's scroll-padding-top (base.css) already
-     clears the sticky header; adding a margin here would double-offset. */
+.product-page__rail {
+  display: grid;
+  gap: var(--space-6);
+  min-width: 0;
+  /* Specs and the price stay alongside the description instead of leaving
+     half the page empty once the aside runs out of content. */
+  position: sticky;
+  top: calc(var(--header-h) + var(--product-nav-h) + var(--space-4));
 }
 
-.product-page__section-card:only-child {
-  grid-column: 1 / -1;
+/* Anchor targets clear the sticky header (html scroll-padding-top in
+   base.css) plus this page's sticky nav. */
+.product-section,
+.product-specs,
+.product-page__gallery {
+  scroll-margin-top: calc(var(--product-nav-h) + var(--space-4));
 }
 
-.product-page__section-card--wide {
-  grid-column: 1 / -1;
+.product-section {
+  min-width: 0;
 }
 
-.product-page__section-head {
+/* Hairline rhythm instead of a card per topic. */
+.product-section + .product-section {
+  padding-top: var(--space-12);
+  border-top: var(--border-card);
+}
+
+.product-section__head {
   margin-bottom: var(--space-4);
 }
 
-/* Section kickers use the shared .kicker component from base.css */
-
-.product-page__section-card h2 {
+.product-section__title,
+.product-specs__title {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(1.35rem, 2vw, 1.8rem);
-  line-height: 1.15;
+  font-size: clamp(1.625rem, 1.2rem + 1vw, 2.125rem);
+  font-weight: var(--fw-semibold);
+  line-height: 1.2;
   color: var(--chocolate);
 }
 
-.product-page__description-intro {
-  margin: 0 0 var(--space-4);
-  padding: var(--space-4) var(--space-5);
-  border-left: 4px solid var(--burgundy);
-  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-  background: rgba(184, 154, 97, 0.06);
-  color: var(--chocolate);
-  font-size: clamp(1rem, 1.1vw, 1.1rem);
-  line-height: 1.8;
+.product-specs__title {
+  font-size: clamp(1.5rem, 1.2rem + 0.7vw, 1.75rem);
 }
 
-.product-page__description {
+/* The opening paragraph carries hierarchy through size and colour — the
+   old bordered "quote" box did the same job with a frame. */
+.product-section__lead {
+  max-width: 62ch;
+  margin: 0 0 var(--space-6);
+  color: var(--chocolate);
+  font-size: var(--fs-md);
+  line-height: 1.7;
+}
+
+.product-prose {
   display: grid;
   gap: var(--space-4);
 }
 
-.product-page__description p {
+.product-prose p {
+  max-width: 68ch;
   margin: 0;
   color: var(--text-secondary);
   font-size: var(--fs-base);
-  line-height: 1.8;
+  line-height: 1.75;
 }
 
-/* Bullet lists inside the description (parsed from "- " lines) — the same
-   burgundy-dot style as .product-page__use-list, in a compact text form. */
-.product-page__description-list {
+.product-prose__list {
   display: grid;
   gap: var(--space-2);
   margin: 0;
@@ -339,284 +562,408 @@
   list-style: none;
 }
 
-.product-page__description-list li {
+.product-prose__list li {
   position: relative;
-  padding-left: var(--space-5);
+  max-width: 68ch;
+  padding-left: var(--space-6);
   color: var(--text-secondary);
   font-size: var(--fs-base);
   line-height: 1.7;
 }
 
-.product-page__description-list li::before {
+.product-prose__list li::before {
   content: '';
   position: absolute;
+  top: 0.65em;
   left: 0.35rem;
-  top: 0.62em;
   width: 0.4rem;
   height: 0.4rem;
   border-radius: 50%;
-  background: var(--burgundy);
+  background: var(--copper);
 }
 
-/* Calm, factual attribution for the source model. Internal review statuses
-   deliberately stay out of the customer-facing page. */
-.product-attribution {
-  margin-top: var(--space-5);
-  padding: var(--space-4) var(--space-5);
-  border: var(--border-faint);
-  border-radius: var(--radius-lg);
-  background: rgba(245, 237, 224, 0.52);
-  color: var(--text-secondary);
-}
+/* ── Variants ─────────────────────────────────────────────── */
 
-.product-attribution__title {
-  margin: 0 0 var(--space-3);
-  color: var(--chocolate);
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-semibold);
-}
-
-.product-attribution__details {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  gap: var(--space-3) var(--space-5);
-  margin: 0;
-}
-
-.product-attribution__details div {
-  min-width: 0;
-}
-
-.product-attribution__details dt {
-  margin: 0 0 var(--space-1);
-  color: var(--text-muted);
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-semibold);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.product-attribution__details dd {
-  margin: 0;
-  overflow-wrap: anywhere;
-  font-size: var(--fs-sm);
-  line-height: 1.55;
-}
-
-.product-attribution__details a {
-  color: var(--burgundy);
-  text-underline-offset: 0.18em;
-}
-
-.product-attribution__details a:hover,
-.product-attribution__details a:focus-visible {
-  color: var(--chocolate);
-}
-
-.product-page__details {
-  display: grid;
-  gap: var(--space-3);
-  margin: 0;
-}
-
-.product-page__details-item {
-  padding: var(--space-4);
-  border-radius: var(--radius-lg);
-  background: var(--bg-elevated);
-  border: var(--border-faint);
-}
-
-.product-page__details-item dt {
-  margin: 0 0 var(--space-2);
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-bold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.product-page__details-item dd {
-  margin: 0;
-  color: var(--chocolate);
-  font-size: var(--fs-base);
-  font-weight: var(--fw-semibold);
-  line-height: 1.5;
-}
-
-.product-page__variants {
+.product-variants {
   display: grid;
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: var(--border-faint);
 }
 
-.product-page__variant {
+.product-variants__item {
   display: grid;
-  grid-template-columns: minmax(14rem, 0.42fr) minmax(0, 0.58fr);
-  gap: var(--space-4);
+  grid-template-columns: minmax(11rem, 0.4fr) minmax(0, 0.6fr);
+  gap: var(--space-3) var(--space-6);
   padding: var(--space-4) 0;
-  border-bottom: var(--border-faint);
+  border-top: var(--border-card);
 }
 
-.product-page__variant-head {
+.product-variants__item:last-child {
+  padding-bottom: 0;
+}
+
+.product-variants__head {
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
   gap: var(--space-2);
+  min-width: 0;
 }
 
-.product-page__variant h3 {
+.product-variants__item h3 {
   margin: 0;
-  color: var(--chocolate);
-  font-size: clamp(1rem, 1.2vw, 1.15rem);
-  line-height: 1.35;
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  font-weight: var(--fw-bold);
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--text-primary);
 }
 
-.product-page__variant span {
+.product-variants__badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.55rem;
+  padding: 0.2rem 0.6rem;
   border-radius: var(--radius-full);
   background: rgba(142, 63, 67, 0.1);
   color: var(--burgundy);
   font-size: var(--fs-xs);
   font-weight: var(--fw-bold);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.product-page__variant p {
+.product-variants__item p {
+  max-width: 60ch;
   margin: 0;
   color: var(--text-secondary);
   font-size: var(--fs-base);
   line-height: 1.7;
 }
 
-.product-page__use-list {
+/* ── FDM use cases ────────────────────────────────────────── */
+
+.product-usecases {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-3);
-  margin: var(--space-5) 0 0;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--space-4) var(--space-8);
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.product-page__use-list li {
+.product-usecases li {
   position: relative;
-  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-8);
-  border: var(--border-faint);
-  border-radius: var(--radius-md);
-  background: var(--bg-elevated);
+  padding-left: var(--space-8);
   color: var(--text-secondary);
-  line-height: 1.6;
+  font-size: var(--fs-base);
+  line-height: 1.65;
 }
 
-.product-page__use-list li::before {
+.product-usecases li::before {
   content: '';
   position: absolute;
-  left: var(--space-4);
-  top: 1.35rem;
-  width: 0.45rem;
-  height: 0.45rem;
+  top: 0.15em;
+  left: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: rgba(217, 154, 116, 0.22);
+}
+
+.product-usecases li::after {
+  content: '';
+  position: absolute;
+  top: 0.52em;
+  left: 0.375rem;
+  width: 0.5rem;
+  height: 0.5rem;
   border-radius: 50%;
   background: var(--burgundy);
 }
 
+/* ── Specs card (rail) ────────────────────────────────────── */
+
+.product-specs {
+  padding: var(--space-6);
+  border: var(--border-card);
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
+}
+
+.product-specs__list {
+  display: grid;
+  margin: 0;
+}
+
+.product-specs__row {
+  display: grid;
+  grid-template-columns: minmax(6rem, 38%) minmax(0, 1fr);
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-3) 0;
+  border-top: var(--border-card);
+}
+
+.product-specs__row:last-child {
+  padding-bottom: 0;
+}
+
+.product-specs__row dt {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.product-specs__row dd {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.product-specs__row a {
+  color: var(--burgundy);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+.product-specs__row a:hover {
+  color: var(--chocolate);
+}
+
+.product-specs__note {
+  max-width: none;
+  margin: var(--space-4) 0 0;
+  padding-top: var(--space-3);
+  border-top: var(--border-card);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+}
+
+/* ── Order recap (rail) ───────────────────────────────────── */
+
+.product-recap {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-6);
+  border: var(--border-soft);
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(180deg, rgba(184, 154, 97, 0.14), rgba(184, 154, 97, 0.04)),
+    var(--bg-card);
+}
+
+.product-recap__label {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.product-recap__meta {
+  max-width: none;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.btn.product-recap__button {
+  margin-top: var(--space-2);
+  min-height: 3rem;
+  font-size: var(--fs-base);
+}
+
+/* ── Mobile sticky buy bar ────────────────────────────────── */
+
+.product-buybar {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 190;
+  display: none;
+  padding: var(--space-3) var(--container-px);
+  padding-bottom: max(var(--space-3), env(safe-area-inset-bottom));
+  border-top: var(--border-card);
+  background: rgba(252, 248, 241, 0.97);
+  backdrop-filter: blur(16px) saturate(170%);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  box-shadow: 0 -10px 34px -20px rgba(58, 35, 20, 0.65);
+  transform: translateY(105%);
+  transition: transform var(--dur-normal) var(--ease-out);
+}
+
+.product-buybar[hidden] {
+  display: none;
+}
+
+.product-buybar__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.product-buybar__price {
+  min-width: 0;
+}
+
+/* The serif price at line-height 1 overflowed its line box inside the short
+   bar; here it matches the panel price in the UI font, one size down. */
+.product-buybar .product-price {
+  font-family: var(--font-body);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.product-buybar__label {
+  margin: 0 0 0.1rem;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.btn.product-buybar__button {
+  width: auto;
+  flex: 1 1 auto;
+  min-height: 3rem;
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--fs-base);
+}
+
+/* ── Tablet: one column ───────────────────────────────────── */
+
 @media (max-width: 1024px) {
-  .product-page__hero {
-    grid-template-columns: 1fr;
+  .product-page__hero,
+  .product-page__body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-8);
   }
 
-  .product-page__summary-card {
+  .product-page__gallery {
     position: static;
   }
 
-  .product-page__sections {
-    grid-template-columns: 1fr;
+  /* Characteristics move directly under the buy panel — the first thing
+     a reader wants after price and CTA. */
+  .product-page__rail {
+    position: static;
+    order: -1;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    align-items: start;
+  }
+
+  .product-nav {
+    margin: var(--space-8) 0 var(--space-6);
   }
 }
 
+/* ── Mobile ───────────────────────────────────────────────── */
+
 @media (max-width: 768px) {
   .product-page {
-    padding: var(--space-4) 0 var(--space-8);
+    --product-nav-h: 56px;
+
+    padding: var(--space-4) 0 var(--space-12);
   }
 
-  .product-page__gallery-card,
-  .product-page__summary-card,
-  .product-page__section-card {
-    border-radius: var(--radius-lg);
+  .product-page__hero {
+    margin-top: var(--space-4);
+    gap: var(--space-6);
   }
 
-  .product-page__summary-card,
-  .product-page__section-card {
-    padding: var(--space-4);
-  }
-
-  .product-page__hero,
-  .product-page__sections {
+  .product-page__summary {
     gap: var(--space-4);
   }
 
-  .product-page__gallery-card {
-    padding: var(--space-3);
+  .product-buy,
+  .product-specs,
+  .product-recap {
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
   }
 
-  .product-page__anchors {
-    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  .product-page__main {
+    gap: var(--space-8);
   }
 
-  .product-page__details {
-    grid-template-columns: 1fr;
+  .product-section + .product-section {
+    padding-top: var(--space-8);
   }
 
-  .product-page__variant {
-    grid-template-columns: 1fr;
+  .product-section__lead {
+    margin-bottom: var(--space-4);
+    font-size: var(--fs-base);
+    line-height: 1.7;
+  }
+
+  .product-variants__item {
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-2);
   }
 
-  .product-page__use-list {
-    grid-template-columns: 1fr;
+  .btn.product-page__cta-button {
+    font-size: var(--fs-base);
   }
 
-  .product-page__title {
-    font-size: clamp(1.6rem, 7vw, 2.2rem);
+  /* The bar repeats the hero CTA, so the rail copy would be a third one. */
+  .product-recap {
+    display: none;
   }
 
-  .product-page__lead,
-  .product-page__description p,
-  .product-page__description-intro {
-    line-height: 1.7;
+  .product-buybar {
+    display: block;
+  }
+
+  .product-buybar.is-visible {
+    transform: translateY(0);
   }
 }
 
 @media (max-width: 480px) {
-  .product-page__price-card {
-    padding: var(--space-4);
+  .product-buy__facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
   }
 
-  .product-page__chip {
-    width: 100%;
-    justify-content: flex-start;
-    border-radius: var(--radius-md);
+  .product-specs__row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-1);
   }
 
-  .product-page__description-intro {
-    padding: var(--space-3) var(--space-4);
+  .product-specs__row dt {
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
-  .product-attribution {
-    padding: var(--space-3) var(--space-4);
+  .product-specs__row dd {
+    font-size: var(--fs-base);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .product-page__anchors a {
+  .product-nav__link,
+  .product-buy__cta-icon,
+  .product-buybar {
     transition: none;
   }
 
-  .product-page__anchors a:hover,
-  .product-page__anchors a:focus-visible {
+  .btn.product-page__cta-button:hover .product-buy__cta-icon,
+  .btn.product-page__cta-button:focus-visible .product-buy__cta-icon {
     transform: none;
   }
 }
