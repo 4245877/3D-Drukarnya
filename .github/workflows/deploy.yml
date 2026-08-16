@@ -14,10 +14,13 @@ on:
 permissions:
   contents: read
 
-# A newer run supersedes any older in-flight one: cancel the stale deploy.
+# Only one deploy at a time; a newer run waits instead of cancelling the
+# running one. Killing a run mid-`deploy-pages` can strand the Pages
+# deployment in an "in progress" state that blocks the next deploy, and the
+# push and weekly-cron triggers can otherwise overlap.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
