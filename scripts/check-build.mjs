@@ -71,7 +71,7 @@ export async function checkBuild() {
       JSON.parse(await readFile(path.join(productsDir, name), 'utf8')),
     ),
   );
-  check(products.length === 20, `expected 20 product JSON files, found ${products.length}`);
+  check(products.length === 37, `expected 37 product JSON files, found ${products.length}`);
 
   // ── Required pages ──
   for (const product of products) {

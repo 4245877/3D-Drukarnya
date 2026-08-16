@@ -1,0 +1,43 @@
+{
+  "slug": "tp-link-tl-sg108pe-sf1006p-10-inch-rack-mount",
+  "title": "TP-Link TL-SG108(PE) / TL-SF1006P — кріплення для 10-дюймової стійки",
+  "shortDescription": "Друкована панель для монтажу комутаторів TP-Link TL-SG108, TL-SG108PE, TL-SF1006P або TL-SG608E у компактну 10-дюймову стійку.",
+  "description": "TP-Link TL-SG108(PE) / SF1006P 10-inch Rack Mount — компактна друкована панель-тримач для встановлення настільного комутатора у 10-дюймову мережеву стійку. Автор заявляє сумісність із TP-Link TL-SG108, TL-SG108PE, TL-SF1006P і TL-SG608E.\n\nПосадку перевірено на апаратних ревізіях V3, V4 і V5 цих комутаторів. Інші ревізії також можуть підійти, але їхні габарити варто звірити перед друком. Для замовлення потрібно повідомити повну модель і hardware version з етикетки пристрою, а також перевірити, що панель не перекриває вентиляцію, індикатори, порти чи роз'єм живлення.\n\nВибраний профіль MakerWorld друкує одну деталь із PLA соплом 0,4 мм, шаром 0,2 мм, чотирма стінками та 20% заповненням. Орієнтовна витрата становить 88 г, або 28,98 м, філаменту; час друку — приблизно 2 години 54 хвилини. Підтримки не потрібні.\n\nЗагальні рекомендації автора допускають шар 0,2 або 0,24 мм, щонайменше чотири стінки, заповнення від 20% та різні матеріали. Базова ціна розрахована саме для підтвердженого PLA-профілю; матеріал для підвищеної температури або інший колір можна погодити окремо.\n\nУ базову вартість входить одна FDM-друкована панель-тримач. Комутатор, 10-дюймова стійка, гвинти й гайки для рейок, блок живлення, патч-корди та монтаж не входять. Перед установленням обладнання необхідно від'єднати від живлення та переконатися, що кабелі не створюють навантаження на порти.\n\nМодель опублікована за ліцензією Creative Commons Attribution-NonCommercial-ShareAlike (BY-NC-SA). Її умова NonCommercial не дозволяє продаж фізичних відбитків без окремого комерційного дозволу правовласника, тому виготовлення на замовлення можливе лише за наявності належного дозволу автора.",
+  "price": 350,
+  "priceType": "from",
+  "availability": "made_to_order",
+  "priceNote": "Базова ціна за одну панель-тримач на 88 г PLA. Комутатор, стійка, блок живлення, кабелі, кріплення та монтаж не входять; інший матеріал розраховується окремо. Автор: Mauker; джерело: MakerWorld №1476615.",
+  "category": "Мережеві аксесуари",
+  "material": "PLA",
+  "leadTime": "1–2 дні",
+  "variantSummary": "TL-SG108 / SG108PE / SF1006P / SG608E, V3–V5, 88 г PLA",
+  "variants": [
+    {
+      "name": "Панель-тримач із PLA",
+      "badge": "ціна від",
+      "description": "Вибраний профіль MakerWorld: одна деталь, приблизно 88 г PLA, шар 0,2 мм, 4 стінки, 20% заповнення та близько 2 годин 54 хвилин друку без підтримок."
+    },
+    {
+      "name": "Для TL-SG108 або TL-SG108PE",
+      "description": "Використовується та сама геометрія кріплення; перед друком необхідно повідомити апаратну ревізію комутатора. Сумісність підтверджена автором для V3, V4 і V5."
+    },
+    {
+      "name": "Для TL-SF1006P або TL-SG608E",
+      "description": "Варіант замовлення для сумісних шестипортових моделей. Точну назву та hardware version потрібно звірити з етикеткою, оскільки габарити інших ревізій можуть відрізнятися."
+    },
+    {
+      "name": "Інший матеріал або колір",
+      "description": "Матеріал і колір можна змінити з урахуванням температури в стійці та доступних філаментів. Вартість і строк такого друку погоджуються окремо."
+    }
+  ],
+  "images": [
+    "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_47fb1bbf4fc1a.png?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_1702fe8a2b8aa.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_af5002395b1408.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_d36e1bee7fdbe.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_1c95bb6cbe4228.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_125e2b9ee7f64.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_9cf0e494182ee.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_3acfc462fc3298.jpg?x-oss-process=image/resize,w_1000/format,webp"
+  ]
+}
