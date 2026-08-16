@@ -60,7 +60,7 @@
 .product-card__image-link {
   position: relative;
   display: block;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   background:
     radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.22), transparent 45%),
@@ -76,16 +76,17 @@
 }
 
 .product-card__image {
+  display: block;
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition:
-    transform var(--dur-slow) var(--ease-out),
-    filter var(--dur-normal) var(--ease-out);
+  padding: clamp(0.35rem, 1vw, 0.75rem);
+  object-fit: contain;
+  object-position: center;
+  transition: filter var(--dur-normal) var(--ease-out);
 }
 
 .product-card:hover .product-card__image {
-  transform: scale(1.05);
   filter: saturate(1.05) contrast(1.03);
 }
 
@@ -177,7 +178,6 @@
   }
 
   .product-card:hover .product-card__image {
-    transform: none;
     filter: none;
   }
 }

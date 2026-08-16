@@ -358,6 +358,61 @@
   background: var(--burgundy);
 }
 
+/* Calm, factual attribution for the source model. Internal review statuses
+   deliberately stay out of the customer-facing page. */
+.product-attribution {
+  margin-top: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border: var(--border-faint);
+  border-radius: var(--radius-lg);
+  background: rgba(245, 237, 224, 0.52);
+  color: var(--text-secondary);
+}
+
+.product-attribution__title {
+  margin: 0 0 var(--space-3);
+  color: var(--chocolate);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+}
+
+.product-attribution__details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: var(--space-3) var(--space-5);
+  margin: 0;
+}
+
+.product-attribution__details div {
+  min-width: 0;
+}
+
+.product-attribution__details dt {
+  margin: 0 0 var(--space-1);
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.product-attribution__details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+}
+
+.product-attribution__details a {
+  color: var(--burgundy);
+  text-underline-offset: 0.18em;
+}
+
+.product-attribution__details a:hover,
+.product-attribution__details a:focus-visible {
+  color: var(--chocolate);
+}
+
 .product-page__details {
   display: grid;
   gap: var(--space-3);
@@ -547,6 +602,10 @@
   }
 
   .product-page__description-intro {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .product-attribution {
     padding: var(--space-3) var(--space-4);
   }
 }

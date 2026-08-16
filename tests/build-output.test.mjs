@@ -18,7 +18,7 @@ const astroBin = path.join(projectRoot, 'node_modules', 'astro', 'bin', 'astro.m
 // Must mirror astro.config.mjs (site + base + trailingSlash: 'always').
 const SITE_BASE = 'https://4245877.github.io/3D-Drukarnya/';
 
-async function loadSlugs() {
+async function loadProducts() {
   const fileNames = (await readdir(productsDir)).filter((name) =>
     name.endsWith('.json'),
   );
@@ -28,7 +28,7 @@ async function loadSlugs() {
       const data = JSON.parse(
         await readFile(path.join(productsDir, fileName), 'utf8'),
       );
-      return data.slug;
+      return data;
     }),
   );
 }
@@ -41,11 +41,33 @@ test('production build generates every product page and the sitemap', async (t) 
     timeout: 10 * 60 * 1000,
   });
 
-  const slugs = await loadSlugs();
-  assert.ok(slugs.length > 0, 'expected at least one product');
+  const products = await loadProducts();
+  const slugs = products.map(({ slug }) => slug);
+  assert.equal(products.length, 37, 'production build must contain all 37 products');
 
   await t.test('catalog page exists', async () => {
     await access(path.join(distDir, 'index.html'));
+  });
+
+  await t.test('catalog cards follow merchandising priority and curated first screen', async () => {
+    const catalogHtml = await readFile(path.join(distDir, 'index.html'), 'utf8');
+    const renderedSkus = Array.from(
+      catalogHtml.matchAll(/data-product-sku="(P\d+)"/g),
+      (match) => match[1],
+    );
+    const expectedSkus = [...products]
+      .sort(
+        (a, b) =>
+          b.merchandisingPriority - a.merchandisingPriority ||
+          Number.parseInt(a.sku.slice(1), 10) - Number.parseInt(b.sku.slice(1), 10),
+      )
+      .map(({ sku }) => sku);
+
+    assert.deepEqual(renderedSkus, expectedSkus);
+    assert.deepEqual(
+      renderedSkus.slice(0, 8),
+      ['P1', 'P3', 'P9', 'P21', 'P2', 'P10', 'P5', 'P12'],
+    );
   });
 
   await t.test('every product page exists', async () => {

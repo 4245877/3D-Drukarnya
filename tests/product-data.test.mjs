@@ -8,6 +8,9 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 import {
+  CATALOG_CATEGORIES,
+  PRODUCT_SKU_PATTERN,
+  RIGHTS_STATUSES,
   SLUG_PATTERN,
   isSafeSlug,
   normalizeSlug,
@@ -16,6 +19,56 @@ import {
 } from '../src/data/product.schema.mjs';
 
 const productsDir = fileURLToPath(new URL('../src/data/products/', import.meta.url));
+
+// Curated commercial sequence from the brief first; products outside that
+// sequence follow their relative order in the supplied full ranking.
+const EXPECTED_SKUS_IN_CATALOG_ORDER = [
+  'P1', 'P3', 'P9', 'P21', 'P2', 'P10', 'P5', 'P12',
+  'P4', 'P23', 'P26', 'P6', 'P22', 'P11', 'P15', 'P8',
+  'P14', 'P13', 'P7', 'P25', 'P34', 'P17', 'P19', 'P24',
+  'P35', 'P31', 'P36', 'P20', 'P28', 'P16', 'P18', 'P29',
+  'P33', 'P30', 'P27', 'P32', 'P37',
+];
+
+const EXPECTED_SLUGS_BY_SKU = {
+  P1: 'modulna-mini-stiika-dlia-homelab-raspberry-pi-mini-pc-merezha',
+  P2: 'modulna-10-serverna-stiika-mini-rack-1u-4u-dlia-homelab-merezhevoho',
+  P3: 'korpus-dlia-nas-servera-na-8-dyskiv-mini-itx-analoh-jonsbo-n2',
+  P4: 'thinknas-6x-korpus-dlia-nas-na-6-dyskiv-dlia-lenovo-m920q',
+  P5: 'thinknas-4x-korpus-dlia-nas-na-4-dysky-dlia-lenovo-m920q',
+  P6: 'nuc-nas-korpus-dlia-nas-na-bazi-intel-nuc',
+  P7: 'synology-ds920-front-plate-dlia-kastomnoi-stiiky',
+  P8: 'thinkbox-v2-korpus-dlia-nas-na-4-dysky-dlia-lenovo-m720q-m920q',
+  P9: 'kws-rack-v2-posylena-10-diuimova-stiika-dlia-homelab',
+  P10: '10-inch-rack-2u-5x-2-5-3x-3-5-hdd-hot-swap',
+  P11: '12-trays-hdd-enclosure-3u-rack-mountable',
+  P12: '3-5-hdd-rack-caddy-holder-na-6-dyskiv',
+  P13: 'lab-rax-19-komplekt-poperechok-dlia-servernoi-stiiky',
+  P14: 'shukhliady-dlia-10-inch-lab-rax-rack-gridfinity-1u-2u',
+  P15: 'nas5070-korpus-dlia-dell-wyse-5070-na-6-dyskiv-2-5',
+  P16: 'modcase-mass-modulnyi-nas-korpus-mini-itx',
+  P17: 'open-frame-pc-case-atx-vidkrytyi-korpus',
+  P18: 'atx-bench-power-supply-laboratornyi-blok-zhyvlennia',
+  P19: 'power-strip-holder-trymach-merezhevoho-filtra-pid-stil',
+  P20: '10-inch-rack-2u-atx-psu-trymach-bloka-zhyvlennia',
+  P21: 'parametric-10-inch-server-rack-mount',
+  P22: 'mikrotik-hap-ac2-10-inch-rackmount',
+  P23: 'mikrotik-hap-ac2-10-inch-rackmount-4x-keystone',
+  P24: 'tp-link-sg1005p-sg105-10-inch-rack-mount',
+  P25: 'tp-link-tl-sg108pe-sf1006p-10-inch-rack-mount',
+  P26: 'lenovo-thinkcentre-tiny-10-inch-rack-mount-keystone',
+  P27: 'lenovo-thinkcentre-m70q-m80q-10-inch-rackmount',
+  P28: 'dell-optiplex-7060-micropc-10-inch-rack-mount',
+  P29: 'hp-elitedesk-800-g3-g4-g5-10-inch-rack-bracket',
+  P30: '10-inch-rack-shelf-universal-universalna-polytsia',
+  P31: 'raspberry-pi-2b-3b-4b-5b-10-inch-rack-mount',
+  P32: 'raspberry-pi-10-inch-rack-mount-ips-tft-12mm-switch',
+  P33: '10-inch-keystone-patchpanel-10-portiv',
+  P34: '10-inch-half-u-keystone-patchpanel-8-portiv',
+  P35: '10-inch-rack-cable-guide-modularni-hachky',
+  P36: '10-inch-server-rack-cable-management-plate',
+  P37: '10-inch-rack-meanwell-lrs-100-12-psu-mount',
+};
 
 async function loadEntries() {
   const fileNames = (await readdir(productsDir))
@@ -32,23 +85,134 @@ async function loadEntries() {
 
 /** A minimal product that passes the schema; tests override single fields. */
 const validProduct = {
+  sku: 'P999',
   slug: 'test-product',
   title: 'Test product',
   shortDescription: 'Short description.',
   description: 'Long description.',
+  merchandisingPriority: 10,
   price: 100,
+  category: CATALOG_CATEGORIES[0],
   images: ['https://example.com/image.webp'],
 };
 
 test('every product JSON file passes the schema and collection rules', async () => {
   const entries = await loadEntries();
 
-  assert.ok(entries.length > 0, 'expected at least one product JSON file');
+  assert.equal(entries.length, 37, 'the catalog must keep all 37 product files');
 
   const { products, errors } = validateProductCollection(entries);
 
   assert.deepEqual(errors, []);
   assert.equal(products.length, entries.length);
+});
+
+test('P1-P37 filenames, SKUs and published slugs remain stable', async () => {
+  const entries = await loadEntries();
+  const expectedFiles = Array.from({ length: 37 }, (_, index) => `product-${index + 1}.json`);
+
+  assert.deepEqual(
+    entries.map(({ source }) => source).sort((a, b) => {
+      const aNumber = Number.parseInt(a.match(/\d+/)?.[0] ?? '', 10);
+      const bNumber = Number.parseInt(b.match(/\d+/)?.[0] ?? '', 10);
+      return aNumber - bNumber;
+    }),
+    expectedFiles,
+  );
+
+  for (const { source, data } of entries) {
+    const number = Number.parseInt(source.match(/\d+/)?.[0] ?? '', 10);
+    const expectedSku = `P${number}`;
+    assert.equal(data.sku, expectedSku, `${source}: SKU no longer matches its P-number`);
+    assert.equal(
+      data.slug,
+      EXPECTED_SLUGS_BY_SKU[expectedSku],
+      `${source}: published product slug changed`,
+    );
+  }
+});
+
+test('merchandising priorities produce the curated catalog order', async () => {
+  const entries = await loadEntries();
+
+  for (const { source, data } of entries) {
+    assert.match(data.sku, PRODUCT_SKU_PATTERN, `${source}: invalid SKU`);
+    assert.ok(
+      Number.isInteger(data.merchandisingPriority) && data.merchandisingPriority >= 0,
+      `${source}: merchandisingPriority must be a non-negative integer`,
+    );
+  }
+
+  const actualOrder = entries
+    .map(({ data }) => data)
+    .sort(
+      (a, b) =>
+        b.merchandisingPriority - a.merchandisingPriority ||
+        Number.parseInt(a.sku.slice(1), 10) - Number.parseInt(b.sku.slice(1), 10),
+    )
+    .map(({ sku }) => sku);
+
+  assert.deepEqual(actualOrder, EXPECTED_SKUS_IN_CATALOG_ORDER);
+  assert.deepEqual(
+    entries.filter(({ data }) => data.featured).map(({ data }) => data.sku).sort(),
+    ['P1', 'P10', 'P12', 'P2', 'P21', 'P3', 'P5', 'P9'],
+  );
+});
+
+test('categories, rights metadata and requested product families are structured', async () => {
+  const entries = await loadEntries();
+  const products = entries.map(({ data }) => data);
+  const skusWithStatus = (status) =>
+    products
+      .filter((product) => product.commercialRightsStatus === status)
+      .map(({ sku }) => sku)
+      .sort((a, b) => Number(a.slice(1)) - Number(b.slice(1)));
+
+  assert.deepEqual(
+    new Set(products.map(({ category }) => category)),
+    new Set(CATALOG_CATEGORIES),
+  );
+
+  for (const product of products) {
+    assert.ok(RIGHTS_STATUSES.includes(product.commercialRightsStatus));
+    assert.ok(RIGHTS_STATUSES.includes(product.photoRightsStatus));
+  }
+
+  assert.deepEqual(
+    skusWithStatus('review_required'),
+    Array.from({ length: 15 }, (_, index) => `P${index + 1}`),
+  );
+  assert.deepEqual(
+    skusWithStatus('attribution_required'),
+    ['P21', 'P22', 'P23', 'P26'],
+  );
+  assert.deepEqual(
+    skusWithStatus('permission_required'),
+    [
+      'P16', 'P17', 'P18', 'P19', 'P20', 'P24', 'P25', 'P27', 'P28', 'P29',
+      'P30', 'P31', 'P32', 'P33', 'P34', 'P35', 'P36', 'P37',
+    ],
+  );
+  assert.ok(
+    products.every((product) => product.photoRightsStatus === 'review_required'),
+    'photo rights must remain explicitly pending review without hiding images',
+  );
+
+  const expectedFamilies = {
+    thinknas: ['P4', 'P5'],
+    'mikrotik-hap-ac2-rackmount': ['P22', 'P23'],
+    'lenovo-thinkcentre-tiny-rackmount': ['P26', 'P27'],
+    'keystone-patchpanel': ['P33', 'P34'],
+    'cable-management': ['P35', 'P36'],
+  };
+
+  for (const [familyId, expectedSkus] of Object.entries(expectedFamilies)) {
+    const actualSkus = products
+      .filter((product) => product.familyId === familyId)
+      .map(({ sku }) => sku)
+      .sort((a, b) => Number(a.slice(1)) - Number(b.slice(1)));
+    assert.deepEqual(actualSkus, expectedSkus, `${familyId}: unexpected family members`);
+  }
 });
 
 test('slugs are unique and never become empty after normalization', async () => {
@@ -103,6 +267,17 @@ test('the schema rejects broken products', () => {
     assert.equal(result.success, false, `expected rejection for ${field}`);
   };
 
+  rejects({ sku: 'p1' }, 'lowercase SKU');
+  rejects({ sku: 'P0' }, 'zero SKU');
+  rejects({ merchandisingPriority: -1 }, 'negative merchandising priority');
+  rejects({ merchandisingPriority: 1.5 }, 'fractional merchandising priority');
+  rejects({ category: 'Unknown category' }, 'unknown catalog category');
+  rejects({ commercialRightsStatus: 'hidden' }, 'unknown commercial-rights status');
+  rejects({ photoRightsStatus: 'hidden' }, 'unknown photo-rights status');
+  rejects({ sourceUrl: 'http://example.com/model' }, 'plain-http source URL');
+  rejects({ licenseUrl: 'javascript:alert(1)' }, 'unsafe license URL');
+  rejects({ orderUrl: 'http://www.olx.ua/item' }, 'plain-http order URL');
+  rejects({ orderUrl: 'https://example.com/item' }, 'non-OLX order URL');
   rejects({ slug: '' }, 'empty slug');
   rejects({ slug: '///' }, 'slug of slashes only');
   rejects({ slug: 'UPPER-Case' }, 'uppercase slug');
@@ -125,13 +300,31 @@ test('the schema rejects broken products', () => {
   rejects({ variants: [{ name: 'A', description: 'B', extra: true }] }, 'variant with unknown key');
 });
 
-test('the collection check rejects duplicate slugs and titles', () => {
+test('the schema accepts a per-product OLX order URL without requiring one', () => {
+  assert.equal(productSchema.safeParse(validProduct).success, true);
+  assert.equal(
+    productSchema.safeParse({
+      ...validProduct,
+      orderUrl: 'https://www.olx.ua/d/uk/obyavlenie/example-product-ID123.html',
+    }).success,
+    true,
+  );
+});
+
+test('the collection check rejects duplicate SKUs, slugs and titles', () => {
   const { errors } = validateProductCollection([
     { source: 'one.json', data: { ...validProduct } },
     { source: 'two.json', data: { ...validProduct, title: 'Other title' } },
-    { source: 'three.json', data: { ...validProduct, slug: 'other-slug' } },
+    {
+      source: 'three.json',
+      data: { ...validProduct, sku: 'P1000', slug: 'other-slug' },
+    },
   ]);
 
+  assert.ok(
+    errors.some((error) => error.includes('two.json') && error.includes('sku')),
+    `expected a duplicate-SKU error, got: ${errors.join('; ')}`,
+  );
   assert.ok(
     errors.some((error) => error.includes('two.json') && error.includes('slug')),
     `expected a duplicate-slug error, got: ${errors.join('; ')}`,

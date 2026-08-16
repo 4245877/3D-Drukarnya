@@ -3,12 +3,19 @@ import Layout from '../components/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import SkufnyaPromo from '../components/SkufnyaPromo.astro';
 import { FAQ_ITEMS } from '../data/faq';
-import { getAllProducts } from '../utils/products';
+import { CATALOG_CATEGORIES, getAllProducts } from '../utils/products';
 import { toJsonLd } from '../utils/text';
 
 import '../styles/pages/catalog.css';
 
 const products = getAllProducts();
+const featuredProductCount = products.filter((product) => product.featured).length;
+const categoryCounts = new Map(
+  CATALOG_CATEGORIES.map((category) => [
+    category,
+    products.filter((product) => product.category === category).length,
+  ]),
+);
 
 const title = 'FDM 3D-друк у Києві | 3D Друкарня';
 
@@ -129,7 +136,7 @@ const catalogSchema = {
     set:html={toJsonLd(catalogSchema)}
   ></script>
 
-  <div class="catalog-page">
+  <div class="catalog-page" data-catalog-page>
     <section class="catalog-hero">
       <div class="container">
         <div class="catalog-hero__inner">
@@ -390,12 +397,66 @@ const catalogSchema = {
       <div class="container">
         <h2 id="print-examples-title" class="sr-only">Приклади FDM 3D-друку</h2>
 
-        <div class="catalog-controls">
+        <div class="catalog-controls" data-catalog-controls>
           <div class="catalog-controls__left">
             <p class="catalog-results-count">
-              На сторінці <strong>{products.length}</strong> прикладів друку з окремими описами.
+              Показано <strong data-catalog-visible-count>{products.length}</strong> із{' '}
+              <strong>{products.length}</strong> прикладів друку.
             </p>
           </div>
+
+          <nav
+            class="catalog-category-nav"
+            aria-label="Фільтр каталогу за категорією"
+            hidden
+            data-catalog-category-nav
+          >
+            <button
+              class="catalog-category-nav__button"
+              type="button"
+              aria-pressed="true"
+              data-catalog-filter="all"
+            >
+              <span>Усі</span>
+              <span class="catalog-category-nav__count" aria-hidden="true">{products.length}</span>
+            </button>
+
+            <button
+              class="catalog-category-nav__button"
+              type="button"
+              aria-pressed="false"
+              data-catalog-filter="featured"
+            >
+              <span>Популярне / почати звідси</span>
+              <span class="catalog-category-nav__count" aria-hidden="true">
+                {featuredProductCount}
+              </span>
+            </button>
+
+            {
+              CATALOG_CATEGORIES.map((category) => (
+                <button
+                  class="catalog-category-nav__button"
+                  type="button"
+                  aria-pressed="false"
+                  data-catalog-filter="category"
+                  data-catalog-category={category}
+                >
+                  <span>{category}</span>
+                  <span class="catalog-category-nav__count" aria-hidden="true">
+                    {categoryCounts.get(category) ?? 0}
+                  </span>
+                </button>
+              ))
+            }
+          </nav>
+
+          <p
+            class="sr-only"
+            aria-live="polite"
+            aria-atomic="true"
+            data-catalog-filter-status
+          ></p>
         </div>
 
         <div class="catalog-layout">
@@ -436,9 +497,30 @@ const catalogSchema = {
           <div class="catalog-content">
             {
               products.length > 0 ? (
-                <div class="catalog-grid">
-                  {products.map((product) => <ProductCard product={product} />)}
-                </div>
+                <>
+                  <div class="catalog-grid" data-catalog-grid>
+                    {products.map((product) => (
+                      <div
+                        class="catalog-grid__item"
+                        data-catalog-item
+                        data-product-sku={product.sku}
+                        data-product-family={product.familyId ?? undefined}
+                        data-catalog-category={product.category ?? ''}
+                        data-catalog-featured={product.featured ? 'true' : 'false'}
+                      >
+                        <ProductCard product={product} />
+                      </div>
+                    ))}
+                  </div>
+
+                  <div class="catalog-no-results" hidden data-catalog-filter-empty>
+                    <div class="catalog-no-results__art" aria-hidden="true">∅</div>
+                    <h2 class="catalog-no-results__title">У цій категорії поки немає товарів</h2>
+                    <p class="catalog-no-results__text">
+                      Оберіть іншу категорію або поверніться до всього каталогу.
+                    </p>
+                  </div>
+                </>
               ) : (
                 <div class="catalog-no-results">
                   <div class="catalog-no-results__art">∅</div>
@@ -561,4 +643,61 @@ const catalogSchema = {
       </div>
     </section>
   </div>
+
+  <script>
+    const catalogPage = document.querySelector<HTMLElement>('[data-catalog-page]');
+
+    if (catalogPage) {
+      const categoryNav = catalogPage.querySelector<HTMLElement>('[data-catalog-category-nav]');
+      const filterButtons = Array.from(
+        catalogPage.querySelectorAll<HTMLButtonElement>('[data-catalog-filter]'),
+      );
+      const catalogItems = Array.from(
+        catalogPage.querySelectorAll<HTMLElement>('[data-catalog-item]'),
+      );
+      const visibleCount = catalogPage.querySelector<HTMLElement>(
+        '[data-catalog-visible-count]',
+      );
+      const filterStatus = catalogPage.querySelector<HTMLElement>(
+        '[data-catalog-filter-status]',
+      );
+      const filterEmpty = catalogPage.querySelector<HTMLElement>('[data-catalog-filter-empty]');
+
+      if (categoryNav && filterButtons.length > 0 && catalogItems.length > 0) {
+        categoryNav.hidden = false;
+
+        const applyFilter = (activeButton: HTMLButtonElement) => {
+          const filter = activeButton.dataset.catalogFilter;
+          const category = activeButton.dataset.catalogCategory;
+          let shownItems = 0;
+
+          catalogItems.forEach((item) => {
+            const isVisible =
+              filter === 'all' ||
+              (filter === 'featured' && item.dataset.catalogFeatured === 'true') ||
+              (filter === 'category' && item.dataset.catalogCategory === category);
+
+            item.hidden = !isVisible;
+            if (isVisible) shownItems += 1;
+          });
+
+          filterButtons.forEach((button) => {
+            button.setAttribute('aria-pressed', String(button === activeButton));
+          });
+
+          if (visibleCount) visibleCount.textContent = String(shownItems);
+          if (filterEmpty) filterEmpty.hidden = shownItems !== 0;
+
+          if (filterStatus) {
+            const activeLabel = activeButton.querySelector('span')?.textContent?.trim() ?? '';
+            filterStatus.textContent = `Фільтр «${activeLabel}»: показано ${shownItems} із ${catalogItems.length} товарів.`;
+          }
+        };
+
+        filterButtons.forEach((button) => {
+          button.addEventListener('click', () => applyFilter(button));
+        });
+      }
+    }
+  </script>
 </Layout>

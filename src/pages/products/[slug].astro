@@ -97,9 +97,12 @@ const availabilityText = AVAILABILITY_VISIBLE_TEXT[product.availability];
 // the note says so honestly. ───────────────────────────────────────────────
 const orderHref = product.orderUrl ?? olxUrl;
 const hasDirectOrderUrl = Boolean(product.orderUrl);
+const orderCtaText = hasDirectOrderUrl
+  ? 'Переглянути оголошення цього товару'
+  : 'Перейти до профілю продавця на OLX';
 const orderNote = hasDirectOrderUrl
-  ? 'Посилання відкриває сторінку цього товару на OLX.'
-  : 'Окремої сторінки товару на OLX немає: кнопка відкриває загальний профіль продавця. Напишіть у повідомленні, який саме виріб вас цікавить.';
+  ? 'Кнопка відкриває окрему сторінку цього товару на OLX.'
+  : 'Окремого оголошення для цього товару поки немає. Кнопка відкриває загальний профіль продавця — вкажіть артикул товару в повідомленні.';
 
 const pageKeywords = [
   product.title,
@@ -133,6 +136,7 @@ const warningDefaultTitle = (level: 'notice' | 'critical') =>
   level === 'critical' ? 'Важливе попередження щодо безпеки' : 'Зверніть увагу';
 
 const productFacts = [
+  { label: 'Артикул', value: product.sku },
   product.material ? { label: 'Матеріал', value: product.material } : null,
   product.leadTime ? { label: 'Термін виготовлення', value: product.leadTime } : null,
   product.category ? { label: 'Категорія', value: product.category } : null,
@@ -145,6 +149,13 @@ const productFacts = [
 ].filter((item): item is { label: string; value: string } => Boolean(item));
 
 const hasFacts = productFacts.length > 0;
+
+// Public attribution is intentionally separate from internal rights-review
+// statuses. Only factual author/source/license metadata is rendered here;
+// commercialRightsStatus and photoRightsStatus never affect this page.
+const hasAttribution = Boolean(
+  product.author || product.sourceUrl || product.license || product.licenseUrl,
+);
 
 const additionalProperties = [
   product.material
@@ -211,7 +222,7 @@ const structuredData = {
       name: product.title,
       description: product.description,
       image: hasImages ? imageUrls : undefined,
-      sku: product.slug,
+      sku: product.sku,
       category: product.category,
       material: product.material,
       brand: {
@@ -356,7 +367,7 @@ const structuredData = {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Замовити цей виріб
+              {orderCtaText}
             </a>
             <p class="product-page__cta-note">{orderNote}</p>
           </div>
@@ -418,6 +429,60 @@ const structuredData = {
             <p class="product-page__description-intro">
               Опис товару буде додано найближчим часом.
             </p>
+          )}
+
+          {hasAttribution && (
+            <aside
+              class="product-attribution"
+              aria-labelledby="product-attribution-title"
+            >
+              <p id="product-attribution-title" class="product-attribution__title">
+                Авторство та джерело моделі
+              </p>
+
+              <dl class="product-attribution__details">
+                {product.author && (
+                  <div>
+                    <dt>Автор</dt>
+                    <dd>{product.author}</dd>
+                  </div>
+                )}
+
+                {product.sourceUrl && (
+                  <div>
+                    <dt>Джерело</dt>
+                    <dd>
+                      <a
+                        href={product.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Оригінальна публікація
+                      </a>
+                    </dd>
+                  </div>
+                )}
+
+                {(product.license || product.licenseUrl) && (
+                  <div>
+                    <dt>Ліцензія</dt>
+                    <dd>
+                      {product.licenseUrl ? (
+                        <a
+                          href={product.licenseUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {product.license ?? 'Переглянути умови ліцензії'}
+                        </a>
+                      ) : (
+                        product.license
+                      )}
+                    </dd>
+                  </div>
+                )}
+              </dl>
+            </aside>
           )}
         </section>
 

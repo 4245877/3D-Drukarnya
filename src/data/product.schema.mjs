@@ -9,6 +9,33 @@ import { z } from 'zod';
 /** Safe URL slug: lowercase latin, digits, single dashes between segments. */
 export const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
+/** Stable catalog SKU: uppercase P followed by a positive integer. */
+export const PRODUCT_SKU_PATTERN = /^P[1-9]\d*$/;
+
+/** Buyer-facing catalog sections, in navigation order. */
+export const CATALOG_CATEGORIES = /** @type {const} */ ([
+  'Стійки та основи',
+  'NAS-корпуси',
+  'HDD-модулі',
+  'Кріплення мережевого обладнання',
+  'Кріплення Mini-PC',
+  'Raspberry Pi',
+  'Полиці, панелі та кабелі',
+  'Живлення та майстерня',
+  'Вузькі рішення',
+]);
+
+/**
+ * Informational rights-review states. They never control catalog visibility
+ * or merchandising order; those concerns are intentionally independent.
+ */
+export const RIGHTS_STATUSES = /** @type {const} */ ([
+  'review_required',
+  'attribution_required',
+  'permission_required',
+  'approved',
+]);
+
 /**
  * Strips surrounding whitespace and slashes. Used both to sanity-check our
  * own slugs and to sanitize slugs coming from external APIs before they are
@@ -31,6 +58,37 @@ export function isSafeSlug(value) {
 }
 
 const nonEmptyString = z.string().trim().min(1, 'must be a non-empty string');
+
+/**
+ * Absolute public reference used for model sources and licence pages.
+ * Unlike `orderUrl`, these links are not tied to a marketplace allow-list.
+ *
+ * @param {string} fieldName
+ */
+const absoluteHttpsUrl = (fieldName) =>
+  z
+    .string()
+    .trim()
+    .min(1, `${fieldName} must not be empty`)
+    .superRefine((value, ctx) => {
+      let url;
+      try {
+        url = new URL(value);
+      } catch {
+        ctx.addIssue({
+          code: 'custom',
+          message: `${fieldName} is not a valid absolute URL: "${value}"`,
+        });
+        return;
+      }
+
+      if (url.protocol !== 'https:') {
+        ctx.addIssue({
+          code: 'custom',
+          message: `${fieldName} must use https:, got "${url.protocol}"`,
+        });
+      }
+    });
 
 /**
  * Image reference: either an absolute https:// URL or a site-local path
@@ -157,6 +215,9 @@ export const safetyWarningSchema = z.strictObject({
 // strictObject: unknown keys (typos such as "pirce" or "image") fail
 // validation instead of being silently ignored.
 export const productSchema = z.strictObject({
+  sku: z
+    .string()
+    .regex(PRODUCT_SKU_PATTERN, 'sku must be P followed by a positive integer'),
   slug: z
     .string()
     .min(1, 'slug must not be empty')
@@ -167,6 +228,24 @@ export const productSchema = z.strictObject({
   title: nonEmptyString,
   shortDescription: nonEmptyString,
   description: nonEmptyString,
+  // Higher values appear earlier in the catalog. Rights metadata and
+  // `featured` are deliberately not part of the ordering contract.
+  merchandisingPriority: z.number().int().nonnegative(),
+  featured: z.boolean().default(false),
+  familyId: z
+    .string()
+    .regex(
+      SLUG_PATTERN,
+      'familyId must match [a-z0-9]+(-[a-z0-9]+)* (lowercase latin, digits, dashes)',
+    )
+    .optional(),
+  commercialRightsStatus: z.enum(RIGHTS_STATUSES).default('review_required'),
+  photoRightsStatus: z.enum(RIGHTS_STATUSES).default('review_required'),
+  author: nonEmptyString.optional(),
+  sourceUrl: absoluteHttpsUrl('sourceUrl').optional(),
+  license: nonEmptyString.optional(),
+  licenseUrl: absoluteHttpsUrl('licenseUrl').optional(),
+  attributionRequired: z.boolean().default(false),
   // Also rendered in JSON-LD (Offer.price for `exact`, AggregateOffer.lowPrice
   // for `from`), so it must stay a plain number.
   price: z
@@ -190,7 +269,7 @@ export const productSchema = z.strictObject({
     .min(1, 'safetyWarnings, when present, must not be empty')
     .optional(),
   images: z.array(imageReference).min(1, 'images must contain at least one entry'),
-  category: nonEmptyString.optional(),
+  category: z.enum(CATALOG_CATEGORIES),
   material: nonEmptyString.optional(),
   leadTime: nonEmptyString.optional(),
   variantSummary: nonEmptyString.optional(),
@@ -217,8 +296,8 @@ function formatIssuePath(path) {
 
 /**
  * Validates a set of product documents plus the collection-level rules
- * (unique slugs, unique titles). Every error message starts with the source
- * name (file path) so failures are easy to locate.
+ * (unique SKUs, slugs and titles). Every error message starts with the
+ * source name (file path) so failures are easy to locate.
  *
  * @param {ReadonlyArray<{ source: string, data: unknown }>} entries
  * @returns {{ products: Array<z.infer<typeof productSchema>>, errors: string[] }}
@@ -228,6 +307,8 @@ export function validateProductCollection(entries) {
   const errors = [];
   /** @type {Array<z.infer<typeof productSchema>>} */
   const products = [];
+  /** @type {Map<string, string>} */
+  const skuSources = new Map();
   /** @type {Map<string, string>} */
   const slugSources = new Map();
   /** @type {Map<string, string>} */
@@ -244,6 +325,15 @@ export function validateProductCollection(entries) {
     }
 
     const product = result.data;
+
+    const existingSkuSource = skuSources.get(product.sku);
+    if (existingSkuSource) {
+      errors.push(
+        `${source}: sku — "${product.sku}" is already used by ${existingSkuSource}`,
+      );
+    } else {
+      skuSources.set(product.sku, source);
+    }
 
     // The schema regex already forbids slashes, but assert the invariant the
     // URL builders rely on: a normalized slug is never empty.

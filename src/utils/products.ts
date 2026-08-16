@@ -1,9 +1,12 @@
 import type { z } from 'zod';
 import {
+  CATALOG_CATEGORIES,
   productSchema,
   productVariantSchema,
   validateProductCollection,
 } from '../data/product.schema.mjs';
+
+export { CATALOG_CATEGORIES };
 
 // The schema (src/data/product.schema.mjs) is the single source of truth for
 // the product data contract; the TypeScript types are derived from it.
@@ -31,9 +34,23 @@ if (errors.length > 0) {
   );
 }
 
-const products = [...validatedProducts].sort((a, b) =>
-  a.title.localeCompare(b.title, 'uk-UA'),
-);
+/**
+ * Catalog order is controlled entirely by product data. Equal priorities use
+ * the numeric part of the stable P-prefixed SKU as a deterministic fallback.
+ * Rights-review and featured metadata intentionally do not affect this order.
+ */
+export function compareProductsByMerchandising(a: Product, b: Product): number {
+  const priorityDifference = b.merchandisingPriority - a.merchandisingPriority;
+  if (priorityDifference !== 0) {
+    return priorityDifference;
+  }
+
+  const aSkuNumber = Number.parseInt(a.sku.slice(1), 10);
+  const bSkuNumber = Number.parseInt(b.sku.slice(1), 10);
+  return aSkuNumber - bSkuNumber;
+}
+
+const products = [...validatedProducts].sort(compareProductsByMerchandising);
 
 export function getAllProducts(): Product[] {
   return products;

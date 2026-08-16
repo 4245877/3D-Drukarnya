@@ -321,6 +321,88 @@
   flex-wrap: wrap;
 }
 
+/* Progressive-enhancement category navigation. It is rendered hidden and
+   revealed by the catalog script only after all filter targets are found, so
+   a no-JS visit keeps the complete merchandising-ordered catalog visible. */
+.catalog-category-nav {
+  display: flex;
+  flex: 1 0 100%;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.catalog-category-nav[hidden] {
+  display: none;
+}
+
+.catalog-category-nav__button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  border: var(--border-faint);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  background: rgba(245, 237, 224, 0.78);
+  box-shadow: var(--shadow-xs);
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.catalog-category-nav__button:hover {
+  color: var(--chocolate);
+  border-color: rgba(142, 63, 67, 0.34);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.catalog-category-nav__button[aria-pressed='true'] {
+  color: #fff;
+  border-color: var(--accent-hover);
+  background: var(--accent-hover);
+  box-shadow: 0 5px 16px rgba(142, 63, 67, 0.24);
+}
+
+.catalog-category-nav__button[aria-pressed='true']:hover {
+  color: #fff;
+  border-color: var(--accent-hover);
+  background: var(--accent-hover);
+}
+
+.catalog-category-nav__count {
+  display: inline-grid;
+  min-width: 1.65rem;
+  min-height: 1.65rem;
+  padding-inline: 0.4rem;
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  background: rgba(90, 58, 46, 0.08);
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  place-items: center;
+}
+
+.catalog-category-nav__button[aria-pressed='true'] .catalog-category-nav__count {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+}
+
 /* Results count (also reused for sidebar info paragraphs — must wrap) */
 .catalog-results-count {
   font-size: var(--fs-sm);
@@ -374,6 +456,16 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   gap: var(--space-5);
+}
+
+.catalog-grid__item {
+  min-width: 0;
+  height: 100%;
+}
+
+.catalog-grid__item[hidden],
+.catalog-no-results[hidden] {
+  display: none;
 }
 
 
@@ -598,16 +690,23 @@
     grid-template-columns: 1fr;
   }
 
-  /* Keep the info sidebar visible: it flows above the grid as a row of cards
-     instead of vanishing (there is no filter drawer to fall back to). */
+  /* Product discovery comes first on compact layouts; the static service
+     information remains available after the complete catalog grid. */
+  .catalog-content {
+    order: 1;
+  }
+
+  /* Keep the info sidebar visible after the grid instead of removing it. */
   .catalog-sidebar {
+    order: 2;
     position: static;
     max-height: none;
     overflow: visible;
     flex-direction: row;
     flex-wrap: wrap;
     padding-right: 0;
-    margin-bottom: var(--space-4);
+    margin-top: var(--space-4);
+    margin-bottom: 0;
   }
 
   .catalog-sidebar > * {
@@ -640,6 +739,29 @@
   }
 
   .catalog-controls__left { width: 100%; justify-content: space-between; }
+
+  .catalog-category-nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: var(--space-2);
+    scroll-padding-inline: var(--space-2);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(142, 63, 67, 0.35) transparent;
+  }
+
+  .catalog-category-nav::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .catalog-category-nav::-webkit-scrollbar-thumb {
+    border-radius: var(--radius-full);
+    background: rgba(142, 63, 67, 0.35);
+  }
+
+  .catalog-category-nav__button {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
 
   .catalog-grid {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
