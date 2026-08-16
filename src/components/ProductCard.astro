@@ -47,14 +47,14 @@ const priceLabel = product.priceType === 'from' ? 'Ціна від' : 'Ціна'
 
     <p class="product-card__description">{product.shortDescription}</p>
 
-    <div class="product-card__price-block" aria-label="Ціна товару">
-      <span class="product-card__price-label">{priceLabel}</span>
-      <div class="product-card__price">
+    {/* Price and CTA share one bottom row — stacking them cost the card
+        ~90px of height on columns that are now wide enough to hold both. */}
+    <div class="product-card__footer">
+      <div class="product-card__price-block">
+        <span class="product-card__price-label">{priceLabel}</span>
         <ProductPrice amount={product.price} />
       </div>
-    </div>
 
-    <div class="product-card__footer">
       <a
         class="btn btn--primary btn--sm product-card__button"
         href={href}

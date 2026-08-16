@@ -451,10 +451,14 @@
 
 .catalog-content { min-width: 0; }
 
-/* Grid view */
+/* Grid view.
+   The track minimum is what sets the card proportions: at 170px the columns
+   came out ~200px wide and every card read tall and narrow. ~270px lands 3
+   cards across the content column at a comfortable ~280px each.
+   min(100%, …) keeps a single card from overflowing a narrower container. */
 .catalog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
   gap: var(--space-5);
 }
 
@@ -645,8 +649,11 @@
     grid-template-columns: 250px 1fr;
   }
 
+  /* 240, not 270: the narrower sidebar still leaves room for three ~250px
+     cards here, and a 270px track would drop this range to two very wide
+     cards with an oversized image band. */
   .catalog-grid {
-    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
   }
 }
 
@@ -713,8 +720,9 @@
     flex: 1 1 260px;
   }
 
+  /* Sidebar has moved below the grid, so the grid gets the full container. */
   .catalog-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
   }
 
   .catalog-seo__grid,
@@ -763,8 +771,10 @@
     scroll-snap-align: start;
   }
 
+  /* Fixed two-up from here down: auto-fill with a 240px track would flip
+     between one and two columns across this range as the viewport shrinks. */
   .catalog-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-4);
   }
 
@@ -788,8 +798,10 @@
 
   .catalog-hero__rack { width: clamp(180px, 66vw, 260px); }
 
+  /* One card per row: two-up left ~135px columns on a 320px phone. The card
+     switches to its image-beside-text layout here (product-card.css). */
   .catalog-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: var(--space-3);
   }
 

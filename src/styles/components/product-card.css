@@ -57,10 +57,13 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
+/* 16:10 instead of 4:3 — on the wider catalog columns a 4:3 band added ~35px
+   of image height per card. object-fit: contain still shows the whole
+   product; the panel gradient fills the side gaps. */
 .product-card__image-link {
   position: relative;
   display: block;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
   background:
     radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.22), transparent 45%),
@@ -80,7 +83,7 @@
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding: clamp(0.35rem, 1vw, 0.75rem);
+  padding: clamp(0.25rem, 0.7vw, 0.6rem);
   object-fit: contain;
   object-position: center;
   transition: filter var(--dur-normal) var(--ease-out);
@@ -94,8 +97,8 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: var(--space-4);
-  padding: var(--space-5);
+  gap: var(--space-3);
+  padding: var(--space-4);
 }
 
 .product-card__category {
@@ -107,9 +110,17 @@
   white-space: normal;
 }
 
+/* Titles run 42–84 characters. The clamps below cap the two text blocks so a
+   long title or description can no longer stretch one card far past its
+   neighbours — the grid row height follows the tallest card. */
 .product-card__title {
-  font-size: clamp(1.2rem, 2vw, 1.45rem);
-  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  line-height: 1.25;
   color: var(--chocolate);
 }
 
@@ -123,17 +134,35 @@
 }
 
 .product-card__description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
   margin: 0;
   color: var(--text-secondary);
   font-size: var(--fs-sm);
-  line-height: 1.6;
+  line-height: 1.55;
+}
+
+/* Bottom bar: price panel + CTA side by side. Neither item shrinks below its
+   content, so on the narrowest columns the row wraps and the button takes a
+   full-width line of its own instead of squashing the price. */
+.product-card__footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-1);
 }
 
 .product-card__price-block {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
   gap: var(--space-1);
-  padding: var(--space-4);
+  padding: var(--space-2) var(--space-3);
   border: var(--border-faint);
   border-radius: var(--radius-md);
   background: rgba(245, 237, 224, 0.72);
@@ -150,21 +179,51 @@
   color: var(--text-muted);
 }
 
-.product-card__price {
-  font-family: var(--font-serif);
-  font-size: var(--fs-xl);
-  font-weight: var(--fw-semibold);
-  color: var(--burgundy);
-  line-height: 1.1;
-}
-
-.product-card__footer {
-  margin-top: auto;
-}
-
 .product-card__button {
-  width: 100%;
+  flex: 1 1 auto;
   justify-content: center;
+}
+
+/* 480px and below the grid is one card per row (see catalog.css): a portrait
+   card would be as wide as the screen with a huge image band, and the old
+   two-up grid squeezed it down to ~135px on a 320px phone. The image moves
+   beside the text instead, which keeps the card wide and short. */
+@media (max-width: 480px) {
+  .product-card {
+    flex-direction: row;
+  }
+
+  .product-card__image-link {
+    flex: 0 0 clamp(104px, 36%, 168px);
+    /* Stretch to the text column instead of holding a ratio, so the image
+       panel never leaves a gap under itself. */
+    aspect-ratio: auto;
+    align-self: stretch;
+  }
+
+  .product-card__body {
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+
+  .product-card__description {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .product-card__footer {
+    gap: var(--space-2);
+  }
+
+  /* Label beside the amount: in the narrow text column the CTA usually wraps
+     under the price panel, so the panel keeps the full row width. */
+  .product-card__price-block {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-2);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
