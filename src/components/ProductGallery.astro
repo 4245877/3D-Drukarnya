@@ -41,7 +41,23 @@ const imageAlt = (index: number) =>
         aria-haspopup="dialog"
         data-gallery-open
       >
+        {/* Blurred, over-scaled copy of the very same file. It fills the
+            letterbox gaps left by photos whose ratio is not the frame's 4:3,
+            so the photo itself is never cropped and never leaves a bare
+            margin. Identical src to the foreground image, so the browser
+            serves it from cache — no second network request. */}
         <img
+          class="product-gallery__backdrop"
+          src={mainImage}
+          alt=""
+          aria-hidden="true"
+          loading="eager"
+          decoding="async"
+          data-gallery-main-backdrop
+        />
+
+        <img
+          class="product-gallery__photo"
           src={mainImage}
           alt={imageAlt(0)}
           width="1600"
@@ -76,6 +92,16 @@ const imageAlt = (index: number) =>
                 data-gallery-thumb
               >
                 <img
+                  class="product-gallery__backdrop"
+                  src={image}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  decoding="async"
+                />
+
+                <img
+                  class="product-gallery__photo"
                   src={image}
                   alt=""
                   loading="lazy"
@@ -157,6 +183,7 @@ const imageAlt = (index: number) =>
     if (gallery.dataset.galleryInitialized === 'true') return;
 
     const mainImage = gallery.querySelector<HTMLImageElement>('[data-gallery-main-image]');
+    const mainBackdrop = gallery.querySelector<HTMLImageElement>('[data-gallery-main-backdrop]');
     const openLink = gallery.querySelector<HTMLAnchorElement>('[data-gallery-open]');
     const dialog = gallery.querySelector<HTMLDialogElement>('[data-gallery-dialog]');
     const dialogImage = gallery.querySelector<HTMLImageElement>('[data-gallery-dialog-image]');
@@ -207,6 +234,9 @@ const imageAlt = (index: number) =>
 
       const { image, alt } = items[currentIndex];
       swapImage(mainImage, image, alt);
+      // The backdrop is the same file, so it follows the main photo; it is
+      // decorative, hence no alt and no fallback handling.
+      if (mainBackdrop) mainBackdrop.src = image;
       swapImage(dialogImage, image, alt);
       openLink.href = image;
       openLink.setAttribute(

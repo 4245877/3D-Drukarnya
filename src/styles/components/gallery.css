@@ -30,22 +30,48 @@
   cursor: zoom-in;
 }
 
-.product-gallery__main img {
+/* Gap filler for photos that are not the frame's ratio — panoramas leave
+   bands above and below, portraits at the sides. Where a photo does match the
+   frame it covers this layer completely, so the rule needs no ratio test: the
+   backdrop simply stops being visible. Both frames stack the same three
+   layers: backdrop (0) · photo (1) · chrome (2). */
+.product-gallery__backdrop {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
   display: block;
-  box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding: clamp(0.75rem, 2vw, 1.5rem);
+  object-fit: cover;
+  object-position: center;
+  /* blur() fades an element's own edges into transparency; the over-scale
+     pushes that fade outside the clip box so the fill reaches every corner. */
+  transform: scale(1.2);
+  pointer-events: none;
+}
+
+/* No padding: the frame it used to hold is exactly the empty margin this
+   block is meant to lose. contain keeps the photo uncropped and undistorted,
+   and it now spans the full block in whichever axis it fits. */
+.product-gallery__photo {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   object-position: center;
-  transition:
-    transform var(--dur-normal) var(--ease-out),
-    filter var(--dur-normal) var(--ease-out);
+  transition: filter var(--dur-normal) var(--ease-out);
+}
+
+.product-gallery__main .product-gallery__backdrop {
+  filter: blur(28px) saturate(1.15) brightness(0.92);
 }
 
 /* Zoom affordance — visible at rest, stronger on hover/focus. */
 .product-gallery__zoom {
   position: absolute;
+  z-index: 2;
   right: var(--space-3);
   bottom: var(--space-3);
   display: inline-flex;
@@ -85,15 +111,11 @@
   color: var(--cream);
 }
 
-.product-gallery__thumb img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  transition:
-    transform var(--dur-slow) var(--ease-out),
-    filter var(--dur-normal) var(--ease-out);
+/* A thumbnail is ~1/8 of the main frame, so the desktop radius would smear
+   its backdrop into flat colour. Scaled down to match. */
+.product-gallery__thumb .product-gallery__backdrop {
+  transform: scale(1.3);
+  filter: blur(6px) saturate(1.15) brightness(0.92);
 }
 
 /* A fixed-size strip, not a stretch grid: with three photos the old
@@ -121,12 +143,10 @@
   box-shadow: 0 0 0 2px var(--burgundy);
 }
 
-.product-gallery__thumb[aria-current='true'] img {
-  filter: none;
-}
-
-/* Unselected thumbnails step back a little so the active one reads first. */
-.product-gallery__thumb[aria-current='false'] img {
+/* Unselected thumbnails step back a little so the active one reads first.
+   Scoped to the photo layer: the backdrop carries its blur in the same
+   property, and a bare img selector here would out-specify and drop it. */
+.product-gallery__thumb[aria-current='false'] .product-gallery__photo {
   filter: saturate(0.85) brightness(0.97);
 }
 
@@ -138,9 +158,8 @@
   box-shadow: var(--shadow-card-hover);
 }
 
-.product-gallery__main:hover img,
-.product-gallery__main:focus-visible img {
-  transform: scale(1.015);
+.product-gallery__main:hover .product-gallery__photo,
+.product-gallery__main:focus-visible .product-gallery__photo {
   filter: saturate(1.04) contrast(1.02);
 }
 
@@ -149,8 +168,8 @@
   transform: translateY(-2px);
 }
 
-.product-gallery__thumb:hover img,
-.product-gallery__thumb:focus-visible img {
+.product-gallery__thumb:hover .product-gallery__photo,
+.product-gallery__thumb:focus-visible .product-gallery__photo {
   filter: none;
 }
 
@@ -293,8 +312,17 @@
 }
 
 @media (max-width: 480px) {
+  .product-gallery__main .product-gallery__backdrop {
+    transform: scale(1.25);
+    filter: blur(16px) saturate(1.15) brightness(0.92);
+  }
+
   .product-gallery__thumb {
     width: 4.25rem;
+  }
+
+  .product-gallery__thumb .product-gallery__backdrop {
+    filter: blur(5px) saturate(1.15) brightness(0.92);
   }
 
   .product-gallery__dialog {
@@ -330,19 +358,14 @@
   .product-gallery__close,
   .product-gallery__nav,
   .product-gallery__zoom,
-  .product-gallery__main img,
-  .product-gallery__thumb img {
+  .product-gallery__photo {
     transition: none;
   }
 
   .product-gallery__main:hover,
   .product-gallery__main:focus-visible,
   .product-gallery__thumb:hover,
-  .product-gallery__thumb:focus-visible,
-  .product-gallery__main:hover img,
-  .product-gallery__main:focus-visible img,
-  .product-gallery__thumb:hover img,
-  .product-gallery__thumb:focus-visible img {
+  .product-gallery__thumb:focus-visible {
     transform: none;
   }
 
