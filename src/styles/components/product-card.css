@@ -26,21 +26,29 @@
     border-color var(--dur-normal) var(--ease-out);
 }
 
-/* Signature accent bar along the top edge (always visible) */
+/* Signature accent bar along the top edge (always visible). It used to show
+   through the image panel's translucent gradient; the photo backdrop that
+   replaced that gradient is opaque, so the bar is lifted over the image
+   layers instead. pointer-events stays off so the 3px strip it now covers
+   still belongs to the image link underneath. */
 .product-card::before {
   content: '';
   position: absolute;
+  z-index: 3;
   top: 0;
   left: 0;
   right: 0;
   height: 3px;
+  pointer-events: none;
   background: linear-gradient(90deg, var(--burgundy), var(--dusty-rose), var(--copper));
   opacity: 0.9;
 }
 
+/* Card-wide sheen — above the accent bar and the photo, as before. */
 .product-card::after {
   content: '';
   position: absolute;
+  z-index: 4;
   inset: 0;
   pointer-events: none;
   background:
@@ -57,13 +65,18 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
-/* 16:10 instead of 4:3 — on the wider catalog columns a 4:3 band added ~35px
-   of image height per card. object-fit: contain still shows the whole
-   product; the panel gradient fills the side gaps. */
+/* 4:3 is the native ratio of most catalog photos (the rest are square, with
+   a lone portrait and a lone panorama), so matching the block to it lets the
+   majority fill their frame edge to edge with nothing left over. The gradient
+   below is only a base coat for missing images — a loaded photo always covers
+   it, either with itself or with its blurred backdrop.
+
+   Three stacked layers share this box, hence the explicit z-indexes:
+   backdrop (0) · photo (1) · bottom scrim (2). */
 .product-card__image-link {
   position: relative;
   display: block;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   background:
     radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.22), transparent 45%),
@@ -73,17 +86,40 @@
 .product-card__image-link::after {
   content: '';
   position: absolute;
+  z-index: 2;
   inset: 0;
   background: linear-gradient(180deg, transparent 55%, rgba(46, 27, 16, 0.1) 100%);
   pointer-events: none;
 }
 
-.product-card__image {
+/* Gap filler for photos that are not 4:3. Where the photo does match the
+   block it covers this layer completely, so the rule needs no ratio test —
+   the backdrop simply stops being visible. */
+.product-card__image-backdrop {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
   display: block;
-  box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding: clamp(0.25rem, 0.7vw, 0.6rem);
+  object-fit: cover;
+  object-position: center;
+  /* blur() fades an element's own edges into transparency; the over-scale
+     pushes that fade outside the clip box so the fill reaches every corner. */
+  transform: scale(1.2);
+  filter: blur(22px) saturate(1.15) brightness(0.9);
+  pointer-events: none;
+}
+
+/* No padding: the frame it used to hold is exactly the empty margin this
+   block is meant to lose. contain keeps the photo uncropped and undistorted,
+   and it now spans the full block in whichever axis it fits. */
+.product-card__image {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   object-position: center;
   transition: filter var(--dur-normal) var(--ease-out);
@@ -199,6 +235,13 @@
        panel never leaves a gap under itself. */
     aspect-ratio: auto;
     align-self: stretch;
+  }
+
+  /* The column is ~1/3 of its desktop width here, so the desktop radius would
+     smear the backdrop into flat colour. Scaled down to match. */
+  .product-card__image-backdrop {
+    transform: scale(1.25);
+    filter: blur(12px) saturate(1.15) brightness(0.9);
   }
 
   .product-card__body {
