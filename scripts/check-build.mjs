@@ -15,6 +15,10 @@ const projectRoot = fileURLToPath(new URL('..', import.meta.url));
 const distDir = path.join(projectRoot, 'dist');
 const productsDir = path.join(projectRoot, 'src', 'data', 'products');
 
+const { PRICE_PER_GRAM_UAH, computePriceFromWeight } = await import(
+  new URL('../src/data/pricing.config.mjs', import.meta.url)
+);
+
 // Must mirror astro.config.mjs (site + base + trailingSlash: 'always').
 const SITE_BASE = 'https://4245877.github.io/3D-Drukarnya/';
 const BASE_PATH = '/3D-Drukarnya/';
@@ -271,6 +275,38 @@ export async function checkBuild() {
     const visiblePrice = html.match(/class="product-price[^"]*">\s*([^<]+?)\s*</)?.[1] ?? '';
     const digits = normalizeText(visiblePrice).replace(/\D/g, '');
     check(digits === String(product.price), where(`visible price "${visiblePrice}" != ${product.price}`));
+
+    // Weight-based pricing, where a source weight is known: the published
+    // price is exactly weight × rate, and the weight itself appears both as a
+    // visible fact and in JSON-LD. Products still awaiting a weight publish
+    // neither, and must not fake one.
+    const visibleWeights = [...html.matchAll(/<dt>Вага<\/dt>\s*<dd>([^<]*)<\/dd>/g)].map(
+      (match) => normalizeText(match[1]).replace(/\D/g, ''),
+    );
+
+    if (product.weightGrams === undefined) {
+      check(node.weight === undefined, where('no weightGrams in data but JSON-LD publishes a weight'));
+      check(visibleWeights.length === 0, where(`no weightGrams in data but page shows ${JSON.stringify(visibleWeights)}`));
+    } else {
+      check(
+        product.price === computePriceFromWeight(product.weightGrams),
+        where(
+          `price ${product.price} != ${product.weightGrams} g × ${PRICE_PER_GRAM_UAH} ₴/g` +
+            ` = ${computePriceFromWeight(product.weightGrams)}`,
+        ),
+      );
+
+      const weightNode = node.weight;
+      check(
+        weightNode?.value === product.weightGrams && weightNode?.unitCode === 'GRM',
+        where(`JSON-LD weight ${JSON.stringify(weightNode)} != ${product.weightGrams} g`),
+      );
+      check(
+        visibleWeights.length > 0 &&
+          visibleWeights.every((value) => value === String(product.weightGrams)),
+        where(`visible weight ${JSON.stringify(visibleWeights)} != ${product.weightGrams}`),
+      );
+    }
 
     // Availability: only confirmed statuses, mapped 1:1 from the data
     const expectedAvailability = {

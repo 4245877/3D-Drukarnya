@@ -4,6 +4,7 @@ import Layout from '../../components/Layout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ProductGallery from '../../components/ProductGallery.astro';
 import ProductPrice from '../../components/ProductPrice.astro';
+import { PRICE_PER_GRAM_UAH } from '../../data/pricing.config.mjs';
 import { getAllProducts } from '../../utils/products';
 import type { Product } from '../../utils/products';
 import { parseDescription } from '../../utils/description.mjs';
@@ -146,8 +147,24 @@ const hasWarnings = warnings.length > 0;
 const warningDefaultTitle = (level: 'notice' | 'critical') =>
   level === 'critical' ? 'Важливе попередження щодо безпеки' : 'Зверніть увагу';
 
+// Weight drives the price (weight × PRICE_PER_GRAM_UAH), so it is published
+// as a plain fact rather than hidden in the pricing note. Products whose
+// source weight is still unknown (WEIGHT_PENDING_SKUS) simply omit both.
+const weightLabel =
+  product.weightGrams === undefined
+    ? undefined
+    : `${new Intl.NumberFormat('uk-UA').format(product.weightGrams)} г`;
+const ratePerGramLabel = new Intl.NumberFormat('uk-UA', {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 2,
+}).format(PRICE_PER_GRAM_UAH);
+const priceFormulaNote = weightLabel
+  ? `${weightLabel} × ${ratePerGramLabel} ₴/г`
+  : undefined;
+
 const productFacts = [
   { label: 'Артикул', value: product.sku },
+  weightLabel ? { label: 'Вага', value: weightLabel } : null,
   product.material ? { label: 'Матеріал', value: product.material } : null,
   product.leadTime ? { label: 'Термін виготовлення', value: product.leadTime } : null,
   product.category ? { label: 'Категорія', value: product.category } : null,
@@ -165,9 +182,9 @@ const hasFacts = productFacts.length > 0;
 // item is this" with at most three short facts; the full table lives in the
 // #product-details section so the buy panel stays scannable.
 const keyFacts = [
+  weightLabel ? { label: 'Вага', value: weightLabel } : null,
   product.material ? { label: 'Матеріал', value: product.material } : null,
   product.leadTime ? { label: 'Термін', value: product.leadTime } : null,
-  { label: 'Артикул', value: product.sku },
 ].filter((item): item is { label: string; value: string } => Boolean(item));
 
 // Short, factual reassurance shown under the CTA. Same claims the FDM
@@ -196,6 +213,14 @@ const hasAttribution = Boolean(
 );
 
 const additionalProperties = [
+  product.weightGrams === undefined
+    ? null
+    : {
+        '@type': 'PropertyValue',
+        name: 'Вага',
+        value: product.weightGrams,
+        unitCode: 'GRM',
+      },
   product.material
     ? {
         '@type': 'PropertyValue',
@@ -263,6 +288,14 @@ const structuredData = {
       sku: product.sku,
       category: product.category,
       material: product.material,
+      weight:
+        product.weightGrams === undefined
+          ? undefined
+          : {
+              '@type': 'QuantitativeValue',
+              value: product.weightGrams,
+              unitCode: 'GRM',
+            },
       brand: {
         '@type': 'Brand',
         name: '3D Друкарня',
@@ -359,6 +392,10 @@ const structuredData = {
                 </p>
               )}
             </div>
+
+            {priceFormulaNote && (
+              <p class="product-buy__price-note">Розрахунок: {priceFormulaNote}</p>
+            )}
 
             {product.priceNote && (
               <p class="product-buy__price-note">{product.priceNote}</p>

@@ -14,9 +14,14 @@ import {
   SLUG_PATTERN,
   isSafeSlug,
   normalizeSlug,
+  WEIGHT_PENDING_SKUS,
   productSchema,
   validateProductCollection,
 } from '../src/data/product.schema.mjs';
+import {
+  PRICE_PER_GRAM_UAH,
+  computePriceFromWeight,
+} from '../src/data/pricing.config.mjs';
 
 const productsDir = fileURLToPath(new URL('../src/data/products/', import.meta.url));
 
@@ -91,7 +96,10 @@ const validProduct = {
   shortDescription: 'Short description.',
   description: 'Long description.',
   merchandisingPriority: 10,
-  price: 100,
+  // 40 g × 2.5 ₴/g = 100 ₴ — kept in sync through computePriceFromWeight so
+  // the fixture survives a rate change.
+  weightGrams: 40,
+  price: computePriceFromWeight(40),
   category: CATALOG_CATEGORIES[0],
   images: ['https://example.com/image.webp'],
 };
@@ -245,6 +253,66 @@ test('prices are finite positive numbers', async () => {
   }
 });
 
+test('every product stores a positive weight unless its SKU is pending', async () => {
+  for (const { source, data } of await loadEntries()) {
+    if (data.weightGrams === undefined) {
+      assert.ok(
+        WEIGHT_PENDING_SKUS.has(data.sku),
+        `${source}: no weightGrams and ${data.sku} is not listed in WEIGHT_PENDING_SKUS`,
+      );
+      continue;
+    }
+
+    assert.equal(
+      typeof data.weightGrams,
+      'number',
+      `${source}: weightGrams is not a number`,
+    );
+    assert.ok(
+      Number.isFinite(data.weightGrams) && data.weightGrams > 0,
+      `${source}: weightGrams ${data.weightGrams} is not a finite positive number`,
+    );
+  }
+});
+
+test('every weighted price equals weightGrams x the catalog rate', async () => {
+  for (const { source, data } of await loadEntries()) {
+    if (data.weightGrams === undefined) continue;
+    assert.equal(
+      data.price,
+      computePriceFromWeight(data.weightGrams),
+      `${source}: price ${data.price} != ${data.weightGrams} g x ${PRICE_PER_GRAM_UAH} ₴/g` +
+        ' — run `npm run prices:recalculate`',
+    );
+  }
+});
+
+test('WEIGHT_PENDING_SKUS names only real products that really lack a weight', async () => {
+  const entries = await loadEntries();
+  const bySku = new Map(entries.map(({ data }) => [data.sku, data]));
+
+  for (const sku of WEIGHT_PENDING_SKUS) {
+    const product = bySku.get(sku);
+    assert.ok(product, `WEIGHT_PENDING_SKUS lists ${sku}, which is not a catalog SKU`);
+    assert.equal(
+      product.weightGrams,
+      undefined,
+      `${sku} has a weight now — remove it from WEIGHT_PENDING_SKUS and recalculate`,
+    );
+  }
+});
+
+test('changing the rate changes every computed price by the same factor', () => {
+  // Guards the "switch 2.5 -> 3 ₴/g and recalculate" workflow: the rate is a
+  // parameter of the formula, never baked into individual products.
+  for (const weightGrams of [1, 40, 120, 153, 2486]) {
+    assert.equal(computePriceFromWeight(weightGrams, 3), Math.round(weightGrams * 3));
+    assert.equal(computePriceFromWeight(weightGrams, 2.5), Math.round(weightGrams * 2.5));
+  }
+
+  assert.equal(computePriceFromWeight(120), Math.round(120 * PRICE_PER_GRAM_UAH));
+});
+
 test('every product has a non-empty image list within URL restrictions', async () => {
   for (const { source, data } of await loadEntries()) {
     assert.ok(Array.isArray(data.images), `${source}: images is not an array`);
@@ -289,6 +357,12 @@ test('the schema rejects broken products', () => {
   rejects({ price: -10 }, 'negative price');
   rejects({ price: Number.POSITIVE_INFINITY }, 'infinite price');
   rejects({ price: '100' }, 'string price');
+  rejects({ price: computePriceFromWeight(40) + 1 }, 'price that ignores the weight formula');
+  rejects({ weightGrams: undefined }, 'missing weightGrams');
+  rejects({ weightGrams: 0 }, 'zero weightGrams');
+  rejects({ weightGrams: -5 }, 'negative weightGrams');
+  rejects({ weightGrams: '40' }, 'string weightGrams');
+  rejects({ weightGrams: Number.NaN }, 'NaN weightGrams');
   rejects({ images: [] }, 'empty images array');
   rejects({ images: ['javascript:alert(1)'] }, 'javascript: image');
   rejects({ images: ['data:image/png;base64,AAAA'] }, 'data: image');

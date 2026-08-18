@@ -6,6 +6,8 @@
 // never duplicated between the build and the standalone checks.
 import { z } from 'zod';
 
+import { PRICE_PER_GRAM_UAH, computePriceFromWeight } from './pricing.config.mjs';
+
 /** Safe URL slug: lowercase latin, digits, single dashes between segments. */
 export const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -128,6 +130,35 @@ const imageReference = z
     }
   });
 
+/**
+ * SKUs whose printed weight is not published anywhere we can cite yet.
+ *
+ * Every model page for these is either Printables (which publishes no
+ * filament weight at all) or a MakerWorld model we could not identify with
+ * certainty. Until a weight is measured — by slicing the model with the shop's
+ * own profile, or by weighing a finished print — these keep their previous
+ * hand-set price and are excluded from weight-based pricing.
+ *
+ * Removing a SKU from this set without adding `weightGrams` fails validation,
+ * so the list can only ever shrink deliberately.
+ */
+export const WEIGHT_PENDING_SKUS = new Set([
+  'P7',  // Synology DS920+ front plate — original page publishes no weight
+  'P10', // 10" rack 2U hot-swap 5×2.5" + 3×3.5" — model page not identified
+  'P14', // Lab Rax drawers — published profiles cover other configurations
+  'P16', // MODCASE MASS — only the "full incl. optional parts" profile is published
+  'P21', // Printables 1188439 — no weight published
+  'P22', // Printables 1155360 — no weight published
+  'P23', // Printables — no weight published
+  'P26', // Printables 1040412 — no weight published
+  'P28', // Printables 980541 — no weight published
+  'P29', // Printables — no weight published
+  'P32', // Printables — no weight published
+  'P35', // Printables — no weight published
+  'P36', // Printables 1247474 — no weight published
+  'P37', // Printables 1369947 — no weight published
+]);
+
 export const productVariantSchema = z.strictObject({
   name: nonEmptyString,
   description: nonEmptyString,
@@ -246,6 +277,19 @@ export const productSchema = z.strictObject({
   license: nonEmptyString.optional(),
   licenseUrl: absoluteHttpsUrl('licenseUrl').optional(),
   attributionRequired: z.boolean().default(false),
+  // Printed weight of the product in grams — the only hand-maintained input
+  // to the price, taken from the print profile published on the original
+  // model page. Required for every product except the SKUs listed in
+  // WEIGHT_PENDING_SKUS below; never estimated here.
+  weightGrams: z
+    .number('weightGrams must be a number')
+    .refine((value) => Number.isFinite(value) && value > 0, {
+      message: 'weightGrams must be a finite positive number',
+    })
+    .optional(),
+  // Derived from `weightGrams` × the catalog rate (src/data/pricing.config.mjs)
+  // and cross-checked below — edit the weight or the rate, then run
+  // `npm run prices:recalculate`; never edit this number directly.
   // Also rendered in JSON-LD (Offer.price for `exact`, AggregateOffer.lowPrice
   // for `from`), so it must stay a plain number.
   price: z
@@ -277,6 +321,36 @@ export const productSchema = z.strictObject({
     .array(productVariantSchema)
     .min(1, 'variants, when present, must not be empty')
     .optional(),
+}).superRefine((product, ctx) => {
+  if (product.weightGrams === undefined) {
+    // Weight-based pricing is the rule, not the default. A product may only
+    // keep a hand-set price while its source weight is still unknown, and
+    // only if it is named here — so the backlog is visible instead of silent.
+    if (!WEIGHT_PENDING_SKUS.has(product.sku)) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['weightGrams'],
+        message:
+          'weightGrams is required; add the weight published on the original ' +
+          `model page, or list ${product.sku} in WEIGHT_PENDING_SKUS while it is unknown`,
+      });
+    }
+    return;
+  }
+
+  // The price is a pure function of the weight and the catalog rate. Checking
+  // it here means a stale price fails `astro build`, `npm run validate:data`
+  // and the tests alike, instead of silently shipping.
+  const expected = computePriceFromWeight(product.weightGrams);
+  if (product.price !== expected) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['price'],
+      message:
+        `price ${product.price} does not match weightGrams ${product.weightGrams} × ` +
+        `${PRICE_PER_GRAM_UAH} ₴/g = ${expected}; run \`npm run prices:recalculate\``,
+    });
+  }
 });
 
 /**
