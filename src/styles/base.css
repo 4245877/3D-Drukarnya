@@ -525,6 +525,45 @@ p {
   color: var(--copper);
 }
 
+/* Site-map columns above the brand line. They carry the standing internal
+   link graph (categories, guides, about), so they stay plain text links. */
+.site-footer__nav {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid rgba(232, 216, 190, 0.16);
+}
+
+.site-footer__column-title {
+  margin: 0 0 var(--space-3);
+  color: var(--copper);
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.site-footer__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+}
+
+.site-footer__nav-link {
+  color: rgba(232, 216, 190, 0.72);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.site-footer__nav-link:hover {
+  color: var(--copper);
+}
+
 /* ── Animations & Enter Effects ───────────────────────────── */
 /* Kept: fadeUp and floatY are referenced by catalog.css. */
 @keyframes fadeUp {
@@ -558,6 +597,12 @@ p {
 
   .site-footer__meta {
     align-items: flex-start;
+  }
+
+  .site-footer__nav {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
   }
 }
 

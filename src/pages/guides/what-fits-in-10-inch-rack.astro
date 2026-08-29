@@ -1,0 +1,179 @@
+---
+import GuideLayout from '../../layouts/GuideLayout.astro';
+import ProductLink from '../../components/ProductLink.astro';
+import { href } from '../../utils/urls';
+---
+
+<GuideLayout slug="what-fits-in-10-inch-rack">
+  <section class="content-section" aria-labelledby="principle">
+    <h2 id="principle">Головний принцип</h2>
+    <div class="content-prose">
+      <p>
+        У 10-дюймову стійку поміщається майже будь-яке компактне обладнання — але
+        майже ніщо з нього не має власних монтажних вушок. Настільний роутер,
+        комутатор, mini-PC чи плата Raspberry Pi розраховані стояти на столі, а не
+        кріпитися в стійку.
+      </p>
+      <p>
+        Розвʼязує це друкований адаптер: деталь, яка з одного боку повторює форму
+        конкретного пристрою, а з іншого має фронтальну панель під монтажну ширину
+        10 дюймів. Тому питання «чи поміститься» майже завжди зводиться до питання
+        «чи є кріплення саме під цю модель».
+      </p>
+    </div>
+  </section>
+
+  <section class="content-section" aria-labelledby="network">
+    <h2 id="network">Мережеве обладнання</h2>
+    <div class="content-prose">
+      <p>
+        Компактні роутери й комутатори — найчастіший вміст домашньої стійки. У
+        каталозі є готові кріплення під конкретні популярні моделі:
+      </p>
+    </div>
+
+    <ul class="content-list" role="list">
+      <li>
+        <ProductLink sku="P22" label="MikroTik hAP ac² — кріплення в 10-дюймову стійку" />,
+        а також{' '}
+        <ProductLink sku="P23" label="варіант із чотирма гніздами під кейстоуни" /> у
+        тому ж юніті.
+      </li>
+      <li>
+        <ProductLink sku="P25" label="TP-Link TL-SG108(PE) і TL-SF1006P" /> — кріплення
+        для восьми- й шестипортових комутаторів.
+      </li>
+      <li>
+        <ProductLink sku="P24" label="TP-Link TL-SG1005P і TL-SG105" /> — для
+        компактних пʼятипортових моделей.
+      </li>
+      <li>
+        <ProductLink sku="P21" label="параметричне кріплення для 10-дюймової стійки" /> —
+        коли потрібної моделі в списку немає: розміри підлаштовуються під конкретний
+        корпус.
+      </li>
+    </ul>
+
+    <div class="content-prose">
+      <p>
+        Усі варіанти зібрані в категорії{' '}
+        <a href={href('catalog/network-rack-mounts/')}>
+          кріплення мережевого обладнання
+        </a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="content-section" aria-labelledby="minipc">
+    <h2 id="minipc">Mini-PC та одноплатні компʼютери</h2>
+    <div class="content-prose">
+      <p>
+        Mini-PC літрового формату — основа більшості домашніх лабораторій: вони
+        тихі, споживають мало й коштують недорого на вторинному ринку. Кріплення
+        розраховане під конкретну серію, бо розміри корпусів у різних виробників
+        не збігаються.
+      </p>
+    </div>
+
+    <ul class="content-list" role="list">
+      <li>
+        <ProductLink sku="P26" label="Lenovo ThinkCentre Tiny — кріплення з опційними кейстоунами" />{' '}
+        та{' '}
+        <ProductLink sku="P27" label="варіант під Lenovo M70q / M80q" />.
+      </li>
+      <li>
+        <ProductLink sku="P28" label="Dell OptiPlex 7060 Micro" /> — кріплення під
+        серію Micro.
+      </li>
+      <li>
+        <ProductLink sku="P29" label="HP EliteDesk 800 G3 / G4 / G5" /> — під формат
+        Mini.
+      </li>
+      <li>
+        <ProductLink sku="P31" label="Raspberry Pi 2B/3B/4B/5 — кріплення двох плат в один юніт" />{' '}
+        та{' '}
+        <ProductLink sku="P32" label="панель із місцем під TFT-дисплей і кнопку" />.
+      </li>
+    </ul>
+  </section>
+
+  <section class="content-section" aria-labelledby="storage">
+    <h2 id="storage">Диски та сховище</h2>
+    <div class="content-prose">
+      <p>
+        Накопичувачі ставлять у стійку окремим модулем, а не всередину mini-PC:
+        так їх простіше обслуговувати й охолоджувати.
+      </p>
+    </div>
+
+    <ul class="content-list" role="list">
+      <li>
+        <ProductLink sku="P10" label="2U-модуль на 5 накопичувачів 2.5″ і 3 накопичувачі 3.5″" />{' '}
+        з підтримкою hot-swap відсіків.
+      </li>
+      <li>
+        <ProductLink sku="P11" label="3U-корпус на 12 місць" /> — коли дисків справді
+        багато.
+      </li>
+      <li>
+        <ProductLink sku="P12" label="корзина на 6 дисків 3.5″" /> — простіший
+        варіант без rack-монтажу.
+      </li>
+    </ul>
+
+    <div class="content-prose">
+      <p>
+        Якщо сховище будується навколо готового mini-PC, замість дискового модуля
+        часто зручніший спеціалізований корпус — див.{' '}
+        <a href={href('catalog/nas-cases/')}>корпуси для домашнього NAS</a> і гайд{' '}
+        <a href={href('guides/diy-nas-case-guide/')}>як обрати корпус для NAS</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="content-section" aria-labelledby="infra">
+    <h2 id="infra">Обвʼязка: панелі, полиці, живлення</h2>
+
+    <ul class="content-list" role="list">
+      <li>
+        <ProductLink sku="P33" label="патч-панель на 10 кейстоунів" /> і{' '}
+        <ProductLink sku="P34" label="компактна панель на 8 кейстоунів заввишки 1/2U" />.
+      </li>
+      <li>
+        <ProductLink sku="P30" label="універсальна полиця" /> — для пристроїв, під
+        які кріплення немає взагалі.
+      </li>
+      <li>
+        <ProductLink sku="P36" label="кабельна панель" /> і{' '}
+        <ProductLink sku="P35" label="напрямна з модульними гачками" /> для
+        патч-кордів.
+      </li>
+      <li>
+        <ProductLink sku="P20" label="тримач ATX-блока живлення на 2U" /> або{' '}
+        <ProductLink sku="P37" label="кріплення Meanwell LRS-100-12" /> — коли
+        потрібне спільне джерело 12 В.
+      </li>
+    </ul>
+  </section>
+
+  <section class="content-section" aria-labelledby="not-fitting">
+    <h2 id="not-fitting">Що в 10 дюймів не стане</h2>
+    <div class="content-prose">
+      <p>
+        Повнорозмірний ATX-корпус, серверне обладнання з фронтальною панеллю
+        19 дюймів, стійкові ДБЖ і будь-що, що спроєктоване під 19-дюймовий стандарт,
+        у 10-дюймову стійку не поміститься — панель фізично ширша. Для такого
+        обладнання потрібен 19-дюймовий формат; порівняння форматів наведено в
+        гайді{' '}
+        <a href={href('guides/10-inch-vs-19-inch-rack/')}>
+          10-дюймова чи 19-дюймова стійка
+        </a>.
+      </p>
+      <p>
+        Плати Mini-ITX формально ширші за корисний простір типової 10-дюймової
+        стійки, тому в каталозі вони використовуються не в стійці, а в окремих
+        NAS-корпусах, які стоять поруч.
+      </p>
+    </div>
+  </section>
+</GuideLayout>

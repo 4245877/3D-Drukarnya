@@ -1,8 +1,13 @@
 import { defineConfig } from 'astro/config';
 
+// Host and subpath live in one place (src/data/site.config.mjs) so that the
+// Astro build, the page templates, the standalone Node scripts and the tests
+// can never drift apart — and so moving to a custom domain is a two-line edit.
+import { BASE_PATH, SITE_ORIGIN } from './src/data/site.config.mjs';
+
 export default defineConfig({
-  site: 'https://4245877.github.io',
-  base: '/3D-Drukarnya',
+  site: SITE_ORIGIN,
+  base: BASE_PATH,
   trailingSlash: 'always',
   build: {
     // Keep component styles in external .css files instead of inlining them

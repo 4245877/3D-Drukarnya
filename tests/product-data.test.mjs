@@ -32,7 +32,7 @@ const EXPECTED_SKUS_IN_CATALOG_ORDER = [
   'P4', 'P23', 'P26', 'P6', 'P22', 'P11', 'P15', 'P8',
   'P14', 'P13', 'P7', 'P25', 'P34', 'P17', 'P19', 'P24',
   'P35', 'P31', 'P36', 'P20', 'P28', 'P16', 'P18', 'P29',
-  'P33', 'P30', 'P27', 'P32', 'P37',
+  'P33', 'P30', 'P27', 'P32', 'P37', 'P38',
 ];
 
 const EXPECTED_SLUGS_BY_SKU = {
@@ -73,6 +73,7 @@ const EXPECTED_SLUGS_BY_SKU = {
   P35: '10-inch-rack-cable-guide-modularni-hachky',
   P36: '10-inch-server-rack-cable-management-plate',
   P37: '10-inch-rack-meanwell-lrs-100-12-psu-mount',
+  P38: '35-hard-drive-to-525-drive-bay-adapter',
 };
 
 async function loadEntries() {
@@ -107,7 +108,7 @@ const validProduct = {
 test('every product JSON file passes the schema and collection rules', async () => {
   const entries = await loadEntries();
 
-  assert.equal(entries.length, 37, 'the catalog must keep all 37 product files');
+  assert.equal(entries.length, 38, 'the catalog must keep all 38 product files');
 
   const { products, errors } = validateProductCollection(entries);
 
@@ -115,9 +116,9 @@ test('every product JSON file passes the schema and collection rules', async () 
   assert.equal(products.length, entries.length);
 });
 
-test('P1-P37 filenames, SKUs and published slugs remain stable', async () => {
+test('P1-P38 filenames, SKUs and published slugs remain stable', async () => {
   const entries = await loadEntries();
-  const expectedFiles = Array.from({ length: 37 }, (_, index) => `product-${index + 1}.json`);
+  const expectedFiles = Array.from({ length: 38 }, (_, index) => `product-${index + 1}.json`);
 
   assert.deepEqual(
     entries.map(({ source }) => source).sort((a, b) => {
@@ -198,7 +199,7 @@ test('categories, rights metadata and requested product families are structured'
     skusWithStatus('permission_required'),
     [
       'P16', 'P17', 'P18', 'P19', 'P20', 'P24', 'P25', 'P27', 'P28', 'P29',
-      'P30', 'P31', 'P32', 'P33', 'P34', 'P35', 'P36', 'P37',
+      'P30', 'P31', 'P32', 'P33', 'P34', 'P35', 'P36', 'P37', 'P38',
     ],
   );
   assert.ok(

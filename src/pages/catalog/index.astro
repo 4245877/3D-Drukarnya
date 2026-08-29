@@ -1,0 +1,212 @@
+---
+import Layout from '../../components/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { CATEGORIES } from '../../data/categories.mjs';
+import { GUIDES } from '../../data/guides.mjs';
+import { SITE_NAME } from '../../data/site.config.mjs';
+import { getAllProducts } from '../../utils/products';
+import { absoluteUrl, href } from '../../utils/urls';
+import {
+  breadcrumbNode,
+  businessNode,
+  graph,
+  itemListNode,
+  webPageNode,
+  websiteNode,
+} from '../../utils/schema.mjs';
+import { toJsonLd } from '../../utils/text';
+
+import '../../styles/pages/content.css';
+
+const products = getAllProducts();
+const canonicalPath = '/catalog/';
+const pageUrl = absoluteUrl(canonicalPath);
+
+const title = `Каталог за категоріями: стійки, NAS, кріплення | ${SITE_NAME}`;
+const description =
+  'Каталог 3D-друкованих рішень для HomeLab за категоріями: 10-дюймові серверні стійки, NAS-корпуси, HDD-модулі, кріплення для мережевого обладнання й mini-PC, полиці та патч-панелі.';
+
+const priceFormatter = new Intl.NumberFormat('uk-UA');
+
+const categories = CATEGORIES.map((category) => {
+  const items = products.filter((product) => product.category === category.name);
+  return {
+    ...category,
+    count: items.length,
+    priceFrom: items.length > 0 ? Math.min(...items.map((item) => item.price)) : undefined,
+  };
+});
+
+const breadcrumbItems = [
+  { name: 'Головна', url: absoluteUrl('') },
+  { name: 'Каталог', url: pageUrl },
+];
+
+const structuredData = graph([
+  websiteNode(),
+  businessNode(),
+  webPageNode({
+    url: pageUrl,
+    name: 'Каталог за категоріями',
+    description,
+    type: 'CollectionPage',
+    breadcrumbId: `${pageUrl}#breadcrumbs`,
+  }),
+  breadcrumbNode(pageUrl, breadcrumbItems),
+  itemListNode(
+    pageUrl,
+    CATEGORIES.map((category) => ({
+      name: category.heading,
+      url: absoluteUrl(`catalog/${category.slug}/`),
+    })),
+    'Категорії каталогу',
+  ),
+]);
+---
+
+<Layout title={title} description={description} canonicalPath={canonicalPath}>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={toJsonLd(structuredData)}
+  ></script>
+
+  <div class="content-page">
+    <div class="container">
+      <Breadcrumbs
+        items={[{ label: 'Головна', href: href() }, { label: 'Каталог' }]}
+      />
+
+      <header class="content-head">
+        <p class="kicker">Каталог</p>
+        <h1 class="content-head__title content-head__title--wide">
+          Каталог за категоріями: від каркаса стійки до патч-панелі
+        </h1>
+        <p class="content-lead">
+          Каталог поділений на дев'ять категорій, які відповідають етапам збірки
+          домашньої лабораторії: спочатку каркас 10-дюймової стійки, далі
+          кріплення під наявне обладнання, потім сховище, живлення й кабельна
+          обвʼязка. Усього {products.length} позицій, усі друкуються на замовлення.
+        </p>
+      </header>
+
+      <section class="content-section" aria-labelledby="catalog-categories">
+        <h2 id="catalog-categories">Категорії</h2>
+
+        <div class="content-grid">
+          {categories.map((category) => (
+            <article class="content-card">
+              <h3 class="content-card__title">
+                <a href={href(`catalog/${category.slug}/`)}>{category.heading}</a>
+              </h3>
+              <p class="content-card__text">{category.description}</p>
+              <p class="content-card__meta">
+                {category.count} товарів
+                {category.priceFrom !== undefined &&
+                  ` · від ${priceFormatter.format(category.priceFrom)} ₴`}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="catalog-picker">
+        <h2 id="catalog-picker">Яка категорія потрібна саме вам</h2>
+
+        <div class="content-table-wrap">
+          <table class="content-table">
+            <caption>
+              Відповідність типової задачі та розділу каталогу.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Задача</th>
+                <th scope="col">Категорія</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Потрібен сам каркас стійки</th>
+                <td>
+                  <a href={href('catalog/10-inch-server-rack/')}>
+                    10-дюймові серверні стійки та основи
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Роутер або комутатор лежить на столі</th>
+                <td>
+                  <a href={href('catalog/network-rack-mounts/')}>
+                    Кріплення мережевого обладнання
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Треба поставити mini-PC у стійку</th>
+                <td>
+                  <a href={href('catalog/mini-pc-rack-mounts/')}>Кріплення Mini-PC</a>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Збираю домашнє сховище на кілька дисків</th>
+                <td>
+                  <a href={href('catalog/nas-cases/')}>Корпуси для домашнього NAS</a>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Дисків більше, ніж поміщається в корпус</th>
+                <td>
+                  <a href={href('catalog/hdd-modules/')}>HDD-модулі та дискові корзини</a>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Плата Raspberry Pi без корпусу</th>
+                <td>
+                  <a href={href('catalog/raspberry-pi-rack/')}>Raspberry Pi у стійці</a>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Не вистачає портів і порядку в кабелях</th>
+                <td>
+                  <a href={href('catalog/rack-shelves-and-panels/')}>
+                    Полиці, патч-панелі та кабельні органайзери
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Потрібне спільне живлення в стійці</th>
+                <td>
+                  <a href={href('catalog/rack-power-and-workshop/')}>
+                    Живлення для стійки та майстерня
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Потрібна деталь під конкретний пристрій</th>
+                <td>
+                  <a href={href('catalog/custom-rack-parts/')}>
+                    Вузькі рішення та деталі на замовлення
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="catalog-guides">
+        <h2 id="catalog-guides">Перед вибором: гайди</h2>
+        <div class="content-grid">
+          {GUIDES.map((guide) => (
+            <article class="content-card">
+              <h3 class="content-card__title">
+                <a href={href(`guides/${guide.slug}/`)}>{guide.heading}</a>
+              </h3>
+              <p class="content-card__text">{guide.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>

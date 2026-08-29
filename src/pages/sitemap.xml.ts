@@ -1,24 +1,42 @@
 import type { APIRoute } from 'astro';
+import { STATIC_ROUTES } from '../data/routes.mjs';
 import { getAllProducts } from '../utils/products';
+import { absoluteUrl } from '../utils/urls';
 
-export const GET: APIRoute = ({ site }) => {
-  const origin = site ?? new URL('https://4245877.github.io');
-  const basePath = import.meta.env.BASE_URL.endsWith('/')
-    ? import.meta.env.BASE_URL
-    : `${import.meta.env.BASE_URL}/`;
-  const baseUrl = new URL(basePath, origin);
-
-  const paths = ['', ...getAllProducts().map((product) => `products/${product.slug}/`)];
+/**
+ * Sitemap of every indexable, canonical URL: the home page, the catalog hub
+ * and its category landing pages, the guides, About, the English overview and
+ * every product page.
+ *
+ * Deliberately excluded: 404.html (noindex), sitemap.xml and robots.txt
+ * themselves, and the IndexNow key file — none of them are content, and a
+ * sitemap that lists non-canonical or non-indexable URLs is treated as a
+ * quality signal against the site.
+ */
+export const GET: APIRoute = () => {
+  const routes = [
+    ...STATIC_ROUTES,
+    ...getAllProducts().map((product) => ({
+      path: `products/${product.slug}/`,
+      lastmod: undefined as string | undefined,
+    })),
+  ];
 
   // URL() percent-encodes every other character XML would choke on, but leaves
   // `&` intact.
-  const locations = paths.map((path) =>
-    new URL(path, baseUrl).toString().replace(/&/g, '&amp;'),
-  );
+  const entries = routes.map((route) => ({
+    loc: absoluteUrl(route.path).replace(/&/g, '&amp;'),
+    lastmod: route.lastmod,
+  }));
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${locations.map((loc) => `  <url>\n    <loc>${loc}</loc>\n  </url>`).join('\n')}
+${entries
+  .map(
+    ({ loc, lastmod }) =>
+      `  <url>\n    <loc>${loc}</loc>${lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ''}\n  </url>`,
+  )
+  .join('\n')}
 </urlset>
 `;
 

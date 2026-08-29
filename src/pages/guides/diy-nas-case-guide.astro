@@ -1,0 +1,171 @@
+---
+import GuideLayout from '../../layouts/GuideLayout.astro';
+import ProductLink from '../../components/ProductLink.astro';
+import { href } from '../../utils/urls';
+---
+
+<GuideLayout slug="diy-nas-case-guide">
+  <section class="content-section" aria-labelledby="two-paths">
+    <h2 id="two-paths">Два шляхи: навколо mini-PC або під Mini-ITX</h2>
+    <div class="content-prose">
+      <p>
+        Домашній NAS збирають одним із двох способів, і вибір корпусу випливає
+        саме з нього.
+      </p>
+      <p>
+        <strong>Навколо готового mini-PC.</strong> Найдешевший шлях, якщо компактний
+        компʼютер уже є або купується на вторинному ринку. Корпус проєктується під
+        конкретну модель: він тримає диски, виводить охолодження й лишає доступ до
+        портів. Так побудовані{' '}
+        <ProductLink sku="P5" label="ThinkNAS на 4 диски для Lenovo M920q" />,{' '}
+        <ProductLink sku="P4" label="ThinkNAS на 6 дисків" />,{' '}
+        <ProductLink sku="P8" label="ThinkBox V2 для Lenovo M720q / M920q" />,{' '}
+        <ProductLink sku="P6" label="NUC NAS для Intel NUC" /> і{' '}
+        <ProductLink sku="P15" label="NAS5070 для Dell Wyse 5070" />.
+      </p>
+      <p>
+        <strong>Під плату Mini-ITX.</strong> Дорожчий, але гнучкіший шлях: повноцінна
+        материнська плата дає більше SATA-портів, більше памʼяті й слот розширення.
+        Це{' '}
+        <ProductLink sku="P3" label="корпус на 8 дисків для Mini-ITX" /> і{' '}
+        <ProductLink sku="P16" label="модульний MODCASE MASS" />.
+      </p>
+    </div>
+  </section>
+
+  <section class="content-section" aria-labelledby="choose-table">
+    <h2 id="choose-table">Порівняння підходів</h2>
+
+    <div class="content-table-wrap">
+      <table class="content-table">
+        <caption>
+          Загальне порівняння двох підходів до збірки домашнього сховища.
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Критерій</th>
+            <th scope="col">Корпус навколо mini-PC</th>
+            <th scope="col">Корпус під Mini-ITX</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Кількість дисків</th>
+            <td>Зазвичай 4–6</td>
+            <td>6–8 і більше</td>
+          </tr>
+          <tr>
+            <th scope="row">Габарити</th>
+            <td>Компактніші</td>
+            <td>Більші</td>
+          </tr>
+          <tr>
+            <th scope="row">Розширення</th>
+            <td>Обмежене: потрібен PCIe riser і SATA-контролер</td>
+            <td>Слоти на платі, більше портів</td>
+          </tr>
+          <tr>
+            <th scope="row">Вартість збірки</th>
+            <td>Нижча, якщо mini-PC уже є</td>
+            <td>Вища: плата, памʼять, процесор, БЖ окремо</td>
+          </tr>
+          <tr>
+            <th scope="row">Коли обирати</th>
+            <td>Перший NAS, домашні задачі, обмежене місце</td>
+            <td>Основне сховище, багато дисків, плани на розширення</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="content-section" aria-labelledby="drives">
+    <h2 id="drives">Скільки дисків закладати</h2>
+    <div class="content-prose">
+      <p>
+        Чотири місця під диски — достатній мінімум для більшості домашніх задач:
+        цього вистачає на надлишковість і на майбутнє розширення обʼєму без заміни
+        корпусу. Шість-вісім місць беруть тоді, коли сховище стає основним, або коли
+        диски вже є й вони невеликого обʼєму.
+      </p>
+      <p>
+        Якщо дисків потрібно більше, ніж поміщається в корпус, сховище виносять у
+        окремий модуль у стійці — див.{' '}
+        <a href={href('catalog/hdd-modules/')}>HDD-модулі та дискові корзини</a>,
+        зокрема <ProductLink sku="P11" label="3U-корпус на 12 місць" />.
+      </p>
+    </div>
+  </section>
+
+  <section class="content-section" aria-labelledby="components">
+    <h2 id="components">Що доведеться докупити</h2>
+    <div class="content-prose">
+      <p>
+        Надрукований корпус — це механіка. Ані електроніки, ані кабелів, ані
+        охолодження в комплекті немає, і це варто закласти в бюджет одразу.
+        Точний перелік для конкретної моделі завжди наведений в описі товару —
+        нижче загальний список того, про що зазвичай ідеться.
+      </p>
+    </div>
+
+    <ul class="content-list" role="list">
+      <li>
+        <strong>SATA-контролер</strong> — майже завжди, коли основа збірки mini-PC:
+        власних SATA-портів у нього не вистачає.
+      </li>
+      <li>
+        <strong>PCIe riser</strong> — щоб узагалі поставити контролер у компактний
+        корпус mini-PC.
+      </li>
+      <li>
+        <strong>Backplane або перехідник</strong> і <strong>кабелі SATA</strong> —
+        для підключення дисків.
+      </li>
+      <li>
+        <strong>Вентилятор</strong> — у частині корпусів передбачений типорозмір
+        120 мм; він вказаний в описі.
+      </li>
+      <li>
+        <strong>Блок живлення</strong> — окремо для дисків, зазвичай 12 В.
+      </li>
+      <li>
+        <strong>Метизи</strong> — гвинти й гайки для складання.
+      </li>
+    </ul>
+  </section>
+
+  <section class="content-section" aria-labelledby="material">
+    <h2 id="material">Матеріал і охолодження</h2>
+    <div class="content-prose">
+      <p>
+        Для NAS-корпусу обирайте PETG. Диски й блок живлення гріються, корпус
+        працює цілодобово, а PLA починає розмʼякшуватися за нижчої температури й
+        під постійним навантаженням поступово змінює геометрію. Детальне
+        порівняння — у гайді{' '}
+        <a href={href('guides/petg-vs-pla-for-racks/')}>PETG чи PLA для стійок</a>.
+      </p>
+      <p>
+        Охолодження в корпусах із дисками не опційне: жорсткі диски чутливі до
+        температури, і саме тому конструкції в каталозі передбачають місце під
+        вентилятор. Якщо корпус стоїть у закритій ніші, варто закласти запас
+        повітряного потоку.
+      </p>
+    </div>
+  </section>
+
+  <section class="content-section" aria-labelledby="software">
+    <h2 id="software">Про операційну систему</h2>
+    <div class="content-prose">
+      <p>
+        Корпус визначає механічну сумісність і не залежить від системи. Моделі на
+        базі Lenovo ThinkCentre та Intel NUC описані в каталозі як придатні для
+        сценаріїв TrueNAS, Proxmox і XCP-ng — тобто для звичайного x86-заліза, на
+        яке ці платформи розраховані.
+      </p>
+      <p>
+        Повний перелік корпусів — у категорії{' '}
+        <a href={href('catalog/nas-cases/')}>корпуси для домашнього NAS</a>.
+      </p>
+    </div>
+  </section>
+</GuideLayout>

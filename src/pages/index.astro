@@ -2,11 +2,26 @@
 import Layout from '../components/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import SkufnyaPromo from '../components/SkufnyaPromo.astro';
+import { CATEGORIES } from '../data/categories.mjs';
 import { FAQ_ITEMS } from '../data/faq';
+import { GUIDES } from '../data/guides.mjs';
+import { LANGUAGE_ALTERNATES } from '../data/i18n.mjs';
+import { OLX_URL, SITE_NAME } from '../data/site.config.mjs';
 import { CATALOG_CATEGORIES, getAllProducts } from '../utils/products';
+import { absoluteUrl, href } from '../utils/urls';
+import {
+  breadcrumbNode,
+  businessNode,
+  faqNode,
+  graph,
+  itemListNode,
+  webPageNode,
+  websiteNode,
+} from '../utils/schema.mjs';
 import { toJsonLd } from '../utils/text';
 
 import '../styles/pages/catalog.css';
+import '../styles/pages/content.css';
 
 const products = getAllProducts();
 const featuredProductCount = products.filter((product) => product.featured).length;
@@ -17,111 +32,71 @@ const categoryCounts = new Map(
   ]),
 );
 
-const title = 'FDM 3D-друк у Києві | 3D Друкарня';
+// The catalog is entirely about compact home-server hardware, so the home
+// page says exactly that. A generic "3D printing service" framing described
+// the technology, not what is actually for sale here.
+const title = '10-дюймові серверні стійки, NAS-корпуси та rack mount | 3D Друкарня';
 
 const description =
-  'FDM 3D-друк у Києві на замовлення: PLA, PETG, корпуси для електроніки, прототипи та дрібносерійні деталі. OLX Доставка.';
+  '3D-друковані 10-дюймові серверні стійки для HomeLab, корпуси для домашнього NAS, кріплення для MikroTik, TP-Link, Raspberry Pi та mini-PC. Виготовлення в Києві, доставка по Україні.';
 
 const keywords =
-  '3D-друк Київ, FDM друк Київ, 3D друк на замовлення, друк PLA Київ, друк PETG Київ, друк корпусів для електроніки, прототипування Київ';
+  '10-дюймова серверна стійка, mini rack, стійка для HomeLab, NAS корпус, rack mount, кріплення MikroTik, кріплення TP-Link, Raspberry Pi стійка, Lenovo Tiny rack mount, 3D-друк Київ';
 
-const olxUrl = 'https://www.olx.ua/uk/list/user/15L7LS/';
-const skufnyaUrl = 'https://www.skufnya.com/';
-const site = Astro.site ?? new URL('https://4245877.github.io');
-const basePath = import.meta.env.BASE_URL.endsWith('/')
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
-const absoluteBaseUrl = new URL(basePath, site);
-const homepageUrl = absoluteBaseUrl.toString();
+const olxUrl = OLX_URL;
+const homepageUrl = absoluteUrl('');
 
-const toAbsoluteUrl = (value: string) => {
-  if (/^https?:\/\//i.test(value)) return value;
-  if (/^\/\//.test(value)) return `https:${value}`;
+// Static, JS-free navigation into every category landing page. The filter
+// buttons below are a convenience for people; these links are what crawlers
+// and assistants follow, and they exist in the HTML with scripting disabled.
+const categoryLinks = CATEGORIES.map((category) => ({
+  ...category,
+  count: products.filter((product) => product.category === category.name).length,
+}));
 
-  return new URL(value.replace(/^\/+/, ''), absoluteBaseUrl).toString();
-};
-
-const logoUrl = toAbsoluteUrl('/apple-touch-icon.png');
-const ogImageUrl = toAbsoluteUrl('/OGimage.png');
-
-const catalogSchema = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'WebSite',
-      '@id': `${homepageUrl}#website`,
-      name: '3D Друкарня',
-      alternateName: ['FDM 3D-друк у Києві', '3D-друк Київ'],
+const structuredData = graph([
+  websiteNode(),
+  businessNode(),
+  webPageNode({
+    url: homepageUrl,
+    name: '10-дюймові серверні стійки, NAS-корпуси та кріплення для HomeLab',
+    description,
+    type: 'CollectionPage',
+    breadcrumbId: `${homepageUrl}#breadcrumbs`,
+  }),
+  breadcrumbNode(homepageUrl, [{ name: 'Головна', url: homepageUrl }]),
+  itemListNode(
+    homepageUrl,
+    CATEGORIES.map((category) => ({
+      name: category.heading,
+      url: absoluteUrl(`catalog/${category.slug}/`),
+    })),
+    'Категорії каталогу',
+  ),
+  {
+    '@type': 'Service',
+    '@id': `${homepageUrl}#printing-service`,
+    name: 'Друк деталей для серверних стійок і HomeLab на замовлення',
+    serviceType: 'FDM 3D-друк на замовлення',
+    provider: { '@id': `${homepageUrl}#local-business` },
+    areaServed: [
+      { '@type': 'City', name: 'Київ' },
+      { '@type': 'Country', name: 'Україна' },
+    ],
+    description:
+      'Друк 10-дюймових серверних стійок, NAS-корпусів, кріплень і аксесуарів для HomeLab з PETG та PLA, а також друк за моделлю замовника.',
+    // No availability here: this is a made-to-order service, and InStock
+    // must not be published without a confirmed status.
+    offers: {
+      '@type': 'Offer',
       url: homepageUrl,
-      inLanguage: 'uk-UA',
-      description,
+      priceCurrency: 'UAH',
     },
-    {
-      '@type': 'LocalBusiness',
-      '@id': `${homepageUrl}#local-business`,
-      name: '3D Друкарня',
-      url: homepageUrl,
-      description,
-      image: ogImageUrl,
-      logo: {
-        '@type': 'ImageObject',
-        url: logoUrl,
-        width: 180,
-        height: 180,
-      },
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'Київ',
-        addressCountry: 'UA',
-      },
-      areaServed: [
-        { '@type': 'City', name: 'Київ' },
-        { '@type': 'Country', name: 'Україна' },
-      ],
-      priceRange: '₴₴',
-      sameAs: [olxUrl, skufnyaUrl],
-      knowsAbout: [
-        'FDM 3D-друк',
-        '3D-друк Київ',
-        '3D друк на замовлення',
-        'PLA',
-        'PETG',
-        'корпуси для електроніки',
-        'прототипування',
-      ],
-    },
-    {
-      '@type': 'Service',
-      '@id': `${homepageUrl}#fdm-printing-service`,
-      name: 'FDM 3D-друк у Києві',
-      serviceType: 'FDM 3D-друк на замовлення',
-      provider: { '@id': `${homepageUrl}#local-business` },
-      areaServed: { '@type': 'City', name: 'Київ' },
-      description,
-      // No availability here: this is a made-to-order service, and InStock
-      // must not be published without a confirmed status.
-      offers: {
-        '@type': 'Offer',
-        url: homepageUrl,
-        priceCurrency: 'UAH',
-      },
-    },
-    {
-      '@type': 'FAQPage',
-      '@id': `${homepageUrl}#faq`,
-      // Generated from the same FAQ_ITEMS array as the visible FAQ section
-      // below — same questions, same answers, same order, nothing hidden.
-      mainEntity: FAQ_ITEMS.map((item) => ({
-        '@type': 'Question',
-        name: item.question,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: item.answer,
-        },
-      })),
-    },
-  ],
-};
+  },
+  // Generated from the same FAQ_ITEMS array as the visible FAQ section
+  // below — same questions, same answers, same order, nothing hidden.
+  faqNode(homepageUrl, FAQ_ITEMS),
+]);
 ---
 
 <Layout
@@ -129,11 +104,12 @@ const catalogSchema = {
   description={description}
   canonicalPath="/"
   keywords={keywords}
+  alternates={LANGUAGE_ALTERNATES}
 >
   <script
     slot="head"
     type="application/ld+json"
-    set:html={toJsonLd(catalogSchema)}
+    set:html={toJsonLd(structuredData)}
   ></script>
 
   <div class="catalog-page" data-catalog-page>
@@ -141,32 +117,33 @@ const catalogSchema = {
       <div class="container">
         <div class="catalog-hero__inner">
           <div class="catalog-hero__left">
-            <p class="catalog-hero__eyebrow">FDM 3D-друк Київ</p>
+            <p class="catalog-hero__eyebrow">10" server rack · HomeLab · NAS</p>
 
             <h1 class="catalog-hero__title">
-              FDM <span class="highlight">3D-друк</span> у Києві
+              <span class="highlight">10-дюймові</span> серверні стійки та кріплення для HomeLab
             </h1>
 
             <p class="catalog-hero__subtitle">
-              Друк на замовлення з PLA та PETG: корпуси для електроніки, прототипи,
-              кріплення, адаптери й невеликі серії. Можливий самовивіз у Києві або
+              3D-друковані mini rack 1U–5U, корпуси для домашнього NAS, кріплення
+              для MikroTik, TP-Link, Raspberry Pi та mini-PC Lenovo Tiny, полиці й
+              патч-панелі. Друк PETG і PLA на замовлення, самовивіз у Києві або
               OLX Доставка по Україні.
             </p>
 
             <div class="catalog-hero__stats">
               <div class="catalog-hero__stat-pill">
                 <span class="catalog-hero__stat-pill-value">{products.length}</span>
-                <span class="catalog-hero__stat-pill-label">прикладів друку</span>
+                <span class="catalog-hero__stat-pill-label">позицій у каталозі</span>
               </div>
 
               <div class="catalog-hero__stat-pill">
-                <span class="catalog-hero__stat-pill-value">PLA/PETG</span>
-                <span class="catalog-hero__stat-pill-label">матеріали</span>
+                <span class="catalog-hero__stat-pill-value">1U–5U</span>
+                <span class="catalog-hero__stat-pill-label">модульні стійки</span>
               </div>
 
               <div class="catalog-hero__stat-pill">
-                <span class="catalog-hero__stat-pill-value">1–3</span>
-                <span class="catalog-hero__stat-pill-label">дні на типове замовлення</span>
+                <span class="catalog-hero__stat-pill-value">PETG/PLA</span>
+                <span class="catalog-hero__stat-pill-label">матеріали друку</span>
               </div>
 
               <div class="catalog-hero__stat-pill">
@@ -393,9 +370,37 @@ const catalogSchema = {
       </div>
     </section>
 
+    <section class="catalog-seo" aria-labelledby="categories-title">
+      <div class="container">
+        <div class="catalog-seo__intro">
+          <p class="kicker">Категорії</p>
+          <h2 id="categories-title">Каталог за категоріями</h2>
+          <p>
+            Дев'ять розділів, які відповідають етапам збірки домашньої лабораторії:
+            від каркаса 10-дюймової стійки до патч-панелі й кабельного органайзера.
+            Кожен розділ — окрема сторінка з поясненням, що і для чого обирати.
+          </p>
+        </div>
+
+        <div class="content-grid">
+          {categoryLinks.map((category) => (
+            <article class="content-card">
+              <h3 class="content-card__title">
+                <a href={href(`catalog/${category.slug}/`)}>{category.heading}</a>
+              </h3>
+              <p class="content-card__text">{category.description}</p>
+              <p class="content-card__meta">{category.count} товарів</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <section aria-labelledby="print-examples-title">
       <div class="container">
-        <h2 id="print-examples-title" class="sr-only">Приклади FDM 3D-друку</h2>
+        <h2 id="print-examples-title" class="sr-only">
+          Каталог: стійки, NAS-корпуси та кріплення
+        </h2>
 
         <div class="catalog-controls" data-catalog-controls>
           <div class="catalog-controls__left">
@@ -463,14 +468,14 @@ const catalogSchema = {
           <aside class="catalog-sidebar">
             <div class="catalog-filter-section">
               <div class="catalog-filter-section__head">
-                <span class="catalog-filter-section__label">Про FDM друк</span>
+                <span class="catalog-filter-section__label">Про каталог</span>
               </div>
 
               <div class="catalog-filter-section__body">
                 <div class="catalog-filter-section__inner">
                   <p class="catalog-results-count">
-                    Друк деталей під замовлення для ремонту, прототипування, електроніки,
-                    майстерні та невеликих серій.
+                    Деталі для домашньої серверної інфраструктури: стійки, кріплення,
+                    корпуси й аксесуари. Усе друкується під замовлення.
                   </p>
                 </div>
               </div>
@@ -478,16 +483,17 @@ const catalogSchema = {
 
             <div class="catalog-filter-section">
               <div class="catalog-filter-section__head">
-                <span class="catalog-filter-section__label">Напрями</span>
+                <span class="catalog-filter-section__label">Теми</span>
               </div>
 
               <div class="catalog-filter-section__body">
                 <div class="catalog-filter-section__inner">
                   <ul class="catalog-tag-list" role="list">
-                    <li class="tag tag--copper">PLA</li>
+                    <li class="tag tag--copper">10" rack</li>
+                    <li class="tag tag--copper">HomeLab</li>
+                    <li class="tag tag--copper">NAS</li>
+                    <li class="tag tag--copper">Rack mount</li>
                     <li class="tag tag--copper">PETG</li>
-                    <li class="tag tag--copper">Корпуси</li>
-                    <li class="tag tag--copper">Прототипи</li>
                   </ul>
                 </div>
               </div>
@@ -541,41 +547,56 @@ const catalogSchema = {
     <section class="catalog-seo" aria-labelledby="services-title">
       <div class="container">
         <div class="catalog-seo__intro">
-          <p class="kicker">Послуги</p>
-          <h2 id="services-title">Послуги FDM 3D-друку в Києві</h2>
+          <p class="kicker">Що ми робимо</p>
+          <h2 id="services-title">3D-друк для домашньої серверної інфраструктури</h2>
           <p>
-            3D-друк на замовлення підходить, коли потрібна одна функціональна деталь,
-            невелика партія або швидкий прототип перед запуском виробу. Можна надрукувати
-            готову STL/3MF-модель, перевірити посадку деталі, адаптувати корпус під плату
-            або зробити кріплення під конкретні розміри.
+            Домашня лабораторія майже завжди складається з обладнання, яке не
+            призначалося для стійки: настільні роутери, mini-PC, зовнішні диски,
+            одноплатні компʼютери. Друковані деталі закривають саме цей розрив —
+            дають кожному пристрою своє місце в 10-дюймовій стійці й прибирають
+            зі столу купу коробок і кабелів.
           </p>
         </div>
 
         <div class="catalog-seo__grid">
           <article class="catalog-seo__item">
-            <h3>3D-друк на замовлення</h3>
+            <h3>Стійки та кріплення</h3>
             <p>
-              FDM друк у Києві для побутових, технічних і робочих задач: адаптери,
-              тримачі, кронштейни, кришки, вставки, органайзери та запасні пластикові
-              деталі, які складно швидко купити готовими.
+              Модульні каркаси 1U–5U і адаптери під конкретні моделі обладнання:
+              MikroTik, TP-Link, Lenovo ThinkCentre Tiny, Dell OptiPlex Micro,
+              HP EliteDesk Mini, Raspberry Pi. Для нестандартних пристроїв —
+              параметричне кріплення.
+            </p>
+            <p>
+              <a href={href('catalog/10-inch-server-rack/')}>10-дюймові стійки</a> ·{' '}
+              <a href={href('catalog/network-rack-mounts/')}>мережеві кріплення</a> ·{' '}
+              <a href={href('catalog/mini-pc-rack-mounts/')}>кріплення Mini-PC</a>
             </p>
           </article>
 
           <article class="catalog-seo__item">
-            <h3>Корпуси для електроніки</h3>
+            <h3>Сховище та NAS</h3>
             <p>
-              Друк корпусів для електроніки з отворами під розʼєми, вентиляцію, кнопки
-              та кріплення. Такий формат зручний для плат, контролерів, датчиків,
-              блоків живлення, DIY-пристроїв і майстерні.
+              Корпуси для домашнього NAS на 4, 6 і 8 дисків — навколо готового
+              mini-PC або під плату Mini-ITX — і окремі дискові модулі для стійки
+              на 6 та 12 накопичувачів, включно з hot-swap конфігураціями.
+            </p>
+            <p>
+              <a href={href('catalog/nas-cases/')}>NAS-корпуси</a> ·{' '}
+              <a href={href('catalog/hdd-modules/')}>HDD-модулі</a>
             </p>
           </article>
 
           <article class="catalog-seo__item">
-            <h3>Прототипування</h3>
+            <h3>Обвʼязка стійки</h3>
             <p>
-              Прототипування в Києві допомагає швидко перевірити форму, ергономіку,
-              габарити й сумісність деталі перед фінальним виробництвом або замовленням
-              дорожчого матеріалу.
+              Полиці, патч-панелі на кейстоуни, кабельні панелі й напрямні,
+              шухляди Gridfinity та кріплення блоків живлення — те, що
+              перетворює набір пристроїв на акуратно зібрану систему.
+            </p>
+            <p>
+              <a href={href('catalog/rack-shelves-and-panels/')}>полиці та панелі</a> ·{' '}
+              <a href={href('catalog/rack-power-and-workshop/')}>живлення</a>
             </p>
           </article>
         </div>
@@ -585,41 +606,25 @@ const catalogSchema = {
     <section class="catalog-seo" aria-labelledby="materials-title">
       <div class="container">
         <div class="catalog-seo__intro">
-          <p class="kicker">Матеріали</p>
-          <h2 id="materials-title">Друк PLA та PETG</h2>
+          <p class="kicker">Гайди</p>
+          <h2 id="materials-title">Що почитати перед вибором</h2>
           <p>
-            Для FDM-друку найчастіше використовуються PLA і PETG. Матеріал підбирається
-            під задачу: зовнішній вигляд, жорсткість, температуру використання, навантаження
-            та умови експлуатації готової деталі.
+            Практичні матеріали, які відповідають на питання до покупки: який
+            формат стійки обрати, скільки місця займе обладнання, який пластик
+            витримає цілодобову роботу. Кожен гайд починається з короткої
+            відповіді.
           </p>
         </div>
 
-        <div class="catalog-seo__grid">
-          <article class="catalog-seo__item">
-            <h3>PLA</h3>
-            <p>
-              Друк PLA у Києві добре підходить для прототипів, декоративних деталей,
-              макетів, органайзерів і корпусів, які не працюють біля джерел тепла.
-            </p>
-          </article>
-
-          <article class="catalog-seo__item">
-            <h3>PETG</h3>
-            <p>
-              Друк PETG у Києві варто обирати для функціональних деталей, кріплень,
-              корпусів і виробів, яким потрібна краща ударостійкість та стійкість до
-              підвищеної температури.
-            </p>
-          </article>
-
-          <article class="catalog-seo__item">
-            <h3>Підбір параметрів</h3>
-            <p>
-              Для замовлення можна узгодити колір, заповнення, товщину стінок, орієнтацію
-              друку та потрібну міцність. Це важливо для деталей, які мають не лише
-              виглядати акуратно, а й нормально працювати в збірці.
-            </p>
-          </article>
+        <div class="content-grid">
+          {GUIDES.map((guide) => (
+            <article class="content-card">
+              <h3 class="content-card__title">
+                <a href={href(`guides/${guide.slug}/`)}>{guide.heading}</a>
+              </h3>
+              <p class="content-card__text">{guide.description}</p>
+            </article>
+          ))}
         </div>
       </div>
     </section>
@@ -627,7 +632,7 @@ const catalogSchema = {
     <section class="catalog-faq" aria-labelledby="order-title">
       <div class="container">
         <div class="catalog-faq__inner">
-          <h2 id="order-title">Часті питання: строки, ціни, доставка і контакти</h2>
+          <h2 id="order-title">Часті питання: стійки, ціни, строки й доставка</h2>
 
           <div class="catalog-faq__list">
             {

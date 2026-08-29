@@ -60,6 +60,45 @@ export function getProductBySlug(slug: string): Product | undefined {
   return products.find((product) => product.slug === slug);
 }
 
+/**
+ * Lookup by the stable catalog SKU. Guides and landing pages reference
+ * products by SKU rather than by slug, so a renamed slug can never leave a
+ * broken link behind — an unknown SKU fails the build instead.
+ */
+export function getProductBySku(sku: string): Product | undefined {
+  return products.find((product) => product.sku === sku);
+}
+
+/**
+ * Products filed under one catalog category, in catalog (merchandising)
+ * order. Backs the category landing pages and their ItemList JSON-LD.
+ */
+export function getProductsByCategory(category: string): Product[] {
+  return products.filter((product) => product.category === category);
+}
+
+/**
+ * Suggestions shown at the bottom of a product page. Same category first
+ * (that is the strongest real relation in the data), then the rest of the
+ * catalog in merchandising order, so the block is never empty for a
+ * one-product category. Products of the same `familyId` are the closest
+ * match of all and come first; the product itself is always excluded.
+ */
+export function getRelatedProducts(product: Product, limit = 4): Product[] {
+  const rank = (candidate: Product): number => {
+    if (product.familyId && candidate.familyId === product.familyId) return 0;
+    if (candidate.category === product.category) return 1;
+    return 2;
+  };
+
+  return products
+    .filter((candidate) => candidate.sku !== product.sku)
+    .map((candidate, index) => ({ candidate, index, rank: rank(candidate) }))
+    .sort((a, b) => a.rank - b.rank || a.index - b.index)
+    .slice(0, limit)
+    .map((entry) => entry.candidate);
+}
+
 export function formatPrice(price: number): string {
   return `${new Intl.NumberFormat('uk-UA').format(price)} ₴`;
 }

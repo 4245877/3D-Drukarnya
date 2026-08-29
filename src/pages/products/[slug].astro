@@ -1,12 +1,26 @@
 ---
 import '../../styles/pages/product.css';
+import '../../styles/pages/content.css';
 import Layout from '../../components/Layout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProductCard from '../../components/ProductCard.astro';
 import ProductGallery from '../../components/ProductGallery.astro';
 import ProductPrice from '../../components/ProductPrice.astro';
+import { getCategoryByName } from '../../data/categories.mjs';
+import { resolveGuides } from '../../data/guides.mjs';
 import { PRICE_PER_GRAM_UAH } from '../../data/pricing.config.mjs';
-import { getAllProducts } from '../../utils/products';
+import { OLX_URL } from '../../data/site.config.mjs';
+import { getAllProducts, getRelatedProducts } from '../../utils/products';
 import type { Product } from '../../utils/products';
+import { absoluteUrl, href } from '../../utils/urls';
+import {
+  BUSINESS_ID,
+  breadcrumbNode,
+  businessNode,
+  graph,
+  webPageNode,
+  websiteNode,
+} from '../../utils/schema.mjs';
 import { parseDescription } from '../../utils/description.mjs';
 import { buildProductTitle } from '../../utils/seo.mjs';
 import { truncate, toJsonLd } from '../../utils/text';
@@ -40,19 +54,13 @@ const pageDescription = product.shortDescription
     )} ${META_DESCRIPTION_SUFFIX}`
   : truncate(product.description, META_DESCRIPTION_MAX);
 
-const site = Astro.site ?? new URL('https://4245877.github.io');
-const basePath = import.meta.env.BASE_URL.endsWith('/')
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
-const absoluteBaseUrl = new URL(basePath, site);
-
 const toImageUrl = (image: string) => {
   if (!image) return '';
 
   if (/^https?:\/\//i.test(image)) return image;
   if (/^\/\//.test(image)) return `https:${image}`;
 
-  return new URL(image.replace(/^\/+/, ''), absoluteBaseUrl).toString();
+  return absoluteUrl(image);
 };
 
 const imageUrls = product.images.map(toImageUrl).filter(Boolean);
@@ -61,12 +69,20 @@ const hasImages = imageUrls.length > 0;
 // branded OG image on its own (empty string → default).
 const ogImage = imageUrls[0] ?? '';
 
-const productUrl = new URL(`products/${product.slug}/`, absoluteBaseUrl).toString();
-const catalogUrl = absoluteBaseUrl.toString();
-const sellerId = `${catalogUrl}#local-business`;
-const logoUrl = new URL('apple-touch-icon.png', absoluteBaseUrl).toString();
-const olxUrl = 'https://www.olx.ua/uk/list/user/15L7LS/';
-const skufnyaUrl = 'https://www.skufnya.com/';
+const productUrl = absoluteUrl(`products/${product.slug}/`);
+const catalogUrl = absoluteUrl('');
+const olxUrl = OLX_URL;
+
+// The catalog category this product belongs to, resolved to its landing page.
+// The data-layer category enum and the landing pages are kept in sync by
+// validateCategoryDefinitions(), so this lookup cannot come back empty.
+const category = getCategoryByName(product.category);
+const categoryPath = category ? `catalog/${category.slug}/` : 'catalog/';
+const categoryUrl = absoluteUrl(categoryPath);
+const categoryLabel = category?.heading ?? 'Каталог';
+
+const relatedProducts = getRelatedProducts(product);
+const relatedGuides = resolveGuides(category?.relatedGuides ?? []);
 // Baked in at build time. Anchoring to the end of the build year would mark
 // every Offer expired from 1 January until the next deploy, so roll a year on.
 const priceValidUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
@@ -120,12 +136,10 @@ const pageKeywords = [
   product.title,
   product.category,
   product.material,
-  'FDM 3D-друк Київ',
-  '3D друк на замовлення',
-  'друк PLA Київ',
-  'друк PETG Київ',
-  'корпуси для електроніки',
-  'прототипування Київ',
+  '10-дюймова серверна стійка',
+  'rack mount',
+  'HomeLab',
+  '3D-друк Київ',
 ]
   .filter(Boolean)
   .join(', ');
@@ -244,14 +258,10 @@ const additionalProperties = [
     : null,
 ].filter(Boolean);
 
-const seller = {
-  '@type': 'LocalBusiness',
-  '@id': sellerId,
-  name: '3D Друкарня',
-  url: catalogUrl,
-  logo: logoUrl,
-  sameAs: [olxUrl, skufnyaUrl],
-};
+// The seller is the same business node the rest of the site publishes; the
+// full description lives once, in src/utils/schema.mjs, and every offer just
+// references it by @id.
+const seller = { '@id': BUSINESS_ID };
 
 const offerShared = {
   priceCurrency: 'UAH',
@@ -276,10 +286,24 @@ const offers = !product.publishOffer
     ? { '@type': 'AggregateOffer', lowPrice: product.price, ...offerShared }
     : { '@type': 'Offer', price: product.price, ...offerShared };
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
+const breadcrumbItems = [
+  { name: 'Головна', url: catalogUrl },
+  { name: 'Каталог', url: absoluteUrl('catalog/') },
+  { name: categoryLabel, url: categoryUrl },
+  { name: product.title, url: productUrl },
+];
+
+const structuredData = graph([
+  websiteNode(),
+  businessNode(),
+  webPageNode({
+    url: productUrl,
+    name: product.title,
+    description: product.shortDescription,
+    type: 'ItemPage',
+    breadcrumbId: `${productUrl}#breadcrumbs`,
+  }),
+  {
       '@type': 'Product',
       '@id': `${productUrl}#product`,
       name: product.title,
@@ -301,29 +325,12 @@ const structuredData = {
         name: '3D Друкарня',
       },
       additionalProperty: additionalProperties.length > 0 ? additionalProperties : undefined,
+      isPartOf: { '@id': `${productUrl}#webpage` },
       mainEntityOfPage: productUrl,
       offers,
-    },
-    {
-      '@type': 'BreadcrumbList',
-      '@id': `${productUrl}#breadcrumbs`,
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Каталог 3D-друку',
-          item: catalogUrl,
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: product.title,
-          item: productUrl,
-        },
-      ],
-    },
-  ],
-};
+  },
+  breadcrumbNode(productUrl, breadcrumbItems),
+]);
 ---
 
 <Layout
@@ -345,7 +352,9 @@ const structuredData = {
     <div class="container">
       <Breadcrumbs
         items={[
-          { label: 'Каталог 3D-друку', href: import.meta.env.BASE_URL },
+          { label: 'Головна', href: href() },
+          { label: 'Каталог', href: href('catalog/') },
+          { label: categoryLabel, href: href(categoryPath) },
           { label: product.title },
         ]}
       />
@@ -363,7 +372,9 @@ const structuredData = {
 
         <div class="product-page__summary">
           <header class="product-summary__head">
-            <p class="product-summary__eyebrow">{product.category ?? 'Товар'}</p>
+            <p class="product-summary__eyebrow">
+              <a href={href(categoryPath)}>{product.category}</a>
+            </p>
 
             <h1 id="product-title" class="product-summary__title">
               {product.title}
@@ -562,14 +573,22 @@ const structuredData = {
             </div>
 
             <p class="product-section__lead">
-              Цей виріб друкується під замовлення методом FDM. Перед друком можна узгодити
-              матеріал, колір, заповнення, міцність і невеликі зміни моделі під вашу задачу.
+              Цей виріб друкується під замовлення методом FDM. У комплект входять
+              лише надруковані деталі — метизи, електроніка та комплектуючі
+              узгоджуються окремо. Перед друком можна погодити матеріал, колір,
+              заповнення й невеликі зміни моделі під вашу задачу.
             </p>
 
             <ul class="product-usecases" role="list">
-              <li>друк PLA або PETG залежно від температури, навантаження та умов використання;</li>
+              <li>
+                PETG для навантажених деталей стійки, PLA — для ненавантажених:
+                <a href={href('guides/petg-vs-pla-for-racks/')}>порівняння матеріалів</a>;
+              </li>
               <li>адаптація отворів, посадкових місць, товщини стінок або кольору;</li>
-              <li>виготовлення корпусів для електроніки, кронштейнів, панелей і прототипів;</li>
+              <li>
+                ціна розраховується за вагою надрукованої деталі —
+                <a href={href('about/#pricing')}>як формується ціна</a>;
+              </li>
               <li>самовивіз у Києві або відправлення OLX Доставкою по Україні.</li>
             </ul>
           </section>
@@ -655,6 +674,38 @@ const structuredData = {
           </div>
         </aside>
       </div>
+
+      {relatedProducts.length > 0 && (
+        <section class="content-section" aria-labelledby="related-products-title">
+          <h2 id="related-products-title">Схожі товари</h2>
+          <div class="content-products">
+            {relatedProducts.map((related) => (
+              <ProductCard product={related} />
+            ))}
+          </div>
+          <p class="content-meta">
+            Уся категорія:{' '}
+            <a href={href(categoryPath)}>{categoryLabel}</a>. Інші розділи —
+            у <a href={href('catalog/')}>каталозі за категоріями</a>.
+          </p>
+        </section>
+      )}
+
+      {relatedGuides.length > 0 && (
+        <section class="content-section" aria-labelledby="related-guides-title">
+          <h2 id="related-guides-title">Гайди, які допоможуть із вибором</h2>
+          <div class="content-grid">
+            {relatedGuides.map((guide) => (
+              <article class="content-card">
+                <h3 class="content-card__title">
+                  <a href={href(`guides/${guide.slug}/`)}>{guide.heading}</a>
+                </h3>
+                <p class="content-card__text">{guide.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
 
     <div class="product-buybar" data-buybar hidden>

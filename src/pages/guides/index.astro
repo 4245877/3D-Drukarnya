@@ -1,0 +1,126 @@
+---
+import Layout from '../../components/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { GUIDES } from '../../data/guides.mjs';
+import { SITE_NAME } from '../../data/site.config.mjs';
+import { absoluteUrl, href } from '../../utils/urls';
+import {
+  breadcrumbNode,
+  businessNode,
+  graph,
+  itemListNode,
+  webPageNode,
+  websiteNode,
+} from '../../utils/schema.mjs';
+import { toJsonLd } from '../../utils/text';
+
+import '../../styles/pages/content.css';
+
+const canonicalPath = '/guides/';
+const pageUrl = absoluteUrl(canonicalPath);
+
+const title = `Гайди: 10-дюймові стійки, HomeLab і NAS | ${SITE_NAME}`;
+const description =
+  'Практичні гайди про домашню серверну інфраструктуру: 10 чи 19 дюймів, розміри Rack Unit, що поміщається в компактну стійку, як зібрати HomeLab, як обрати корпус для NAS і який пластик використовувати.';
+
+const breadcrumbItems = [
+  { name: 'Головна', url: absoluteUrl('') },
+  { name: 'Гайди', url: pageUrl },
+];
+
+const structuredData = graph([
+  websiteNode(),
+  businessNode(),
+  webPageNode({
+    url: pageUrl,
+    name: 'Гайди про 10-дюймові стійки, HomeLab і NAS',
+    description,
+    type: 'CollectionPage',
+    breadcrumbId: `${pageUrl}#breadcrumbs`,
+  }),
+  breadcrumbNode(pageUrl, breadcrumbItems),
+  itemListNode(
+    pageUrl,
+    GUIDES.map((guide) => ({
+      name: guide.heading,
+      url: absoluteUrl(`guides/${guide.slug}/`),
+    })),
+    'Гайди',
+  ),
+]);
+
+const dateFormatter = new Intl.DateTimeFormat('uk-UA', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Layout title={title} description={description} canonicalPath={canonicalPath}>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={toJsonLd(structuredData)}
+  ></script>
+
+  <div class="content-page">
+    <div class="container">
+      <Breadcrumbs
+        items={[{ label: 'Головна', href: href() }, { label: 'Гайди' }]}
+      />
+
+      <header class="content-head">
+        <p class="kicker">Гайди</p>
+        <h1 class="content-head__title content-head__title--wide">
+          Гайди про компактну серверну інфраструктуру вдома
+        </h1>
+        <p class="content-lead">
+          Матеріали, які відповідають на питання, що виникають до покупки: який
+          формат стійки обрати, скільки місця займе обладнання, що поміститься в
+          10 дюймів, як спланувати першу збірку HomeLab і який пластик витримає
+          цілодобову роботу. Кожен гайд починається з короткої відповіді й
+          посилається на конкретні товари каталогу.
+        </p>
+      </header>
+
+      <section class="content-section" aria-labelledby="guides-list">
+        <h2 id="guides-list">Усі гайди</h2>
+
+        <div class="content-grid">
+          {GUIDES.map((guide) => (
+            <article class="content-card">
+              <h3 class="content-card__title">
+                <a href={href(`guides/${guide.slug}/`)}>{guide.heading}</a>
+              </h3>
+              <p class="content-card__text">{guide.description}</p>
+              <p class="content-card__meta">
+                Оновлено {dateFormatter.format(new Date(`${guide.dateModified}T00:00:00Z`))}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="guides-start">
+        <h2 id="guides-start">З чого почати</h2>
+        <div class="content-prose">
+          <p>
+            Якщо ви тільки обираєте формат — почніть із гайда{' '}
+            <a href={href('guides/10-inch-vs-19-inch-rack/')}>
+              10-дюймова чи 19-дюймова стійка
+            </a>. Якщо формат уже зрозумілий і треба порахувати висоту —{' '}
+            <a href={href('guides/rack-units-1u-2u-3u/')}>розміри Rack Unit</a>.
+            Якщо стійка вже є й питання лише в тому, як усе туди поставити —{' '}
+            <a href={href('guides/homelab-starter-rack/')}>
+              як зібрати компактний HomeLab
+            </a>.
+          </p>
+          <p>
+            Перейти до товарів можна через{' '}
+            <a href={href('catalog/')}>каталог за категоріями</a>.
+          </p>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>

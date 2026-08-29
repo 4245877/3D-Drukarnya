@@ -1,0 +1,167 @@
+---
+// Shared shell for every guide under /guides/.
+//
+// Owns the parts that must be identical across guides — metadata, the
+// breadcrumb trail, the "direct answer" block, the Article/FAQPage/
+// BreadcrumbList graph and the related-content blocks — so an individual
+// guide page contains only its own prose.
+import Layout from '../components/Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { resolveCategories } from '../data/categories.mjs';
+import { GUIDE_BY_SLUG, resolveGuides } from '../data/guides.mjs';
+import { SITE_NAME } from '../data/site.config.mjs';
+import { absoluteUrl, href } from '../utils/urls';
+import {
+  BUSINESS_ID,
+  breadcrumbNode,
+  businessNode,
+  faqNode,
+  graph,
+  webPageNode,
+  websiteNode,
+} from '../utils/schema.mjs';
+import { toJsonLd } from '../utils/text';
+
+import '../styles/pages/content.css';
+
+interface Props {
+  /** Slug of the guide in src/data/guides.mjs. */
+  slug: string;
+}
+
+const { slug } = Astro.props as Props;
+
+const guide = GUIDE_BY_SLUG.get(slug);
+if (!guide) {
+  throw new Error(`GuideLayout: unknown guide slug "${slug}" (see src/data/guides.mjs)`);
+}
+
+const canonicalPath = `/guides/${guide.slug}/`;
+const pageUrl = absoluteUrl(canonicalPath);
+const guidesUrl = absoluteUrl('guides/');
+const pageTitle = `${guide.title} | ${SITE_NAME}`;
+
+const relatedCategories = resolveCategories(guide.relatedCategories);
+const relatedGuides = resolveGuides(guide.relatedGuides);
+
+const breadcrumbItems = [
+  { name: 'Головна', url: absoluteUrl('') },
+  { name: 'Гайди', url: guidesUrl },
+  { name: guide.heading, url: pageUrl },
+];
+
+const dateFormatter = new Intl.DateTimeFormat('uk-UA', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+const updatedLabel = dateFormatter.format(new Date(`${guide.dateModified}T00:00:00Z`));
+
+const structuredData = graph([
+  websiteNode(),
+  businessNode(),
+  webPageNode({
+    url: pageUrl,
+    name: guide.heading,
+    description: guide.description,
+    breadcrumbId: `${pageUrl}#breadcrumbs`,
+  }),
+  {
+    '@type': 'Article',
+    '@id': `${pageUrl}#article`,
+    headline: guide.heading,
+    description: guide.description,
+    abstract: guide.summary,
+    inLanguage: 'uk-UA',
+    datePublished: guide.datePublished,
+    dateModified: guide.dateModified,
+    author: { '@id': BUSINESS_ID },
+    publisher: { '@id': BUSINESS_ID },
+    isPartOf: { '@id': `${pageUrl}#webpage` },
+    mainEntityOfPage: pageUrl,
+    about: guide.topics.map((topic: string) => ({ '@type': 'Thing', name: topic })),
+    image: absoluteUrl('OGimage.png'),
+  },
+  breadcrumbNode(pageUrl, breadcrumbItems),
+  faqNode(pageUrl, guide.faq),
+]);
+---
+
+<Layout
+  title={pageTitle}
+  description={guide.description}
+  canonicalPath={canonicalPath}
+  ogType="article"
+>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={toJsonLd(structuredData)}
+  ></script>
+
+  <div class="content-page">
+    <div class="container">
+      <Breadcrumbs
+        items={[
+          { label: 'Головна', href: href() },
+          { label: 'Гайди', href: href('guides/') },
+          { label: guide.heading },
+        ]}
+      />
+
+      <article>
+        <header class="content-head">
+          <p class="kicker">Гайд</p>
+          <h1 class="content-head__title content-head__title--wide">{guide.heading}</h1>
+          <p class="content-meta">Оновлено: {updatedLabel}</p>
+          <p class="content-lead">
+            <strong>Коротка відповідь.</strong> {guide.summary}
+          </p>
+        </header>
+
+        <slot />
+
+        <section class="content-section" aria-labelledby="guide-faq">
+          <h2 id="guide-faq">Часті питання</h2>
+          <div class="content-faq">
+            {guide.faq.map((item: { question: string; answer: string }) => (
+              <article class="content-faq__item">
+                <h3 data-faq-question>{item.question}</h3>
+                <p data-faq-answer>{item.answer}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      </article>
+
+      {relatedCategories.length > 0 && (
+        <section class="content-section" aria-labelledby="guide-categories">
+          <h2 id="guide-categories">Товари з каталогу на цю тему</h2>
+          <ul class="content-linkrow" role="list">
+            {relatedCategories.map((category) => (
+              <li>
+                <a href={href(`catalog/${category.slug}/`)}>{category.heading}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {relatedGuides.length > 0 && (
+        <section class="content-section" aria-labelledby="guide-related">
+          <h2 id="guide-related">Читати далі</h2>
+          <div class="content-grid">
+            {relatedGuides.map((related) => (
+              <article class="content-card">
+                <h3 class="content-card__title">
+                  <a href={href(`guides/${related.slug}/`)}>{related.heading}</a>
+                </h3>
+                <p class="content-card__text">{related.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  </div>
+</Layout>

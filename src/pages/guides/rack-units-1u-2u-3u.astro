@@ -1,0 +1,133 @@
+---
+import GuideLayout from '../../layouts/GuideLayout.astro';
+import ProductLink from '../../components/ProductLink.astro';
+import { href } from '../../utils/urls';
+
+// Reference data below comes from EIA-310, the standard that defines the
+// rack unit. 1U = 1.75 in = 44.45 mm exactly; the millimetre column is that
+// value multiplied out, not an estimate.
+const UNITS = [1, 2, 3, 4, 5, 6, 8, 10, 12];
+const MM_PER_UNIT = 44.45;
+const formatMm = (value: number) =>
+  new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 2 }).format(value);
+---
+
+<GuideLayout slug="rack-units-1u-2u-3u">
+  <section class="content-section" aria-labelledby="what-is-u">
+    <h2 id="what-is-u">Що таке рековий юніт</h2>
+    <div class="content-prose">
+      <p>
+        Юніт (позначається <strong>U</strong> або <strong>RU</strong>, від rack unit) —
+        це одиниця вимірювання висоти обладнання, яке монтується в стійку. Вона
+        потрібна, щоб виробники різного обладнання могли розраховувати корпуси
+        під однакову сітку монтажних отворів, а користувач міг заздалегідь
+        порахувати, чи поміститься пристрій у стійку.
+      </p>
+      <p>
+        Розмір юніта закріплений стандартом EIA-310:{' '}
+        <strong>1U = 1,75 дюйма = 44,45 мм</strong>. Це значення однакове для
+        19-дюймових серверних стійок і для 10-дюймових домашніх — між форматами
+        відрізняється лише монтажна ширина, а не крок по висоті.
+      </p>
+    </div>
+  </section>
+
+  <section class="content-section" aria-labelledby="unit-table">
+    <h2 id="unit-table">Таблиця висот: від 1U до 12U</h2>
+
+    <div class="content-table-wrap">
+      <table class="content-table">
+        <caption>
+          Розрахунок за EIA-310: 1U = 44,45 мм. Довідкові дані, однакові для 10- і
+          19-дюймових стійок.
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Висота</th>
+            <th scope="col">Міліметри</th>
+            <th scope="col">Сантиметри</th>
+            <th scope="col">Дюйми</th>
+          </tr>
+        </thead>
+        <tbody>
+          {UNITS.map((unit) => (
+            <tr>
+              <th scope="row">{unit}U</th>
+              <td>{formatMm(unit * MM_PER_UNIT)} мм</td>
+              <td>{formatMm((unit * MM_PER_UNIT) / 10)} см</td>
+              <td>{formatMm(unit * 1.75)}″</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="content-prose">
+      <p>
+        Реальні пристрої зазвичай на кілька міліметрів нижчі за свій юніт: виробники
+        залишають технологічний зазор, щоб сусіднє обладнання не тиснуло одне на
+        одного і його можна було вийняти зі стійки. Тому 1U-комутатор має висоту
+        трохи меншу за 44,45 мм — це нормально й передбачено стандартом.
+      </p>
+      <p>
+        Окремо зустрічається формат <strong>1/2U</strong> — половина юніта, приблизно
+        22 мм. Його використовують для невисоких панелей, коли витрачати цілий юніт
+        невигідно: наприклад,{' '}
+        <ProductLink sku="P34" label="патч-панель на 8 кейстоунів заввишки 1/2U" /> займає
+        вдвічі менше місця, ніж повнорозмірна панель.
+      </p>
+    </div>
+  </section>
+
+  <section class="content-section" aria-labelledby="counting">
+    <h2 id="counting">Як порахувати потрібну висоту стійки</h2>
+
+    <ol class="content-list content-list--steps" role="list">
+      <li>
+        Випишіть усе обладнання, яке має стояти в стійці, і його висоту в юнітах.
+      </li>
+      <li>
+        Додайте юніти під те, чого ще немає, але вже планується — сховище, другий
+        обчислювальний вузол, блок живлення.
+      </li>
+      <li>
+        Додайте 1U під кабельний органайзер, якщо патч-кордів більше кількох штук.
+      </li>
+      <li>
+        Додайте 1–2U запасу: доростити стійку пізніше майже завжди дорожче, ніж
+        закласти висоту одразу.
+      </li>
+    </ol>
+
+    <div class="content-prose">
+      <p>
+        Типовий стартовий розрахунок для домашньої лабораторії: патч-панель 1U +
+        комутатор 1U + mini-PC 1U + дисковий модуль 2U = 5U. Саме тому базові
+        модульні стійки в каталозі розраховані на 4–5U — наприклад{' '}
+        <ProductLink sku="P1" label="модульна 5U-стійка для HomeLab" /> або{' '}
+        <ProductLink sku="P2" label="модульна 10-дюймова стійка 1U–4U" />.
+      </p>
+    </div>
+  </section>
+
+  <section class="content-section" aria-labelledby="unit-vs-width">
+    <h2 id="unit-vs-width">Юніт вимірює тільки висоту</h2>
+    <div class="content-prose">
+      <p>
+        Позначення «2U» нічого не говорить ані про ширину, ані про глибину пристрою.
+        Модуль на 2U для 10-дюймової стійки і модуль на 2U для 19-дюймової мають
+        однакову висоту, але різну ширину фронтальної панелі й не взаємозамінні.
+      </p>
+      <p>
+        Глибина взагалі не стандартизована в тому ж сенсі: у домашніх 10-дюймових
+        стійках вона визначається конструкцією конкретної моделі. Тому перед
+        покупкою дискового модуля чи корпусу варто звіряти не лише юніти, а й
+        глибину — вона вказана в описі товару, якщо це критично для встановлення.
+        Детальніше про різницю форматів — у гайді{' '}
+        <a href={href('guides/10-inch-vs-19-inch-rack/')}>
+          10-дюймова чи 19-дюймова стійка
+        </a>.
+      </p>
+    </div>
+  </section>
+</GuideLayout>

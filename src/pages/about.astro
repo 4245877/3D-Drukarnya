@@ -1,0 +1,281 @@
+---
+import Layout from '../components/Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { PRICE_PER_GRAM_UAH } from '../data/pricing.config.mjs';
+import { OLX_URL, SITE_NAME, SKUFNYA_URL } from '../data/site.config.mjs';
+import { getAllProducts } from '../utils/products';
+import { absoluteUrl, href } from '../utils/urls';
+import {
+  BUSINESS_ID,
+  breadcrumbNode,
+  businessNode,
+  faqNode,
+  graph,
+  webPageNode,
+  websiteNode,
+} from '../utils/schema.mjs';
+import { toJsonLd } from '../utils/text';
+
+import '../styles/pages/content.css';
+
+// Everything on this page is a fact the catalog data or the site already
+// states elsewhere: the city, the delivery channels, the order channel, the
+// materials, the pricing formula. No address, phone number, company history,
+// customer count, review or certificate is invented here — the owner adds
+// those once they exist (see SEO-AI-SEARCH-SETUP.md).
+const products = getAllProducts();
+const rateLabel = new Intl.NumberFormat('uk-UA', {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 2,
+}).format(PRICE_PER_GRAM_UAH);
+
+const canonicalPath = '/about/';
+const pageUrl = absoluteUrl(canonicalPath);
+
+const title = `Про майстерню, доставка та контакти | ${SITE_NAME}`;
+const description =
+  'Хто друкує: майстерня FDM 3D-друку в Києві. Як формується ціна, які матеріали використовуються, як зробити замовлення, самовивіз у Києві та доставка по Україні.';
+
+const faq = [
+  {
+    question: 'Як зробити замовлення?',
+    answer:
+      'Замовлення оформлюються через профіль продавця на OLX. У повідомленні вкажіть артикул товару з каталогу (він починається з літери P), потрібну кількість, колір і, якщо це важливо, матеріал. Для нестандартної деталі надішліть модель у форматі STL, 3MF або STEP чи опишіть задачу й розміри.',
+  },
+  {
+    question: 'Як формується ціна?',
+    answer:
+      `Ціна кожного товару в каталозі розраховується за однією формулою: вага надрукованої деталі в грамах, помножена на ${rateLabel} ₴ за грам. Вага вказана в характеристиках товару, тому розрахунок можна перевірити самостійно. Ціни в каталозі не встановлюються вручну.`,
+  },
+  {
+    question: 'Які матеріали доступні?',
+    answer:
+      'Основні матеріали — PETG і PLA; для окремих виробів використовується ABS. PETG рекомендований для стійок, кріплень і корпусів, які працюють цілодобово; PLA підходить для ненавантажених деталей. Матеріал кожного товару вказаний у його характеристиках.',
+  },
+  {
+    question: 'Скільки часу займає виготовлення?',
+    answer:
+      'Усі товари друкуються під замовлення. Термін виготовлення вказаний на сторінці кожного товару й залежить від його розміру: для невеликих деталей це зазвичай 1–3 дні, для великих корпусів — довше.',
+  },
+  {
+    question: 'Яка доставка доступна?',
+    answer:
+      'У Києві можливий самовивіз із району Академмістечко. По Україні відправлення здійснюється через OLX Доставку, якщо замовлення підходить за розміром і умовами відправлення.',
+  },
+  {
+    question: 'Чи входять гвинти й електроніка в комплект?',
+    answer:
+      'Ні. У комплект входять лише надруковані пластикові деталі. Метизи, вставки, електроніка, кабелі, вентилятори та блоки живлення узгоджуються окремо — точний перелік потрібних комплектуючих наведений в описі кожного товару.',
+  },
+];
+
+const breadcrumbItems = [
+  { name: 'Головна', url: absoluteUrl('') },
+  { name: 'Про нас', url: pageUrl },
+];
+
+const structuredData = graph([
+  websiteNode(),
+  businessNode(),
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: 'Про майстерню, доставка та контакти',
+      description,
+      type: 'AboutPage',
+      breadcrumbId: `${pageUrl}#breadcrumbs`,
+    }),
+    mainEntity: { '@id': BUSINESS_ID },
+  },
+  breadcrumbNode(pageUrl, breadcrumbItems),
+  faqNode(pageUrl, faq),
+]);
+---
+
+<Layout title={title} description={description} canonicalPath={canonicalPath}>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={toJsonLd(structuredData)}
+  ></script>
+
+  <div class="content-page">
+    <div class="container">
+      <Breadcrumbs
+        items={[{ label: 'Головна', href: href() }, { label: 'Про нас' }]}
+      />
+
+      <header class="content-head">
+        <p class="kicker">Про майстерню</p>
+        <h1 class="content-head__title content-head__title--wide">
+          Хто друкує, як замовити й куди доставляємо
+        </h1>
+        <p class="content-lead">
+          3D Друкарня — невелика майстерня FDM-друку з Києва. Спеціалізація —
+          компактна серверна інфраструктура для дому: 10-дюймові стійки,
+          NAS-корпуси, кріплення для мережевого обладнання й mini-PC, полиці та
+          патч-панелі. У каталозі {products.length} позицій, усі виготовляються
+          під замовлення.
+        </p>
+      </header>
+
+      <section class="content-section" aria-labelledby="what-we-do">
+        <h2 id="what-we-do">Чим займаємося</h2>
+        <div class="content-prose">
+          <p>
+            Каталог зібраний навколо однієї теми: усе, що потрібно, щоб домашня
+            техніка перестала лежати на столі й стала акуратною стійкою. Це
+            каркаси 10-дюймових стійок, адаптери під конкретні моделі роутерів,
+            комутаторів і mini-PC, корпуси для домашнього NAS, дискові модулі,
+            полиці, патч-панелі та кабельні органайзери.
+          </p>
+          <p>
+            Крім каталогу, приймаються замовлення на друк за вашою моделлю або на
+            адаптацію існуючої деталі під конкретні розміри. Формати файлів —
+            STL, 3MF, STEP.
+          </p>
+          <p>
+            Що саме доступно, зручно дивитися через{' '}
+            <a href={href('catalog/')}>каталог за категоріями</a>, а перед вибором —
+            прочитати <a href={href('guides/')}>гайди</a>.
+          </p>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="materials">
+        <h2 id="materials">Матеріали й параметри друку</h2>
+        <div class="content-prose">
+          <p>
+            Основні матеріали — PETG і PLA, для окремих виробів використовується
+            ABS. Для деталей стійки за замовчуванням береться PETG: він краще
+            тримає навантаження й тепло від обладнання, яке працює цілодобово.
+            Матеріал кожного товару вказаний у блоці характеристик на його
+            сторінці; детальне порівняння — у гайді{' '}
+            <a href={href('guides/petg-vs-pla-for-racks/')}>PETG чи PLA</a>.
+          </p>
+          <p>
+            Колір, заповнення, товщину стінок і орієнтацію друку можна узгодити
+            перед виготовленням — це має значення для деталей, які мають не лише
+            виглядати акуратно, а й тримати навантаження.
+          </p>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="pricing">
+        <h2 id="pricing">Як формується ціна</h2>
+        <div class="content-prose">
+          <p>
+            Ціна кожного товару в каталозі — це вага надрукованої деталі, помножена
+            на {rateLabel} ₴ за грам. Вага вказана в характеристиках, тому
+            розрахунок відкритий і його можна перевірити. Ціни не встановлюються
+            вручну для окремих позицій.
+          </p>
+          <p>
+            Для частини товарів вказано «Ціна від» — це означає, що виріб має
+            кілька конфігурацій, і вказана вартість базової. Вартість
+            нестандартного замовлення оцінюється після перегляду моделі.
+          </p>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="how-to-order">
+        <h2 id="how-to-order">Як зробити замовлення</h2>
+
+        <ol class="content-list content-list--steps" role="list">
+          <li>
+            Оберіть товар у каталозі й запамʼятайте його артикул — він
+            починається з літери P і вказаний у характеристиках.
+          </li>
+          <li>
+            Перейдіть на{' '}
+            <a href={OLX_URL} target="_blank" rel="noopener noreferrer">
+              профіль продавця на OLX
+            </a>{' '}
+            і напишіть повідомлення.
+          </li>
+          <li>
+            Вкажіть артикул, кількість, колір і, якщо це важливо, матеріал та
+            особливості застосування.
+          </li>
+          <li>
+            Узгодьте спосіб отримання: самовивіз у Києві або OLX Доставка по
+            Україні.
+          </li>
+        </ol>
+      </section>
+
+      <section class="content-section" aria-labelledby="delivery">
+        <h2 id="delivery">Доставка й отримання</h2>
+
+        <dl class="content-facts">
+          <div>
+            <dt>Місто</dt>
+            <dd>Київ</dd>
+          </div>
+          <div>
+            <dt>Самовивіз</dt>
+            <dd>Район Академмістечко</dd>
+          </div>
+          <div>
+            <dt>По Україні</dt>
+            <dd>OLX Доставка</dd>
+          </div>
+          <div>
+            <dt>Валюта</dt>
+            <dd>Гривня (UAH)</dd>
+          </div>
+        </dl>
+
+        <div class="content-prose">
+          <p>
+            Відправлення через OLX Доставку доступне, якщо замовлення підходить за
+            розміром і умовами відправлення. Габаритні корпуси обговорюються
+            окремо.
+          </p>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="models">
+        <h2 id="models">Про моделі та авторство</h2>
+        <div class="content-prose">
+          <p>
+            Частина виробів у каталозі друкується за моделями спільноти. Там, де
+            автор, джерело або ліцензія відомі, вони вказані безпосередньо на
+            сторінці товару — це окремий блок атрибуції. Каталог не приписує собі
+            чужу авторську роботу.
+          </p>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="contacts">
+        <h2 id="contacts">Контакти</h2>
+        <div class="content-prose">
+          <p>
+            Основний канал звʼязку та оформлення замовлень —{' '}
+            <a href={OLX_URL} target="_blank" rel="noopener noreferrer">
+              профіль на OLX
+            </a>. Там же видно активні оголошення.
+          </p>
+          <p>
+            Суміжний проєкт того самого власника —{' '}
+            <a href={SKUFNYA_URL} target="_blank" rel="noopener noreferrer">
+              SKUFNYA
+            </a>.
+          </p>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="about-faq">
+        <h2 id="about-faq">Часті питання</h2>
+        <div class="content-faq">
+          {faq.map((item) => (
+            <article class="content-faq__item">
+              <h3 data-faq-question>{item.question}</h3>
+              <p data-faq-answer>{item.answer}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>

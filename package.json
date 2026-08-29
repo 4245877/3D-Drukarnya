@@ -16,7 +16,9 @@
     "validate:data": "node scripts/validate-data.mjs",
     "prices:recalculate": "node scripts/recalculate-prices.mjs",
     "prices:check": "node scripts/recalculate-prices.mjs --check",
-    "test": "node --test \"tests/*.test.mjs\""
+    "test": "node --test \"tests/*.test.mjs\"",
+    "indexnow:submit": "node scripts/submit-indexnow.mjs",
+    "indexnow:dry-run": "node scripts/submit-indexnow.mjs --dry-run"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",

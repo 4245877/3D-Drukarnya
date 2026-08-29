@@ -157,6 +157,7 @@ export const WEIGHT_PENDING_SKUS = new Set([
   'P35', // Printables — no weight published
   'P36', // Printables 1247474 — no weight published
   'P37', // Printables 1369947 — no weight published
+  'P38', // Printables 150719 — no weight published
 ]);
 
 export const productVariantSchema = z.strictObject({

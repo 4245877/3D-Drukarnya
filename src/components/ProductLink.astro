@@ -1,0 +1,24 @@
+---
+// Inline link to a catalog product, addressed by its stable SKU.
+//
+// Resolving the SKU here means the anchor text is always the product's real
+// title and the URL always its real slug: a typo or a removed product fails
+// `astro build` instead of shipping a broken internal link.
+import { getProductBySku } from '../utils/products';
+import { href } from '../utils/urls';
+
+interface Props {
+  sku: string;
+  /** Overrides the anchor text. Use a shorter, still descriptive phrase. */
+  label?: string;
+}
+
+const { sku, label } = Astro.props as Props;
+
+const product = getProductBySku(sku);
+if (!product) {
+  throw new Error(`ProductLink: unknown SKU "${sku}" (see src/data/products/)`);
+}
+---
+
+<a href={href(`products/${product.slug}/`)}>{label ?? product.title}</a>

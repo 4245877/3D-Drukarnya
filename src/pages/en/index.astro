@@ -1,0 +1,278 @@
+---
+import Layout from '../../components/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { CATEGORIES } from '../../data/categories.mjs';
+import { PRICE_PER_GRAM_UAH } from '../../data/pricing.config.mjs';
+import { OLX_URL, SITE_NAME } from '../../data/site.config.mjs';
+import { getAllProducts } from '../../utils/products';
+import { LANGUAGE_ALTERNATES } from '../../data/i18n.mjs';
+import { absoluteUrl, href } from '../../utils/urls';
+import {
+  breadcrumbNode,
+  businessNode,
+  faqNode,
+  graph,
+  webPageNode,
+  websiteNode,
+} from '../../utils/schema.mjs';
+import { toJsonLd } from '../../utils/text';
+
+import '../../styles/pages/content.css';
+
+// A single English entry point, not a translation of the whole site. The
+// HomeLab audience searches in English ("10 inch server rack", "rack mount
+// for MikroTik", "NAS case Ukraine") even in Ukraine, but the catalogue and
+// the guides are written in Ukrainian — so this page states plainly what the
+// shop sells, in English, and hands over to the Ukrainian pages. Machine
+// translating 50+ pages would create thin duplicates, not value.
+const products = getAllProducts();
+const rateLabel = new Intl.NumberFormat('en-US', {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 2,
+}).format(PRICE_PER_GRAM_UAH);
+
+const canonicalPath = '/en/';
+const pageUrl = absoluteUrl(canonicalPath);
+
+const title = '10 inch server rack & 3D printed HomeLab parts in Ukraine';
+const description =
+  '3D printed 10 inch server racks, NAS cases and rack mounts for MikroTik, TP-Link, Raspberry Pi and Lenovo Tiny mini PCs. Made to order in Kyiv, Ukraine, shipped nationwide.';
+
+const faq = [
+  {
+    question: 'Do you ship across Ukraine?',
+    answer:
+      'Yes. Orders are shipped through OLX Delivery anywhere in Ukraine, subject to size and shipping conditions. Pickup is also available in Kyiv, in the Akademmistechko area.',
+  },
+  {
+    question: 'How do I place an order?',
+    answer:
+      'Orders go through the seller profile on OLX. Include the product SKU from the catalogue (it starts with the letter P), the quantity, the colour and the material if it matters for your use case.',
+  },
+  {
+    question: 'What is the price based on?',
+    answer:
+      `Every catalogue price is the printed weight of the part in grams multiplied by ${rateLabel} UAH per gram. The weight is published in each product's specifications, so the price can be verified. Prices are in Ukrainian hryvnia (UAH).`,
+  },
+  {
+    question: 'Which materials do you print in?',
+    answer:
+      'PETG and PLA, with ABS for selected items. PETG is the default for racks, mounts and NAS cases because they carry load and sit next to hardware that runs around the clock. Each product page states its material.',
+  },
+  {
+    question: 'Is the catalogue in English?',
+    answer:
+      'The product pages and guides are written in Ukrainian, but product names keep the original English hardware model names (MikroTik hAP ac², TP-Link TL-SG108, Lenovo ThinkCentre M920q and so on), so the catalogue is navigable without Ukrainian.',
+  },
+];
+
+const breadcrumbItems = [
+  { name: 'Home', url: absoluteUrl('') },
+  { name: 'English', url: pageUrl },
+];
+
+const structuredData = graph([
+  websiteNode(),
+  businessNode(),
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: '10 inch server racks and HomeLab parts, made in Ukraine',
+      description,
+      breadcrumbId: `${pageUrl}#breadcrumbs`,
+    }),
+    inLanguage: 'en',
+  },
+  breadcrumbNode(pageUrl, breadcrumbItems),
+  faqNode(pageUrl, faq),
+]);
+---
+
+<Layout
+  title={`${title} | ${SITE_NAME}`}
+  description={description}
+  canonicalPath={canonicalPath}
+  lang="en"
+  ogLocale="en_US"
+  alternates={LANGUAGE_ALTERNATES}
+>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={toJsonLd(structuredData)}
+  ></script>
+
+  <div class="content-page">
+    <div class="container">
+      <Breadcrumbs
+        items={[{ label: 'Home', href: href() }, { label: 'English' }]}
+      />
+
+      <header class="content-head">
+        <p class="kicker">English overview</p>
+        <h1 class="content-head__title content-head__title--wide">
+          3D printed 10 inch server racks and HomeLab parts, made in Ukraine
+        </h1>
+        <p class="content-lead">
+          3D Друкарня is a small FDM 3D printing workshop in Kyiv, Ukraine,
+          focused on compact home server infrastructure: 10 inch (mini rack)
+          server racks, DIY NAS cases, rack mounts for network gear and mini
+          PCs, shelves, keystone patch panels and cable management. All
+          {' '}{products.length} catalogue items are printed to order in PETG or PLA.
+        </p>
+      </header>
+
+      <section class="content-section" aria-labelledby="en-what">
+        <h2 id="en-what">What the catalogue covers</h2>
+
+        <div class="content-table-wrap">
+          <table class="content-table">
+            <caption>
+              Catalogue sections. Pages are in Ukrainian; hardware model names are
+              unchanged.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Section</th>
+                <th scope="col">What it holds</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">
+                  <a href={href('catalog/10-inch-server-rack/')}>10 inch server racks</a>
+                </th>
+                <td>Modular 1U–5U mini rack frames for HomeLab, plus 19" rack parts</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a href={href('catalog/nas-cases/')}>NAS cases</a>
+                </th>
+                <td>
+                  4, 6 and 8 bay DIY NAS enclosures for Lenovo ThinkCentre Tiny,
+                  Intel NUC, Dell Wyse and Mini-ITX boards
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a href={href('catalog/hdd-modules/')}>HDD modules</a>
+                </th>
+                <td>2U and 3U drive cages for 2.5" and 3.5" disks, hot swap bays</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a href={href('catalog/network-rack-mounts/')}>Network rack mounts</a>
+                </th>
+                <td>
+                  Rack mounts for MikroTik hAP ac², TP-Link TL-SG108(PE),
+                  TL-SG1005P, TL-SG105, plus a parametric mount
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a href={href('catalog/mini-pc-rack-mounts/')}>Mini PC rack mounts</a>
+                </th>
+                <td>
+                  Mounts for Lenovo ThinkCentre Tiny (M70q, M80q), Dell OptiPlex
+                  7060 Micro, HP EliteDesk 800 Mini
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a href={href('catalog/raspberry-pi-rack/')}>Raspberry Pi</a>
+                </th>
+                <td>Rack mounts for Raspberry Pi 2B, 3B, 4B and 5</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a href={href('catalog/rack-shelves-and-panels/')}>Shelves and panels</a>
+                </th>
+                <td>Universal shelves, 8 and 10 port keystone patch panels, cable guides</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a href={href('catalog/rack-power-and-workshop/')}>Power and workshop</a>
+                </th>
+                <td>ATX and Meanwell LRS-100-12 PSU mounts, bench PSU case, open frame case</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a href={href('catalog/custom-rack-parts/')}>Custom parts</a>
+                </th>
+                <td>Device-specific front plates and one-off adapters</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="en-how">
+        <h2 id="en-how">Ordering, pricing and delivery</h2>
+
+        <dl class="content-facts">
+          <div>
+            <dt>Location</dt>
+            <dd>Kyiv, Ukraine</dd>
+          </div>
+          <div>
+            <dt>Delivery</dt>
+            <dd>OLX Delivery nationwide</dd>
+          </div>
+          <div>
+            <dt>Pickup</dt>
+            <dd>Kyiv, Akademmistechko</dd>
+          </div>
+          <div>
+            <dt>Currency</dt>
+            <dd>UAH</dd>
+          </div>
+        </dl>
+
+        <div class="content-prose">
+          <p>
+            Every item is printed to order, so there is no shelf stock: lead time
+            is stated on each product page and depends on print time. Prices are
+            derived from the printed weight of the part — {rateLabel} UAH per gram —
+            and the weight is published alongside the price, so the number can be
+            checked.
+          </p>
+          <p>
+            Orders and questions go through the{' '}
+            <a href={OLX_URL} target="_blank" rel="noopener noreferrer">
+              seller profile on OLX
+            </a>. Quote the product SKU (P1, P2, …) from the catalogue page.
+          </p>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="en-faq">
+        <h2 id="en-faq">FAQ</h2>
+        <div class="content-faq">
+          {faq.map((item) => (
+            <article class="content-faq__item">
+              <h3 data-faq-question>{item.question}</h3>
+              <p data-faq-answer>{item.answer}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="en-next">
+        <h2 id="en-next">Where to go next</h2>
+        <ul class="content-linkrow" role="list">
+          <li><a href={href()}>Головна / Home (Ukrainian)</a></li>
+          <li><a href={href('catalog/')}>Каталог / Catalogue</a></li>
+          <li><a href={href('guides/')}>Гайди / Guides</a></li>
+          <li><a href={href('about/')}>Про нас / About</a></li>
+        </ul>
+        <div class="content-prose">
+          <p>
+            The catalogue lists {CATEGORIES.length} sections. Product pages carry the
+            specifications, weight, material, lead time, price and compatibility in
+            Ukrainian, with all hardware model names in their original form.
+          </p>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>

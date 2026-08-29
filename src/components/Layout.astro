@@ -2,6 +2,17 @@
 import '../styles/base.css';
 import '../styles/layout.css';
 import SiteHeader from './SiteHeader.astro';
+import SiteFooter from './SiteFooter.astro';
+import { SITE_LANG, SITE_LOCALE, SITE_NAME } from '../data/site.config.mjs';
+import { absoluteUrl, toAbsoluteUrl } from '../utils/urls';
+
+/** One alternate language version of the current page. */
+export interface AlternateLink {
+  /** BCP 47 code, or 'x-default' for the fallback entry. */
+  hreflang: string;
+  /** Site-relative path, e.g. '/' or '/en/'. */
+  path: string;
+}
 
 interface Props {
   title: string;
@@ -10,8 +21,18 @@ interface Props {
   image?: string;
   imageAlt?: string;
   keywords?: string;
-  ogType?: 'website' | 'product';
+  ogType?: 'website' | 'product' | 'article';
   noindex?: boolean;
+  /** Content language of THIS page (BCP 47). */
+  lang?: string;
+  /** OG locale matching `lang`. */
+  ogLocale?: string;
+  /**
+   * hreflang set for this page. Only pass it on pages that genuinely have a
+   * translated counterpart — a self-referencing alternate on a page with no
+   * translation is noise, not a signal.
+   */
+  alternates?: AlternateLink[];
 }
 
 const {
@@ -20,19 +41,20 @@ const {
   canonicalPath = '/',
   image,
   imageAlt,
-  keywords = '3D-друк Київ, FDM друк Київ, 3D друк на замовлення, друк PLA Київ, друк PETG Київ, корпуси для електроніки, прототипування Київ',
+  keywords = '10-дюймова серверна стійка, mini rack, HomeLab стійка, NAS корпус, rack mount, 3D-друк Київ',
   ogType = 'website',
   noindex = false,
+  lang = SITE_LANG,
+  ogLocale = SITE_LOCALE,
+  alternates = [],
 } = Astro.props;
 
-const SITE_NAME = '3D Друкарня';
 // The site's branded OG image. Dimensions verified against the actual file
 // (PNG IHDR: 1983×793) — never publish unconfirmed sizes.
 const DEFAULT_OG_IMAGE = '/OGimage.png';
 const DEFAULT_OG_IMAGE_WIDTH = '1983';
 const DEFAULT_OG_IMAGE_HEIGHT = '793';
-const DEFAULT_OG_IMAGE_ALT = 'FDM 3D-друк у Києві — 3D Друкарня';
-const SKUFNYA_URL = 'https://www.skufnya.com/';
+const DEFAULT_OG_IMAGE_ALT = '3D-друковані 10-дюймові серверні стійки та кріплення для HomeLab';
 
 /**
  * MIME type of an image URL, only when it can be derived from the URL itself
@@ -48,22 +70,8 @@ const detectImageMime = (url: string): string | undefined => {
   return undefined;
 };
 
-const site = Astro.site ?? new URL('https://4245877.github.io');
-const basePath = import.meta.env.BASE_URL.endsWith('/')
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
-const absoluteBaseUrl = new URL(basePath, site);
-const normalizedCanonicalPath =
-  canonicalPath === '/' ? '' : canonicalPath.replace(/^\/+/, '');
-const canonicalUrl = new URL(normalizedCanonicalPath, absoluteBaseUrl).toString();
-const sitemapUrl = new URL('sitemap.xml', absoluteBaseUrl).toString();
-
-const toAbsoluteUrl = (value: string) => {
-  if (/^https?:\/\//i.test(value)) return value;
-  if (/^\/\//.test(value)) return `https:${value}`;
-
-  return new URL(value.replace(/^\/+/, ''), absoluteBaseUrl).toString();
-};
+const canonicalUrl = absoluteUrl(canonicalPath === '/' ? '' : canonicalPath);
+const sitemapUrl = absoluteUrl('sitemap.xml');
 
 const imagePath = image?.trim() || DEFAULT_OG_IMAGE;
 const resolvedImage = toAbsoluteUrl(imagePath);
@@ -74,15 +82,22 @@ const resolvedImageAlt = isDefaultOgImage
   : imageAlt || title;
 const resolvedImageMime = detectImageMime(resolvedImage);
 
-const currentYear = new Date().getFullYear();
 const faviconIcoPath = `${import.meta.env.BASE_URL}favicon.ico`;
 const favicon16Path = `${import.meta.env.BASE_URL}favicon-16x16.png`;
 const favicon32Path = `${import.meta.env.BASE_URL}favicon-32x32.png`;
 const appleTouchIconPath = `${import.meta.env.BASE_URL}apple-touch-icon.png`;
+
+// Indexable pages opt into the largest preview Google and Bing will grant.
+// max-image-preview / max-snippet are documented robots-meta directives; a
+// large image and an unclipped snippet are exactly what image results and
+// AI-generated summaries quote from.
+const robotsContent = noindex
+  ? 'noindex, nofollow'
+  : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
 ---
 
 <!DOCTYPE html>
-<html lang="uk">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -102,16 +117,24 @@ const appleTouchIconPath = `${import.meta.env.BASE_URL}apple-touch-icon.png`;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords} />
-    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+    <meta name="robots" content={robotsContent} />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="sitemap" type="application/xml" href={sitemapUrl} />
+
+    {alternates.map((alternate) => (
+      <link
+        rel="alternate"
+        hreflang={alternate.hreflang}
+        href={absoluteUrl(alternate.path === '/' ? '' : alternate.path)}
+      />
+    ))}
 
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content={SITE_NAME} />
-    <meta property="og:locale" content="uk_UA" />
+    <meta property="og:locale" content={ogLocale} />
 
     {/*
       Primary og:image. og:image:type is only declared when the MIME type can
@@ -177,28 +200,7 @@ const appleTouchIconPath = `${import.meta.env.BASE_URL}apple-touch-icon.png`;
       <slot />
     </main>
 
-    <footer class="site-footer">
-      <div class="container site-footer__inner">
-        <div>
-          <strong>{SITE_NAME}</strong>
-          <p class="site-footer__text">
-            FDM 3D-друк у Києві: PLA, PETG, корпуси для електроніки, прототипи та деталі на замовлення.
-          </p>
-        </div>
-
-        <div class="site-footer__meta">
-          <a
-            class="site-footer__link"
-            href={SKUFNYA_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            SKUFNYA
-          </a>
-          <span>© {currentYear}</span>
-        </div>
-      </div>
-    </footer>
+    <SiteFooter />
 
     <script>
       // Local fallback for product images (~170 of them come from a single

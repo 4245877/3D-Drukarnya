@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-// Validates every product JSON file against the shared schema
-// (src/data/product.schema.mjs). Exits non-zero on the first problem set and
-// prints `file: field — message` lines so failures are easy to locate.
+// Validates the catalog's data layer: every product JSON file against the
+// shared schema (src/data/product.schema.mjs), plus the category and guide
+// definitions that turn that data into landing pages. Exits non-zero on the
+// first problem set and prints `file: field — message` lines so failures are
+// easy to locate.
 //
 // Usage: npm run validate:data
 import { readdir, readFile } from 'node:fs/promises';
@@ -9,6 +11,8 @@ import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
+import { validateCategoryDefinitions } from '../src/data/categories.mjs';
+import { validateGuideDefinitions } from '../src/data/guides.mjs';
 import { validateProductCollection } from '../src/data/product.schema.mjs';
 
 const productsDir = fileURLToPath(new URL('../src/data/products/', import.meta.url));
@@ -45,8 +49,16 @@ for (const fileName of fileNames) {
 const result = validateProductCollection(entries);
 errors.push(...result.errors);
 
+// Content architecture: exactly one landing page per catalog category, no
+// orphans in either direction, and no cross-link pointing at a page that does
+// not exist.
+errors.push(
+  ...validateCategoryDefinitions().map((message) => `src/data/categories.mjs: ${message}`),
+);
+errors.push(...validateGuideDefinitions().map((message) => `src/data/guides.mjs: ${message}`));
+
 if (errors.length > 0) {
-  console.error(`Product data validation failed (${errors.length} error(s)):\n`);
+  console.error(`Catalog data validation failed (${errors.length} error(s)):\n`);
   for (const error of errors) {
     console.error(`  ${error}`);
   }
@@ -54,5 +66,6 @@ if (errors.length > 0) {
 }
 
 console.log(
-  `OK: ${result.products.length} product file(s) passed schema and uniqueness checks.`,
+  `OK: ${result.products.length} product file(s), plus the category and guide ` +
+    'definitions, passed schema, uniqueness and cross-link checks.',
 );

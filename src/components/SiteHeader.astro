@@ -1,15 +1,15 @@
 ---
-const base = import.meta.env.BASE_URL.endsWith('/')
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
+import { OLX_URL } from '../data/site.config.mjs';
+import { href } from '../utils/urls';
 
-const OLX_URL = 'https://www.olx.ua/uk/list/user/15L7LS/';
+const base = href();
 
+// Every entry is a real page, not an on-page anchor: the header is the main
+// navigation crawlers follow, so it has to expose the site's actual sections.
 const links = [
-  { label: 'Каталог', href: base },
-  { label: 'Послуги', href: `${base}#services-title` },
-  { label: 'Матеріали', href: `${base}#materials-title` },
-  { label: 'Доставка', href: `${base}#order-title` },
+  { label: 'Каталог', href: href('catalog/') },
+  { label: 'Гайди', href: href('guides/') },
+  { label: 'Про нас', href: href('about/') },
 ];
 ---
 

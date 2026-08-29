@@ -1,0 +1,170 @@
+---
+import GuideLayout from '../../layouts/GuideLayout.astro';
+import ProductLink from '../../components/ProductLink.astro';
+import { href } from '../../utils/urls';
+---
+
+<GuideLayout slug="homelab-starter-rack">
+  <section class="content-section" aria-labelledby="step-1">
+    <h2 id="step-1">Крок 1. Порахувати юніти</h2>
+    <div class="content-prose">
+      <p>
+        Збірка починається не з покупки стійки, а з переліку обладнання. Випишіть
+        усе, що має стояти в стійці, і переведіть у юніти (1U = 44,45 мм — див.
+        гайд <a href={href('guides/rack-units-1u-2u-3u/')}>розміри Rack Unit</a>).
+      </p>
+    </div>
+
+    <div class="content-table-wrap">
+      <table class="content-table">
+        <caption>
+          Приклад розрахунку типової першої збірки. Ваш набір може відрізнятися —
+          важлива сама методика.
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Що</th>
+            <th scope="col">Висота</th>
+            <th scope="col">Навіщо</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Патч-панель</th>
+            <td>1U або 1/2U</td>
+            <td>Точка входу мережі, фіксовані порти замість вільних кабелів</td>
+          </tr>
+          <tr>
+            <th scope="row">Комутатор або роутер</th>
+            <td>1U</td>
+            <td>Мережеве ядро домашньої лабораторії</td>
+          </tr>
+          <tr>
+            <th scope="row">Mini-PC</th>
+            <td>1U</td>
+            <td>Обчислювальний вузол: сервіси, віртуалізація, автоматизація</td>
+          </tr>
+          <tr>
+            <th scope="row">Дисковий модуль</th>
+            <td>2U</td>
+            <td>Сховище, якщо воно винесене окремо від mini-PC</td>
+          </tr>
+          <tr>
+            <th scope="row">Запас</th>
+            <td>1–2U</td>
+            <td>Кабельний органайзер і те, що зʼявиться пізніше</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="content-section" aria-labelledby="step-2">
+    <h2 id="step-2">Крок 2. Обрати каркас</h2>
+    <div class="content-prose">
+      <p>
+        Для першої збірки практично завжди достатньо 10-дюймового формату: він
+        розрахований саме на настільне обладнання й займає приблизно вдвічі менше
+        місця в ширину, ніж серверні 19 дюймів.
+      </p>
+      <p>
+        Якщо набір обладнання ще не остаточний, краще брати модульну конструкцію —
+        її можна нарощувати по юнітах. У каталозі це{' '}
+        <ProductLink sku="P1" label="модульна міні-стійка 5U" /> і{' '}
+        <ProductLink sku="P2" label="модульна стійка 1U–4U" />. Якщо в стійці
+        планується сховище й важче обладнання, варто дивитися на{' '}
+        <ProductLink sku="P9" label="посилений KWS Rack v.2" />.
+      </p>
+      <p>
+        Основний матеріал — PETG: стійка тримає вагу й одночасно нагрівається від
+        обладнання, а PLA у таких умовах поступово деформується. Докладніше — у
+        гайді <a href={href('guides/petg-vs-pla-for-racks/')}>PETG чи PLA</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="content-section" aria-labelledby="step-3">
+    <h2 id="step-3">Крок 3. Закріпити те, що вже є</h2>
+    <div class="content-prose">
+      <p>
+        Наступний крок — кріплення під наявне обладнання. Тут важливо звіряти
+        конкретну модель, а не тип пристрою: адаптер повторює геометрію корпусу.
+      </p>
+    </div>
+
+    <ul class="content-list" role="list">
+      <li>
+        Роутер або комутатор —{' '}
+        <a href={href('catalog/network-rack-mounts/')}>
+          кріплення мережевого обладнання
+        </a>{' '}
+        (MikroTik, TP-Link, плюс параметричний варіант для решти моделей).
+      </li>
+      <li>
+        Mini-PC —{' '}
+        <a href={href('catalog/mini-pc-rack-mounts/')}>кріплення Mini-PC</a> для
+        Lenovo ThinkCentre Tiny, Dell OptiPlex Micro та HP EliteDesk Mini.
+      </li>
+      <li>
+        Одноплатні компʼютери —{' '}
+        <a href={href('catalog/raspberry-pi-rack/')}>Raspberry Pi у стійці</a>.
+      </li>
+      <li>
+        Усе інше — <ProductLink sku="P30" label="універсальна полиця" />.
+      </li>
+    </ul>
+  </section>
+
+  <section class="content-section" aria-labelledby="step-4">
+    <h2 id="step-4">Крок 4. Сховище, живлення й кабелі</h2>
+    <div class="content-prose">
+      <p>
+        Сховище можна зробити двома шляхами: окремим дисковим модулем у стійці
+        (<ProductLink sku="P10" label="2U-модуль на 5+3 диски" />) або
+        спеціалізованим NAS-корпусом навколо mini-PC — див.{' '}
+        <a href={href('guides/diy-nas-case-guide/')}>гайд про вибір NAS-корпусу</a>.
+      </p>
+      <p>
+        Живлення варто планувати разом зі сховищем: щойно зʼявляються диски й
+        вентилятори, набір окремих адаптерів стає незручним. У каталозі для цього є{' '}
+        <ProductLink sku="P20" label="тримач ATX-блока живлення на 2U" /> і{' '}
+        <ProductLink sku="P37" label="кріплення блока Meanwell LRS-100-12" />.
+      </p>
+      <p>
+        Останній крок — кабелі. У малій стійці безлад помітний одразу й заважає
+        виймати обладнання, тому{' '}
+        <ProductLink sku="P36" label="кабельна панель" /> або{' '}
+        <ProductLink sku="P35" label="напрямна з модульними гачками" /> окуповують
+        свій юніт швидко.
+      </p>
+    </div>
+  </section>
+
+  <section class="content-section" aria-labelledby="layout">
+    <h2 id="layout">Порядок розміщення в стійці</h2>
+
+    <ul class="content-list" role="list">
+      <li>
+        <strong>Зверху</strong> — патч-панель і мережа: кабелі входять у стійку
+        коротким шляхом і не перетинають усю висоту.
+      </li>
+      <li>
+        <strong>Посередині</strong> — обчислювальні вузли: до них найчастіше
+        потрібен доступ, а на середній висоті він найзручніший.
+      </li>
+      <li>
+        <strong>Знизу</strong> — диски та блок живлення: найважчі елементи, а
+        нижчий центр ваги робить стійку стабільнішою.
+      </li>
+    </ul>
+
+    <div class="content-prose">
+      <p>
+        Про охолодження: відкрита 10-дюймова стійка провітрюється значно краще за
+        закриту шафу, тому для роутера, комутатора й одного mini-PC активне
+        охолодження зазвичай не потрібне. Воно стає потрібним разом із жорсткими
+        дисками — у NAS-корпусах каталогу вентилятор уже передбачений конструкцією.
+      </p>
+    </div>
+  </section>
+</GuideLayout>

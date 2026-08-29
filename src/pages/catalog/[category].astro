@@ -1,0 +1,202 @@
+---
+import Layout from '../../components/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { CATEGORIES, resolveCategories } from '../../data/categories.mjs';
+import { resolveGuides } from '../../data/guides.mjs';
+import { SITE_NAME } from '../../data/site.config.mjs';
+import { getProductsByCategory } from '../../utils/products';
+import type { Product } from '../../utils/products';
+import { absoluteUrl, href } from '../../utils/urls';
+import {
+  breadcrumbNode,
+  businessNode,
+  faqNode,
+  graph,
+  itemListNode,
+  webPageNode,
+  websiteNode,
+} from '../../utils/schema.mjs';
+import { toJsonLd } from '../../utils/text';
+
+import '../../styles/pages/content.css';
+import '../../styles/pages/catalog.css';
+
+export function getStaticPaths() {
+  return CATEGORIES.map((category) => ({
+    params: { category: category.slug },
+    props: { category },
+  }));
+}
+
+type CategoryDefinition = (typeof CATEGORIES)[number];
+
+interface Props {
+  category: CategoryDefinition;
+}
+
+const { category } = Astro.props as Props;
+
+const products: Product[] = getProductsByCategory(category.name);
+const canonicalPath = `/catalog/${category.slug}/`;
+const pageUrl = absoluteUrl(canonicalPath);
+const catalogUrl = absoluteUrl('catalog/');
+
+const pageTitle = `${category.title} | ${SITE_NAME}`;
+
+const relatedCategories = resolveCategories(category.relatedCategories);
+const relatedGuides = resolveGuides(category.relatedGuides);
+
+const breadcrumbItems = [
+  { name: 'Головна', url: absoluteUrl('') },
+  { name: 'Каталог', url: catalogUrl },
+  { name: category.heading, url: pageUrl },
+];
+
+// The price band is a plain fact about the products listed below, computed
+// from their own data — never a separate claim.
+const prices = products.map((product) => product.price);
+const priceFrom = prices.length > 0 ? Math.min(...prices) : undefined;
+const priceFormatter = new Intl.NumberFormat('uk-UA');
+
+const structuredData = graph([
+  websiteNode(),
+  businessNode(),
+  webPageNode({
+    url: pageUrl,
+    name: category.heading,
+    description: category.description,
+    type: 'CollectionPage',
+    breadcrumbId: `${pageUrl}#breadcrumbs`,
+  }),
+  breadcrumbNode(pageUrl, breadcrumbItems),
+  itemListNode(
+    pageUrl,
+    products.map((product) => ({
+      name: product.title,
+      url: absoluteUrl(`products/${product.slug}/`),
+    })),
+    category.heading,
+  ),
+  faqNode(pageUrl, category.faq),
+]);
+---
+
+<Layout
+  title={pageTitle}
+  description={category.description}
+  canonicalPath={canonicalPath}
+>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={toJsonLd(structuredData)}
+  ></script>
+
+  <div class="content-page">
+    <div class="container">
+      <Breadcrumbs
+        items={[
+          { label: 'Головна', href: href() },
+          { label: 'Каталог', href: href('catalog/') },
+          { label: category.heading },
+        ]}
+      />
+
+      <header class="content-head">
+        <p class="kicker">Категорія каталогу</p>
+        <h1 class="content-head__title content-head__title--wide">{category.heading}</h1>
+        <p class="content-lead">{category.lead}</p>
+      </header>
+
+      <section class="content-section" aria-labelledby="category-overview">
+        <h2 id="category-overview">Що є в цій категорії</h2>
+
+        <ul class="content-list" role="list">
+          {category.highlights.map((item) => <li>{item}</li>)}
+        </ul>
+
+        <dl class="content-facts">
+          <div>
+            <dt>Товарів у категорії</dt>
+            <dd>{products.length}</dd>
+          </div>
+          {priceFrom !== undefined && (
+            <div>
+              <dt>Ціни від</dt>
+              <dd>{priceFormatter.format(priceFrom)} ₴</dd>
+            </div>
+          )}
+          <div>
+            <dt>Виготовлення</dt>
+            <dd>Під замовлення, Київ</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="content-section" aria-labelledby="category-products">
+        <h2 id="category-products">Товари в категорії «{category.heading}»</h2>
+
+        {products.length > 0 ? (
+          <div class="content-products">
+            {products.map((product) => (
+              <ProductCard product={product} />
+            ))}
+          </div>
+        ) : (
+          <p class="content-prose">
+            У цій категорії поки немає опублікованих товарів.
+          </p>
+        )}
+      </section>
+
+      <section class="content-section" aria-labelledby="category-details">
+        <h2 id="category-details">Як обрати</h2>
+        <div class="content-prose">
+          {category.body.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="category-faq">
+        <h2 id="category-faq">Часті питання</h2>
+        <div class="content-faq">
+          {category.faq.map((item) => (
+            <article class="content-faq__item">
+              <h3 data-faq-question>{item.question}</h3>
+              <p data-faq-answer>{item.answer}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {relatedGuides.length > 0 && (
+        <section class="content-section" aria-labelledby="category-guides">
+          <h2 id="category-guides">Гайди на цю тему</h2>
+          <div class="content-grid">
+            {relatedGuides.map((guide) => (
+              <article class="content-card">
+                <h3 class="content-card__title">
+                  <a href={href(`guides/${guide.slug}/`)}>{guide.heading}</a>
+                </h3>
+                <p class="content-card__text">{guide.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {relatedCategories.length > 0 && (
+        <section class="content-section" aria-labelledby="category-siblings">
+          <h2 id="category-siblings">Суміжні категорії</h2>
+          <ul class="content-linkrow" role="list">
+            {relatedCategories.map((sibling) => (
+              <li>
+                <a href={href(`catalog/${sibling.slug}/`)}>{sibling.heading}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+  </div>
+</Layout>

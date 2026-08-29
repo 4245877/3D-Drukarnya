@@ -1,3 +1,33 @@
+# robots.txt — 3D Друкарня
+#
+# NOTE ON SCOPE (GitHub Pages project site):
+# Crawlers only read robots.txt from the ROOT of a host. This site is served
+# from https://4245877.github.io/3D-Drukarnya/, so the file that actually
+# governs crawling is https://4245877.github.io/robots.txt, which lives in the
+# separate `4245877.github.io` repository. This copy is still published (and
+# becomes the effective one the moment the site moves to its own domain), but
+# the root copy must be kept identical. See SEO-AI-SEARCH-SETUP.md.
+#
+# POLICY: nothing on this site is restricted. Every page is public product or
+# reference content that is meant to be found, so a single group covering all
+# user agents says everything there is to say. Per-crawler groups repeating
+# the same "Allow: /" would add no information — robots.txt applies the most
+# specific matching group only, and this one already permits everything for
+# Googlebot, Google-Extended, Bingbot, OAI-SearchBot, ChatGPT-User, GPTBot,
+# ClaudeBot, Claude-User, Claude-SearchBot, PerplexityBot, Applebot,
+# Applebot-Extended, DuckDuckBot, YandexBot and every other agent.
+#
+# TO OPT OUT OF AI TRAINING while keeping AI *search* visibility, add groups
+# for the training-only crawlers (they are separate tokens on purpose):
+#   User-agent: GPTBot          -> OpenAI model training
+#   User-agent: Google-Extended -> Gemini / Vertex AI grounding and training
+#   User-agent: ClaudeBot       -> Anthropic model training
+#   User-agent: Applebot-Extended
+#   Disallow: /
+# Do NOT block OAI-SearchBot, ChatGPT-User, Claude-User, Claude-SearchBot,
+# PerplexityBot or Bingbot: those are the agents that surface and cite pages
+# in AI answers.
+
 User-agent: *
 Allow: /
 

@@ -1,0 +1,94 @@
+---
+// Site-wide footer. Besides the brand line it carries the standing internal
+// link graph: every page links to every catalog category, to the guides and
+// to the About/contacts page, so no landing page is more than one click away
+// from anywhere on the site (and no category depends on the JS-driven
+// catalog filter to be reachable).
+import { CATEGORIES } from '../data/categories.mjs';
+import { GUIDES } from '../data/guides.mjs';
+import { OLX_URL, SITE_NAME, SKUFNYA_URL } from '../data/site.config.mjs';
+import { href } from '../utils/urls';
+
+const currentYear = new Date().getFullYear();
+
+const columns = [
+  {
+    title: 'Каталог',
+    links: [
+      { label: 'Усі категорії', href: href('catalog/') },
+      ...CATEGORIES.map((category) => ({
+        label: category.shortLabel,
+        href: href(`catalog/${category.slug}/`),
+      })),
+    ],
+  },
+  {
+    title: 'Гайди',
+    links: [
+      { label: 'Усі гайди', href: href('guides/') },
+      ...GUIDES.map((guide) => ({
+        label: guide.heading,
+        href: href(`guides/${guide.slug}/`),
+      })),
+    ],
+  },
+  {
+    title: 'Про майстерню',
+    links: [
+      { label: 'Про нас і контакти', href: href('about/') },
+      { label: 'Доставка та оплата', href: href('about/#delivery') },
+      { label: 'Як зробити замовлення', href: href('about/#how-to-order') },
+      { label: 'English overview', href: href('en/') },
+    ],
+  },
+];
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <nav class="site-footer__nav" aria-label="Мапа сайту">
+      {columns.map((column) => (
+        <div class="site-footer__column">
+          <h2 class="site-footer__column-title">{column.title}</h2>
+          <ul class="site-footer__list" role="list">
+            {column.links.map((link) => (
+              <li>
+                <a class="site-footer__nav-link" href={link.href}>{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </nav>
+
+    <div class="site-footer__inner">
+      <div>
+        <strong>{SITE_NAME}</strong>
+        <p class="site-footer__text">
+          3D-друковані 10-дюймові серверні стійки, NAS-корпуси та кріплення для
+          HomeLab. Друк PLA і PETG у Києві, доставка по Україні.
+        </p>
+      </div>
+
+      <div class="site-footer__meta">
+        <a
+          class="site-footer__link"
+          href={OLX_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Профіль на OLX
+        </a>
+        <a
+          class="site-footer__link"
+          href={SKUFNYA_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          SKUFNYA
+        </a>
+        <span>© {currentYear}</span>
+      </div>
+    </div>
+  </div>
+</footer>

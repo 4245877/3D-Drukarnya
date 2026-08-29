@@ -9,6 +9,10 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 import { checkBuild } from '../scripts/check-build.mjs';
+import { CATEGORIES } from '../src/data/categories.mjs';
+import { GUIDES } from '../src/data/guides.mjs';
+import { STATIC_ROUTE_PATHS } from '../src/data/routes.mjs';
+import { INDEXNOW_KEY } from '../src/data/site.config.mjs';
 
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
 const distDir = path.join(projectRoot, 'dist');
@@ -43,7 +47,7 @@ test('production build generates every product page and the sitemap', async (t) 
 
   const products = await loadProducts();
   const slugs = products.map(({ slug }) => slug);
-  assert.equal(products.length, 37, 'production build must contain all 37 products');
+  assert.equal(products.length, 38, 'production build must contain all 38 products');
 
   await t.test('catalog page exists', async () => {
     await access(path.join(distDir, 'index.html'));
@@ -76,25 +80,86 @@ test('production build generates every product page and the sitemap', async (t) 
     }
   });
 
-  await t.test('sitemap contains the catalog and every product URL', async () => {
-    const sitemap = await readFile(path.join(distDir, 'sitemap.xml'), 'utf8');
+  await t.test('every category landing page exists', async () => {
+    for (const { slug } of CATEGORIES) {
+      await access(path.join(distDir, 'catalog', slug, 'index.html'));
+    }
+    await access(path.join(distDir, 'catalog', 'index.html'));
+  });
 
-    assert.ok(
-      sitemap.includes(`<loc>${SITE_BASE}</loc>`),
-      'sitemap is missing the catalog URL',
+  await t.test('every guide page exists', async () => {
+    for (const { slug } of GUIDES) {
+      await access(path.join(distDir, 'guides', slug, 'index.html'));
+    }
+    await access(path.join(distDir, 'guides', 'index.html'));
+  });
+
+  await t.test('sitemap lists exactly the indexable URLs', async () => {
+    const sitemap = await readFile(path.join(distDir, 'sitemap.xml'), 'utf8');
+    const locs = Array.from(sitemap.matchAll(/<loc>([^<]+)<\/loc>/g), (m) => m[1]);
+
+    const expected = [
+      ...STATIC_ROUTE_PATHS.map((routePath) => `${SITE_BASE}${routePath}`),
+      ...slugs.map((slug) => `${SITE_BASE}products/${slug}/`),
+    ];
+
+    assert.deepEqual(
+      [...locs].sort(),
+      [...expected].sort(),
+      'sitemap does not match the set of indexable routes',
     );
 
-    for (const slug of slugs) {
-      const url = `${SITE_BASE}products/${slug}/`;
-      assert.ok(sitemap.includes(`<loc>${url}</loc>`), `sitemap is missing ${url}`);
+    // Non-canonical and non-indexable URLs must never be listed.
+    for (const forbidden of ['404', 'robots.txt', 'sitemap.xml', INDEXNOW_KEY]) {
+      assert.ok(
+        !locs.some((loc) => loc.includes(forbidden)),
+        `sitemap must not list ${forbidden}`,
+      );
+    }
+  });
+
+  await t.test('crawler-facing files are published', async () => {
+    const robots = await readFile(path.join(distDir, 'robots.txt'), 'utf8');
+    assert.ok(
+      robots.includes(`Sitemap: ${SITE_BASE}sitemap.xml`),
+      'robots.txt must point at the sitemap',
+    );
+    const robotsLines = robots.split('\n').map((line) => line.trim());
+    assert.ok(robotsLines.includes('Allow: /'), 'robots.txt must allow crawling');
+    assert.ok(
+      !robotsLines.some((line) => /^Disallow:\s*\/$/.test(line)),
+      'robots.txt must not disallow the whole site',
+    );
+
+    // IndexNow proves ownership with a key file whose body is exactly the key.
+    const keyFile = await readFile(path.join(distDir, `${INDEXNOW_KEY}.txt`), 'utf8');
+    assert.equal(keyFile.trim(), INDEXNOW_KEY);
+  });
+
+  await t.test('hreflang alternates are reciprocal and self-referencing', async () => {
+    const pages = {
+      uk: await readFile(path.join(distDir, 'index.html'), 'utf8'),
+      en: await readFile(path.join(distDir, 'en', 'index.html'), 'utf8'),
+    };
+
+    for (const [name, html] of Object.entries(pages)) {
+      const alternates = Array.from(
+        html.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g),
+        (m) => [m[1], m[2]],
+      );
+      assert.deepEqual(
+        alternates,
+        [
+          ['uk', SITE_BASE],
+          ['en', `${SITE_BASE}en/`],
+          ['x-default', SITE_BASE],
+        ],
+        `${name} page publishes the wrong hreflang set`,
+      );
     }
 
-    const locCount = (sitemap.match(/<loc>/g) ?? []).length;
-    assert.equal(
-      locCount,
-      slugs.length + 1,
-      'sitemap contains unexpected extra URLs',
-    );
+    assert.ok(pages.en.includes('<html lang="en">'), '/en/ must declare lang="en"');
+    assert.ok(pages.uk.includes('<html lang="uk">'), 'home page must declare lang="uk"');
   });
 
   await t.test('product pages carry no inline event handlers', async () => {

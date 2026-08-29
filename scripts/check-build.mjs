@@ -18,6 +18,12 @@ const productsDir = path.join(projectRoot, 'src', 'data', 'products');
 const { PRICE_PER_GRAM_UAH, computePriceFromWeight } = await import(
   new URL('../src/data/pricing.config.mjs', import.meta.url)
 );
+const { STATIC_ROUTE_PATHS } = await import(
+  new URL('../src/data/routes.mjs', import.meta.url)
+);
+const { INDEXNOW_KEY } = await import(
+  new URL('../src/data/site.config.mjs', import.meta.url)
+);
 
 // Must mirror astro.config.mjs (site + base + trailingSlash: 'always').
 const SITE_BASE = 'https://4245877.github.io/3D-Drukarnya/';
@@ -75,16 +81,26 @@ export async function checkBuild() {
       JSON.parse(await readFile(path.join(productsDir, name), 'utf8')),
     ),
   );
-  check(products.length === 37, `expected 37 product JSON files, found ${products.length}`);
+  check(products.length === 38, `expected 38 product JSON files, found ${products.length}`);
 
   // ── Required pages ──
   for (const product of products) {
     const page = path.join(distDir, 'products', product.slug, 'index.html');
     check((await fileSize(page)) > 0, `missing product page: products/${product.slug}/`);
   }
-  check((await fileSize(path.join(distDir, 'index.html'))) > 0, 'missing dist/index.html');
+  // Every declared route (home, catalog hub, category landing pages, guides
+  // hub, guides, About, /en/) must have been built.
+  for (const routePath of STATIC_ROUTE_PATHS) {
+    const page = path.join(distDir, routePath, 'index.html');
+    check((await fileSize(page)) > 0, `missing page for route: /${routePath}`);
+  }
   check((await fileSize(path.join(distDir, '404.html'))) > 0, 'missing dist/404.html');
   check((await fileSize(path.join(distDir, 'sitemap.xml'))) > 0, 'missing dist/sitemap.xml');
+  check((await fileSize(path.join(distDir, 'robots.txt'))) > 0, 'missing dist/robots.txt');
+  check(
+    (await fileSize(path.join(distDir, `${INDEXNOW_KEY}.txt`))) > 0,
+    'missing the IndexNow key file in dist',
+  );
 
   // ── Branding assets must survive the build ──
   for (const asset of ['OGimage.png', 'logo.svg', 'images/product-placeholder.svg',
@@ -233,6 +249,113 @@ export async function checkBuild() {
 
     // Favicon links resolve (and never point at the removed favicon.svg)
     check(!/rel="icon"[^>]*favicon\.svg/.test(html), where('links the removed favicon.svg'));
+
+    // Exactly one <h1> per page. Two H1s make the page's subject ambiguous
+    // to both search engines and to anything summarising the page.
+    const h1Count = (html.match(/<h1[\s>]/g) ?? []).length;
+    check(h1Count === 1, where(`expected exactly 1 <h1>, got ${h1Count}`));
+
+    // The canonical must address THIS page, not another one. Catches a
+    // copy-pasted canonicalPath, which silently de-indexes a page.
+    const expectedPath = rel === 'index.html' ? '' : rel.replace(/index\.html$/, '');
+    const expectedCanonical =
+      rel === '404.html' ? `${SITE_BASE}404.html` : `${SITE_BASE}${expectedPath}`;
+    check(
+      canonical === expectedCanonical,
+      where(`canonical ${canonical} does not match the page's own URL ${expectedCanonical}`),
+    );
+
+    // og:url always mirrors the canonical.
+    const ogUrl = html.match(/property="og:url" content="([^"]*)"/)?.[1];
+    check(ogUrl === canonical, where(`og:url ${ogUrl} != canonical ${canonical}`));
+
+    // Indexable pages must not carry a noindex directive, and vice versa.
+    const robotsMeta = html.match(/<meta name="robots" content="([^"]*)"/)?.[1] ?? '';
+    if (rel === '404.html') {
+      check(robotsMeta.includes('noindex'), where('404 page must be noindex'));
+    } else {
+      check(!robotsMeta.includes('noindex'), where(`indexable page carries "${robotsMeta}"`));
+    }
+
+    const graphNodes = (() => {
+      const raw = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1];
+      if (!raw) return [];
+      try {
+        return JSON.parse(raw)['@graph'] ?? [];
+      } catch {
+        return [];
+      }
+    })();
+
+    // A FAQPage may only publish questions the page also shows. Applies to
+    // every page, not just the home page: the same rule, one check.
+    const faqLd = graphNodes.find((node) => node['@type'] === 'FAQPage');
+    const visibleQuestions = [...html.matchAll(/data-faq-question[^>]*>([\s\S]*?)<\//g)].map((m) =>
+      normalizeText(m[1]),
+    );
+    const visibleAnswers = [...html.matchAll(/data-faq-answer[^>]*>([\s\S]*?)<\//g)].map((m) =>
+      normalizeText(m[1]),
+    );
+    if (faqLd) {
+      check(
+        JSON.stringify(faqLd.mainEntity.map((q) => normalizeText(q.name))) ===
+          JSON.stringify(visibleQuestions),
+        where('FAQPage questions differ between the page and its JSON-LD'),
+      );
+      check(
+        JSON.stringify(
+          faqLd.mainEntity.map((q) => normalizeText(q.acceptedAnswer.text)),
+        ) === JSON.stringify(visibleAnswers),
+        where('FAQPage answers differ between the page and its JSON-LD'),
+      );
+    } else {
+      check(
+        visibleQuestions.length === 0,
+        where('page shows a FAQ but publishes no FAQPage node'),
+      );
+    }
+
+    // BreadcrumbList must describe the trail the page actually renders.
+    const breadcrumbLd = graphNodes.find((node) => node['@type'] === 'BreadcrumbList');
+    if (breadcrumbLd) {
+      const visibleCrumbs = [
+        ...html.matchAll(/<li class="breadcrumbs__item">([\s\S]*?)<\/li>/g),
+      ].map((m) => normalizeText(m[1].replace(/<[^>]+>/g, ' ')));
+      const ldCrumbs = breadcrumbLd.itemListElement.map((item) => normalizeText(item.name));
+
+      // The home page has no visible breadcrumb bar; its single-item list is
+      // the page itself, which is legitimate.
+      if (visibleCrumbs.length > 0) {
+        check(
+          JSON.stringify(ldCrumbs) === JSON.stringify(visibleCrumbs),
+          where(
+            `BreadcrumbList differs from the visible trail
+  visible: ${JSON.stringify(visibleCrumbs)}
+  json-ld: ${JSON.stringify(ldCrumbs)}`,
+          ),
+        );
+      }
+
+      // Positions are 1-based and contiguous.
+      const positions = breadcrumbLd.itemListElement.map((item) => item.position);
+      check(
+        positions.every((position, index) => position === index + 1),
+        where(`BreadcrumbList positions are not contiguous: ${JSON.stringify(positions)}`),
+      );
+    }
+
+    // hreflang alternates, where present, must include a self-reference.
+    const alternates = [...html.matchAll(/rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)];
+    if (alternates.length > 0) {
+      check(
+        alternates.some(([, , url]) => url === canonical),
+        where('hreflang set does not reference this page itself'),
+      );
+      check(
+        alternates.some(([, lang]) => lang === 'x-default'),
+        where('hreflang set has no x-default'),
+      );
+    }
   }
 
   // ── Product pages: visible price/availability vs JSON-LD ──
