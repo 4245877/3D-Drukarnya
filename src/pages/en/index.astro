@@ -9,9 +9,9 @@ import { LANGUAGE_ALTERNATES } from '../../data/i18n.mjs';
 import { absoluteUrl, href } from '../../utils/urls';
 import {
   breadcrumbNode,
-  businessNode,
   faqNode,
   graph,
+  organizationNode,
   webPageNode,
   websiteNode,
 } from '../../utils/schema.mjs';
@@ -73,7 +73,7 @@ const breadcrumbItems = [
 
 const structuredData = graph([
   websiteNode(),
-  businessNode(),
+  organizationNode(),
   {
     ...webPageNode({
       url: pageUrl,

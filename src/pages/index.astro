@@ -10,11 +10,11 @@ import { OLX_URL, SITE_NAME } from '../data/site.config.mjs';
 import { CATALOG_CATEGORIES, getAllProducts } from '../utils/products';
 import { absoluteUrl, href } from '../utils/urls';
 import {
-  breadcrumbNode,
-  businessNode,
+  ORGANIZATION_ID,
   faqNode,
   graph,
   itemListNode,
+  organizationNode,
   webPageNode,
   websiteNode,
 } from '../utils/schema.mjs';
@@ -56,15 +56,15 @@ const categoryLinks = CATEGORIES.map((category) => ({
 
 const structuredData = graph([
   websiteNode(),
-  businessNode(),
+  organizationNode(),
   webPageNode({
     url: homepageUrl,
     name: '10-дюймові серверні стійки, NAS-корпуси та кріплення для HomeLab',
     description,
     type: 'CollectionPage',
-    breadcrumbId: `${homepageUrl}#breadcrumbs`,
   }),
-  breadcrumbNode(homepageUrl, [{ name: 'Головна', url: homepageUrl }]),
+  // No BreadcrumbList: the home page renders no breadcrumb bar, and a
+  // single-item trail that points at the page itself describes no path.
   itemListNode(
     homepageUrl,
     CATEGORIES.map((category) => ({
@@ -78,20 +78,17 @@ const structuredData = graph([
     '@id': `${homepageUrl}#printing-service`,
     name: 'Друк деталей для серверних стійок і HomeLab на замовлення',
     serviceType: 'FDM 3D-друк на замовлення',
-    provider: { '@id': `${homepageUrl}#local-business` },
+    provider: { '@id': ORGANIZATION_ID },
     areaServed: [
       { '@type': 'City', name: 'Київ' },
       { '@type': 'Country', name: 'Україна' },
     ],
     description:
       'Друк 10-дюймових серверних стійок, NAS-корпусів, кріплень і аксесуарів для HomeLab з PETG та PLA, а також друк за моделлю замовника.',
-    // No availability here: this is a made-to-order service, and InStock
-    // must not be published without a confirmed status.
-    offers: {
-      '@type': 'Offer',
-      url: homepageUrl,
-      priceCurrency: 'UAH',
-    },
+    // No `offers` node: custom printing has no published price, and an Offer
+    // carrying only a currency states nothing. Prices live on the products,
+    // where they are real. No availability either — this is made to order,
+    // and InStock must not be published without a confirmed status.
   },
   // Generated from the same FAQ_ITEMS array as the visible FAQ section
   // below — same questions, same answers, same order, nothing hidden.

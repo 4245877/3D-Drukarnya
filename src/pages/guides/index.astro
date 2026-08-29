@@ -6,9 +6,9 @@ import { SITE_NAME } from '../../data/site.config.mjs';
 import { absoluteUrl, href } from '../../utils/urls';
 import {
   breadcrumbNode,
-  businessNode,
   graph,
   itemListNode,
+  organizationNode,
   webPageNode,
   websiteNode,
 } from '../../utils/schema.mjs';
@@ -30,7 +30,7 @@ const breadcrumbItems = [
 
 const structuredData = graph([
   websiteNode(),
-  businessNode(),
+  organizationNode(),
   webPageNode({
     url: pageUrl,
     name: 'Гайди про 10-дюймові стійки, HomeLab і NAS',

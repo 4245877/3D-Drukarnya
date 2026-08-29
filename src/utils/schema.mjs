@@ -3,7 +3,7 @@
 // Every page emits one <script type="application/ld+json"> holding a single
 // "@graph". The nodes below keep the stable @id values that the rest of the
 // site references (product pages point their Offer.seller at
-// `<site>#local-business`, breadcrumbs point at `<site>#website`), so the
+// `<site>#organization`, breadcrumbs point at `<site>#website`), so the
 // graph joins up across pages instead of repeating disconnected islands.
 //
 // Only entities that are actually present on the page may be added to its
@@ -14,8 +14,8 @@ import { OLX_URL, SITE_NAME, SITE_URL, SKUFNYA_URL, absoluteUrl } from '../data/
 /** Stable @id of the site-wide WebSite node. */
 export const WEBSITE_ID = `${SITE_URL}#website`;
 
-/** Stable @id of the site-wide business node (also the Offer seller). */
-export const BUSINESS_ID = `${SITE_URL}#local-business`;
+/** Stable @id of the site-wide organization node (also the Offer seller). */
+export const ORGANIZATION_ID = `${SITE_URL}#organization`;
 
 const LOGO_URL = absoluteUrl('apple-touch-icon.png');
 const OG_IMAGE_URL = absoluteUrl('OGimage.png');
@@ -39,22 +39,36 @@ export function websiteNode() {
     url: SITE_URL,
     inLanguage: 'uk-UA',
     description: BUSINESS_DESCRIPTION,
-    publisher: { '@id': BUSINESS_ID },
+    publisher: { '@id': ORGANIZATION_ID },
   };
 }
 
 /**
- * The workshop behind the catalog. LocalBusiness rather than a bare
- * Organization because pickup in Kyiv is a real, published service; the node
- * carries only facts the site states elsewhere (city, country, channels).
- * No street address, phone, rating or founding date is invented.
+ * The workshop behind the catalog, and the seller in every Offer.
+ *
+ * Deliberately `Organization`, not `LocalBusiness`. schema.org defines
+ * LocalBusiness as "a particular physical business or branch of an
+ * organization", and Google's LocalBusiness documentation makes `address`
+ * — "the physical location of the business" — a required property. This
+ * workshop publishes a city and a pickup district, no street address, no
+ * phone and no opening hours; declaring LocalBusiness on that basis would
+ * assert a storefront that does not exist. Organization is true of exactly
+ * what the site does state, and is a valid `seller` / `publisher` / `author`
+ * all the same.
+ *
+ * Switch back to LocalBusiness (and re-add `priceRange`, `openingHours`,
+ * `telephone`) only once a real, publicly stated address and contact
+ * channel exist on /about/ — see SEO-AI-SEARCH-SETUP.md, section 11.
+ *
+ * The node carries only facts the site states elsewhere (city, country,
+ * channels). No street address, phone, rating or founding date is invented.
  *
  * @returns {Record<string, unknown>}
  */
-export function businessNode() {
+export function organizationNode() {
   return {
-    '@type': 'LocalBusiness',
-    '@id': BUSINESS_ID,
+    '@type': 'Organization',
+    '@id': ORGANIZATION_ID,
     name: SITE_NAME,
     url: SITE_URL,
     description: BUSINESS_DESCRIPTION,
@@ -74,8 +88,9 @@ export function businessNode() {
       { '@type': 'City', name: 'Київ' },
       { '@type': 'Country', name: 'Україна' },
     ],
-    currenciesAccepted: 'UAH',
-    priceRange: '₴₴',
+    // `currenciesAccepted` and `priceRange` are LocalBusiness-only
+    // properties and are deliberately absent here; the currency of every
+    // price is published where it belongs, on each Offer.
     sameAs: [OLX_URL, SKUFNYA_URL],
     knowsAbout: [
       '10-дюймова серверна стійка',
@@ -139,10 +154,16 @@ export function breadcrumbNode(pageUrl, items) {
 }
 
 /**
- * FAQPage node. Google retired FAQ rich results in 2025, but the markup is
- * still valid schema.org, is still consumed by Bing and by assistants that
- * parse JSON-LD, and costs nothing — as long as every question here is also
- * rendered visibly on the page, which the build checks enforce.
+ * FAQPage node.
+ *
+ * Google stopped showing FAQ rich results in Search on 7 May 2026 and is
+ * removing the FAQ report and Rich Results Test support behind it, so this
+ * markup buys no rich result and is not claimed to make any assistant cite
+ * the page. It is kept only because it is valid schema.org that restates,
+ * in machine-readable form, a FAQ block the page genuinely renders — every
+ * question and answer here must also be visible on the page, which the
+ * build checks enforce. Delete the node, not the visible FAQ, if it ever
+ * becomes a liability.
  *
  * @param {string} pageUrl
  * @param {Array<{ question: string, answer: string }>} items

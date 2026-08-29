@@ -19,6 +19,7 @@ import {
   resolveGuides,
   validateGuideDefinitions,
 } from '../src/data/guides.mjs';
+import { LANGUAGE_ALTERNATES } from '../src/data/i18n.mjs';
 import { CATALOG_CATEGORIES, SLUG_PATTERN } from '../src/data/product.schema.mjs';
 import { STATIC_ROUTES, STATIC_ROUTE_PATHS } from '../src/data/routes.mjs';
 
@@ -167,4 +168,50 @@ test('only guides publish a lastmod, and it matches their dateModified', () => {
       assert.equal(route.lastmod, undefined, `route "${route.path}" invents a lastmod`);
     }
   }
+});
+
+test('hreflang alternates only join pages that actually exist', () => {
+  // hreflang declares "this is the same page in another language". Every
+  // entry therefore has to point at a route the site really builds — an
+  // alternate added ahead of its translation is a link to a 404, and one
+  // pointing at a page that is not a counterpart (a Ukrainian category to
+  // the English home page, say) misdescribes both.
+  assert.ok(LANGUAGE_ALTERNATES.length > 0, 'the alternate set must not be empty');
+
+  const languageEntries = LANGUAGE_ALTERNATES.filter(
+    (alternate) => alternate.hreflang !== 'x-default',
+  );
+
+  for (const { hreflang, path } of LANGUAGE_ALTERNATES) {
+    assert.match(path, /^\/(?:[a-z0-9-]+\/)*$/, `alternate path "${path}" is not a site path`);
+
+    const routePath = path.replace(/^\/+/, '');
+    assert.ok(
+      STATIC_ROUTE_PATHS.includes(routePath),
+      `hreflang "${hreflang}" points at "${path}", which is not a built route`,
+    );
+
+    if (hreflang === 'x-default') continue;
+    assert.match(hreflang, /^[a-z]{2}(?:-[A-Z]{2})?$/, `"${hreflang}" is not a BCP 47 code`);
+  }
+
+  // Reciprocity, self-reference and uniqueness are what search engines check.
+  const languageCodes = languageEntries.map((alternate) => alternate.hreflang);
+  assert.equal(
+    new Set(languageCodes).size,
+    languageCodes.length,
+    'a language is declared twice',
+  );
+
+  const paths = languageEntries.map((alternate) => alternate.path);
+  assert.equal(new Set(paths).size, paths.length, 'two languages claim the same path');
+
+  const defaults = LANGUAGE_ALTERNATES.filter(
+    (alternate) => alternate.hreflang === 'x-default',
+  );
+  assert.equal(defaults.length, 1, 'there must be exactly one x-default');
+  assert.ok(
+    paths.includes(defaults[0].path),
+    'x-default must point at one of the language versions',
+  );
 });

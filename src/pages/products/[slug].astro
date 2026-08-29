@@ -14,10 +14,10 @@ import { getAllProducts, getRelatedProducts } from '../../utils/products';
 import type { Product } from '../../utils/products';
 import { absoluteUrl, href } from '../../utils/urls';
 import {
-  BUSINESS_ID,
+  ORGANIZATION_ID,
   breadcrumbNode,
-  businessNode,
   graph,
+  organizationNode,
   webPageNode,
   websiteNode,
 } from '../../utils/schema.mjs';
@@ -261,7 +261,7 @@ const additionalProperties = [
 // The seller is the same business node the rest of the site publishes; the
 // full description lives once, in src/utils/schema.mjs, and every offer just
 // references it by @id.
-const seller = { '@id': BUSINESS_ID };
+const seller = { '@id': ORGANIZATION_ID };
 
 const offerShared = {
   priceCurrency: 'UAH',
@@ -295,14 +295,20 @@ const breadcrumbItems = [
 
 const structuredData = graph([
   websiteNode(),
-  businessNode(),
-  webPageNode({
-    url: productUrl,
-    name: product.title,
-    description: product.shortDescription,
-    type: 'ItemPage',
-    breadcrumbId: `${productUrl}#breadcrumbs`,
-  }),
+  organizationNode(),
+  {
+    ...webPageNode({
+      url: productUrl,
+      name: product.title,
+      description: product.shortDescription,
+      type: 'ItemPage',
+      breadcrumbId: `${productUrl}#breadcrumbs`,
+    }),
+    // WebPage.mainEntity is the schema.org-sanctioned way to say "this page
+    // is about that Product". The reverse link (Product.isPartOf) is NOT:
+    // isPartOf is defined on CreativeWork, and a Product is not one.
+    mainEntity: { '@id': `${productUrl}#product` },
+  },
   {
       '@type': 'Product',
       '@id': `${productUrl}#product`,
@@ -325,7 +331,6 @@ const structuredData = graph([
         name: '3D Друкарня',
       },
       additionalProperty: additionalProperties.length > 0 ? additionalProperties : undefined,
-      isPartOf: { '@id': `${productUrl}#webpage` },
       mainEntityOfPage: productUrl,
       offers,
   },

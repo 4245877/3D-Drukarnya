@@ -2,11 +2,12 @@
 // Submits the site's canonical URLs to IndexNow after a deploy.
 //
 // IndexNow is a push protocol: instead of waiting for a crawler to notice a
-// change, the site tells participating engines which URLs to re-fetch. Bing,
-// Yandex, Seznam, Naver and Yep consume it (and share submissions with each
-// other). Google does NOT participate — Google discovers changes through the
-// sitemap and normal crawling, which is why the sitemap stays the primary
-// mechanism and this is an addition, not a replacement.
+// change, the site tells participating engines which URLs to re-fetch. The
+// official roster (https://www.indexnow.org/searchengines.json) is Bing,
+// Yandex, Seznam, Naver, Yep, the Internet Archive and Amazonbot; they share
+// submissions with each other. Google does NOT participate — it discovers
+// changes through the sitemap and normal crawling, which is why the sitemap
+// stays the primary mechanism and this is an addition, not a replacement.
 //
 // Ownership is proved by a key file served from the site itself
 // (public/<key>.txt). Because the key file must be publicly readable at a

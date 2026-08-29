@@ -99,9 +99,10 @@ jobs:
         uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
 
   # Tells the IndexNow-participating engines (Bing, Yandex, Seznam, Naver,
-  # Yep) which URLs to re-fetch, once they are actually live. Google does not
-  # participate — it discovers changes through the sitemap. Skipped on the
-  # weekly rebuild cron, which republishes identical content.
+  # Yep, the Internet Archive, Amazonbot) which URLs to re-fetch, once they
+  # are actually live. Google does not participate — it discovers changes
+  # through the sitemap. Skipped on the weekly rebuild cron, which
+  # republishes identical content.
   indexnow:
     needs: deploy
     if: github.event_name != 'schedule'

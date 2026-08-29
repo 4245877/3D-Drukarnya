@@ -24,6 +24,9 @@ const { STATIC_ROUTE_PATHS } = await import(
 const { INDEXNOW_KEY } = await import(
   new URL('../src/data/site.config.mjs', import.meta.url)
 );
+const { LANGUAGE_ALTERNATES } = await import(
+  new URL('../src/data/i18n.mjs', import.meta.url)
+);
 
 // Must mirror astro.config.mjs (site + base + trailingSlash: 'always').
 const SITE_BASE = 'https://4245877.github.io/3D-Drukarnya/';
@@ -31,6 +34,32 @@ const BASE_PATH = '/3D-Drukarnya/';
 
 const DANGEROUS_HREF = /^(javascript|data|vbscript):/i;
 const INLINE_HANDLER = /\son[a-z]+\s*=\s*["']/i;
+
+// ── hreflang: the exact, whole-site expectation ──────────────────────────
+// hreflang may only join pages that are genuine counterparts of each other.
+// Deriving the expectation from src/data/i18n.mjs means BOTH mistakes fail
+// the build: a translated page that drops (or reorders) its set, and — the
+// one that silently damages a site — an untranslated category, guide or
+// product page that starts advertising the English home page as its
+// "translation".
+const alternateHref = (path) => `${SITE_BASE}${path.replace(/^\/+/, '')}`;
+
+/** Ordered [hreflang, href] pairs every translated page must publish. */
+const EXPECTED_ALTERNATES = LANGUAGE_ALTERNATES.map(({ hreflang, path }) => [
+  hreflang,
+  alternateHref(path),
+]);
+
+/** dist-relative HTML files that are allowed (and required) to publish them. */
+const TRANSLATED_PAGES = new Set(
+  LANGUAGE_ALTERNATES.filter(({ hreflang }) => hreflang !== 'x-default').map(({ path }) => {
+    const clean = path.replace(/^\/+/, '');
+    return clean === '' ? 'index.html' : `${clean}index.html`;
+  }),
+);
+
+/** Stable site-wide JSON-LD @id values any page may reference. */
+const SITE_NODE_IDS = new Set([`${SITE_BASE}#website`, `${SITE_BASE}#organization`]);
 
 /** Decodes the entities Astro emits when escaping interpolated text. */
 function decodeEntities(value) {
@@ -344,17 +373,81 @@ export async function checkBuild() {
       );
     }
 
-    // hreflang alternates, where present, must include a self-reference.
-    const alternates = [...html.matchAll(/rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)];
+    // ── hreflang ──
+    // Translated pages publish the whole reciprocal set (self-reference and
+    // x-default included); every other page publishes none. Linking a
+    // Ukrainian category page to the English home page would claim they are
+    // translations of each other, which they are not.
+    const alternates = [...html.matchAll(/rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)].map(
+      ([, hreflang, url]) => [hreflang, url],
+    );
+    const expectedAlternates = TRANSLATED_PAGES.has(rel) ? EXPECTED_ALTERNATES : [];
+    check(
+      JSON.stringify(alternates) === JSON.stringify(expectedAlternates),
+      where(
+        `wrong hreflang set
+  published: ${JSON.stringify(alternates)}
+  expected:  ${JSON.stringify(expectedAlternates)}`,
+      ),
+    );
     if (alternates.length > 0) {
       check(
-        alternates.some(([, , url]) => url === canonical),
+        alternates.some(([, url]) => url === canonical),
         where('hreflang set does not reference this page itself'),
       );
       check(
-        alternates.some(([, lang]) => lang === 'x-default'),
+        alternates.some(([hreflang]) => hreflang === 'x-default'),
         where('hreflang set has no x-default'),
       );
+    }
+
+    // ── JSON-LD graph integrity ──
+    // Every {"@id": …} reference must resolve to a node defined on this page
+    // or to a stable site-wide node, so the graph never points at an entity
+    // that does not exist. Catches a renamed @id left behind in one caller.
+    if (graphNodes.length > 0) {
+      const definedIds = new Set(
+        graphNodes.map((node) => node['@id']).filter((id) => typeof id === 'string'),
+      );
+      const references = [];
+      const collect = (value) => {
+        if (Array.isArray(value)) {
+          value.forEach(collect);
+        } else if (value && typeof value === 'object') {
+          const keys = Object.keys(value);
+          if (keys.length === 1 && keys[0] === '@id') references.push(value['@id']);
+          else Object.values(value).forEach(collect);
+        }
+      };
+      collect(graphNodes);
+      for (const reference of references) {
+        check(
+          definedIds.has(reference) || SITE_NODE_IDS.has(reference),
+          where(`JSON-LD references an @id that no node defines: ${reference}`),
+        );
+      }
+
+      // A Product node describes one purchasable item and belongs on that
+      // item's own page. Listing pages use ItemList, never inline Products.
+      const hasProductNode = graphNodes.some((node) => node['@type'] === 'Product');
+      check(
+        hasProductNode === rel.startsWith('products/'),
+        where(
+          hasProductNode
+            ? 'Product node on a page that is not a product page'
+            : 'product page has no Product node',
+        ),
+      );
+
+      // Whatever sells, sells as the one organization the site publishes.
+      for (const node of graphNodes) {
+        const sellerId = node?.offers?.seller?.['@id'];
+        if (node['@type'] !== 'Product' || sellerId === undefined) continue;
+        check(
+          sellerId === `${SITE_BASE}#organization`,
+          where(`Offer.seller is ${sellerId}, expected ${SITE_BASE}#organization`),
+        );
+      }
     }
   }
 

@@ -10,10 +10,10 @@ import type { Product } from '../../utils/products';
 import { absoluteUrl, href } from '../../utils/urls';
 import {
   breadcrumbNode,
-  businessNode,
   faqNode,
   graph,
   itemListNode,
+  organizationNode,
   webPageNode,
   websiteNode,
 } from '../../utils/schema.mjs';
@@ -61,7 +61,7 @@ const priceFormatter = new Intl.NumberFormat('uk-UA');
 
 const structuredData = graph([
   websiteNode(),
-  businessNode(),
+  organizationNode(),
   webPageNode({
     url: pageUrl,
     name: category.heading,

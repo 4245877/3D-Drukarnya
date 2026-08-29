@@ -12,11 +12,11 @@ import { GUIDE_BY_SLUG, resolveGuides } from '../data/guides.mjs';
 import { SITE_NAME } from '../data/site.config.mjs';
 import { absoluteUrl, href } from '../utils/urls';
 import {
-  BUSINESS_ID,
+  ORGANIZATION_ID,
   breadcrumbNode,
-  businessNode,
   faqNode,
   graph,
+  organizationNode,
   webPageNode,
   websiteNode,
 } from '../utils/schema.mjs';
@@ -59,7 +59,7 @@ const updatedLabel = dateFormatter.format(new Date(`${guide.dateModified}T00:00:
 
 const structuredData = graph([
   websiteNode(),
-  businessNode(),
+  organizationNode(),
   webPageNode({
     url: pageUrl,
     name: guide.heading,
@@ -75,8 +75,8 @@ const structuredData = graph([
     inLanguage: 'uk-UA',
     datePublished: guide.datePublished,
     dateModified: guide.dateModified,
-    author: { '@id': BUSINESS_ID },
-    publisher: { '@id': BUSINESS_ID },
+    author: { '@id': ORGANIZATION_ID },
+    publisher: { '@id': ORGANIZATION_ID },
     isPartOf: { '@id': `${pageUrl}#webpage` },
     mainEntityOfPage: pageUrl,
     about: guide.topics.map((topic: string) => ({ '@type': 'Thing', name: topic })),

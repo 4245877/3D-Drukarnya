@@ -6,11 +6,11 @@ import { OLX_URL, SITE_NAME, SKUFNYA_URL } from '../data/site.config.mjs';
 import { getAllProducts } from '../utils/products';
 import { absoluteUrl, href } from '../utils/urls';
 import {
-  BUSINESS_ID,
+  ORGANIZATION_ID,
   breadcrumbNode,
-  businessNode,
   faqNode,
   graph,
+  organizationNode,
   webPageNode,
   websiteNode,
 } from '../utils/schema.mjs';
@@ -76,7 +76,7 @@ const breadcrumbItems = [
 
 const structuredData = graph([
   websiteNode(),
-  businessNode(),
+  organizationNode(),
   {
     ...webPageNode({
       url: pageUrl,
@@ -85,7 +85,7 @@ const structuredData = graph([
       type: 'AboutPage',
       breadcrumbId: `${pageUrl}#breadcrumbs`,
     }),
-    mainEntity: { '@id': BUSINESS_ID },
+    mainEntity: { '@id': ORGANIZATION_ID },
   },
   breadcrumbNode(pageUrl, breadcrumbItems),
   faqNode(pageUrl, faq),

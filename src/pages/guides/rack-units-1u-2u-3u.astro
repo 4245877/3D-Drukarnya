@@ -4,8 +4,10 @@ import ProductLink from '../../components/ProductLink.astro';
 import { href } from '../../utils/urls';
 
 // Reference data below comes from EIA-310, the standard that defines the
-// rack unit. 1U = 1.75 in = 44.45 mm exactly; the millimetre column is that
-// value multiplied out, not an estimate.
+// rack unit for 19-inch racks. 1U = 1.75 in = 44.45 mm exactly; the
+// millimetre column is that value multiplied out, not an estimate. The
+// 10-inch format is NOT covered by EIA-310 — makers simply reuse the same
+// 44.45 mm pitch — so the page never attributes 10-inch racks to it.
 const UNITS = [1, 2, 3, 4, 5, 6, 8, 10, 12];
 const MM_PER_UNIT = 44.45;
 const formatMm = (value: number) =>
@@ -24,10 +26,11 @@ const formatMm = (value: number) =>
         порахувати, чи поміститься пристрій у стійку.
       </p>
       <p>
-        Розмір юніта закріплений стандартом EIA-310:{' '}
-        <strong>1U = 1,75 дюйма = 44,45 мм</strong>. Це значення однакове для
-        19-дюймових серверних стійок і для 10-дюймових домашніх — між форматами
-        відрізняється лише монтажна ширина, а не крок по висоті.
+        Розмір юніта закріплений стандартом EIA-310 для 19-дюймових стійок:{' '}
+        <strong>1U = 1,75 дюйма = 44,45 мм</strong>. Сам формат 10 дюймів окремим
+        стандартом не описаний, але виробники 10-дюймових стійок використовують
+        той самий крок по висоті — між форматами на практиці відрізняється лише
+        монтажна ширина.
       </p>
     </div>
   </section>
@@ -38,8 +41,8 @@ const formatMm = (value: number) =>
     <div class="content-table-wrap">
       <table class="content-table">
         <caption>
-          Розрахунок за EIA-310: 1U = 44,45 мм. Довідкові дані, однакові для 10- і
-          19-дюймових стійок.
+          Розрахунок за кроком EIA-310: 1U = 44,45 мм. Довідкові дані; той самий
+          крок по висоті на практиці застосовують і в 10-дюймових стійках.
         </caption>
         <thead>
           <tr>
@@ -67,7 +70,7 @@ const formatMm = (value: number) =>
         Реальні пристрої зазвичай на кілька міліметрів нижчі за свій юніт: виробники
         залишають технологічний зазор, щоб сусіднє обладнання не тиснуло одне на
         одного і його можна було вийняти зі стійки. Тому 1U-комутатор має висоту
-        трохи меншу за 44,45 мм — це нормально й передбачено стандартом.
+        трохи меншу за 44,45 мм — це нормальна практика, а не дефект.
       </p>
       <p>
         Окремо зустрічається формат <strong>1/2U</strong> — половина юніта, приблизно
