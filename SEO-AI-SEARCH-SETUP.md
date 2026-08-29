@@ -99,6 +99,37 @@
    «Запросити індексування». Повторіть для сторінок зі списку в розділі 9.
 6. За 2–7 днів перевірте **Індексування → Сторінки**: скільки URL проіндексовано
    і чи немає причин виключення.
+7. **Settings → Search generative AI** — якщо цей пункт доступний у вашому
+   ресурсі, відкрийте його і переконайтеся, що вибрано **«Include my site's
+   links and content in Search generative AI features»**. Якщо стоїть
+   **«Inherit control from parent»** — перевірте, що батьківський ресурс має
+   саме дозвільне значення. **Не перемикайте нічого автоматично** — це дія
+   власника акаунта.
+
+> **Про Search generative AI control.** За
+> [довідкою Search Console](https://support.google.com/webmasters/answer/16908024)
+> цей контроль вирішує, чи бере сайт участь у **AI Overviews, AI Mode й
+> генеративних AI-функціях у Discover**. Значень три: *Include my site's links
+> and content in Search generative AI features* (**значення за замовчуванням для
+> всіх ресурсів**), *Exclude my site's links and content from Search generative
+> AI features* і *Inherit control from parent* — дочірній ресурс успадковує
+> налаштування найближчого батьківського, у якого контроль заданий явно;
+> перевизначити його вручну можна будь-коли.
+>
+> Google **розкочує цей контроль лише на частину власників сайтів**: «We're
+> rolling out this control to a subset of website owners, allowing for thorough
+> testing before rolling it out further». Тому відсутність пункта в меню — **не
+> помилка ресурсу** і не привід щось міняти на сайті.
+>
+> Не плутайте з `Google-Extended` (розділ 7). Контроль у Search Console регулює
+> **участь сайту в Search generative AI features** — AI Overviews / AI Mode та
+> супутніх. `Google-Extended` стосується **використання контенту в інших
+> AI/model contexts** — навчання майбутніх Gemini і grounding у Gemini Apps /
+> Vertex AI — і, за
+> [документацією Google](https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers),
+> «does not impact a site's inclusion in Google Search nor is it used as a
+> ranking signal in Google Search». Це два різні важелі; у цьому проєкті обидва
+> відкриті.
 
 ---
 
@@ -326,8 +357,9 @@ Job **не запускається** на щотижневому cron-пере�
 
 ## 10. Як моніторити появу сайту в AI-пошуку
 
-Єдиного «AI Search Console» не існує, але два з трьох потрібних джерел уже
-офіційні. Стан перевірено 29.08.2026.
+Єдиної кросплатформної «AI Search Console» не існує, але і Google, і Microsoft
+уже мають власні офіційні звіти про видимість в AI-відповідях. Стан перевірено
+29.08.2026.
 
 ### 10.1. Bing Webmaster Tools → AI Performance (головний KPI)
 
@@ -343,7 +375,18 @@ Microsoft має **справжній звіт про цитування в AI-�
 | **Average Cited Pages** | скільки унікальних сторінок сайту цитується в середньому за день |
 | **Grounding queries** | запити, за якими AI діставав ваш контент (вибірка, не повний список) |
 | Page-level citation activity | цитування в розрізі конкретних URL |
-| Intents / Topics / Citation Share / Compare | наміри, теми, частка цитувань і порівняння з конкурентами (додано в червні 2026) |
+
+Додаткові KPI — **AI Visibility Insights**, які Microsoft
+[оголосив 16 червня 2026](https://blogs.bing.com/search/June-2026/New-AI-Visibility-Insights-in-Bing-Webmaster-Tools-Intents-Topics-Citation-Share-Compare)
+і почав розкочувати в preview глобально, всередині того самого звіту
+AI Performance. Дивіться їх, **якщо вони вже доступні акаунту**:
+
+| Метрика | Що означає |
+| --- | --- |
+| **Intents** | grounding queries, класифіковані за наміром: Informational, Commercial, Navigational, Learn and Solve, Research, Creation, Local та інші |
+| **Topics** | споріднені grounding queries, згруповані в тематичні кластери — видно, які теми дають цитування |
+| **Citation Share** | яку **частку** цитувань за конкретним grounding query отримує ваш сайт, а не просто скільки їх було |
+| **Compare** | накладання попереднього періоду на поточний — динаміка цитувань у часі (це порівняння **періодів**, не конкурентів) |
 
 Покриття: **Microsoft Copilot, AI-відповіді в Bing і окремі партнерські
 інтеграції**.
@@ -354,22 +397,50 @@ Citations, які саме URL цитуються і які grounding queries ї
 основна метрика прогресу — саме за нею видно, чи почали гайди працювати як
 джерела.
 
-Обмеження, які Microsoft заявляє прямо: це **public preview**; grounding
-queries — вибірка, а не повний перелік; кількість цитувань **не є** показником
-важливості, рейтингу чи позиції сторінки.
+Обмеження, які Microsoft заявляє прямо: це **public preview** (і базовий звіт,
+і чотири нові розрізи); grounding queries — вибірка, а не повний перелік;
+кількість цитувань **не є** показником важливості, рейтингу чи позиції
+сторінки.
 
-### 10.2. Google Search Console → окремого звіту немає
+### 10.2. Google Search Console → Generative AI performance report
 
-Це треба знати, щоб не шукати неіснуючу кнопку.
-[Документація Google](https://developers.google.com/search/docs/appearance/ai-features)
-стверджує прямо: сайти, що зʼявляються в AI-функціях (AI Overviews і AI Mode),
-**включені в загальний пошуковий трафік** у Search Console — у звіті
-**Performance (Ефективність)**, тип пошуку **«Веб»**. Окремого розрізу для
-AI Overviews або AI Mode немає, відфільтрувати їх неможливо.
+**3 червня 2026 Google запустив окремий звіт** — **Generative AI performance
+report (Search)**. Попереднє твердження цього документа, ніби окремого
+AI-звіту в Search Console не існує, **застаріло**.
 
-Практичний висновок: у GSC дивіться не «AI-звіт», а **зростання показів за
-інформаційними запитами** («1U скільки мм», «що поміститься в 10-дюймову
-стійку»). Це непрямий, але єдиний доступний сигнал з боку Google.
+Звіт покриває **AI Overviews і AI Mode**. Дані з експериментів Search Labs у
+нього не входять: «Search Console doesn't include data from experiments in
+Search Labs, as these experiments are still in active development».
+
+Що показує — за
+[довідкою Google](https://support.google.com/webmasters/answer/16984139):
+
+| Розріз | Що означає |
+| --- | --- |
+| **Impressions** | скільки разів посилання на сайт були показані користувачу в генеративній AI-функції Пошуку |
+| **Pages** | у розрізі конкретних URL |
+| **Countries** | у розрізі країн |
+| **Devices** | desktop / tablet / mobile |
+| **Dates** | динаміка за період |
+
+Де шукати: **Performance → Generative AI performance report (Search)**.
+
+**Якщо звіту у вашому ресурсі немає — це не помилка сайту.** Google розкочує
+його **лише на частину ресурсів Search Console**: «We're rolling out this
+report to a subset of website owners, allowing for thorough testing before
+rolling it further». Звіт також може не показуватися, якщо показів надто мало.
+
+Практичний висновок — залежно від того, що доступно:
+
+- **звіт є** — використовуйте саме його для моніторингу AI visibility з боку
+  Google: раз на 2–4 тижні фіксуйте impressions і які сторінки їх дають;
+- **звіту немає** — нічого лагодити не треба, це обмежений rollout; поверніться
+  до цього пункту пізніше;
+- **у будь-якому разі** звичайний **Performance → тип пошуку «Веб»**
+  **як і раніше містить цей трафік в агрегованому вигляді** — окремо
+  відфільтрувати в ньому AI Overviews чи AI Mode не можна. Тому там дивіться
+  **зростання показів за інформаційними запитами** («1U скільки мм», «що
+  поміститься в 10-дюймову стійку»).
 
 Там само Google фіксує ще дві речі, важливі для нас: краулером для AI-функцій
 є **звичайний Googlebot** (окремого AI-краулера немає), а обмежують показ у них
@@ -417,8 +488,9 @@ GitHub Pages не дає доступу до логів. Якщо це стан�
 у ChatGPT (з увімкненим пошуком), Perplexity, Google AI Overviews, Copilot і
 Gemini. Фіксуйте дату, систему, запит і те, чи був сайт у джерелах.
 
-Це не заміна пункту 10.1 — це його доповнення: Bing показує цифри, ручна
-перевірка показує формулювання, за яких вас цитують.
+Це не заміна пунктів 10.1 і 10.2 — це їх доповнення: Bing (а там, де звіт уже
+доступний, і Google) показує цифри, ручна перевірка показує формулювання, за
+яких вас цитують.
 
 ---
 
