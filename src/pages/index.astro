@@ -7,7 +7,7 @@ import { FAQ_ITEMS } from '../data/faq';
 import { GUIDES } from '../data/guides.mjs';
 import { LANGUAGE_ALTERNATES } from '../data/i18n.mjs';
 import { OLX_URL, SITE_NAME } from '../data/site.config.mjs';
-import { CATALOG_CATEGORIES, getAllProducts } from '../utils/products';
+import { getAllProducts } from '../utils/products';
 import { absoluteUrl, href } from '../utils/urls';
 import {
   ORGANIZATION_ID,
@@ -21,16 +21,9 @@ import {
 import { toJsonLd } from '../utils/text';
 
 import '../styles/pages/catalog.css';
-import '../styles/pages/content.css';
 
 const products = getAllProducts();
 const featuredProductCount = products.filter((product) => product.featured).length;
-const categoryCounts = new Map(
-  CATALOG_CATEGORIES.map((category) => [
-    category,
-    products.filter((product) => product.category === category).length,
-  ]),
-);
 
 // The catalog is entirely about compact home-server hardware, so the home
 // page says exactly that. A generic "3D printing service" framing described
@@ -46,9 +39,11 @@ const keywords =
 const olxUrl = OLX_URL;
 const homepageUrl = absoluteUrl('');
 
-// Static, JS-free navigation into every category landing page. The filter
-// buttons below are a convenience for people; these links are what crawlers
-// and assistants follow, and they exist in the HTML with scripting disabled.
+// One list drives both category surfaces on this page: the compact chip rail
+// above the grid (a JS convenience, buttons — they filter, they do not
+// navigate) and the "Розділи каталогу" cards below it. Those cards are the
+// static, JS-free links into every category landing page — what crawlers and
+// assistants follow, present in the HTML with scripting disabled.
 const categoryLinks = CATEGORIES.map((category) => ({
   ...category,
   count: products.filter((product) => product.category === category.name).length,
@@ -367,87 +362,80 @@ const structuredData = graph([
       </div>
     </section>
 
-    <section class="catalog-seo" aria-labelledby="categories-title">
-      <div class="container">
-        <div class="catalog-seo__intro">
-          <p class="kicker">Категорії</p>
-          <h2 id="categories-title">Каталог за категоріями</h2>
-          <p>
-            Дев'ять розділів, які відповідають етапам збірки домашньої лабораторії:
-            від каркаса 10-дюймової стійки до патч-панелі й кабельного органайзера.
-            Кожен розділ — окрема сторінка з поясненням, що і для чого обирати.
-          </p>
-        </div>
+    {/*
+      The catalog itself opens the page: the chip rail below is the whole
+      category navigation, so the first thing under the hero is product
+      cards rather than a screen-high grid of category tiles. The full
+      category descriptions still exist — they moved under the grid.
+    */}
+    <section
+      class="catalog-main"
+      id="catalog"
+      aria-labelledby="catalog-title"
+      data-catalog-main
+    >
+      <div class="catalog-rail" data-catalog-rail>
+        <div class="container">
+          <div class="catalog-rail__head">
+            <h2 id="catalog-title" class="catalog-rail__title">Каталог</h2>
 
-        <div class="content-grid">
-          {categoryLinks.map((category) => (
-            <article class="content-card">
-              <h3 class="content-card__title">
-                <a href={href(`catalog/${category.slug}/`)}>{category.heading}</a>
-              </h3>
-              <p class="content-card__text">{category.description}</p>
-              <p class="content-card__meta">{category.count} товарів</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section aria-labelledby="print-examples-title">
-      <div class="container">
-        <h2 id="print-examples-title" class="sr-only">
-          Каталог: стійки, NAS-корпуси та кріплення
-        </h2>
-
-        <div class="catalog-controls" data-catalog-controls>
-          <div class="catalog-controls__left">
-            <p class="catalog-results-count">
-              Показано <strong data-catalog-visible-count>{products.length}</strong> із{' '}
-              <strong>{products.length}</strong> прикладів друку.
+            <p class="catalog-rail__count">
+              <span class="catalog-rail__count-prefix">Показано</span>{' '}
+              <strong data-catalog-visible-count>{products.length}</strong> із{' '}
+              <strong>{products.length}</strong> позицій
             </p>
+
+            {/* Default target is the category index; the script repoints it at
+                the active category's landing page while a filter is on, so the
+                chips never become a dead end. */}
+            <a class="catalog-rail__link" href={href('catalog/')} data-catalog-section-link>
+              Усі категорії
+            </a>
           </div>
 
+          {/* Progressive-enhancement category navigation. It is rendered hidden
+              and revealed by the catalog script only after all filter targets
+              are found, so a no-JS visit keeps the complete merchandising-ordered
+              catalog visible, with the crawlable category links further down the
+              page and in the footer. */}
           <nav
-            class="catalog-category-nav"
+            class="catalog-chips"
             aria-label="Фільтр каталогу за категорією"
             hidden
             data-catalog-category-nav
           >
             <button
-              class="catalog-category-nav__button"
+              class="catalog-chip"
               type="button"
               aria-pressed="true"
               data-catalog-filter="all"
             >
-              <span>Усі</span>
-              <span class="catalog-category-nav__count" aria-hidden="true">{products.length}</span>
+              <span data-chip-label>Усі товари</span>
+              <span class="catalog-chip__count" aria-hidden="true">{products.length}</span>
             </button>
 
             <button
-              class="catalog-category-nav__button"
+              class="catalog-chip"
               type="button"
               aria-pressed="false"
               data-catalog-filter="featured"
             >
-              <span>Популярне / почати звідси</span>
-              <span class="catalog-category-nav__count" aria-hidden="true">
-                {featuredProductCount}
-              </span>
+              <span data-chip-label>Популярне</span>
+              <span class="catalog-chip__count" aria-hidden="true">{featuredProductCount}</span>
             </button>
 
             {
-              CATALOG_CATEGORIES.map((category) => (
+              categoryLinks.map((category) => (
                 <button
-                  class="catalog-category-nav__button"
+                  class="catalog-chip"
                   type="button"
                   aria-pressed="false"
                   data-catalog-filter="category"
-                  data-catalog-category={category}
+                  data-catalog-category={category.name}
+                  data-catalog-href={href(`catalog/${category.slug}/`)}
                 >
-                  <span>{category}</span>
-                  <span class="catalog-category-nav__count" aria-hidden="true">
-                    {categoryCounts.get(category) ?? 0}
-                  </span>
+                  <span data-chip-label>{category.shortLabel}</span>
+                  <span class="catalog-chip__count" aria-hidden="true">{category.count}</span>
                 </button>
               ))
             }
@@ -460,81 +448,90 @@ const structuredData = graph([
             data-catalog-filter-status
           ></p>
         </div>
+      </div>
 
-        <div class="catalog-layout">
-          <aside class="catalog-sidebar">
-            <div class="catalog-filter-section">
-              <div class="catalog-filter-section__head">
-                <span class="catalog-filter-section__label">Про каталог</span>
-              </div>
-
-              <div class="catalog-filter-section__body">
-                <div class="catalog-filter-section__inner">
-                  <p class="catalog-results-count">
-                    Деталі для домашньої серверної інфраструктури: стійки, кріплення,
-                    корпуси й аксесуари. Усе друкується під замовлення.
-                  </p>
+      <div class="container">
+        <div class="catalog-content">
+          {
+            products.length > 0 ? (
+              <>
+                <div class="catalog-grid" data-catalog-grid>
+                  {products.map((product) => (
+                    <div
+                      class="catalog-grid__item"
+                      data-catalog-item
+                      data-product-sku={product.sku}
+                      data-product-family={product.familyId ?? undefined}
+                      data-catalog-category={product.category ?? ''}
+                      data-catalog-featured={product.featured ? 'true' : 'false'}
+                    >
+                      <ProductCard product={product} />
+                    </div>
+                  ))}
                 </div>
-              </div>
-            </div>
 
-            <div class="catalog-filter-section">
-              <div class="catalog-filter-section__head">
-                <span class="catalog-filter-section__label">Теми</span>
-              </div>
-
-              <div class="catalog-filter-section__body">
-                <div class="catalog-filter-section__inner">
-                  <ul class="catalog-tag-list" role="list">
-                    <li class="tag tag--copper">10" rack</li>
-                    <li class="tag tag--copper">HomeLab</li>
-                    <li class="tag tag--copper">NAS</li>
-                    <li class="tag tag--copper">Rack mount</li>
-                    <li class="tag tag--copper">PETG</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </aside>
-
-          <div class="catalog-content">
-            {
-              products.length > 0 ? (
-                <>
-                  <div class="catalog-grid" data-catalog-grid>
-                    {products.map((product) => (
-                      <div
-                        class="catalog-grid__item"
-                        data-catalog-item
-                        data-product-sku={product.sku}
-                        data-product-family={product.familyId ?? undefined}
-                        data-catalog-category={product.category ?? ''}
-                        data-catalog-featured={product.featured ? 'true' : 'false'}
-                      >
-                        <ProductCard product={product} />
-                      </div>
-                    ))}
-                  </div>
-
-                  <div class="catalog-no-results" hidden data-catalog-filter-empty>
-                    <div class="catalog-no-results__art" aria-hidden="true">∅</div>
-                    <h2 class="catalog-no-results__title">У цій категорії поки немає товарів</h2>
-                    <p class="catalog-no-results__text">
-                      Оберіть іншу категорію або поверніться до всього каталогу.
-                    </p>
-                  </div>
-                </>
-              ) : (
-                <div class="catalog-no-results">
-                  <div class="catalog-no-results__art">∅</div>
-                  <h2 class="catalog-no-results__title">Приклади поки що не додані</h2>
+                <div class="catalog-no-results" hidden data-catalog-filter-empty>
+                  <div class="catalog-no-results__art" aria-hidden="true">∅</div>
+                  <h2 class="catalog-no-results__title">У цій категорії поки немає товарів</h2>
                   <p class="catalog-no-results__text">
-                    Додай перший приклад у джерело даних, і він зʼявиться тут автоматично.
+                    Оберіть іншу категорію або поверніться до всього каталогу.
                   </p>
                 </div>
-              )
-            }
+              </>
+            ) : (
+              <div class="catalog-no-results">
+                <div class="catalog-no-results__art">∅</div>
+                <h2 class="catalog-no-results__title">Приклади поки що не додані</h2>
+                <p class="catalog-no-results__text">
+                  Додай перший приклад у джерело даних, і він зʼявиться тут автоматично.
+                </p>
+              </div>
+            )
+          }
+        </div>
+
+        <aside class="catalog-note" aria-label="Про каталог">
+          <p class="catalog-note__text">
+            Деталі для домашньої серверної інфраструктури: стійки, кріплення,
+            корпуси й аксесуари. Усе друкується під замовлення.
+          </p>
+
+          <ul class="catalog-note__tags" role="list">
+            <li class="tag tag--copper">10" rack</li>
+            <li class="tag tag--copper">HomeLab</li>
+            <li class="tag tag--copper">NAS</li>
+            <li class="tag tag--copper">Rack mount</li>
+            <li class="tag tag--copper">PETG</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="catalog-cats" aria-labelledby="categories-title">
+      <div class="container">
+        <div class="catalog-cats__head">
+          <div>
+            <p class="kicker">Категорії</p>
+            <h2 id="categories-title">Розділи каталогу</h2>
           </div>
+
+          <p class="catalog-cats__lead">
+            Дев'ять розділів, які відповідають етапам збірки домашньої лабораторії:
+            від каркаса 10-дюймової стійки до патч-панелі й кабельного органайзера.
+            Кожен розділ — окрема сторінка з поясненням, що і для чого обирати.
+          </p>
+        </div>
+
+        <div class="catalog-tiles">
+          {categoryLinks.map((category) => (
+            <article class="catalog-tile">
+              <h3 class="catalog-tile__title">
+                <a href={href(`catalog/${category.slug}/`)}>{category.heading}</a>
+              </h3>
+              <p class="catalog-tile__text">{category.description}</p>
+              <p class="catalog-tile__meta">{category.count} товарів</p>
+            </article>
+          ))}
         </div>
       </div>
     </section>
@@ -613,13 +610,13 @@ const structuredData = graph([
           </p>
         </div>
 
-        <div class="content-grid">
+        <div class="catalog-tiles">
           {GUIDES.map((guide) => (
-            <article class="content-card">
-              <h3 class="content-card__title">
+            <article class="catalog-tile">
+              <h3 class="catalog-tile__title">
                 <a href={href(`guides/${guide.slug}/`)}>{guide.heading}</a>
               </h3>
-              <p class="content-card__text">{guide.description}</p>
+              <p class="catalog-tile__text">{guide.description}</p>
             </article>
           ))}
         </div>
@@ -664,9 +661,54 @@ const structuredData = graph([
         '[data-catalog-filter-status]',
       );
       const filterEmpty = catalogPage.querySelector<HTMLElement>('[data-catalog-filter-empty]');
+      const catalogMain = catalogPage.querySelector<HTMLElement>('[data-catalog-main]');
+      const sectionLink = catalogPage.querySelector<HTMLAnchorElement>(
+        '[data-catalog-section-link]',
+      );
 
       if (categoryNav && filterButtons.length > 0 && catalogItems.length > 0) {
         categoryNav.hidden = false;
+
+        // The unfiltered state of the contextual link, restored whenever the
+        // active filter is not a single category.
+        const defaultLinkHref = sectionLink?.getAttribute('href') ?? '';
+        const defaultLinkLabel = sectionLink?.textContent?.trim() ?? '';
+
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const scrollBehavior = (): ScrollBehavior => (motionQuery.matches ? 'auto' : 'smooth');
+
+        // Sticky-header height, so a programmatic scroll never parks the rail
+        // underneath the header.
+        const headerOffset = () => {
+          const raw = getComputedStyle(document.documentElement).getPropertyValue('--header-h');
+          const parsed = Number.parseFloat(raw);
+          return Number.isFinite(parsed) ? parsed : 0;
+        };
+
+        // On narrow screens the rail scrolls horizontally; keep the chip the
+        // user just pressed inside the visible part of it.
+        const revealChip = (button: HTMLButtonElement) => {
+          if (categoryNav.scrollWidth <= categoryNav.clientWidth) return;
+
+          categoryNav.scrollTo({
+            left: button.offsetLeft - (categoryNav.clientWidth - button.offsetWidth) / 2,
+            behavior: scrollBehavior(),
+          });
+        };
+
+        // Filtering shortens the grid, so a viewport parked deep in the old
+        // list can end up below the new one. Pull the page back to the rail
+        // when it is already past the start of the catalog.
+        const keepCatalogInView = () => {
+          if (!catalogMain) return;
+
+          const start =
+            catalogMain.getBoundingClientRect().top + window.scrollY - headerOffset();
+
+          if (window.scrollY > start) {
+            window.scrollTo({ top: start, behavior: scrollBehavior() });
+          }
+        };
 
         const applyFilter = (activeButton: HTMLButtonElement) => {
           const filter = activeButton.dataset.catalogFilter;
@@ -690,10 +732,29 @@ const structuredData = graph([
           if (visibleCount) visibleCount.textContent = String(shownItems);
           if (filterEmpty) filterEmpty.hidden = shownItems !== 0;
 
+          const activeLabel =
+            activeButton.querySelector('[data-chip-label]')?.textContent?.trim() ?? '';
+
+          // A filtered view is not a page; the link beside the count is what
+          // carries the reader on to the category's own landing page.
+          if (sectionLink) {
+            const categoryHref = activeButton.dataset.catalogHref;
+
+            if (filter === 'category' && categoryHref) {
+              sectionLink.setAttribute('href', categoryHref);
+              sectionLink.textContent = `Про категорію «${activeLabel}»`;
+            } else {
+              sectionLink.setAttribute('href', defaultLinkHref);
+              sectionLink.textContent = defaultLinkLabel;
+            }
+          }
+
           if (filterStatus) {
-            const activeLabel = activeButton.querySelector('span')?.textContent?.trim() ?? '';
             filterStatus.textContent = `Фільтр «${activeLabel}»: показано ${shownItems} із ${catalogItems.length} товарів.`;
           }
+
+          revealChip(activeButton);
+          keepCatalogInView();
         };
 
         filterButtons.forEach((button) => {
