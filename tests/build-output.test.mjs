@@ -74,6 +74,99 @@ test('production build generates every product page and the sitemap', async (t) 
     );
   });
 
+  await t.test('catalog sidebar and mobile drawer keep their accessible DOM contract', async () => {
+    const catalogHtml = await readFile(path.join(distDir, 'index.html'), 'utf8');
+
+    const openingTag = (tagName, markerAttribute) =>
+      catalogHtml.match(
+        new RegExp(
+          `<${tagName}\\b[^>]*\\b${markerAttribute}(?=[\\s=>])[^>]*>`,
+          'i',
+        ),
+      )?.[0] ?? '';
+    const attribute = (tag, name) =>
+      tag.match(new RegExp(`\\s${name}="([^"]*)"`, 'i'))?.[1];
+    const hasAttribute = (tag, name) =>
+      new RegExp(`\\s${name}(?=[\\s=>])`, 'i').test(tag);
+
+    const sidebar = openingTag('aside', 'data-catalog-sidebar');
+    assert.ok(sidebar, 'catalog sidebar is missing');
+    assert.equal(attribute(sidebar, 'id'), 'catalog-sidebar');
+    assert.equal(attribute(sidebar, 'aria-labelledby'), 'catalog-sidebar-title');
+    assert.match(catalogHtml, /\bid="catalog-sidebar-title"/);
+
+    const mobileTrigger = openingTag('button', 'data-catalog-sidebar-open');
+    assert.ok(mobileTrigger, 'mobile catalog trigger is missing');
+    assert.equal(attribute(mobileTrigger, 'aria-controls'), 'catalog-sidebar');
+    assert.equal(attribute(mobileTrigger, 'aria-expanded'), 'false');
+
+    const mobileToolbar = openingTag('div', 'data-catalog-mobile-toolbar');
+    const backdrop = openingTag('button', 'data-catalog-sidebar-backdrop');
+    const categoryNav = openingTag('nav', 'data-catalog-category-nav');
+    assert.ok(mobileToolbar, 'mobile catalog toolbar is missing');
+    assert.ok(backdrop, 'catalog drawer backdrop is missing');
+    assert.ok(categoryNav, 'catalog filter navigation is missing');
+    assert.ok(hasAttribute(mobileToolbar, 'hidden'), 'mobile toolbar must start hidden');
+    assert.ok(hasAttribute(backdrop, 'hidden'), 'drawer backdrop must start hidden');
+    assert.ok(hasAttribute(categoryNav, 'hidden'), 'filter navigation must start hidden');
+    assert.ok(
+      attribute(categoryNav, 'aria-label')?.trim() ||
+        attribute(categoryNav, 'aria-labelledby')?.trim(),
+      'catalog filter navigation needs an accessible name',
+    );
+
+    const filterButtons = Array.from(
+      catalogHtml.matchAll(
+        /<button\b(?=[^>]*\bdata-catalog-filter="[^"]*")[^>]*>/gi,
+      ),
+      (match) => match[0],
+    ).map((tag) => ({
+      filter: attribute(tag, 'data-catalog-filter'),
+      pressed: attribute(tag, 'aria-pressed'),
+      category: attribute(tag, 'data-catalog-category'),
+      href: attribute(tag, 'data-catalog-href'),
+    }));
+
+    assert.equal(filterButtons.length, CATEGORIES.length + 2);
+    assert.equal(filterButtons.filter(({ filter }) => filter === 'all').length, 1);
+    assert.equal(filterButtons.filter(({ filter }) => filter === 'featured').length, 1);
+    assert.equal(
+      filterButtons.filter(({ filter }) => filter === 'category').length,
+      CATEGORIES.length,
+    );
+    assert.deepEqual(
+      filterButtons.filter(({ pressed }) => pressed === 'true').map(({ filter }) => filter),
+      ['all'],
+      'only the all-products filter may be pressed initially',
+    );
+    assert.ok(
+      filterButtons.every(({ pressed, filter }) =>
+        filter === 'all' ? pressed === 'true' : pressed === 'false',
+      ),
+      'every inactive catalog filter must publish aria-pressed="false"',
+    );
+
+    const renderedCategories = filterButtons
+      .filter(({ filter }) => filter === 'category')
+      .map(({ category, href }) => ({ category, href }));
+    const expectedCategories = CATEGORIES.map((category) => ({
+      category: category.name,
+      href: new URL(`catalog/${category.slug}/`, SITE_BASE).pathname,
+    }));
+    assert.deepEqual(renderedCategories, expectedCategories);
+
+    const filterStatus = openingTag('p', 'data-catalog-filter-status');
+    assert.ok(filterStatus, 'catalog filter live region is missing');
+    assert.equal(attribute(filterStatus, 'aria-live'), 'polite');
+    assert.equal(attribute(filterStatus, 'aria-atomic'), 'true');
+
+    const classNames = Array.from(catalogHtml.matchAll(/\bclass="([^"]*)"/g), (match) =>
+      match[1].split(/\s+/),
+    ).flat();
+    assert.ok(!classNames.includes('catalog-rail'), 'legacy catalog-rail class remains');
+    assert.ok(!classNames.includes('catalog-chips'), 'legacy catalog-chips class remains');
+  });
+
   await t.test('every product page exists', async () => {
     for (const slug of slugs) {
       await access(path.join(distDir, 'products', slug, 'index.html'));

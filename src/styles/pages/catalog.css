@@ -3,13 +3,13 @@
    Depends on: base.css · layout.css
    Sections:
      1. Catalog hero (slim) + Home Lab rack illustration
-     2. Category rail — sticky chips + result meta
-     3. Product grid (full width) + closing note strip
+     2. Catalog sidebar + mobile drawer
+     3. Product grid + closing note strip
      4. Empty state
      5. Category cards · SEO/FAQ sections
      6. Responsive breakpoints
    (Unused anime-catalog boilerplate — banners, card variants,
-    quick-filters, quick-view, drawers, skeletons, list/dense
+    quick-view, skeletons, list/dense
     grid modes, error states — has been removed.)
    ============================================================ */
 
@@ -302,104 +302,136 @@
 }
 
 /* ─────────────────────────────────────────────────────────── */
-/* 2. CATEGORY RAIL — chips + result meta                      */
+/* 2. CATALOG SIDEBAR + MOBILE DRAWER                          */
 /* ─────────────────────────────────────────────────────────── */
 
-/* The catalog block owns everything from the rail to the last card, and it
-   is the first thing under the hero: products, not category tiles, are what
-   the reader meets after the first screen. */
+/* This section contains a viewport-fixed drawer at <=900px. It must not keep
+   the page-entry transform assigned to direct catalog-page children, because
+   a transformed ancestor changes the containing block for position: fixed. */
 .catalog-main {
+  padding-top: var(--space-6);
   padding-bottom: var(--space-12);
+  animation: none;
 }
 
-/* Sticky under the site header: 38 cards is a long scroll, and the filter
-   the reader is using should not disappear behind them. */
-.catalog-rail {
+.catalog-layout {
+  display: grid;
+  grid-template-columns: minmax(12.5rem, 13.75rem) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-6);
+}
+
+/* The narrow navigation stays available while the much longer product grid
+   scrolls. Its own scroll area matters on short laptop screens. */
+.catalog-sidebar {
   position: sticky;
-  top: var(--header-h);
-  z-index: 10;
-  margin-bottom: var(--space-5);
-  padding: var(--space-3) 0;
-  background: rgba(245, 237, 224, 0.92);
-  backdrop-filter: blur(14px) saturate(160%);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
-  border-bottom: var(--border-soft);
+  top: calc(var(--header-h) + var(--space-4));
+  max-height: calc(100dvh - var(--header-h) - var(--space-8));
+  overflow-y: auto;
+  padding: var(--space-4);
+  border: var(--border-card);
+  border-radius: var(--radius-lg);
+  background: rgba(252, 248, 241, 0.94);
+  box-shadow: var(--shadow-card);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(142, 63, 67, 0.3) transparent;
 }
 
-.catalog-rail__head {
+.catalog-sidebar__head {
   display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: var(--space-1) var(--space-4);
-  margin-bottom: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
 }
 
-.catalog-rail__title {
+.catalog-sidebar__eyebrow {
   margin: 0;
+  color: var(--text-kicker);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.14em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.catalog-sidebar__title {
+  margin-top: var(--space-1);
   color: var(--chocolate);
-  font-size: var(--fs-lg);
-  line-height: 1.2;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
 }
 
-.catalog-rail__count {
-  margin: 0;
+.catalog-sidebar__close {
+  display: none;
+}
+
+.catalog-sidebar__count {
+  margin-top: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: var(--border-faint);
   color: var(--text-muted);
   font-size: var(--fs-sm);
   line-height: 1.4;
 }
 
-.catalog-rail__count strong {
+.catalog-sidebar__count strong {
   color: var(--chocolate);
   font-weight: var(--fw-semibold);
   font-variant-numeric: tabular-nums;
 }
 
-/* Pushed to the far end of the row. While a category filter is on, the
-   script repoints it at that category's landing page, so a filtered view
-   is never a dead end. */
-.catalog-rail__link {
-  margin-left: auto;
-  color: var(--text-accent);
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-semibold);
-  white-space: nowrap;
+.catalog-filters {
+  margin-top: var(--space-4);
 }
 
-.catalog-rail__link::after {
-  content: ' →';
-}
-
-/* Progressive-enhancement filter chips: hidden until the script confirms
-   every filter target exists (see index.astro). */
-.catalog-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  min-width: 0;
-}
-
-.catalog-chips[hidden] {
+.catalog-filters[hidden] {
   display: none;
 }
 
-.catalog-chip {
+.catalog-filter-group + .catalog-filter-group {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: var(--border-faint);
+}
+
+.catalog-filter-group__title {
+  margin: 0 0 var(--space-2);
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.catalog-filter-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.catalog-filter {
   appearance: none;
-  display: inline-flex;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: center;
   gap: var(--space-2);
-  min-height: 40px;
-  padding: 0.4rem 0.85rem;
-  border: var(--border-soft);
-  border-radius: var(--radius-full);
+  width: 100%;
+  min-height: 44px;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
   color: var(--text-secondary);
-  background: var(--bg-card);
-  box-shadow: var(--shadow-xs);
+  background: transparent;
   font: inherit;
   font-size: var(--fs-sm);
   font-weight: var(--fw-semibold);
-  line-height: 1.2;
-  white-space: nowrap;
+  line-height: 1.25;
+  text-align: left;
   cursor: pointer;
   transition:
     color var(--dur-fast) var(--ease-out),
@@ -408,27 +440,42 @@
     box-shadow var(--dur-fast) var(--ease-out);
 }
 
-.catalog-chip:hover {
+.catalog-filter:hover {
   color: var(--chocolate);
-  border-color: rgba(142, 63, 67, 0.34);
-  background: var(--bg-elevated);
-  box-shadow: var(--shadow-sm);
+  border-color: rgba(142, 63, 67, 0.18);
+  background: rgba(142, 63, 67, 0.07);
 }
 
-.catalog-chip[aria-pressed="true"] {
-  color: #fff;
+.catalog-filter[aria-pressed="true"] {
+  color: var(--text-inverse);
   border-color: var(--accent-hover);
   background: var(--accent-hover);
-  box-shadow: 0 5px 16px rgba(142, 63, 67, 0.24);
+  box-shadow: 0 5px 14px rgba(142, 63, 67, 0.22);
 }
 
-.catalog-chip[aria-pressed="true"]:hover {
-  color: #fff;
+.catalog-filter[aria-pressed="true"]::before {
+  content: '';
+  position: absolute;
+  top: 0.55rem;
+  bottom: 0.55rem;
+  left: -1px;
+  width: 3px;
+  border-radius: 0 var(--radius-full) var(--radius-full) 0;
+  background: var(--copper);
+}
+
+.catalog-filter[aria-pressed="true"]:hover {
+  color: var(--text-inverse);
   border-color: var(--accent-hover);
   background: var(--accent-hover);
 }
 
-.catalog-chip__count {
+.catalog-filter__label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.catalog-filter__count {
   display: inline-grid;
   min-width: 1.5rem;
   height: 1.5rem;
@@ -442,9 +489,31 @@
   place-items: center;
 }
 
-.catalog-chip[aria-pressed="true"] .catalog-chip__count {
-  color: #fff;
+.catalog-filter[aria-pressed="true"] .catalog-filter__count {
+  color: var(--text-inverse);
   background: rgba(255, 255, 255, 0.18);
+}
+
+.catalog-sidebar__link {
+  display: block;
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: var(--border-faint);
+  color: var(--text-accent);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  line-height: 1.4;
+}
+
+.catalog-sidebar__link::after {
+  content: ' →';
+}
+
+/* The compact toolbar exists only in the mobile layout and is unhidden by JS
+   together with the drawer controls. */
+.catalog-mobile-toolbar,
+.catalog-sidebar-backdrop {
+  display: none;
 }
 
 
@@ -452,12 +521,13 @@
 /* 3. PRODUCT GRID                                             */
 /* ─────────────────────────────────────────────────────────── */
 
-.catalog-content { min-width: 0; }
+.catalog-content {
+  min-width: 0;
+}
 
-/* Full container width — the grid is the page's main content, so nothing
-   sits beside it. The 250px track minimum lands four ~280px cards across
-   the 1280px container; min(100%, …) keeps a single card from overflowing
-   a narrower one. */
+/* The grid remains the visual centre: the sidebar takes only ~220px and the
+   cards consume all remaining width. min(100%, …) prevents a lone card from
+   overflowing a narrow track. */
 .catalog-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
@@ -732,9 +802,14 @@
   }
 }
 
-/* ── 1024px: two-up category cards ───────────────────────── */
+/* ── 1024px: compact sidebar + two-up category cards ─────── */
 
 @media (max-width: 1024px) {
+  .catalog-layout {
+    grid-template-columns: 12.5rem minmax(0, 1fr);
+    gap: var(--space-5);
+  }
+
   .catalog-cats__head {
     grid-template-columns: minmax(0, 1fr);
     align-items: start;
@@ -750,7 +825,7 @@
   }
 }
 
-/* ── 900px: stack the rack under the centered copy (never hide it) ── */
+/* ── 900px: mobile catalog drawer + stacked hero ─────────── */
 
 @media (max-width: 900px) {
   .catalog-hero__inner {
@@ -773,9 +848,176 @@
   }
 
   .catalog-hero__rack { width: clamp(200px, 60vw, 300px); }
+
+  .catalog-main {
+    padding-top: 0;
+  }
+
+  .catalog-mobile-toolbar {
+    position: sticky;
+    top: var(--header-h);
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    padding: var(--space-2) 0;
+    background: rgba(245, 237, 224, 0.94);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border-bottom: var(--border-faint);
+  }
+
+  .catalog-mobile-toolbar[hidden] {
+    display: none;
+  }
+
+  .catalog-mobile-trigger {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0.6rem var(--space-4);
+    border: 1px solid rgba(142, 63, 67, 0.28);
+    border-radius: var(--radius-full);
+    color: var(--text-inverse);
+    background: var(--accent-hover);
+    box-shadow: 0 4px 14px rgba(142, 63, 67, 0.2);
+    font: inherit;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-bold);
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .catalog-mobile-trigger svg {
+    flex: 0 0 auto;
+  }
+
+  .catalog-mobile-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    min-width: 0;
+    margin: 0;
+    color: var(--text-muted);
+    font-size: var(--fs-xs);
+    line-height: 1.3;
+  }
+
+  .catalog-mobile-summary strong {
+    max-width: min(46vw, 19rem);
+    overflow: hidden;
+    color: var(--chocolate);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .catalog-layout {
+    display: block;
+  }
+
+  .catalog-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 220;
+    width: min(86vw, 20rem);
+    max-height: 100dvh;
+    padding:
+      max(var(--space-5), env(safe-area-inset-top))
+      var(--space-4)
+      max(var(--space-6), env(safe-area-inset-bottom));
+    border-top: 0;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+    background: var(--bg-card);
+    box-shadow: var(--shadow-xl);
+    transform: translateX(-105%);
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      transform var(--dur-normal) var(--ease-out),
+      visibility var(--dur-normal) step-end;
+  }
+
+  .catalog-sidebar.is-open {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+    transition:
+      transform var(--dur-normal) var(--ease-out),
+      visibility 0s step-start;
+  }
+
+  .catalog-sidebar__close {
+    appearance: none;
+    display: inline-grid;
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: var(--border-card);
+    border-radius: var(--radius-full);
+    color: var(--chocolate);
+    background: var(--bg-inset);
+    font: inherit;
+    font-size: 1.75rem;
+    line-height: 1;
+    place-items: center;
+    cursor: pointer;
+  }
+
+  .catalog-sidebar__close span {
+    transform: translateY(-1px);
+  }
+
+  .catalog-sidebar-backdrop {
+    appearance: none;
+    position: fixed;
+    inset: 0;
+    z-index: 210;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: rgba(46, 27, 16, 0.52);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    cursor: default;
+    transition:
+      opacity var(--dur-normal) var(--ease-out),
+      visibility var(--dur-normal) step-end;
+  }
+
+  .catalog-sidebar-backdrop[hidden] {
+    display: none;
+  }
+
+  .catalog-sidebar-backdrop.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition:
+      opacity var(--dur-normal) var(--ease-out),
+      visibility 0s step-start;
+  }
+
+  body.catalog-drawer-open {
+    overflow: hidden;
+  }
 }
 
-/* ── 768px: one-line rail, chips scroll sideways ─────────── */
+/* ── 768px: compact two-up product grid ──────────────────── */
 
 @media (max-width: 768px) {
   .catalog-hero { padding: var(--space-6) 0; }
@@ -786,70 +1028,6 @@
   .catalog-hero__stats { gap: var(--space-2); margin-top: var(--space-4); }
 
   .catalog-main { padding-bottom: var(--space-8); }
-
-  /* Every row the sticky rail keeps costs the reader a row of products, so
-     here it holds one line of meta plus the chips. The heading stays in the
-     accessibility tree (it labels the section) but leaves the layout — the
-     chips beside it already say what this is. */
-  .catalog-rail {
-    padding: var(--space-2) 0;
-    margin-bottom: var(--space-4);
-  }
-
-  .catalog-rail__title {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
-  .catalog-rail__head {
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: var(--space-3);
-    margin-bottom: var(--space-2);
-  }
-
-  .catalog-rail__count,
-  .catalog-rail__link {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .catalog-rail__count-prefix {
-    display: none;
-  }
-
-  .catalog-chips {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    scroll-padding-inline: var(--space-2);
-    padding-bottom: var(--space-2);
-    scrollbar-width: thin;
-    scrollbar-color: rgba(142, 63, 67, 0.35) transparent;
-  }
-
-  .catalog-chips::-webkit-scrollbar {
-    height: 4px;
-  }
-
-  .catalog-chips::-webkit-scrollbar-thumb {
-    border-radius: var(--radius-full);
-    background: rgba(142, 63, 67, 0.35);
-  }
-
-  .catalog-chip {
-    flex: 0 0 auto;
-    min-height: 36px;
-    scroll-snap-align: start;
-  }
 
   /* Fixed two-up from here down: auto-fill with a 240px track would flip
      between one and two columns across this range as the viewport shrinks. */
@@ -915,9 +1093,13 @@
 /* ── Print ────────────────────────────────────────────────── */
 
 @media print {
-  .catalog-rail,
+  .catalog-sidebar,
+  .catalog-mobile-toolbar,
+  .catalog-sidebar-backdrop,
   .catalog-note,
   .catalog-hero__aside { display: none !important; }
+
+  .catalog-layout { display: block; }
 
   /* Browsers skip backgrounds when printing — without these resets the
      cream hero text would land invisible on white paper, and the

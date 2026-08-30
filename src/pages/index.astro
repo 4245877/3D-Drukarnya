@@ -39,8 +39,8 @@ const keywords =
 const olxUrl = OLX_URL;
 const homepageUrl = absoluteUrl('');
 
-// One list drives both category surfaces on this page: the compact chip rail
-// above the grid (a JS convenience, buttons — they filter, they do not
+// One list drives both category surfaces on this page: the compact sidebar
+// beside the grid (a JS convenience, buttons — they filter, they do not
 // navigate) and the "Розділи каталогу" cards below it. Those cards are the
 // static, JS-free links into every category landing page — what crawlers and
 // assistants follow, present in the HTML with scripting disabled.
@@ -363,10 +363,10 @@ const structuredData = graph([
     </section>
 
     {/*
-      The catalog itself opens the page: the chip rail below is the whole
-      category navigation, so the first thing under the hero is product
-      cards rather than a screen-high grid of category tiles. The full
-      category descriptions still exist — they moved under the grid.
+      The catalog itself opens the page. On wide screens its navigation is a
+      narrow sidebar beside the products; on small screens the same controls
+      become an off-canvas drawer. The full category descriptions remain below
+      the grid as static, crawlable links.
     */}
     <section
       class="catalog-main"
@@ -374,136 +374,193 @@ const structuredData = graph([
       aria-labelledby="catalog-title"
       data-catalog-main
     >
-      <div class="catalog-rail" data-catalog-rail>
-        <div class="container">
-          <div class="catalog-rail__head">
-            <h2 id="catalog-title" class="catalog-rail__title">Каталог</h2>
+      <div class="container">
+        <h2 id="catalog-title" class="sr-only">Каталог товарів</h2>
 
-            <p class="catalog-rail__count">
-              <span class="catalog-rail__count-prefix">Показано</span>{' '}
-              <strong data-catalog-visible-count>{products.length}</strong> із{' '}
+        {/* Hidden until filtering is successfully initialised, so the no-JS
+            page never exposes a drawer control that cannot open anything. */}
+        <div class="catalog-mobile-toolbar" hidden data-catalog-mobile-toolbar>
+          <button
+            class="catalog-mobile-trigger"
+            type="button"
+            aria-expanded="false"
+            aria-controls="catalog-sidebar"
+            data-catalog-sidebar-open
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path d="M4 7h16M7 12h10M10 17h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+            <span>Каталог</span>
+          </button>
+
+          <p class="catalog-mobile-summary">
+            <strong data-catalog-active-label>Усі товари</strong>
+            <span><span data-catalog-visible-count>{products.length}</span> позицій</span>
+          </p>
+        </div>
+
+        <div class="catalog-layout">
+          <aside
+            id="catalog-sidebar"
+            class="catalog-sidebar"
+            aria-labelledby="catalog-sidebar-title"
+            data-catalog-sidebar
+          >
+            <div class="catalog-sidebar__head">
+              <div>
+                <p class="catalog-sidebar__eyebrow">Навігація</p>
+                <p id="catalog-sidebar-title" class="catalog-sidebar__title">Каталог</p>
+              </div>
+
+              <button
+                class="catalog-sidebar__close"
+                type="button"
+                aria-label="Закрити каталог"
+                data-catalog-sidebar-close
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+
+            <p class="catalog-sidebar__count">
+              Показано <strong data-catalog-visible-count>{products.length}</strong> із{' '}
               <strong>{products.length}</strong> позицій
             </p>
 
-            {/* Default target is the category index; the script repoints it at
-                the active category's landing page while a filter is on, so the
-                chips never become a dead end. */}
-            <a class="catalog-rail__link" href={href('catalog/')} data-catalog-section-link>
+            {/* Progressive enhancement: controls are revealed only after every
+                filter target is found. Without JS all products stay visible and
+                static category links remain below the grid and in the footer. */}
+            <nav
+              class="catalog-filters"
+              aria-label="Фільтри каталогу"
+              hidden
+              data-catalog-category-nav
+            >
+              <div class="catalog-filter-group" role="group" aria-labelledby="catalog-quick-filters">
+                <p id="catalog-quick-filters" class="catalog-filter-group__title">Фільтри</p>
+                <div class="catalog-filter-list">
+                  <button
+                    class="catalog-filter"
+                    type="button"
+                    aria-pressed="true"
+                    data-catalog-filter="all"
+                  >
+                    <span class="catalog-filter__label" data-catalog-filter-label>Усі товари</span>
+                    <span class="catalog-filter__count" aria-hidden="true">{products.length}</span>
+                  </button>
+
+                  <button
+                    class="catalog-filter"
+                    type="button"
+                    aria-pressed="false"
+                    data-catalog-filter="featured"
+                  >
+                    <span class="catalog-filter__label" data-catalog-filter-label>Популярне</span>
+                    <span class="catalog-filter__count" aria-hidden="true">{featuredProductCount}</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="catalog-filter-group" role="group" aria-labelledby="catalog-category-filters">
+                <p id="catalog-category-filters" class="catalog-filter-group__title">Категорії</p>
+                <div class="catalog-filter-list">
+                  {
+                    categoryLinks.map((category) => (
+                      <button
+                        class="catalog-filter"
+                        type="button"
+                        aria-pressed="false"
+                        data-catalog-filter="category"
+                        data-catalog-category={category.name}
+                        data-catalog-href={href(`catalog/${category.slug}/`)}
+                      >
+                        <span class="catalog-filter__label" data-catalog-filter-label>
+                          {category.shortLabel}
+                        </span>
+                        <span class="catalog-filter__count" aria-hidden="true">{category.count}</span>
+                      </button>
+                    ))
+                  }
+                </div>
+              </div>
+            </nav>
+
+            {/* The script points this at the active category landing page, so a
+                filtered product view always has a route to the full category. */}
+            <a class="catalog-sidebar__link" href={href('catalog/')} data-catalog-section-link>
               Усі категорії
             </a>
-          </div>
+          </aside>
 
-          {/* Progressive-enhancement category navigation. It is rendered hidden
-              and revealed by the catalog script only after all filter targets
-              are found, so a no-JS visit keeps the complete merchandising-ordered
-              catalog visible, with the crawlable category links further down the
-              page and in the footer. */}
-          <nav
-            class="catalog-chips"
-            aria-label="Фільтр каталогу за категорією"
+          <button
+            class="catalog-sidebar-backdrop"
+            type="button"
+            aria-label="Закрити каталог"
             hidden
-            data-catalog-category-nav
-          >
-            <button
-              class="catalog-chip"
-              type="button"
-              aria-pressed="true"
-              data-catalog-filter="all"
-            >
-              <span data-chip-label>Усі товари</span>
-              <span class="catalog-chip__count" aria-hidden="true">{products.length}</span>
-            </button>
+            data-catalog-sidebar-backdrop
+          ></button>
 
-            <button
-              class="catalog-chip"
-              type="button"
-              aria-pressed="false"
-              data-catalog-filter="featured"
-            >
-              <span data-chip-label>Популярне</span>
-              <span class="catalog-chip__count" aria-hidden="true">{featuredProductCount}</span>
-            </button>
-
+          <div class="catalog-content" data-catalog-content>
             {
-              categoryLinks.map((category) => (
-                <button
-                  class="catalog-chip"
-                  type="button"
-                  aria-pressed="false"
-                  data-catalog-filter="category"
-                  data-catalog-category={category.name}
-                  data-catalog-href={href(`catalog/${category.slug}/`)}
-                >
-                  <span data-chip-label>{category.shortLabel}</span>
-                  <span class="catalog-chip__count" aria-hidden="true">{category.count}</span>
-                </button>
-              ))
-            }
-          </nav>
+              products.length > 0 ? (
+                <>
+                  <div class="catalog-grid" data-catalog-grid>
+                    {products.map((product) => (
+                      <div
+                        class="catalog-grid__item"
+                        data-catalog-item
+                        data-product-sku={product.sku}
+                        data-product-family={product.familyId ?? undefined}
+                        data-catalog-category={product.category ?? ''}
+                        data-catalog-featured={product.featured ? 'true' : 'false'}
+                      >
+                        <ProductCard product={product} />
+                      </div>
+                    ))}
+                  </div>
 
-          <p
-            class="sr-only"
-            aria-live="polite"
-            aria-atomic="true"
-            data-catalog-filter-status
-          ></p>
-        </div>
-      </div>
-
-      <div class="container">
-        <div class="catalog-content">
-          {
-            products.length > 0 ? (
-              <>
-                <div class="catalog-grid" data-catalog-grid>
-                  {products.map((product) => (
-                    <div
-                      class="catalog-grid__item"
-                      data-catalog-item
-                      data-product-sku={product.sku}
-                      data-product-family={product.familyId ?? undefined}
-                      data-catalog-category={product.category ?? ''}
-                      data-catalog-featured={product.featured ? 'true' : 'false'}
-                    >
-                      <ProductCard product={product} />
-                    </div>
-                  ))}
-                </div>
-
-                <div class="catalog-no-results" hidden data-catalog-filter-empty>
-                  <div class="catalog-no-results__art" aria-hidden="true">∅</div>
-                  <h2 class="catalog-no-results__title">У цій категорії поки немає товарів</h2>
+                  <div class="catalog-no-results" hidden data-catalog-filter-empty>
+                    <div class="catalog-no-results__art" aria-hidden="true">∅</div>
+                    <h2 class="catalog-no-results__title">У цій категорії поки немає товарів</h2>
+                    <p class="catalog-no-results__text">
+                      Оберіть іншу категорію або поверніться до всього каталогу.
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <div class="catalog-no-results">
+                  <div class="catalog-no-results__art">∅</div>
+                  <h2 class="catalog-no-results__title">Приклади поки що не додані</h2>
                   <p class="catalog-no-results__text">
-                    Оберіть іншу категорію або поверніться до всього каталогу.
+                    Додай перший приклад у джерело даних, і він зʼявиться тут автоматично.
                   </p>
                 </div>
-              </>
-            ) : (
-              <div class="catalog-no-results">
-                <div class="catalog-no-results__art">∅</div>
-                <h2 class="catalog-no-results__title">Приклади поки що не додані</h2>
-                <p class="catalog-no-results__text">
-                  Додай перший приклад у джерело даних, і він зʼявиться тут автоматично.
-                </p>
-              </div>
-            )
-          }
+              )
+            }
+
+            <aside class="catalog-note" aria-label="Про каталог">
+              <p class="catalog-note__text">
+                Деталі для домашньої серверної інфраструктури: стійки, кріплення,
+                корпуси й аксесуари. Усе друкується під замовлення.
+              </p>
+
+              <ul class="catalog-note__tags" role="list">
+                <li class="tag tag--copper">10" rack</li>
+                <li class="tag tag--copper">HomeLab</li>
+                <li class="tag tag--copper">NAS</li>
+                <li class="tag tag--copper">Rack mount</li>
+                <li class="tag tag--copper">PETG</li>
+              </ul>
+            </aside>
+          </div>
         </div>
 
-        <aside class="catalog-note" aria-label="Про каталог">
-          <p class="catalog-note__text">
-            Деталі для домашньої серверної інфраструктури: стійки, кріплення,
-            корпуси й аксесуари. Усе друкується під замовлення.
-          </p>
-
-          <ul class="catalog-note__tags" role="list">
-            <li class="tag tag--copper">10" rack</li>
-            <li class="tag tag--copper">HomeLab</li>
-            <li class="tag tag--copper">NAS</li>
-            <li class="tag tag--copper">Rack mount</li>
-            <li class="tag tag--copper">PETG</li>
-          </ul>
-        </aside>
+        <p
+          class="sr-only"
+          aria-live="polite"
+          aria-atomic="true"
+          data-catalog-filter-status
+        ></p>
       </div>
     </section>
 
@@ -654,8 +711,11 @@ const structuredData = graph([
       const catalogItems = Array.from(
         catalogPage.querySelectorAll<HTMLElement>('[data-catalog-item]'),
       );
-      const visibleCount = catalogPage.querySelector<HTMLElement>(
-        '[data-catalog-visible-count]',
+      const visibleCounts = Array.from(
+        catalogPage.querySelectorAll<HTMLElement>('[data-catalog-visible-count]'),
+      );
+      const activeLabels = Array.from(
+        catalogPage.querySelectorAll<HTMLElement>('[data-catalog-active-label]'),
       );
       const filterStatus = catalogPage.querySelector<HTMLElement>(
         '[data-catalog-filter-status]',
@@ -665,9 +725,33 @@ const structuredData = graph([
       const sectionLink = catalogPage.querySelector<HTMLAnchorElement>(
         '[data-catalog-section-link]',
       );
+      const sidebar = catalogPage.querySelector<HTMLElement>('[data-catalog-sidebar]');
+      const sidebarOpen = catalogPage.querySelector<HTMLButtonElement>(
+        '[data-catalog-sidebar-open]',
+      );
+      const sidebarClose = catalogPage.querySelector<HTMLButtonElement>(
+        '[data-catalog-sidebar-close]',
+      );
+      const sidebarBackdrop = catalogPage.querySelector<HTMLButtonElement>(
+        '[data-catalog-sidebar-backdrop]',
+      );
+      const mobileToolbar = catalogPage.querySelector<HTMLElement>(
+        '[data-catalog-mobile-toolbar]',
+      );
 
-      if (categoryNav && filterButtons.length > 0 && catalogItems.length > 0) {
+      if (
+        categoryNav &&
+        filterButtons.length > 0 &&
+        catalogItems.length > 0 &&
+        sidebar &&
+        sidebarOpen &&
+        sidebarClose &&
+        sidebarBackdrop &&
+        mobileToolbar
+      ) {
         categoryNav.hidden = false;
+        mobileToolbar.hidden = false;
+        sidebarBackdrop.hidden = false;
 
         // The unfiltered state of the contextual link, restored whenever the
         // active filter is not a single category.
@@ -675,30 +759,92 @@ const structuredData = graph([
         const defaultLinkLabel = sectionLink?.textContent?.trim() ?? '';
 
         const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const mobileQuery = window.matchMedia('(max-width: 900px)');
         const scrollBehavior = (): ScrollBehavior => (motionQuery.matches ? 'auto' : 'smooth');
+        let drawerOpen = false;
 
-        // Sticky-header height, so a programmatic scroll never parks the rail
-        // underneath the header.
+        // Sticky-header height, so a programmatic scroll never parks the mobile
+        // catalog toolbar underneath the site header.
         const headerOffset = () => {
           const raw = getComputedStyle(document.documentElement).getPropertyValue('--header-h');
           const parsed = Number.parseFloat(raw);
           return Number.isFinite(parsed) ? parsed : 0;
         };
 
-        // On narrow screens the rail scrolls horizontally; keep the chip the
-        // user just pressed inside the visible part of it.
-        const revealChip = (button: HTMLButtonElement) => {
-          if (categoryNav.scrollWidth <= categoryNav.clientWidth) return;
+        const setDrawerOpen = (open: boolean, restoreFocus = true) => {
+          const nextOpen = open && mobileQuery.matches;
+          const wasOpen = drawerOpen;
+          drawerOpen = nextOpen;
 
-          categoryNav.scrollTo({
-            left: button.offsetLeft - (categoryNav.clientWidth - button.offsetWidth) / 2,
-            behavior: scrollBehavior(),
-          });
+          sidebar.classList.toggle('is-open', nextOpen);
+          sidebarBackdrop.classList.toggle('is-open', nextOpen);
+          sidebarOpen.setAttribute('aria-expanded', String(nextOpen));
+          document.body.classList.toggle('catalog-drawer-open', nextOpen);
+
+          if (nextOpen) {
+            sidebar.removeAttribute('aria-hidden');
+            sidebar.removeAttribute('inert');
+            sidebar.setAttribute('role', 'dialog');
+            sidebar.setAttribute('aria-modal', 'true');
+
+            // Do not leave the site-header menu open behind the modal drawer.
+            const headerBurger = document.querySelector<HTMLButtonElement>('.site-header__burger');
+            const headerDrawer = document.getElementById('site-header-menu');
+            if (headerBurger?.getAttribute('aria-expanded') === 'true') {
+              headerBurger.setAttribute('aria-expanded', 'false');
+              headerBurger.setAttribute('aria-label', 'Відкрити меню');
+              headerDrawer?.classList.remove('is-open');
+            }
+
+            requestAnimationFrame(() => sidebarClose.focus());
+          } else if (mobileQuery.matches) {
+            // Move focus out before hiding/inerting the drawer. Otherwise
+            // browsers correctly reject aria-hidden on a focused subtree.
+            if (wasOpen && restoreFocus) sidebarOpen.focus();
+
+            sidebar.setAttribute('aria-hidden', 'true');
+            sidebar.setAttribute('inert', '');
+            sidebar.removeAttribute('role');
+            sidebar.removeAttribute('aria-modal');
+          } else {
+            sidebar.removeAttribute('aria-hidden');
+            sidebar.removeAttribute('inert');
+            sidebar.removeAttribute('role');
+            sidebar.removeAttribute('aria-modal');
+          }
+        };
+
+        const syncDrawerMode = () => {
+          const focusWasInSidebar = sidebar.contains(document.activeElement);
+          const focusWasOnTrigger = document.activeElement === sidebarOpen;
+          const wasOpen = drawerOpen;
+
+          if (mobileQuery.matches) {
+            if (focusWasInSidebar) sidebarOpen.focus();
+            setDrawerOpen(false, false);
+          } else {
+            drawerOpen = false;
+            sidebar.classList.remove('is-open');
+            sidebarBackdrop.classList.remove('is-open');
+            sidebarOpen.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('catalog-drawer-open');
+            sidebar.removeAttribute('aria-hidden');
+            sidebar.removeAttribute('inert');
+            sidebar.removeAttribute('role');
+            sidebar.removeAttribute('aria-modal');
+
+            if (wasOpen || focusWasInSidebar || focusWasOnTrigger) {
+              const activeFilter = filterButtons.find(
+                (button) => button.getAttribute('aria-pressed') === 'true',
+              );
+              requestAnimationFrame(() => activeFilter?.focus());
+            }
+          }
         };
 
         // Filtering shortens the grid, so a viewport parked deep in the old
-        // list can end up below the new one. Pull the page back to the rail
-        // when it is already past the start of the catalog.
+        // list can end up below the new one. Pull the page back to the start of
+        // the catalog when it is already past it.
         const keepCatalogInView = () => {
           if (!catalogMain) return;
 
@@ -729,13 +875,19 @@ const structuredData = graph([
             button.setAttribute('aria-pressed', String(button === activeButton));
           });
 
-          if (visibleCount) visibleCount.textContent = String(shownItems);
+          visibleCounts.forEach((count) => {
+            count.textContent = String(shownItems);
+          });
           if (filterEmpty) filterEmpty.hidden = shownItems !== 0;
 
           const activeLabel =
-            activeButton.querySelector('[data-chip-label]')?.textContent?.trim() ?? '';
+            activeButton.querySelector('[data-catalog-filter-label]')?.textContent?.trim() ?? '';
 
-          // A filtered view is not a page; the link beside the count is what
+          activeLabels.forEach((label) => {
+            label.textContent = activeLabel;
+          });
+
+          // A filtered view is not a page; the link below the filters is what
           // carries the reader on to the category's own landing page.
           if (sectionLink) {
             const categoryHref = activeButton.dataset.catalogHref;
@@ -753,13 +905,50 @@ const structuredData = graph([
             filterStatus.textContent = `Фільтр «${activeLabel}»: показано ${shownItems} із ${catalogItems.length} товарів.`;
           }
 
-          revealChip(activeButton);
+          if (mobileQuery.matches) setDrawerOpen(false);
           keepCatalogInView();
         };
 
         filterButtons.forEach((button) => {
           button.addEventListener('click', () => applyFilter(button));
         });
+
+        sidebarOpen.addEventListener('click', () => setDrawerOpen(true));
+        sidebarClose.addEventListener('click', () => setDrawerOpen(false));
+        sidebarBackdrop.addEventListener('click', () => setDrawerOpen(false));
+
+        document.addEventListener('keydown', (event) => {
+          if (!drawerOpen || !mobileQuery.matches) return;
+
+          if (event.key === 'Escape') {
+            event.preventDefault();
+            setDrawerOpen(false);
+            return;
+          }
+
+          if (event.key !== 'Tab') return;
+
+          const focusable = Array.from(
+            sidebar.querySelectorAll<HTMLElement>(
+              'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+            ),
+          ).filter((element) => !element.hasAttribute('hidden'));
+
+          const first = focusable[0];
+          const last = focusable.at(-1);
+          if (!first || !last) return;
+
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        });
+
+        mobileQuery.addEventListener('change', syncDrawerMode);
+        syncDrawerMode();
       }
     }
   </script>
