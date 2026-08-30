@@ -104,7 +104,13 @@ const robotsContent = noindex
       name="google-site-verification"
       content="Tl9FVjxmrqwkZmthujRbUlfNyj9DIqujas0TUkC0MzM"
     />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {/* viewport-fit=cover is what makes env(safe-area-inset-*) resolve to a
+        real value. The catalog drawer pads itself against those insets, so
+        without it the panel runs under the notch and the home indicator. */}
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     {/*
       GitHub Pages does not allow custom HTTP response headers, so security
       policies that have a real, standardized <meta> equivalent are set here.

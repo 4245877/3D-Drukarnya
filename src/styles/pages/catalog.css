@@ -322,26 +322,28 @@
 }
 
 /* The narrow navigation stays available while the much longer product grid
-   scrolls. Its own scroll area matters on short laptop screens. */
+   scrolls. The panel is a three-part column — head, scrolling body, foot — so
+   the title and the "go to the category page" link stay put on short laptop
+   screens instead of scrolling out of the sticky box together with the list. */
 .catalog-sidebar {
+  display: flex;
+  flex-direction: column;
   position: sticky;
   top: calc(var(--header-h) + var(--space-4));
   max-height: calc(100dvh - var(--header-h) - var(--space-8));
-  overflow-y: auto;
   padding: var(--space-4);
   border: var(--border-card);
   border-radius: var(--radius-lg);
   background: rgba(252, 248, 241, 0.94);
   box-shadow: var(--shadow-card);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(142, 63, 67, 0.3) transparent;
 }
 
 .catalog-sidebar__head {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-3);
+  flex: 0 0 auto;
 }
 
 .catalog-sidebar__eyebrow {
@@ -352,6 +354,10 @@
   letter-spacing: 0.14em;
   line-height: 1.3;
   text-transform: uppercase;
+}
+
+.catalog-sidebar__heading {
+  min-width: 0;
 }
 
 .catalog-sidebar__title {
@@ -366,6 +372,16 @@
 
 .catalog-sidebar__close {
   display: none;
+}
+
+/* min-height: 0 is what lets a flex child actually shrink and scroll instead
+   of pushing the foot out of the panel. */
+.catalog-sidebar__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(142, 63, 67, 0.3) transparent;
 }
 
 .catalog-sidebar__count {
@@ -413,6 +429,17 @@
   gap: var(--space-1);
 }
 
+/* The two scope filters read as one segmented control — a level above the
+   category list, not a third and fourth row inside it. */
+.catalog-filter-list--quick {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-1);
+  padding: 0.2rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-inset);
+}
+
 .catalog-filter {
   appearance: none;
   position: relative;
@@ -422,7 +449,7 @@
   gap: var(--space-2);
   width: 100%;
   min-height: 44px;
-  padding: 0.55rem 0.65rem;
+  padding: 0.5rem 0.65rem;
   border: 1px solid transparent;
   border-radius: var(--radius-md);
   color: var(--text-secondary);
@@ -437,42 +464,59 @@
     color var(--dur-fast) var(--ease-out),
     background-color var(--dur-fast) var(--ease-out),
     border-color var(--dur-fast) var(--ease-out),
-    box-shadow var(--dur-fast) var(--ease-out);
+    box-shadow var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
 }
 
-.catalog-filter:hover {
-  color: var(--chocolate);
-  border-color: rgba(142, 63, 67, 0.18);
-  background: rgba(142, 63, 67, 0.07);
+.catalog-filter-list--quick .catalog-filter {
+  grid-template-columns: auto auto;
+  justify-content: center;
+  min-height: 40px;
+  padding-inline: var(--space-2);
+  text-align: center;
 }
 
+/* Hover belongs to devices that have a pointer. On touch it otherwise sticks
+   after a tap and reads as a second selected row. */
+@media (hover: hover) {
+  .catalog-filter:hover {
+    color: var(--chocolate);
+    border-color: rgba(142, 63, 67, 0.18);
+    background: rgba(142, 63, 67, 0.07);
+  }
+
+  .catalog-filter[aria-pressed="true"]:hover {
+    color: var(--text-inverse);
+    border-color: var(--accent-hover);
+    background: var(--accent-hover);
+  }
+}
+
+.catalog-filter:active {
+  transform: scale(0.985);
+}
+
+/* Selected row: solid brand fill plus a copper marker drawn as an inset
+   shadow, so the marker is clipped by the button's own radius. The previous
+   absolutely-positioned bar poked square corners outside the rounded edge. */
 .catalog-filter[aria-pressed="true"] {
   color: var(--text-inverse);
   border-color: var(--accent-hover);
   background: var(--accent-hover);
-  box-shadow: 0 5px 14px rgba(142, 63, 67, 0.22);
+  box-shadow:
+    inset 3px 0 0 var(--copper),
+    0 5px 14px rgba(142, 63, 67, 0.22);
 }
 
-.catalog-filter[aria-pressed="true"]::before {
-  content: '';
-  position: absolute;
-  top: 0.55rem;
-  bottom: 0.55rem;
-  left: -1px;
-  width: 3px;
-  border-radius: 0 var(--radius-full) var(--radius-full) 0;
-  background: var(--copper);
-}
-
-.catalog-filter[aria-pressed="true"]:hover {
-  color: var(--text-inverse);
-  border-color: var(--accent-hover);
-  background: var(--accent-hover);
+.catalog-filter-list--quick .catalog-filter[aria-pressed="true"] {
+  box-shadow: 0 3px 10px rgba(142, 63, 67, 0.22);
 }
 
 .catalog-filter__label {
   min-width: 0;
-  overflow-wrap: anywhere;
+  /* break-word, not anywhere: long Ukrainian category names may wrap between
+     words, but must never be cut in the middle of one. */
+  overflow-wrap: break-word;
 }
 
 .catalog-filter__count {
@@ -494,19 +538,48 @@
   background: rgba(255, 255, 255, 0.18);
 }
 
-.catalog-sidebar__link {
-  display: block;
-  margin-top: var(--space-4);
+.catalog-sidebar__foot {
+  flex: 0 0 auto;
+  margin-top: var(--space-3);
   padding-top: var(--space-3);
   border-top: var(--border-faint);
+}
+
+/* The single route out of a filtered view. It is the "this category has a page
+   of its own" affordance, so it is sized like a control, not like body copy. */
+.catalog-sidebar__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid rgba(142, 63, 67, 0.16);
+  border-radius: var(--radius-md);
   color: var(--text-accent);
+  background: rgba(142, 63, 67, 0.05);
   font-size: var(--fs-sm);
   font-weight: var(--fw-semibold);
-  line-height: 1.4;
+  line-height: 1.35;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
 }
 
 .catalog-sidebar__link::after {
-  content: ' →';
+  content: '\2192';
+  flex: 0 0 auto;
+  font-size: var(--fs-base);
+  line-height: 1;
+}
+
+@media (hover: hover) {
+  .catalog-sidebar__link:hover {
+    color: var(--burgundy);
+    border-color: rgba(142, 63, 67, 0.3);
+    background: rgba(142, 63, 67, 0.1);
+  }
 }
 
 /* The compact toolbar exists only in the mobile layout and is unhidden by JS
@@ -826,6 +899,9 @@
 }
 
 /* ── 900px: mobile catalog drawer + stacked hero ─────────── */
+/* The 900px figure is duplicated in the page script's `mobileQuery`. The two
+   must move together: CSS decides what the drawer looks like, the script
+   decides whether opening it is meaningful at all. */
 
 @media (max-width: 900px) {
   .catalog-hero__inner {
@@ -853,95 +929,156 @@
     padding-top: 0;
   }
 
+  /* ── Mobile toolbar: the one place the catalog is opened from ──────── */
+
+  /* Full-bleed by cancelling the container's inline padding: a strip that
+     only spanned the content box let product cards scroll visibly through
+     the gutters on either side of it. */
   .catalog-mobile-toolbar {
     position: sticky;
     top: var(--header-h);
-    z-index: 40;
-    display: flex;
+    z-index: 60;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    justify-content: space-between;
     gap: var(--space-3);
+    margin-inline: calc(var(--container-px) * -1);
     margin-bottom: var(--space-4);
-    padding: var(--space-2) 0;
-    background: rgba(245, 237, 224, 0.94);
+    padding: var(--space-2) var(--container-px);
+    background: rgba(245, 237, 224, 0.92);
     backdrop-filter: blur(14px) saturate(160%);
     -webkit-backdrop-filter: blur(14px) saturate(160%);
     border-bottom: var(--border-faint);
+    box-shadow: 0 6px 16px -14px rgba(58, 35, 20, 0.55);
   }
 
   .catalog-mobile-toolbar[hidden] {
     display: none;
   }
 
+  /* One wide control instead of a small pill: it names the section, shows the
+     current selection, and is the whole left half of the bar to hit. */
   .catalog-mobile-trigger {
     appearance: none;
-    display: inline-flex;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    justify-content: center;
     gap: var(--space-2);
-    flex: 0 0 auto;
+    width: 100%;
     min-height: 44px;
-    padding: 0.6rem var(--space-4);
+    padding: 0.35rem var(--space-3) 0.35rem 0.35rem;
     border: 1px solid rgba(142, 63, 67, 0.28);
     border-radius: var(--radius-full);
     color: var(--text-inverse);
     background: var(--accent-hover);
     box-shadow: 0 4px 14px rgba(142, 63, 67, 0.2);
     font: inherit;
-    font-size: var(--fs-sm);
-    font-weight: var(--fw-bold);
-    line-height: 1;
+    text-align: left;
     cursor: pointer;
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
   }
 
-  .catalog-mobile-trigger svg {
-    flex: 0 0 auto;
+  .catalog-mobile-trigger:active {
+    transform: scale(0.985);
+    box-shadow: 0 2px 8px rgba(142, 63, 67, 0.24);
+  }
+
+  .catalog-mobile-trigger__icon {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.16);
+    place-items: center;
+  }
+
+  .catalog-mobile-trigger__text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 1px;
+  }
+
+  .catalog-mobile-trigger__eyebrow {
+    color: rgba(245, 237, 224, 0.72);
+    font-size: 0.6875rem;
+    font-weight: var(--fw-bold);
+    letter-spacing: 0.12em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .catalog-mobile-trigger__value {
+    overflow: hidden;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-bold);
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .catalog-mobile-trigger__chevron {
+    opacity: 0.75;
   }
 
   .catalog-mobile-summary {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    min-width: 0;
+    flex: 0 0 auto;
     margin: 0;
     color: var(--text-muted);
     font-size: var(--fs-xs);
-    line-height: 1.3;
+    line-height: 1.2;
+    text-align: right;
+    white-space: nowrap;
   }
 
   .catalog-mobile-summary strong {
-    max-width: min(46vw, 19rem);
-    overflow: hidden;
     color: var(--chocolate);
-    font-size: var(--fs-sm);
-    font-weight: var(--fw-semibold);
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: var(--fs-md);
+    font-weight: var(--fw-bold);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
   }
 
   .catalog-layout {
     display: block;
   }
 
+  /* ── The drawer itself ────────────────────────────────────────────── */
+
+  /* Height comes from 100dvh rather than top/bottom insets so the foot is not
+     parked behind a mobile browser's collapsing toolbar. The width always
+     leaves a backdrop strip wide enough to be tapped with a thumb. */
   .catalog-sidebar {
     position: fixed;
-    inset: 0 auto 0 0;
+    top: 0;
+    left: 0;
+    right: auto;
     z-index: 220;
-    width: min(86vw, 20rem);
-    max-height: 100dvh;
-    padding:
-      max(var(--space-5), env(safe-area-inset-top))
-      var(--space-4)
-      max(var(--space-6), env(safe-area-inset-bottom));
-    border-top: 0;
-    border-bottom: 0;
-    border-left: 0;
+    display: flex;
+    flex-direction: column;
+    width: min(21rem, calc(100vw - 3.5rem));
+    height: 100dvh;
+    max-height: none;
+    padding: 0;
+    border: 0;
     border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
     background: var(--bg-card);
     box-shadow: var(--shadow-xl);
-    transform: translateX(-105%);
+    /* The pinned head and foot paint their own backgrounds, which would
+       otherwise square off the panel's rounded right corners. */
+    overflow: hidden;
+    transform: translateX(-101%);
     visibility: hidden;
     pointer-events: none;
+    /* pan-y keeps vertical list scrolling native; the script only ever reads
+       horizontal movement for swipe-to-close. */
+    touch-action: pan-y;
     transition:
       transform var(--dur-normal) var(--ease-out),
       visibility var(--dur-normal) step-end;
@@ -956,6 +1093,32 @@
       visibility 0s step-start;
   }
 
+  /* While a finger is dragging the panel, the transform is written frame by
+     frame from the script and must not be interpolated. */
+  .catalog-sidebar.is-dragging {
+    transition: none;
+  }
+
+  /* Head and foot are pinned; only the list between them scrolls, so the
+     close button and the category link never scroll out of reach. */
+  .catalog-sidebar__head {
+    align-items: center;
+    flex: 0 0 auto;
+    padding:
+      max(var(--space-4), env(safe-area-inset-top)) var(--space-4) var(--space-3)
+      max(var(--space-4), env(safe-area-inset-left));
+    border-bottom: var(--border-faint);
+    background: linear-gradient(
+      180deg,
+      rgba(244, 234, 218, 0.85) 0%,
+      rgba(252, 248, 241, 0) 100%
+    );
+  }
+
+  .catalog-sidebar__title {
+    font-size: var(--fs-lg);
+  }
+
   .catalog-sidebar__close {
     appearance: none;
     display: inline-grid;
@@ -968,15 +1131,69 @@
     color: var(--chocolate);
     background: var(--bg-inset);
     font: inherit;
-    font-size: 1.75rem;
     line-height: 1;
     place-items: center;
     cursor: pointer;
+    transition:
+      color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
   }
 
-  .catalog-sidebar__close span {
-    transform: translateY(-1px);
+  .catalog-sidebar__close:active {
+    transform: scale(0.94);
+    color: var(--text-inverse);
+    background: var(--accent-hover);
   }
+
+  .catalog-sidebar__body {
+    padding-inline: max(var(--space-4), env(safe-area-inset-left)) var(--space-4);
+    padding-block: var(--space-3);
+    /* Momentum scrolling stops at the panel instead of dragging the page
+       behind it once the list reaches an end. */
+    overscroll-behavior: contain;
+  }
+
+  .catalog-sidebar__count {
+    margin-top: 0;
+  }
+
+  .catalog-filter {
+    min-height: 48px;
+    padding: 0.6rem 0.75rem;
+    font-size: var(--fs-base);
+  }
+
+  .catalog-filter-list:not(.catalog-filter-list--quick) {
+    gap: 0.375rem;
+  }
+
+  .catalog-filter-list--quick .catalog-filter {
+    min-height: 44px;
+    font-size: var(--fs-sm);
+  }
+
+  .catalog-filter__count {
+    min-width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .catalog-sidebar__foot {
+    margin-top: 0;
+    padding:
+      var(--space-3) var(--space-4)
+      max(var(--space-4), env(safe-area-inset-bottom))
+      max(var(--space-4), env(safe-area-inset-left));
+    border-top: var(--border-faint);
+    background: var(--bg-card);
+  }
+
+  .catalog-sidebar__link {
+    min-height: 46px;
+    font-size: var(--fs-sm);
+  }
+
+  /* ── Backdrop ─────────────────────────────────────────────────────── */
 
   .catalog-sidebar-backdrop {
     appearance: none;
@@ -989,14 +1206,27 @@
     padding: 0;
     border: 0;
     border-radius: 0;
-    background: rgba(46, 27, 16, 0.52);
+    background: rgba(46, 27, 16, 0.55);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     cursor: default;
+    /* Dragging the scrim must not scroll the page underneath it. */
+    touch-action: none;
     transition:
       opacity var(--dur-normal) var(--ease-out),
       visibility var(--dur-normal) step-end;
+  }
+
+  /* A light blur reads as depth without hiding where the reader was. Only
+     applied where it is actually supported, so browsers without it keep the
+     slightly heavier flat scrim above rather than a washed-out one. */
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .catalog-sidebar-backdrop {
+      background: rgba(46, 27, 16, 0.4);
+      backdrop-filter: blur(3px) saturate(115%);
+      -webkit-backdrop-filter: blur(3px) saturate(115%);
+    }
   }
 
   .catalog-sidebar-backdrop[hidden] {
@@ -1012,8 +1242,22 @@
       visibility 0s step-start;
   }
 
+  /* ── Page scroll lock ─────────────────────────────────────────────── */
+
+  /* The lock lives on <body> alone, deliberately. While <html> stays
+     overflow: visible, body's overflow is what propagates to the viewport —
+     body itself is not turned into a scroll container, so the sticky site
+     header keeps sticking to the viewport instead of jumping to the top of
+     the document behind the scrim. overscroll-behavior propagates the same
+     way and stops the rubber-band from reaching the page underneath.
+
+     The gutter variable is set by the script and compensates for a classic
+     scrollbar disappearing, so nothing behind the scrim shifts sideways when
+     the drawer opens. Overlay scrollbars report 0 and it is a no-op. */
   body.catalog-drawer-open {
     overflow: hidden;
+    overscroll-behavior: none;
+    padding-right: var(--catalog-scrollbar-gutter, 0px);
   }
 }
 
@@ -1076,16 +1320,65 @@
   .catalog-no-results { padding: var(--space-12) var(--space-4); }
   .catalog-no-results__art { font-size: 2.5rem; }
   .catalog-no-results__title { font-size: var(--fs-xl); }
+
+  /* The trigger carries the active category and must stay legible, so the
+     toolbar gives up its gap before the summary gives up its wording. */
+  .catalog-mobile-toolbar { gap: var(--space-2); }
+  .catalog-mobile-summary strong { font-size: var(--fs-base); }
+}
+
+/* ── Short viewports: landscape phones and split-screen ───── */
+/* The drawer is a full-height column, so on a ~380px-tall viewport the head
+   and foot have to give up padding for the list to keep more than two rows. */
+
+@media (max-width: 900px) and (max-height: 560px) {
+  .catalog-sidebar__head {
+    padding-block: max(var(--space-2), env(safe-area-inset-top)) var(--space-2);
+  }
+
+  .catalog-sidebar__eyebrow { display: none; }
+
+  .catalog-sidebar__title {
+    margin-top: 0;
+    font-size: var(--fs-md);
+  }
+
+  .catalog-sidebar__body { padding-block: var(--space-2); }
+
+  .catalog-sidebar__count {
+    padding-bottom: var(--space-2);
+    font-size: var(--fs-xs);
+  }
+
+  .catalog-filters { margin-top: var(--space-3); }
+
+  .catalog-filter {
+    min-height: 42px;
+    font-size: var(--fs-sm);
+  }
+
+  .catalog-sidebar__foot {
+    padding-block: var(--space-2) max(var(--space-2), env(safe-area-inset-bottom));
+  }
+
+  .catalog-sidebar__link { min-height: 42px; }
 }
 
 /* ── Reduced Motion ───────────────────────────────────────── */
 /* The global reduced-motion block in base.css (0.01ms duration, single
-   iteration) neutralises every animation on this page. The one hover rule
-   that moves an element — the category card lift — is switched off here,
-   because a transform is not an animation. */
+   iteration) neutralises every animation on this page. The rules that move an
+   element by transform are switched off here as well, because a transform is
+   not an animation. The drawer keeps its open/closed transforms — those are
+   its position, not motion — but they resolve instantly. */
 
 @media (prefers-reduced-motion: reduce) {
   .catalog-tile:hover {
+    transform: none;
+  }
+
+  .catalog-filter:active,
+  .catalog-mobile-trigger:active,
+  .catalog-sidebar__close:active {
     transform: none;
   }
 }

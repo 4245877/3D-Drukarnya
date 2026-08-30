@@ -378,7 +378,10 @@ const structuredData = graph([
         <h2 id="catalog-title" class="sr-only">Каталог товарів</h2>
 
         {/* Hidden until filtering is successfully initialised, so the no-JS
-            page never exposes a drawer control that cannot open anything. */}
+            page never exposes a drawer control that cannot open anything.
+            The trigger doubles as the state readout: it names the section and
+            the category currently in effect, so the answer to "where am I"
+            never depends on opening the drawer. */}
         <div class="catalog-mobile-toolbar" hidden data-catalog-mobile-toolbar>
           <button
             class="catalog-mobile-trigger"
@@ -387,19 +390,38 @@ const structuredData = graph([
             aria-controls="catalog-sidebar"
             data-catalog-sidebar-open
           >
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-              <path d="M4 7h16M7 12h10M10 17h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            <span class="catalog-mobile-trigger__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18">
+                <path d="M4 7h16M7 12h10M10 17h4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" />
+              </svg>
+            </span>
+
+            <span class="catalog-mobile-trigger__text">
+              <span class="catalog-mobile-trigger__eyebrow">Каталог</span>
+              <span class="catalog-mobile-trigger__value" data-catalog-active-label>Усі товари</span>
+            </span>
+
+            <svg
+              class="catalog-mobile-trigger__chevron"
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              aria-hidden="true"
+            >
+              <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span>Каталог</span>
           </button>
 
           <p class="catalog-mobile-summary">
-            <strong data-catalog-active-label>Усі товари</strong>
-            <span><span data-catalog-visible-count>{products.length}</span> позицій</span>
+            <strong data-catalog-visible-count>{products.length}</strong>
+            <span>позицій</span>
           </p>
         </div>
 
         <div class="catalog-layout">
+          {/* Head / body / foot, in that order: as a drawer the panel is a
+              full-height column whose head and foot are pinned, so the close
+              button and the category link never scroll out of reach. */}
           <aside
             id="catalog-sidebar"
             class="catalog-sidebar"
@@ -407,7 +429,7 @@ const structuredData = graph([
             data-catalog-sidebar
           >
             <div class="catalog-sidebar__head">
-              <div>
+              <div class="catalog-sidebar__heading">
                 <p class="catalog-sidebar__eyebrow">Навігація</p>
                 <p id="catalog-sidebar-title" class="catalog-sidebar__title">Каталог</p>
               </div>
@@ -418,78 +440,87 @@ const structuredData = graph([
                 aria-label="Закрити каталог"
                 data-catalog-sidebar-close
               >
-                <span aria-hidden="true">×</span>
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
               </button>
             </div>
 
-            <p class="catalog-sidebar__count">
-              Показано <strong data-catalog-visible-count>{products.length}</strong> із{' '}
-              <strong>{products.length}</strong> позицій
-            </p>
+            <div class="catalog-sidebar__body" data-catalog-sidebar-body>
+              <p class="catalog-sidebar__count">
+                Показано <strong data-catalog-visible-count>{products.length}</strong> із{' '}
+                <strong>{products.length}</strong> позицій
+              </p>
 
-            {/* Progressive enhancement: controls are revealed only after every
-                filter target is found. Without JS all products stay visible and
-                static category links remain below the grid and in the footer. */}
-            <nav
-              class="catalog-filters"
-              aria-label="Фільтри каталогу"
-              hidden
-              data-catalog-category-nav
-            >
-              <div class="catalog-filter-group" role="group" aria-labelledby="catalog-quick-filters">
-                <p id="catalog-quick-filters" class="catalog-filter-group__title">Фільтри</p>
-                <div class="catalog-filter-list">
-                  <button
-                    class="catalog-filter"
-                    type="button"
-                    aria-pressed="true"
-                    data-catalog-filter="all"
-                  >
-                    <span class="catalog-filter__label" data-catalog-filter-label>Усі товари</span>
-                    <span class="catalog-filter__count" aria-hidden="true">{products.length}</span>
-                  </button>
+              {/* Progressive enhancement: controls are revealed only after every
+                  filter target is found. Without JS all products stay visible and
+                  static category links remain below the grid and in the footer. */}
+              <nav
+                class="catalog-filters"
+                aria-label="Фільтри каталогу"
+                hidden
+                data-catalog-category-nav
+              >
+                {/* Two levels, told apart by shape: the scope of the listing is a
+                    segmented control, the categories below it are a list. */}
+                <div class="catalog-filter-group" role="group" aria-labelledby="catalog-quick-filters">
+                  <p id="catalog-quick-filters" class="catalog-filter-group__title">Показувати</p>
+                  <div class="catalog-filter-list catalog-filter-list--quick">
+                    <button
+                      class="catalog-filter"
+                      type="button"
+                      aria-pressed="true"
+                      data-catalog-filter="all"
+                    >
+                      <span class="catalog-filter__label" data-catalog-filter-label>Усі товари</span>
+                      <span class="catalog-filter__count" aria-hidden="true">{products.length}</span>
+                    </button>
 
-                  <button
-                    class="catalog-filter"
-                    type="button"
-                    aria-pressed="false"
-                    data-catalog-filter="featured"
-                  >
-                    <span class="catalog-filter__label" data-catalog-filter-label>Популярне</span>
-                    <span class="catalog-filter__count" aria-hidden="true">{featuredProductCount}</span>
-                  </button>
+                    <button
+                      class="catalog-filter"
+                      type="button"
+                      aria-pressed="false"
+                      data-catalog-filter="featured"
+                    >
+                      <span class="catalog-filter__label" data-catalog-filter-label>Популярне</span>
+                      <span class="catalog-filter__count" aria-hidden="true">{featuredProductCount}</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              <div class="catalog-filter-group" role="group" aria-labelledby="catalog-category-filters">
-                <p id="catalog-category-filters" class="catalog-filter-group__title">Категорії</p>
-                <div class="catalog-filter-list">
-                  {
-                    categoryLinks.map((category) => (
-                      <button
-                        class="catalog-filter"
-                        type="button"
-                        aria-pressed="false"
-                        data-catalog-filter="category"
-                        data-catalog-category={category.name}
-                        data-catalog-href={href(`catalog/${category.slug}/`)}
-                      >
-                        <span class="catalog-filter__label" data-catalog-filter-label>
-                          {category.shortLabel}
-                        </span>
-                        <span class="catalog-filter__count" aria-hidden="true">{category.count}</span>
-                      </button>
-                    ))
-                  }
+                <div class="catalog-filter-group" role="group" aria-labelledby="catalog-category-filters">
+                  <p id="catalog-category-filters" class="catalog-filter-group__title">Категорії</p>
+                  <div class="catalog-filter-list">
+                    {
+                      categoryLinks.map((category) => (
+                        <button
+                          class="catalog-filter"
+                          type="button"
+                          aria-pressed="false"
+                          data-catalog-filter="category"
+                          data-catalog-category={category.name}
+                          data-catalog-href={href(`catalog/${category.slug}/`)}
+                        >
+                          <span class="catalog-filter__label" data-catalog-filter-label>
+                            {category.shortLabel}
+                          </span>
+                          <span class="catalog-filter__count" aria-hidden="true">{category.count}</span>
+                        </button>
+                      ))
+                    }
+                  </div>
                 </div>
-              </div>
-            </nav>
+              </nav>
+            </div>
 
             {/* The script points this at the active category landing page, so a
-                filtered product view always has a route to the full category. */}
-            <a class="catalog-sidebar__link" href={href('catalog/')} data-catalog-section-link>
-              Усі категорії
-            </a>
+                filtered product view always has a route to the full category —
+                the answer to "is there more inside this category". */}
+            <div class="catalog-sidebar__foot">
+              <a class="catalog-sidebar__link" href={href('catalog/')} data-catalog-section-link>
+                Усі категорії
+              </a>
+            </div>
           </aside>
 
           <button
@@ -738,6 +769,11 @@ const structuredData = graph([
       const mobileToolbar = catalogPage.querySelector<HTMLElement>(
         '[data-catalog-mobile-toolbar]',
       );
+      // The panel's own scroll container: as a drawer only this middle band
+      // moves, so head and foot stay pinned.
+      const sidebarBody = catalogPage.querySelector<HTMLElement>(
+        '[data-catalog-sidebar-body]',
+      );
 
       if (
         categoryNav &&
@@ -759,6 +795,8 @@ const structuredData = graph([
         const defaultLinkLabel = sectionLink?.textContent?.trim() ?? '';
 
         const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        // Must match the 900px drawer breakpoint in catalog.css: above it the
+        // sidebar is a static column and "opening" it means nothing.
         const mobileQuery = window.matchMedia('(max-width: 900px)');
         const scrollBehavior = (): ScrollBehavior => (motionQuery.matches ? 'auto' : 'smooth');
         let drawerOpen = false;
@@ -771,6 +809,32 @@ const structuredData = graph([
           return Number.isFinite(parsed) ? parsed : 0;
         };
 
+        // Locking the page behind the drawer removes a classic scrollbar, which
+        // would otherwise shift everything under the translucent scrim sideways
+        // by its width. The gutter has to be measured before the class lands,
+        // while the scrollbar is still there; overlay scrollbars report 0.
+        const setScrollLock = (locked: boolean) => {
+          const root = document.documentElement;
+
+          if (locked) {
+            const gutter = Math.max(window.innerWidth - root.clientWidth, 0);
+            root.style.setProperty('--catalog-scrollbar-gutter', `${gutter}px`);
+          }
+
+          document.body.classList.toggle('catalog-drawer-open', locked);
+
+          if (!locked) root.style.removeProperty('--catalog-scrollbar-gutter');
+        };
+
+        // A control inside a collapsed group or an unpainted panel is not a
+        // real tab stop; getClientRects() is what actually tells them apart.
+        const focusableInDrawer = () =>
+          Array.from(
+            sidebar.querySelectorAll<HTMLElement>(
+              'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+            ),
+          ).filter((element) => element.getClientRects().length > 0);
+
         const setDrawerOpen = (open: boolean, restoreFocus = true) => {
           const nextOpen = open && mobileQuery.matches;
           const wasOpen = drawerOpen;
@@ -779,7 +843,7 @@ const structuredData = graph([
           sidebar.classList.toggle('is-open', nextOpen);
           sidebarBackdrop.classList.toggle('is-open', nextOpen);
           sidebarOpen.setAttribute('aria-expanded', String(nextOpen));
-          document.body.classList.toggle('catalog-drawer-open', nextOpen);
+          setScrollLock(nextOpen);
 
           if (nextOpen) {
             sidebar.removeAttribute('aria-hidden');
@@ -794,6 +858,20 @@ const structuredData = graph([
               headerBurger.setAttribute('aria-expanded', 'false');
               headerBurger.setAttribute('aria-label', 'Відкрити меню');
               headerDrawer?.classList.remove('is-open');
+            }
+
+            // Reopening after picking the ninth category should show that
+            // category, not the top of the list.
+            const pressed = filterButtons.find(
+              (button) => button.getAttribute('aria-pressed') === 'true',
+            );
+            if (pressed && sidebarBody) {
+              const panel = sidebarBody.getBoundingClientRect();
+              const row = pressed.getBoundingClientRect();
+              if (row.top < panel.top || row.bottom > panel.bottom) {
+                sidebarBody.scrollTop +=
+                  row.top - panel.top - (panel.height - row.height) / 2;
+              }
             }
 
             requestAnimationFrame(() => sidebarClose.focus());
@@ -827,7 +905,7 @@ const structuredData = graph([
             sidebar.classList.remove('is-open');
             sidebarBackdrop.classList.remove('is-open');
             sidebarOpen.setAttribute('aria-expanded', 'false');
-            document.body.classList.remove('catalog-drawer-open');
+            setScrollLock(false);
             sidebar.removeAttribute('aria-hidden');
             sidebar.removeAttribute('inert');
             sidebar.removeAttribute('role');
@@ -841,6 +919,94 @@ const structuredData = graph([
             }
           }
         };
+
+        // Swipe-to-close. The panel carries touch-action: pan-y, so the browser
+        // keeps owning vertical scrolling and only horizontal movement reaches
+        // this handler; the gesture is claimed only once it is clearly sideways.
+        const SWIPE_CLAIM_PX = 12;
+        const SWIPE_CLOSE_PX = 56;
+        let pointerId: number | null = null;
+        let startX = 0;
+        let startY = 0;
+        let dragX = 0;
+        let dragging = false;
+
+        // A finger that travelled far enough to move the panel must not also
+        // activate the filter row it happened to start on. The guard is armed
+        // for one click and disarmed on a timer as well, because a swipe that
+        // ends over the scrim produces no click at all — and a listener left
+        // waiting would eat the reader's next, unrelated tap.
+        const swallowNextClick = (event: MouseEvent) => {
+          event.preventDefault();
+          event.stopPropagation();
+          document.removeEventListener('click', swallowNextClick, true);
+        };
+
+        const endDrag = (close: boolean) => {
+          const wasDragging = dragging;
+
+          if (pointerId !== null && sidebar.hasPointerCapture(pointerId)) {
+            sidebar.releasePointerCapture(pointerId);
+          }
+
+          sidebar.classList.remove('is-dragging');
+          sidebar.style.removeProperty('transform');
+          pointerId = null;
+          dragging = false;
+
+          if (wasDragging) {
+            document.addEventListener('click', swallowNextClick, true);
+            window.setTimeout(
+              () => document.removeEventListener('click', swallowNextClick, true),
+              400,
+            );
+          }
+
+          if (close) setDrawerOpen(false);
+        };
+
+        sidebar.addEventListener('pointerdown', (event) => {
+          if (!drawerOpen || event.pointerType === 'mouse' || pointerId !== null) return;
+          pointerId = event.pointerId;
+          startX = event.clientX;
+          startY = event.clientY;
+          dragX = 0;
+        });
+
+        sidebar.addEventListener('pointermove', (event) => {
+          if (pointerId !== event.pointerId) return;
+
+          const dx = event.clientX - startX;
+          const dy = event.clientY - startY;
+
+          if (!dragging) {
+            // Anything that is not decisively horizontal stays a scroll.
+            if (Math.abs(dy) > Math.abs(dx)) {
+              pointerId = null;
+              return;
+            }
+            if (dx > -SWIPE_CLAIM_PX) return;
+            dragging = true;
+            sidebar.classList.add('is-dragging');
+            // Capture only once the gesture is claimed, so a plain tap keeps
+            // its normal target — and so pointerup still arrives here if the
+            // finger leaves the panel mid-swipe.
+            sidebar.setPointerCapture(event.pointerId);
+          }
+
+          dragX = Math.min(0, dx);
+          sidebar.style.transform = `translateX(${dragX}px)`;
+        });
+
+        sidebar.addEventListener('pointerup', (event) => {
+          if (pointerId !== event.pointerId) return;
+          endDrag(dragging && dragX < -SWIPE_CLOSE_PX);
+        });
+
+        sidebar.addEventListener('pointercancel', (event) => {
+          if (pointerId !== event.pointerId) return;
+          endDrag(false);
+        });
 
         // Filtering shortens the grid, so a viewport parked deep in the old
         // list can end up below the new one. Pull the page back to the start of
@@ -905,6 +1071,8 @@ const structuredData = graph([
             filterStatus.textContent = `Фільтр «${activeLabel}»: показано ${shownItems} із ${catalogItems.length} товарів.`;
           }
 
+          // Close first: the scroll lock has to be off before the page can be
+          // scrolled back to the top of the grid.
           if (mobileQuery.matches) setDrawerOpen(false);
           keepCatalogInView();
         };
@@ -928,11 +1096,7 @@ const structuredData = graph([
 
           if (event.key !== 'Tab') return;
 
-          const focusable = Array.from(
-            sidebar.querySelectorAll<HTMLElement>(
-              'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
-            ),
-          ).filter((element) => !element.hasAttribute('hidden'));
+          const focusable = focusableInDrawer();
 
           const first = focusable[0];
           const last = focusable.at(-1);
