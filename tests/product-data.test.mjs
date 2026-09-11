@@ -32,7 +32,7 @@ const EXPECTED_SKUS_IN_CATALOG_ORDER = [
   'P4', 'P23', 'P26', 'P6', 'P22', 'P11', 'P15', 'P8',
   'P14', 'P13', 'P7', 'P25', 'P34', 'P17', 'P19', 'P24',
   'P35', 'P31', 'P36', 'P20', 'P28', 'P16', 'P18', 'P29',
-  'P33', 'P30', 'P27', 'P32', 'P37', 'P38',
+  'P33', 'P30', 'P27', 'P32', 'P37', 'P38', 'P39',
 ];
 
 const EXPECTED_SLUGS_BY_SKU = {
@@ -74,6 +74,7 @@ const EXPECTED_SLUGS_BY_SKU = {
   P36: '10-inch-server-rack-cable-management-plate',
   P37: '10-inch-rack-meanwell-lrs-100-12-psu-mount',
   P38: '35-hard-drive-to-525-drive-bay-adapter',
+  P39: 'starlink-gen-3-pole-mount',
 };
 
 async function loadEntries() {
@@ -108,7 +109,7 @@ const validProduct = {
 test('every product JSON file passes the schema and collection rules', async () => {
   const entries = await loadEntries();
 
-  assert.equal(entries.length, 38, 'the catalog must keep all 38 product files');
+  assert.equal(entries.length, 39, 'the catalog must keep all 39 product files');
 
   const { products, errors } = validateProductCollection(entries);
 
@@ -116,9 +117,9 @@ test('every product JSON file passes the schema and collection rules', async () 
   assert.equal(products.length, entries.length);
 });
 
-test('P1-P38 filenames, SKUs and published slugs remain stable', async () => {
+test('P1-P39 filenames, SKUs and published slugs remain stable', async () => {
   const entries = await loadEntries();
-  const expectedFiles = Array.from({ length: 38 }, (_, index) => `product-${index + 1}.json`);
+  const expectedFiles = Array.from({ length: 39 }, (_, index) => `product-${index + 1}.json`);
 
   assert.deepEqual(
     entries.map(({ source }) => source).sort((a, b) => {
@@ -193,7 +194,7 @@ test('categories, rights metadata and requested product families are structured'
   );
   assert.deepEqual(
     skusWithStatus('attribution_required'),
-    ['P21', 'P22', 'P23', 'P26'],
+    ['P21', 'P22', 'P23', 'P26', 'P39'],
   );
   assert.deepEqual(
     skusWithStatus('permission_required'),

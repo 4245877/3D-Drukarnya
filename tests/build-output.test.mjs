@@ -47,7 +47,7 @@ test('production build generates every product page and the sitemap', async (t) 
 
   const products = await loadProducts();
   const slugs = products.map(({ slug }) => slug);
-  assert.equal(products.length, 38, 'production build must contain all 38 products');
+  assert.equal(products.length, 39, 'production build must contain all 39 products');
 
   await t.test('catalog page exists', async () => {
     await access(path.join(distDir, 'index.html'));

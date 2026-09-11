@@ -98,7 +98,7 @@ SEO, structured data й доступність для пошукових та AI
    `public/images/products/...` та локальний шлях до нього.
 6. Заповніть відомі поля автора/джерела/ліцензії та окремі статуси прав на
    модель і фото; непідтверджені права залишайте `review_required`.
-7. Якщо каталог свідомо розширюється понад P1–P38, оновіть зафіксовані SKU,
+7. Якщо каталог свідомо розширюється понад P1–P39, оновіть зафіксовані SKU,
    slug і очікуваний порядок у `tests/product-data.test.mjs`.
 8. Запустіть `npm run validate:data` і `npm test` — помилки вкажуть файл і поле.
 9. Сторінка товару, каталог і `sitemap.xml` оновляться автоматично.
@@ -121,7 +121,7 @@ SEO, structured data й доступність для пошукових та AI
 | `/guides/<slug>/` | 6 | сторінки в [`src/pages/guides/`](src/pages/guides/) + [`src/layouts/GuideLayout.astro`](src/layouts/GuideLayout.astro) |
 | `/about/` | 1 | [`src/pages/about.astro`](src/pages/about.astro) |
 | `/en/` | 1 | [`src/pages/en/index.astro`](src/pages/en/index.astro) |
-| `/products/<slug>/` | 38 | [`src/pages/products/[slug].astro`](src/pages/products/[slug].astro) з JSON товарів |
+| `/products/<slug>/` | 39 | [`src/pages/products/[slug].astro`](src/pages/products/[slug].astro) з JSON товарів |
 
 ### Модулі даних
 
@@ -158,7 +158,7 @@ slug="<slug>">` з прозою всередині. Посилання на то
 залежностей):
 
 - `tests/product-data.test.mjs` — реальні дані відповідають схемі; набір
-  P1–P38, slug/URL, категорії, сімейства й merchandising-порядок зафіксовані;
+  P1–P39, slug/URL, категорії, сімейства й merchandising-порядок зафіксовані;
   ціни та зображення коректні; свідомо зіпсований товар
   (порожній slug, `javascript:`-зображення, одруківки в ключах тощо)
   відхиляється.
