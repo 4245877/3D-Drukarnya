@@ -77,7 +77,7 @@ export const GUIDES = [
           'Для домашнього набору (роутер, комутатор, один-два mini-PC, диски) 10-дюймова стійка зазвичай виходить дешевшою: менше матеріалу, менше місця, не потрібні глибокі напрямні. 19 дюймів починають виправдовуватися тоді, коли обладнання вже серверне й іншого варіанта немає.',
       },
     ],
-    relatedCategories: ['10-inch-server-rack', 'rack-shelves-and-panels'],
+    relatedCategories: ['10-inch-server-rack', 'rack-accessories'],
     relatedGuides: ['rack-units-1u-2u-3u', 'what-fits-in-10-inch-rack', 'homelab-starter-rack'],
   },
   {
@@ -118,7 +118,7 @@ export const GUIDES = [
           'Складіть висоти всіх пристроїв у юнітах і додайте запас 1–2U на кабельні органайзери та майбутні доповнення. Наприклад: патч-панель 1U + комутатор 1U + mini-PC 1U + дисковий модуль 2U = 5U.',
       },
     ],
-    relatedCategories: ['10-inch-server-rack', 'hdd-modules', 'rack-shelves-and-panels'],
+    relatedCategories: ['10-inch-server-rack', 'cases-and-storage', 'rack-accessories'],
     relatedGuides: ['10-inch-vs-19-inch-rack', 'what-fits-in-10-inch-rack'],
   },
   {
@@ -162,12 +162,7 @@ export const GUIDES = [
           'Залежить від модуля. У каталозі є 2U-модуль на 5 накопичувачів 2.5 дюйма та 3 накопичувачі 3.5 дюйма, а також 3U-корпус на 12 місць. Конкретна кількість завжди вказана в назві товару.',
       },
     ],
-    relatedCategories: [
-      'network-rack-mounts',
-      'mini-pc-rack-mounts',
-      'raspberry-pi-rack',
-      'hdd-modules',
-    ],
+    relatedCategories: ['equipment-mounts', 'cases-and-storage'],
     relatedGuides: ['rack-units-1u-2u-3u', 'homelab-starter-rack', '10-inch-vs-19-inch-rack'],
   },
   {
@@ -203,12 +198,7 @@ export const GUIDES = [
           'Для роутера, комутатора й одного mini-PC — зазвичай ні: відкрита 10-дюймова стійка провітрюється краще за закриту шафу. Вентилятор стає потрібним, коли додаються жорсткі диски: у NAS-корпусах каталогу охолодження вже передбачене конструкцією.',
       },
     ],
-    relatedCategories: [
-      '10-inch-server-rack',
-      'network-rack-mounts',
-      'rack-shelves-and-panels',
-      'rack-power-and-workshop',
-    ],
+    relatedCategories: ['10-inch-server-rack', 'equipment-mounts', 'rack-accessories'],
     relatedGuides: ['what-fits-in-10-inch-rack', 'rack-units-1u-2u-3u', 'diy-nas-case-guide'],
   },
   {
@@ -249,7 +239,7 @@ export const GUIDES = [
           'Корпус визначає лише механічну сумісність і не залежить від операційної системи. Моделі на базі Lenovo ThinkCentre та Intel NUC у каталозі описані як придатні для сценаріїв TrueNAS, Proxmox і XCP-ng.',
       },
     ],
-    relatedCategories: ['nas-cases', 'hdd-modules', 'mini-pc-rack-mounts'],
+    relatedCategories: ['cases-and-storage', 'equipment-mounts'],
     relatedGuides: ['petg-vs-pla-for-racks', 'homelab-starter-rack', 'rack-units-1u-2u-3u'],
   },
   {
@@ -285,7 +275,7 @@ export const GUIDES = [
           'Так, колір узгоджується перед друком. Доступність конкретного кольору й можливість комбінування уточнюються при замовленні — це вказано в описах товарів, де такі варіанти передбачені.',
       },
     ],
-    relatedCategories: ['10-inch-server-rack', 'nas-cases', 'custom-rack-parts'],
+    relatedCategories: ['10-inch-server-rack', 'cases-and-storage', 'rack-accessories'],
     relatedGuides: ['diy-nas-case-guide', 'homelab-starter-rack'],
   },
 ];

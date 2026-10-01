@@ -10,6 +10,7 @@ import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
+import { CATEGORY_REDIRECTS } from '../src/data/category-redirects.mjs';
 
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
 const distDir = path.join(projectRoot, 'dist');
@@ -123,6 +124,10 @@ export async function checkBuild() {
     const page = path.join(distDir, routePath, 'index.html');
     check((await fileSize(page)) > 0, `missing page for route: /${routePath}`);
   }
+  for (const routePath of Object.keys(CATEGORY_REDIRECTS)) {
+    const page = path.join(distDir, routePath.slice(1), 'index.html');
+    check((await fileSize(page)) > 0, `missing retired category redirect: ${routePath}`);
+  }
   check((await fileSize(path.join(distDir, '404.html'))) > 0, 'missing dist/404.html');
   check((await fileSize(path.join(distDir, 'sitemap.xml'))) > 0, 'missing dist/sitemap.xml');
   check((await fileSize(path.join(distDir, 'robots.txt'))) > 0, 'missing dist/robots.txt');
@@ -178,6 +183,28 @@ export async function checkBuild() {
 
   for (const { rel, html } of pages) {
     const where = (msg) => `${rel}: ${msg}`;
+
+    // Astro's static redirects are small noindex documents, with a canonical
+    // pointing to the destination. Verify them before the full-page checks.
+    const redirectTarget = CATEGORY_REDIRECTS[`/${rel.replace(/index\.html$/, '')}`];
+    if (redirectTarget) {
+      const destination = `${BASE_PATH}${redirectTarget.slice(1)}`;
+      check(
+        html.includes(`<meta http-equiv="refresh" content="0;url=${destination}">`),
+        where(`redirect must lead immediately to ${destination}`),
+      );
+      check(
+        html.includes(`<link rel="canonical" href="${SITE_BASE}${redirectTarget.slice(1)}">`),
+        where('redirect canonical must address the destination'),
+      );
+      check(/<meta name="robots" content="noindex"/.test(html), where('redirect must be noindex'));
+      check(html.includes(`<a href="${destination}">`), where('redirect needs a fallback link'));
+      check(
+        (await fileSize(path.join(distDir, redirectTarget.slice(1), 'index.html'))) > 0,
+        where('redirect destination is missing'),
+      );
+      continue;
+    }
 
     // <title>
     const titleMatches = [...html.matchAll(/<title>([^<]*)<\/title>/g)];

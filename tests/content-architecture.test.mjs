@@ -22,6 +22,7 @@ import {
 import { LANGUAGE_ALTERNATES } from '../src/data/i18n.mjs';
 import { CATALOG_CATEGORIES, SLUG_PATTERN } from '../src/data/product.schema.mjs';
 import { STATIC_ROUTES, STATIC_ROUTE_PATHS } from '../src/data/routes.mjs';
+import { CATEGORY_REDIRECTS } from '../src/data/category-redirects.mjs';
 
 test('every catalog category has exactly one landing page', () => {
   assert.deepEqual(validateCategoryDefinitions(), []);
@@ -113,7 +114,7 @@ test('cross-link resolvers reject unknown slugs', () => {
   assert.throws(() => resolveGuides(['no-such-guide']), /Unknown guide slug/);
 
   // …and return the real definitions for known ones.
-  assert.equal(resolveCategories(['nas-cases'])[0], CATEGORY_BY_SLUG.get('nas-cases'));
+  assert.equal(resolveCategories(['cases-and-storage'])[0], CATEGORY_BY_SLUG.get('cases-and-storage'));
   assert.equal(
     resolveGuides(['diy-nas-case-guide'])[0],
     GUIDE_BY_SLUG.get('diy-nas-case-guide'),
@@ -149,6 +150,14 @@ test('static routes cover every landing page exactly once', () => {
   }
   for (const routePath of ['', 'catalog/', 'guides/', 'about/', 'en/']) {
     assert.ok(STATIC_ROUTE_PATHS.includes(routePath), `route "${routePath}" is missing`);
+  }
+});
+
+test('retired categories lead directly to active routes and stay out of the sitemap', () => {
+  for (const [from, to] of Object.entries(CATEGORY_REDIRECTS)) {
+    assert.ok(!STATIC_ROUTE_PATHS.includes(from.slice(1)), `${from} is still indexable`);
+    assert.ok(STATIC_ROUTE_PATHS.includes(to.slice(1)), `${from} redirects to a missing route`);
+    assert.ok(!Object.hasOwn(CATEGORY_REDIRECTS, to), `${from} creates a redirect chain`);
   }
 });
 

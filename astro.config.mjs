@@ -4,11 +4,18 @@ import { defineConfig } from 'astro/config';
 // Astro build, the page templates, the standalone Node scripts and the tests
 // can never drift apart — and so moving to a custom domain is a two-line edit.
 import { BASE_PATH, SITE_ORIGIN } from './src/data/site.config.mjs';
+import { CATEGORY_REDIRECTS } from './src/data/category-redirects.mjs';
 
 export default defineConfig({
   site: SITE_ORIGIN,
   base: BASE_PATH,
   trailingSlash: 'always',
+  redirects: Object.fromEntries(
+    Object.entries(CATEGORY_REDIRECTS).map(([from, to]) => [
+      from,
+      `${BASE_PATH}${to.replace(/^\/+/, '')}`,
+    ]),
+  ),
   build: {
     // Keep component styles in external .css files instead of inlining them
     // as <style> tags, so the pages stay compatible with a strict CSP

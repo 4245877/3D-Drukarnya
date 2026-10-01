@@ -604,9 +604,9 @@ const structuredData = graph([
           </div>
 
           <p class="catalog-cats__lead">
-            Дев'ять розділів, які відповідають етапам збірки домашньої лабораторії:
-            від каркаса 10-дюймової стійки до патч-панелі й кабельного органайзера.
-            Кожен розділ — окрема сторінка з поясненням, що і для чого обирати.
+            {categoryLinks.length} розділи за типом деталі: стійки, корпуси та
+            дискові модулі, кріплення й аксесуари. Оберіть потрібний розділ
+            або перегляньте всі {products.length} товарів вище.
           </p>
         </div>
 
@@ -651,8 +651,7 @@ const structuredData = graph([
             </p>
             <p>
               <a href={href('catalog/10-inch-server-rack/')}>10-дюймові стійки</a> ·{' '}
-              <a href={href('catalog/network-rack-mounts/')}>мережеві кріплення</a> ·{' '}
-              <a href={href('catalog/mini-pc-rack-mounts/')}>кріплення Mini-PC</a>
+              <a href={href('catalog/equipment-mounts/')}>кріплення для обладнання</a>
             </p>
           </article>
 
@@ -664,8 +663,7 @@ const structuredData = graph([
               на 6 та 12 накопичувачів, включно з hot-swap конфігураціями.
             </p>
             <p>
-              <a href={href('catalog/nas-cases/')}>NAS-корпуси</a> ·{' '}
-              <a href={href('catalog/hdd-modules/')}>HDD-модулі</a>
+              <a href={href('catalog/cases-and-storage/')}>корпуси та дискові модулі</a>
             </p>
           </article>
 
@@ -677,8 +675,8 @@ const structuredData = graph([
               перетворює набір пристроїв на акуратно зібрану систему.
             </p>
             <p>
-              <a href={href('catalog/rack-shelves-and-panels/')}>полиці та панелі</a> ·{' '}
-              <a href={href('catalog/rack-power-and-workshop/')}>живлення</a>
+              <a href={href('catalog/rack-accessories/')}>аксесуари для стійок</a> ·{' '}
+              <a href={href('catalog/equipment-mounts/')}>кріплення блоків живлення</a>
             </p>
           </article>
         </div>
@@ -860,7 +858,7 @@ const structuredData = graph([
               headerDrawer?.classList.remove('is-open');
             }
 
-            // Reopening after picking the ninth category should show that
+            // Reopening after picking a category should show that
             // category, not the top of the list.
             const pressed = filterButtons.find(
               (button) => button.getAttribute('aria-pressed') === 'true',

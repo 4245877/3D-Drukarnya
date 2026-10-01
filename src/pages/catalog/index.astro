@@ -22,9 +22,9 @@ const products = getAllProducts();
 const canonicalPath = '/catalog/';
 const pageUrl = absoluteUrl(canonicalPath);
 
-const title = `Каталог за категоріями: стійки, NAS, кріплення | ${SITE_NAME}`;
+const title = `Каталог: стійки, корпуси, кріплення та аксесуари | ${SITE_NAME}`;
 const description =
-  'Каталог 3D-друкованих рішень для HomeLab за категоріями: 10-дюймові серверні стійки, NAS-корпуси, HDD-модулі, кріплення для мережевого обладнання й mini-PC, полиці та патч-панелі.';
+  'Каталог 3D-друкованих деталей для HomeLab: стійки та основи, корпуси й дискові модулі, кріплення для обладнання та аксесуари для стійок. Виготовлення на замовлення.';
 
 const priceFormatter = new Intl.NumberFormat('uk-UA');
 
@@ -80,20 +80,20 @@ const structuredData = graph([
       <header class="content-head">
         <p class="kicker">Каталог</p>
         <h1 class="content-head__title content-head__title--wide">
-          Каталог за категоріями: від каркаса стійки до патч-панелі
+          Каталог товарів
         </h1>
         <p class="content-lead">
-          Каталог поділений на дев'ять категорій, які відповідають етапам збірки
-          домашньої лабораторії: спочатку каркас 10-дюймової стійки, далі
-          кріплення під наявне обладнання, потім сховище, живлення й кабельна
-          обвʼязка. Усього {products.length} позицій, усі друкуються на замовлення.
+          {products.length} товарів у {categories.length} розділах: стійки,
+          корпуси та дискові модулі, кріплення й аксесуари. Оберіть тип деталі
+          або <a href={href('#catalog-title')}>перегляньте всі товари</a>.
+          Усі вироби друкуються на замовлення.
         </p>
       </header>
 
       <section class="content-section" aria-labelledby="catalog-categories">
         <h2 id="catalog-categories">Категорії</h2>
 
-        <div class="content-grid">
+        <div class="content-grid content-grid--categories">
           {categories.map((category) => (
             <article class="content-card">
               <h3 class="content-card__title">
@@ -126,68 +126,20 @@ const structuredData = graph([
             </thead>
             <tbody>
               <tr>
-                <th scope="row">Потрібен сам каркас стійки</th>
-                <td>
-                  <a href={href('catalog/10-inch-server-rack/')}>
-                    10-дюймові серверні стійки та основи
-                  </a>
-                </td>
+                <th scope="row">Потрібен каркас домашньої лабораторії</th>
+                <td><a href={href('catalog/10-inch-server-rack/')}>Стійки та основи</a></td>
               </tr>
               <tr>
-                <th scope="row">Роутер або комутатор лежить на столі</th>
-                <td>
-                  <a href={href('catalog/network-rack-mounts/')}>
-                    Кріплення мережевого обладнання
-                  </a>
-                </td>
+                <th scope="row">Збираю NAS або ПК, додаю місця для дисків</th>
+                <td><a href={href('catalog/cases-and-storage/')}>Корпуси та дискові модулі</a></td>
               </tr>
               <tr>
-                <th scope="row">Треба поставити mini-PC у стійку</th>
-                <td>
-                  <a href={href('catalog/mini-pc-rack-mounts/')}>Кріплення Mini-PC</a>
-                </td>
+                <th scope="row">Треба закріпити пристрій, блок живлення або антену</th>
+                <td><a href={href('catalog/equipment-mounts/')}>Кріплення для обладнання</a></td>
               </tr>
               <tr>
-                <th scope="row">Збираю домашнє сховище на кілька дисків</th>
-                <td>
-                  <a href={href('catalog/nas-cases/')}>Корпуси для домашнього NAS</a>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Дисків більше, ніж поміщається в корпус</th>
-                <td>
-                  <a href={href('catalog/hdd-modules/')}>HDD-модулі та дискові корзини</a>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Плата Raspberry Pi без корпусу</th>
-                <td>
-                  <a href={href('catalog/raspberry-pi-rack/')}>Raspberry Pi у стійці</a>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Не вистачає портів і порядку в кабелях</th>
-                <td>
-                  <a href={href('catalog/rack-shelves-and-panels/')}>
-                    Полиці, патч-панелі та кабельні органайзери
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Потрібне спільне живлення в стійці</th>
-                <td>
-                  <a href={href('catalog/rack-power-and-workshop/')}>
-                    Живлення для стійки та майстерня
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Потрібна деталь під конкретний пристрій</th>
-                <td>
-                  <a href={href('catalog/custom-rack-parts/')}>
-                    Вузькі рішення та деталі на замовлення
-                  </a>
-                </td>
+                <th scope="row">Потрібна полиця, шухляда, патч-панель чи порядок у кабелях</th>
+                <td><a href={href('catalog/rack-accessories/')}>Аксесуари для стійок</a></td>
               </tr>
             </tbody>
           </table>

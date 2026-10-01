@@ -116,7 +116,7 @@ SEO, structured data й доступність для пошукових та AI
 | --- | --- | --- |
 | `/` | 1 | [`src/pages/index.astro`](src/pages/index.astro) |
 | `/catalog/` | 1 | [`src/pages/catalog/index.astro`](src/pages/catalog/index.astro) |
-| `/catalog/<slug>/` | 9 | [`src/pages/catalog/[category].astro`](src/pages/catalog/[category].astro) з [`src/data/categories.mjs`](src/data/categories.mjs) |
+| `/catalog/<slug>/` | 4 | [`src/pages/catalog/[category].astro`](src/pages/catalog/[category].astro) з [`src/data/categories.mjs`](src/data/categories.mjs) |
 | `/guides/` | 1 | [`src/pages/guides/index.astro`](src/pages/guides/index.astro) |
 | `/guides/<slug>/` | 6 | сторінки в [`src/pages/guides/`](src/pages/guides/) + [`src/layouts/GuideLayout.astro`](src/layouts/GuideLayout.astro) |
 | `/about/` | 1 | [`src/pages/about.astro`](src/pages/about.astro) |
@@ -128,7 +128,8 @@ SEO, structured data й доступність для пошукових та AI
 | Файл | За що відповідає |
 | --- | --- |
 | [`src/data/site.config.mjs`](src/data/site.config.mjs) | **Єдине** джерело хоста, base path, назви бренду, зовнішніх профілів і ключа IndexNow. Його імпортує навіть `astro.config.mjs`, тож переїзд на власний домен — це правка двох рядків. |
-| [`src/data/categories.mjs`](src/data/categories.mjs) | Опис 9 категорій: URL-slug, заголовки, тексти, FAQ, перелінковка. Поле `name` має збігатися з `CATALOG_CATEGORIES` у схемі товарів. |
+| [`src/data/categories.mjs`](src/data/categories.mjs) | Опис 4 категорій: URL-slug, заголовки, тексти, FAQ, перелінковка. Поле `name` має збігатися з `CATALOG_CATEGORIES` у схемі товарів. |
+| [`src/data/category-redirects.mjs`](src/data/category-redirects.mjs) | Старі адреси розділів: статичні перенаправлення, які не потрапляють у навігацію та sitemap. |
 | [`src/data/guides.mjs`](src/data/guides.mjs) | Метадані 6 гайдів: `<title>`, опис, коротка відповідь, дати, теми, FAQ, перелінковка. Проза кожного гайда — у його сторінці. |
 | [`src/data/routes.mjs`](src/data/routes.mjs) | Таблиця нетоварних маршрутів. З неї будується `sitemap.xml`, її ж перевіряють `check:build` і тести. |
 | [`src/data/i18n.mjs`](src/data/i18n.mjs) | Набір `hreflang` для сторінок, у яких є переклад (зараз `/` ↔ `/en/`). |

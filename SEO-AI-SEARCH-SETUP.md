@@ -15,10 +15,10 @@
 | Механізм | Де реалізовано | Що робить |
 | --- | --- | --- |
 | Статичний HTML | Astro, `output` за замовчуванням | Кожна сторінка повністю читається без JavaScript. Категорії, гайди, товари, ціни, FAQ, хлібні крихти — усе в HTML. |
-| `sitemap.xml` | [`src/pages/sitemap.xml.ts`](src/pages/sitemap.xml.ts) | Генерується з даних: головна, хаб каталогу, 9 категорій, хаб гайдів, 6 гайдів, About, `/en/` і всі товарні сторінки. Некононічні та неіндексовані URL (404, сам sitemap, robots.txt, ключ IndexNow) у нього не потрапляють — це перевіряють тести. |
+| `sitemap.xml` | [`src/pages/sitemap.xml.ts`](src/pages/sitemap.xml.ts) | Генерується з даних: головна, хаб каталогу, 4 категорії, хаб гайдів, 6 гайдів, About, `/en/` і всі товарні сторінки. Некононічні та неіндексовані URL (перенаправлення старих категорій, 404, сам sitemap, robots.txt, ключ IndexNow) у нього не потрапляють — це перевіряють тести. |
 | `lastmod` | там само | Публікується **тільки** для гайдів, де є справжня дата зміни. Sitemap, у якому в усіх URL однакова вигадана дата, знецінює сам сигнал. |
 | `robots.txt` | [`public/robots.txt`](public/robots.txt) | Один блок `User-agent: * / Allow: /` + посилання на sitemap. Див. розділ 7 — **важливе застереження про GitHub Pages**. |
-| `canonical` | [`src/components/Layout.astro`](src/components/Layout.astro) | Абсолютний URL, побудований з єдиного джерела (`src/data/site.config.mjs`). Збірка падає, якщо canonical сторінки не збігається з її власним URL. |
+| `canonical` | [`src/components/Layout.astro`](src/components/Layout.astro) | Абсолютний URL, побудований з єдиного джерела (`src/data/site.config.mjs`). Перевірка збірки вимагає власний URL для звичайних сторінок і URL призначення для перенаправлень. |
 | `robots` meta | там само | Індексовані сторінки: `index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1` — офіційно підтримувані директиви Google і Bing, які знімають обмеження на довжину сніпета й розмір прев'ю. Тільки 404 має `noindex`. |
 | Open Graph / Twitter | там само | Абсолютні URL, коректний `og:image:type` (WebP-фото з CDN ніколи не позначаються як PNG), брендований fallback-зображення. |
 | `hreflang` | [`src/data/i18n.mjs`](src/data/i18n.mjs) | Взаємні `uk` / `en` / `x-default` між `/` та `/en/`. Тест перевіряє взаємність і самопосилання. |
@@ -27,9 +27,9 @@
 
 | URL | Тип | Призначення |
 | --- | --- | --- |
-| `/` | CollectionPage | Позиціювання: 10-дюймові стійки, HomeLab, NAS, rack mount. Статичні (не JS) посилання на всі 9 категорій. |
+| `/` | CollectionPage | Позиціювання: 10-дюймові стійки, HomeLab, NAS, rack mount. Статичні (не JS) посилання на всі 4 категорії. |
 | `/catalog/` | CollectionPage | Хаб категорій + таблиця «задача → розділ». |
-| `/catalog/<slug>/` × 9 | CollectionPage + ItemList | Посадкові сторінки категорій. |
+| `/catalog/<slug>/` × 4 | CollectionPage + ItemList | Посадкові сторінки категорій. |
 | `/guides/` | CollectionPage | Хаб інформаційних матеріалів. |
 | `/guides/<slug>/` × 6 | Article + FAQPage | Гайди з короткою відповіддю на початку. |
 | `/about/` | AboutPage | Довіра: хто друкує, ціноутворення, доставка, контакти. |
@@ -342,9 +342,9 @@ Job **не запускається** на щотижневому cron-пере�
 1. `https://4245877.github.io/3D-Drukarnya/` — змінилися title, H1 і позиціювання.
 2. `https://4245877.github.io/3D-Drukarnya/catalog/`
 3. `https://4245877.github.io/3D-Drukarnya/catalog/10-inch-server-rack/`
-4. `https://4245877.github.io/3D-Drukarnya/catalog/nas-cases/`
-5. `https://4245877.github.io/3D-Drukarnya/catalog/network-rack-mounts/`
-6. `https://4245877.github.io/3D-Drukarnya/catalog/mini-pc-rack-mounts/`
+4. `https://4245877.github.io/3D-Drukarnya/catalog/cases-and-storage/`
+5. `https://4245877.github.io/3D-Drukarnya/catalog/equipment-mounts/`
+6. `https://4245877.github.io/3D-Drukarnya/catalog/rack-accessories/`
 7. `https://4245877.github.io/3D-Drukarnya/guides/`
 8. `https://4245877.github.io/3D-Drukarnya/guides/10-inch-vs-19-inch-rack/`
 9. `https://4245877.github.io/3D-Drukarnya/guides/rack-units-1u-2u-3u/`
@@ -618,7 +618,7 @@ Gemini. Фіксуйте дату, систему, запит і те, чи бу
 hreflang у `Layout` уже загальна — додати мову означає додати сторінки й один
 запис у `src/data/i18n.mjs`.
 
-**Чому не зроблено повну локалізацію.** Переклад 38 товарів, 9 категорій і
+**Чому не зроблено повну локалізацію.** Переклад 39 товарів, чотирьох категорій і
 6 гайдів на дві мови — це 100+ сторінок. Машинний переклад дав би тонкі
 дублікати, які шкодять більше, ніж допомагають, а якісний ручний переклад це
 окремий обсяг роботи, а не побічний ефект технічного SEO.
@@ -630,7 +630,7 @@ hreflang у `Layout` уже загальна — додати мову озна�
 
 **Порядок для другого етапу** (за спаданням віддачі):
 
-1. `/ru/` для 9 категорій + 3 найсильніших гайдів — це покриває основну масу
+1. `/ru/` для чотирьох категорій + 3 найсильніших гайдів — це покриває основну масу
    російськомовних комерційних запитів.
 2. `/en/` для категорій — англомовна HomeLab-аудиторія шукає саме за
    категорійними запитами.

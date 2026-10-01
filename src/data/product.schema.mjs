@@ -17,14 +17,9 @@ export const PRODUCT_SKU_PATTERN = /^P[1-9]\d*$/;
 /** Buyer-facing catalog sections, in navigation order. */
 export const CATALOG_CATEGORIES = /** @type {const} */ ([
   'Стійки та основи',
-  'NAS-корпуси',
-  'HDD-модулі',
-  'Кріплення мережевого обладнання',
-  'Кріплення Mini-PC',
-  'Raspberry Pi',
-  'Полиці, панелі та кабелі',
-  'Живлення та майстерня',
-  'Вузькі рішення',
+  'Корпуси та дискові модулі',
+  'Кріплення для обладнання',
+  'Аксесуари для стійок',
 ]);
 
 /**

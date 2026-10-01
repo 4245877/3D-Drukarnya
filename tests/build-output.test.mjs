@@ -10,6 +10,7 @@ import path from 'node:path';
 
 import { checkBuild } from '../scripts/check-build.mjs';
 import { CATEGORIES } from '../src/data/categories.mjs';
+import { CATEGORY_REDIRECTS } from '../src/data/category-redirects.mjs';
 import { GUIDES } from '../src/data/guides.mjs';
 import { STATIC_ROUTE_PATHS } from '../src/data/routes.mjs';
 import { INDEXNOW_KEY } from '../src/data/site.config.mjs';
@@ -178,6 +179,41 @@ test('production build generates every product page and the sitemap', async (t) 
       await access(path.join(distDir, 'catalog', slug, 'index.html'));
     }
     await access(path.join(distDir, 'catalog', 'index.html'));
+  });
+
+  await t.test('the four sections contain every product exactly once', async () => {
+    assert.equal(CATEGORIES.length, 4);
+    const categorized = [];
+    for (const category of CATEGORIES) {
+      const html = await readFile(path.join(distDir, 'catalog', category.slug, 'index.html'), 'utf8');
+      const graph = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
+      const list = graph.find((node) => node['@type'] === 'ItemList');
+      const urls = list.itemListElement.map((entry) => entry.url);
+      const expected = products
+        .filter((product) => product.category === category.name)
+        .map((product) => `${SITE_BASE}products/${product.slug}/`);
+      assert.ok(expected.length > 0, `${category.name} is empty`);
+      assert.deepEqual([...urls].sort(), [...expected].sort());
+      for (const url of expected) {
+        assert.ok(html.includes(`href="${new URL(url).pathname}"`), `${url} has no visible link`);
+      }
+      categorized.push(...urls);
+    }
+    assert.equal(new Set(categorized).size, 39);
+    assert.equal(categorized.length, 39);
+  });
+
+  await t.test('retired category routes redirect without appearing in navigation', async () => {
+    const home = await readFile(path.join(distDir, 'index.html'), 'utf8');
+    const catalog = await readFile(path.join(distDir, 'catalog', 'index.html'), 'utf8');
+    for (const [from, to] of Object.entries(CATEGORY_REDIRECTS)) {
+      const html = await readFile(path.join(distDir, from.slice(1), 'index.html'), 'utf8');
+      const destination = new URL(to.slice(1), SITE_BASE).pathname;
+      assert.ok(html.includes(`<meta http-equiv="refresh" content="0;url=${destination}">`));
+      assert.ok(html.includes('<meta name="robots" content="noindex">'));
+      assert.ok(!home.includes(`href="${new URL(from.slice(1), SITE_BASE).pathname}"`));
+      assert.ok(!catalog.includes(`href="${new URL(from.slice(1), SITE_BASE).pathname}"`));
+    }
   });
 
   await t.test('every guide page exists', async () => {
