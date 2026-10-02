@@ -22,7 +22,8 @@ const OG_IMAGE_URL = absoluteUrl('OGimage.png');
 
 const BUSINESS_DESCRIPTION =
   'Майстерня 3D-друку з Києва: 10-дюймові серверні стійки, NAS-корпуси, ' +
-  'кріплення та аксесуари для HomeLab, друковані з PLA та PETG на замовлення.';
+  'кріплення та аксесуари для HomeLab з PLA та PETG, а також SLA-друк ' +
+  'мініатюр, фігурок і прототипів фотополімерною смолою на замовлення.';
 
 /**
  * The site itself. Emitted once per page so that any page can be the entry
@@ -102,6 +103,8 @@ export function organizationNode() {
       'Mini-PC',
       'патч-панелі',
       'FDM 3D-друк',
+      'SLA 3D-друк',
+      'Фотополімерна смола',
       'PETG',
       'PLA',
     ],

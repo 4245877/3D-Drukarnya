@@ -1,0 +1,37 @@
+---
+import SlaShowcase from './SlaShowcase.astro';
+import SlaIcon from './SlaIcon.astro';
+import { href } from '../utils/urls';
+---
+<section class="sla-preview" aria-labelledby="sla-preview-title">
+  <div class="container">
+    <div class="sla-preview__inner">
+      <div class="sla-preview__copy">
+        <p class="kicker">Окремий напрям · SLA-друк</p>
+        <h2 id="sla-preview-title">Більше деталей.<br /><span>Більше характеру.</span></h2>
+        <p>Фотополімерний друк для мініатюр, фігурок і складних прототипів. Тонкий рельєф, плавні форми та гладка поверхня — з вашої 3D-моделі.</p>
+        <a class="btn btn--primary" href={href('sla/')}>Дізнатися про SLA <SlaIcon name="arrow" /></a>
+      </div>
+      <figure class="sla-preview__visual"><SlaShowcase id="sla-home" /><figcaption>Ілюстрація можливостей SLA</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sla-preview { padding: var(--space-10) 0; }
+  .sla-preview__inner { display: grid; grid-template-columns: 1.2fr .8fr; align-items: center; gap: var(--space-8); padding: var(--space-8) var(--space-10); border: var(--border-card); border-radius: var(--radius-xl); background: linear-gradient(120deg, var(--bg-card), var(--bg-inset)); box-shadow: var(--shadow-card); }
+  .sla-preview h2 { font-family: var(--font-display); font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: var(--fw-extrabold); line-height: 1.15; margin-bottom: var(--space-4); letter-spacing: -.035em; }
+  .sla-preview h2 span { color: var(--burgundy); }
+  .sla-preview__copy > p:not(.kicker) { max-width: 52ch; font-size: var(--fs-sm); color: var(--text-secondary); }
+  .sla-preview .btn { gap: var(--space-3); min-height: 48px; margin-top: var(--space-6); font-size: var(--fs-sm); }
+  .sla-preview__visual { max-width: 300px; justify-self: center; }
+  .sla-preview figcaption { text-align: center; color: var(--text-muted); font-size: .6875rem; }
+  @media (max-width: 768px) {
+    .sla-preview { padding-block: var(--space-6); }
+    .sla-preview__inner { padding: var(--space-6); gap: var(--space-4); }
+  }
+  @media (max-width: 480px) {
+    .sla-preview__inner { grid-template-columns: 1fr; }
+    .sla-preview__visual { max-width: 230px; }
+  }
+</style>

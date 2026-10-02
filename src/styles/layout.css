@@ -231,3 +231,10 @@ body {
 @media (max-width: 1024px) {
   :root { --header-h: 60px; }
 }
+
+/* Keep the logo, order action and menu within narrow phone viewports. */
+@media (max-width: 480px) {
+  .site-header__inner { gap: var(--space-2); }
+  .site-header__logo { font-size: var(--fs-md); }
+  .site-header__cta { padding-inline: var(--space-3); }
+}

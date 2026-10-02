@@ -1,6 +1,7 @@
 ---
 import Layout from '../components/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
+import SlaPreview from '../components/SlaPreview.astro';
 import { CATEGORIES } from '../data/categories.mjs';
 import { FAQ_ITEMS } from '../data/faq';
 import { LANGUAGE_ALTERNATES } from '../data/i18n.mjs';
@@ -118,6 +119,7 @@ const structuredData = graph([
             <div class="catalog-hero__actions">
               <a class="btn catalog-hero__browse" href="#catalog-title">Переглянути товари</a>
               <a class="catalog-hero__order-link" href="#order-title">Як замовити</a>
+              <a class="catalog-hero__order-link" href={href('sla/')}>SLA-друк смолою →</a>
             </div>
           </div>
 
@@ -545,6 +547,8 @@ const structuredData = graph([
         ></p>
       </div>
     </section>
+
+    <SlaPreview />
 
     <section class="catalog-order" aria-labelledby="order-title">
       <div class="container catalog-order__inner">

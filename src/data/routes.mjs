@@ -23,6 +23,7 @@ export const STATIC_ROUTES = [
   { path: '' },
   { path: 'catalog/' },
   ...CATEGORIES.map((category) => ({ path: `catalog/${category.slug}/` })),
+  { path: 'sla/' },
   { path: 'guides/' },
   ...GUIDES.map((guide) => ({ path: `guides/${guide.slug}/`, lastmod: guide.dateModified })),
   { path: 'about/' },

@@ -1,0 +1,187 @@
+---
+// Pass a distinct id when placing more than one showcase on the same page.
+interface Props {
+  id?: string;
+}
+
+const { id = 'sla-showcase' } = Astro.props;
+const paint = (name: string) => `url(#${id}-${name})`;
+---
+
+<svg
+  class="sla-showcase"
+  viewBox="0 0 500 440"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-labelledby={`${id}-title ${id}-description`}
+  focusable="false"
+>
+  <title id={`${id}-title`}>Мініатюра лісового лиса та ажурна деталь</title>
+  <desc id={`${id}-description`}>
+    Авторська ілюстрація можливостей SLA: скульптурна мініатюра з рельєфом
+    листя, тонкими рисами та гладкою поверхнею на круглій підставці.
+    Поруч — невелика деталь із відкритою складною геометрією.
+  </desc>
+
+  <defs>
+    <radialGradient id={`${id}-halo`} cx=".48" cy=".43" r=".58">
+      <stop offset="0" stop-color="#E8D8BE" stop-opacity=".88" />
+      <stop offset=".7" stop-color="#E8D8BE" stop-opacity=".28" />
+      <stop offset="1" stop-color="#E8D8BE" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id={`${id}-resin`} x1=".08" y1=".06" x2=".91" y2=".8">
+      <stop offset="0" stop-color="#E8BA98" />
+      <stop offset=".33" stop-color="#D99A74" />
+      <stop offset=".73" stop-color="#BA785D" />
+      <stop offset="1" stop-color="#935A4B" />
+    </linearGradient>
+    <linearGradient id={`${id}-light`} x1="0" y1="0" x2="1" y2=".7">
+      <stop offset="0" stop-color="#F2D9BB" />
+      <stop offset=".47" stop-color="#DFAB84" />
+      <stop offset="1" stop-color="#BD7D62" />
+    </linearGradient>
+    <linearGradient id={`${id}-shadow`} x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#BC7E65" />
+      <stop offset="1" stop-color="#854D43" />
+    </linearGradient>
+    <linearGradient id={`${id}-base`} x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#BE876B" />
+      <stop offset="1" stop-color="#8B594B" />
+    </linearGradient>
+    <linearGradient id={`${id}-lattice`} x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#B87079" />
+      <stop offset=".48" stop-color="#9B505B" />
+      <stop offset="1" stop-color="#703740" />
+    </linearGradient>
+    <filter id={`${id}-blur`} x="-30%" y="-80%" width="160%" height="260%">
+      <feGaussianBlur stdDeviation="7" />
+    </filter>
+    <clipPath id={`${id}-tail-clip`}>
+      <path d="M159 188C138 155 111 161 94 186C78 209 74 251 89 280C109 320 150 337 194 327C209 323 215 311 206 304C183 289 161 288 146 276C128 261 131 241 151 225C166 214 169 201 159 188Z" />
+    </clipPath>
+    <clipPath id={`${id}-body-clip`}>
+      <path d="M176 171C181 179 195 188 207 190C226 219 229 243 217 269C208 285 211 303 222 315C203 328 168 326 150 310C145 287 153 267 153 246C151 219 156 187 176 171Z" />
+    </clipPath>
+    <path id={`${id}-leaf`} d="M0 0C-12-5-15-16-9-28C2-23 7-12 0 0Z" />
+  </defs>
+
+  <!-- A quiet botanical halo grounds the illustration in the site's palette. -->
+  <ellipse cx="252" cy="226" rx="218" ry="191" fill={paint('halo')} />
+  <g fill="none" stroke="#B89A61" stroke-width="1" opacity=".26">
+    <circle cx="236" cy="213" r="151" stroke-dasharray="2 10" />
+    <path d="M76 134C113 65 208 38 281 67M328 88C355 112 374 141 384 176" />
+    <path d="M54 266C62 304 86 335 112 351M305 365C338 355 363 336 380 311" />
+  </g>
+  <g fill="#B89A61" opacity=".48">
+    <path d="M307 64l3 7 7 3-7 3-3 7-3-7-7-3 7-3Z" />
+    <path d="M65 203l2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" />
+    <circle cx="354" cy="135" r="2" />
+    <circle cx="132" cy="73" r="1.8" />
+    <circle cx="429" cy="294" r="1.7" />
+  </g>
+
+  <!-- Contact shadows stay still: these are physical objects, not floating UI. -->
+  <ellipse cx="210" cy="363" rx="127" ry="18" fill="#5A3A2E" opacity=".15" filter={paint('blur')} />
+  <ellipse cx="380" cy="358" rx="53" ry="11" fill="#5A3A2E" opacity=".14" filter={paint('blur')} />
+
+  <!-- Circular plinth, including a delicate botanical relief around its rim. -->
+  <path d="M91 327V343C91 363 144 379 210 379S329 363 329 343V327Z" fill={paint('base')} />
+  <ellipse cx="210" cy="327" rx="119" ry="34" fill={paint('light')} />
+  <ellipse cx="210" cy="327" rx="108" ry="28" fill="none" stroke="#EFCCAA" stroke-width="1.6" />
+  <path d="M92 342C108 369 299 379 328 343" fill="none" stroke="#714338" stroke-width="1.5" opacity=".45" />
+  <path d="M108 350C166 371 267 372 312 351" fill="none" stroke="#E4B08D" stroke-width="1.2" />
+  <g fill="none" stroke="#E3AC89" stroke-width="1.1" opacity=".7">
+    <path d="M141 363C164 354 189 377 209 368C229 359 252 375 278 365" />
+    <path d="M156 364l-3-6m10 8 4-5m12 7-3-7m12 9 5-5m28 3-3-6m13 6 5-6m10 8-1-6m12 6 6-6" />
+  </g>
+
+  <!-- A sweeping, deeply sculpted tail gives the miniature its silhouette. -->
+  <path d="M159 188C138 155 111 161 94 186C78 209 74 251 89 280C109 320 150 337 194 327C209 323 215 311 206 304C183 289 161 288 146 276C128 261 131 241 151 225C166 214 169 201 159 188Z" fill={paint('resin')} stroke="#9F6552" stroke-width=".9" />
+  <g clip-path={paint('tail-clip')} fill="none" stroke-linecap="round">
+    <path d="M115 175C80 217 101 268 119 290C139 316 175 321 203 314" stroke="#EDC5A2" stroke-width="9" opacity=".3" />
+    <path d="M124 170C102 196 100 227 107 249C117 285 152 313 194 315" stroke="#F1D2B0" stroke-width="1.4" opacity=".75" />
+    <path d="M141 180C116 196 112 232 124 257M109 278C134 309 163 322 189 324" stroke="#8D5646" stroke-width="1.3" opacity=".64" />
+    <path d="M133 184C116 203 116 224 120 237M130 271C144 289 165 300 188 304" stroke="#F1CEAB" stroke-width="1.2" />
+    <path d="M120 203l-12 8m9 4-12 10m13 0-12 11m13 4-10 10m15 3-10 10m17 3-7 11m17 1-5 12m17-4-3 11m17-6 1 10m14-8 3 9" stroke="#A66851" stroke-width="1.2" opacity=".63" />
+  </g>
+
+  <!-- Rear haunch, chest and forelegs. Multiple planes read as solid resin. -->
+  <path d="M176 171C181 179 195 188 207 190C226 219 229 243 217 269C208 285 211 303 222 315C203 328 168 326 150 310C145 287 153 267 153 246C151 219 156 187 176 171Z" fill={paint('resin')} stroke="#A06954" stroke-width=".8" />
+  <path d="M168 251C149 247 137 266 141 287C144 304 159 315 180 318C166 304 168 285 179 272Z" fill={paint('shadow')} />
+  <path d="M177 267C163 279 165 304 181 313C193 320 205 320 222 315" fill="none" stroke="#E9BC96" stroke-width="1.3" />
+  <path d="M198 193C208 216 204 238 205 261L211 303C218 311 240 311 244 317C235 325 210 326 200 319L188 270L185 237Z" fill={paint('shadow')} />
+  <path d="M183 184C193 206 196 228 192 251L192 293C192 303 197 309 208 311C218 313 226 315 224 320C215 325 192 325 183 318C177 302 172 276 171 253L170 213Z" fill={paint('light')} />
+  <path d="M179 209C187 231 186 250 184 267M185 279l4 29M205 315l-1 6m7-5 1 5m-16-6-2 6" fill="none" stroke="#A56D56" stroke-width="1.1" stroke-linecap="round" />
+  <path d="M170 181C176 191 186 196 197 199L193 210L185 205L183 215L175 207L170 219L163 206L158 211L159 191Z" fill={paint('light')} />
+
+  <!-- Botanical carving: raised leaves, fine veins and flowing stems. -->
+  <g clip-path={paint('body-clip')}>
+    <path d="M157 296C163 271 155 244 167 224C175 210 181 204 183 192" fill="none" stroke="#895844" stroke-width="1.7" opacity=".75" />
+    <path d="M159 295C166 270 158 246 170 225C177 211 183 205 185 193" fill="none" stroke="#F0C8A4" stroke-width="1.4" />
+    <g fill={paint('light')} stroke="#A16B51" stroke-width=".65">
+      <use href={`#${id}-leaf`} transform="translate(164 277) rotate(-48) scale(.68)" />
+      <use href={`#${id}-leaf`} transform="translate(162 263) rotate(44) scale(.77)" />
+      <use href={`#${id}-leaf`} transform="translate(165 245) rotate(-39) scale(.68)" />
+      <use href={`#${id}-leaf`} transform="translate(169 231) rotate(42) scale(.7)" />
+      <use href={`#${id}-leaf`} transform="translate(178 216) rotate(-31) scale(.56)" />
+    </g>
+    <g fill="none" stroke="#A16B51" stroke-width=".7" stroke-linecap="round">
+      <path d="M164 277l-12-12m4 4-1-6m6 12-6-1M162 263l9-17m-3 7 5-1m-7 5-1-6M165 245l-9-12m3 5-1-6m3 9-5-1M169 231l8-15m-3 8 5-2M178 216l-5-12" />
+    </g>
+  </g>
+
+  <!-- Pointed ears and an elongated muzzle: a fox, without character cosplay. -->
+  <path d="M162 142C151 124 145 101 149 73C168 87 180 105 184 131Z" fill={paint('resin')} stroke="#A16852" stroke-width="1" />
+  <path d="M155 90C166 103 173 116 174 132L163 132C159 119 156 106 155 90Z" fill={paint('shadow')} />
+  <path d="M200 130C207 109 218 91 229 86C230 113 223 135 215 147Z" fill={paint('shadow')} stroke="#955C4E" stroke-width=".8" />
+  <path d="M220 101C214 113 211 126 211 135L217 137C223 125 223 111 220 101Z" fill="#CE9575" />
+  <path d="M161 136C177 118 201 123 216 141C222 148 230 152 247 158C253 161 254 166 246 171L220 185C207 193 187 191 172 180L156 179L161 169L149 165L157 154L151 150Z" fill={paint('resin')} stroke="#A06852" stroke-width=".9" />
+  <path d="M177 159C188 153 198 157 208 166C218 171 233 169 249 163C246 173 230 180 219 184C208 187 191 183 181 176L170 178L174 169L166 165Z" fill={paint('light')} />
+  <path d="M209 160C221 162 235 162 244 158" fill="none" stroke="#F1CCAA" stroke-width="1.5" stroke-linecap="round" />
+  <path d="M246 157C253 158 257 161 251 165L245 166L242 162Z" fill="#7C4C40" />
+  <path d="M190 150C195 147 201 148 205 153C199 153 194 154 190 150Z" fill="#855144" />
+  <path d="M191 147C195 145 200 146 203 148" fill="none" stroke="#EDC3A0" stroke-width="1.2" stroke-linecap="round" />
+  <path d="M213 176C223 176 232 173 238 170M169 147l8-10m-10 19 9-11m-11 19 9-9M183 178l7 6" fill="none" stroke="#A26A52" stroke-width=".9" stroke-linecap="round" opacity=".8" />
+  <path d="M177 133C187 128 198 132 204 136" fill="none" stroke="#F2D2B0" stroke-width="1.3" stroke-linecap="round" />
+
+  <!-- A small leaf on the base reinforces the sculpted detail, not a real plant. -->
+  <path d="M243 330C247 310 263 301 281 303C278 320 263 332 243 330Z" fill={paint('resin')} stroke="#B47C5E" stroke-width=".8" />
+  <path d="M243 330l27-20m-18 14 2-10m5 5 10 1m-6-5 2-7" fill="none" stroke="#F0C6A0" stroke-width="1.2" />
+
+  <!-- A separate openwork part: the cream visible through it is actual negative space. -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M345 329L357 254L391 236L419 264L411 340Z" stroke="#703740" stroke-width="8" />
+    <path d="M345 329L357 254L391 236L419 264L411 340Z" stroke={paint('lattice')} stroke-width="5" />
+    <path d="M357 254L375 274L391 236M375 274L419 264M375 274L365 310L345 329M365 310L411 340M365 310L401 297L419 264M401 297L411 340M375 274L401 297M357 254L365 310" stroke="#773C44" stroke-width="4.5" />
+    <path d="M357 253L375 273L391 235M375 273L419 263M375 273L365 309L345 328M365 309L411 339M365 309L401 296L419 263M401 296L411 339M375 273L401 296M357 253L365 309" stroke="#B27379" stroke-width="2.1" />
+    <path d="M345 329L377 349L411 340M377 349L381 307L401 297M381 307L365 310M381 307L375 274" stroke={paint('lattice')} stroke-width="4.5" />
+    <path d="M346 328L377 348L411 339M377 348L381 306L401 296" stroke="#D19B9B" stroke-width="1" opacity=".7" />
+  </g>
+  <g fill="#F0C8BE" opacity=".72">
+    <circle cx="357" cy="253" r="1.5" />
+    <circle cx="375" cy="273" r="1.4" />
+    <circle cx="365" cy="309" r="1.4" />
+    <circle cx="401" cy="296" r="1.4" />
+  </g>
+
+  <!-- Fine specimen-guide lines echo the technical illustration on the homepage. -->
+  <g fill="none" stroke="#8E3F43" stroke-width="1" opacity=".42">
+    <path d="M271 132H332L350 113H391" />
+    <circle cx="268" cy="132" r="3" />
+    <path d="M119 241H55M55 237v8" />
+    <path d="M399 220H444M444 216v8" />
+  </g>
+  <g fill="#8E3F43" opacity=".55">
+    <circle cx="391" cy="113" r="2" />
+    <circle cx="119" cy="241" r="2" />
+    <circle cx="399" cy="220" r="2" />
+  </g>
+</svg>
+
+<style>
+  .sla-showcase {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+</style>

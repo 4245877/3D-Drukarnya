@@ -148,7 +148,7 @@ test('static routes cover every landing page exactly once', () => {
       `guide "${guide.slug}" is missing from the route table`,
     );
   }
-  for (const routePath of ['', 'catalog/', 'guides/', 'about/', 'en/']) {
+  for (const routePath of ['', 'catalog/', 'sla/', 'guides/', 'about/', 'en/']) {
     assert.ok(STATIC_ROUTE_PATHS.includes(routePath), `route "${routePath}" is missing`);
   }
 });

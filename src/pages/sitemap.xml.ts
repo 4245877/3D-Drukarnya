@@ -5,8 +5,8 @@ import { absoluteUrl } from '../utils/urls';
 
 /**
  * Sitemap of every indexable, canonical URL: the home page, the catalog hub
- * and its category landing pages, the guides, About, the English overview and
- * every product page.
+ * and its category landing pages, the SLA service, the guides, About, the
+ * English overview and every product page.
  *
  * Deliberately excluded: 404.html (noindex), sitemap.xml and robots.txt
  * themselves, and the IndexNow key file — none of them are content, and a
