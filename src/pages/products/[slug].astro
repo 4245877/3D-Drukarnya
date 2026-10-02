@@ -201,8 +201,7 @@ const keyFacts = [
   product.leadTime ? { label: 'Термін', value: product.leadTime } : null,
 ].filter((item): item is { label: string; value: string } => Boolean(item));
 
-// Short, factual reassurance shown under the CTA. Same claims the FDM
-// section below makes in prose — nothing new is promised here.
+// Ordering and customization details stay beside the purchase action.
 const orderPoints = [
   'Самовивіз у Києві або OLX Доставка по Україні',
   'Матеріал, колір і заповнення узгоджуються перед друком',
@@ -215,7 +214,7 @@ const pageSections = [
   { id: 'product-description', label: 'Опис' },
   hasFacts ? { id: 'product-details', label: 'Характеристики' } : null,
   hasVariants ? { id: 'product-variants', label: 'Варіанти' } : null,
-  { id: 'fdm-print-use-cases', label: 'FDM-друк' },
+  { id: 'fdm-print-use-cases', label: 'Комплектація' },
   hasImages ? { id: 'product-gallery', label: 'Фото' } : null,
 ].filter((item): item is { id: string; label: string } => Boolean(item));
 
@@ -571,31 +570,18 @@ const structuredData = graph([
             aria-labelledby="fdm-print-use-cases-title"
           >
             <div class="product-section__head">
-              <p class="kicker">FDM-друк під замовлення</p>
               <h2 id="fdm-print-use-cases-title" class="product-section__title">
-                Для корпусів, кріплень і прототипів
+                Друк і комплектація
               </h2>
             </div>
 
             <p class="product-section__lead">
               Цей виріб друкується під замовлення методом FDM. У комплект входять
-              лише надруковані деталі — метизи, електроніка та комплектуючі
-              узгоджуються окремо. Перед друком можна погодити матеріал, колір,
-              заповнення й невеликі зміни моделі під вашу задачу.
+              лише надруковані пластикові деталі — метизи, вставки, електроніка,
+              кабелі, вентилятори та блоки живлення узгоджуються окремо.
+              <a href={href('guides/petg-vs-pla-for-racks/')}>Як обрати матеріал</a>
+              {' '}та <a href={href('about/#pricing')}>як формується ціна</a>.
             </p>
-
-            <ul class="product-usecases" role="list">
-              <li>
-                PETG для навантажених деталей стійки, PLA — для ненавантажених:
-                <a href={href('guides/petg-vs-pla-for-racks/')}>порівняння матеріалів</a>;
-              </li>
-              <li>адаптація отворів, посадкових місць, товщини стінок або кольору;</li>
-              <li>
-                ціна розраховується за вагою надрукованої деталі —
-                <a href={href('about/#pricing')}>як формується ціна</a>;
-              </li>
-              <li>самовивіз у Києві або відправлення OLX Доставкою по Україні.</li>
-            </ul>
           </section>
         </div>
 
@@ -699,16 +685,11 @@ const structuredData = graph([
       {relatedGuides.length > 0 && (
         <section class="content-section" aria-labelledby="related-guides-title">
           <h2 id="related-guides-title">Гайди, які допоможуть із вибором</h2>
-          <div class="content-grid">
+          <ul class="content-linkrow" role="list">
             {relatedGuides.map((guide) => (
-              <article class="content-card">
-                <h3 class="content-card__title">
-                  <a href={href(`guides/${guide.slug}/`)}>{guide.heading}</a>
-                </h3>
-                <p class="content-card__text">{guide.description}</p>
-              </article>
+              <li><a href={href(`guides/${guide.slug}/`)}>{guide.heading}</a></li>
             ))}
-          </div>
+          </ul>
         </section>
       )}
     </div>

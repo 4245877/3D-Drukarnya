@@ -198,8 +198,8 @@ slug="<slug>">` з прозою всередині. Посилання на то
 ## Деплой на GitHub Pages
 
 Workflow: [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
-Запускається при push у `main`, щотижня за розкладом (ціни SKUFNYA та дата
-`priceValidUntil` запікаються під час збірки) та вручну.
+Запускається при push у `main`, щотижня за розкладом (дата `priceValidUntil`
+запікається під час збірки) та вручну.
 
 Job `build` (тільки `contents: read`): `npm ci` → `npm audit
 --audit-level=high` → `npm run validate:data` → `npm run check` → `npm test` →

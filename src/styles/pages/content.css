@@ -340,6 +340,10 @@
   font-weight: var(--fw-semibold);
 }
 
+.content-head .content-facts {
+  margin-top: var(--space-4);
+}
+
 /* ── Meta line under an article heading ───────────────────── */
 .content-meta {
   margin: var(--space-3) 0 0;

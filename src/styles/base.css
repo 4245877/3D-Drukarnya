@@ -11,7 +11,6 @@
    tests/build-output.test.mjs checks.
 
    Canonical breakpoints: 1400 / 1200 / 1024 / 900 / 768 / 480
-   (560 is a content-driven exception for the SKUFNYA promo grid).
    ============================================================ */
 
 /* ── CSS Custom Properties ────────────────────────────────── */
@@ -368,9 +367,7 @@ p {
 }
 
 /* ── Kicker (eyebrow label above section headings) ────────── */
-/* One shared component for what used to be three near-identical
-   copies (.catalog-seo__eyebrow, .skufnya-promo__eyebrow,
-   .product-page__section-kicker). */
+/* Shared label for headings across the catalog and content pages. */
 .kicker {
   display: inline-flex;
   align-items: center;
@@ -525,11 +522,10 @@ p {
   color: var(--copper);
 }
 
-/* Site-map columns above the brand line. They carry the standing internal
-   link graph (categories, guides, about), so they stay plain text links. */
+/* Short catalog and information navigation above the brand line. */
 .site-footer__nav {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-8);
   margin-bottom: var(--space-8);
   padding-bottom: var(--space-6);
@@ -597,11 +593,13 @@ p {
 
   .site-footer__meta {
     align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-3);
   }
 
   .site-footer__nav {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-6);
+    gap: var(--space-4);
     margin-bottom: var(--space-6);
   }
 }

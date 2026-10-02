@@ -2,7 +2,6 @@
 import Layout from '../../components/Layout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { CATEGORIES } from '../../data/categories.mjs';
-import { GUIDES } from '../../data/guides.mjs';
 import { SITE_NAME } from '../../data/site.config.mjs';
 import { getAllProducts } from '../../utils/products';
 import { absoluteUrl, href } from '../../utils/urls';
@@ -110,55 +109,6 @@ const structuredData = graph([
         </div>
       </section>
 
-      <section class="content-section" aria-labelledby="catalog-picker">
-        <h2 id="catalog-picker">Яка категорія потрібна саме вам</h2>
-
-        <div class="content-table-wrap">
-          <table class="content-table">
-            <caption>
-              Відповідність типової задачі та розділу каталогу.
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Задача</th>
-                <th scope="col">Категорія</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Потрібен каркас домашньої лабораторії</th>
-                <td><a href={href('catalog/10-inch-server-rack/')}>Стійки та основи</a></td>
-              </tr>
-              <tr>
-                <th scope="row">Збираю NAS або ПК, додаю місця для дисків</th>
-                <td><a href={href('catalog/cases-and-storage/')}>Корпуси та дискові модулі</a></td>
-              </tr>
-              <tr>
-                <th scope="row">Треба закріпити пристрій, блок живлення або антену</th>
-                <td><a href={href('catalog/equipment-mounts/')}>Кріплення для обладнання</a></td>
-              </tr>
-              <tr>
-                <th scope="row">Потрібна полиця, шухляда, патч-панель чи порядок у кабелях</th>
-                <td><a href={href('catalog/rack-accessories/')}>Аксесуари для стійок</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="content-section" aria-labelledby="catalog-guides">
-        <h2 id="catalog-guides">Перед вибором: гайди</h2>
-        <div class="content-grid">
-          {GUIDES.map((guide) => (
-            <article class="content-card">
-              <h3 class="content-card__title">
-                <a href={href(`guides/${guide.slug}/`)}>{guide.heading}</a>
-              </h3>
-              <p class="content-card__text">{guide.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
     </div>
   </div>
 </Layout>

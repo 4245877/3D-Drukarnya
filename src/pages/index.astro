@@ -1,12 +1,10 @@
 ---
 import Layout from '../components/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
-import SkufnyaPromo from '../components/SkufnyaPromo.astro';
 import { CATEGORIES } from '../data/categories.mjs';
 import { FAQ_ITEMS } from '../data/faq';
-import { GUIDES } from '../data/guides.mjs';
 import { LANGUAGE_ALTERNATES } from '../data/i18n.mjs';
-import { OLX_URL, SITE_NAME } from '../data/site.config.mjs';
+import { OLX_URL } from '../data/site.config.mjs';
 import { getAllProducts } from '../utils/products';
 import { absoluteUrl, href } from '../utils/urls';
 import {
@@ -39,11 +37,8 @@ const keywords =
 const olxUrl = OLX_URL;
 const homepageUrl = absoluteUrl('');
 
-// One list drives both category surfaces on this page: the compact sidebar
-// beside the grid (a JS convenience, buttons — they filter, they do not
-// navigate) and the "Розділи каталогу" cards below it. Those cards are the
-// static, JS-free links into every category landing page — what crawlers and
-// assistants follow, present in the HTML with scripting disabled.
+// Filters narrow the product grid. Static category links remain available
+// through the catalog hub and footer, including with JavaScript disabled.
 const categoryLinks = CATEGORIES.map((category) => ({
   ...category,
   count: products.filter((product) => product.category === category.name).length,
@@ -116,42 +111,13 @@ const structuredData = graph([
             </h1>
 
             <p class="catalog-hero__subtitle">
-              3D-друковані mini rack 1U–5U, корпуси для домашнього NAS, кріплення
-              для MikroTik, TP-Link, Raspberry Pi та mini-PC Lenovo Tiny, полиці й
-              патч-панелі. Друк PETG і PLA на замовлення, самовивіз у Києві або
-              OLX Доставка по Україні.
+              Стійки, NAS-корпуси, кріплення й аксесуари для домашньої лабораторії.
+              3D-друк на замовлення в Києві, доставка по Україні.
             </p>
 
-            <div class="catalog-hero__stats">
-              <div class="catalog-hero__stat-pill">
-                <span class="catalog-hero__stat-pill-value">{products.length}</span>
-                <span class="catalog-hero__stat-pill-label">позицій у каталозі</span>
-              </div>
-
-              <div class="catalog-hero__stat-pill">
-                <span class="catalog-hero__stat-pill-value">1U–5U</span>
-                <span class="catalog-hero__stat-pill-label">модульні стійки</span>
-              </div>
-
-              <div class="catalog-hero__stat-pill">
-                <span class="catalog-hero__stat-pill-value">PETG/PLA</span>
-                <span class="catalog-hero__stat-pill-label">матеріали друку</span>
-              </div>
-
-              <div class="catalog-hero__stat-pill">
-                <span class="catalog-hero__stat-pill-value">Київ</span>
-                <span class="catalog-hero__stat-pill-label">самовивіз</span>
-              </div>
-
-              <a
-                class="catalog-hero__stat-pill catalog-hero__stat-pill--link"
-                href={olxUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span class="catalog-hero__stat-pill-value">OLX</span>
-                <span class="catalog-hero__stat-pill-label">профіль OLX</span>
-              </a>
+            <div class="catalog-hero__actions">
+              <a class="btn catalog-hero__browse" href="#catalog-title">Переглянути товари</a>
+              <a class="catalog-hero__order-link" href="#order-title">Як замовити</a>
             </div>
           </div>
 
@@ -365,8 +331,8 @@ const structuredData = graph([
     {/*
       The catalog itself opens the page. On wide screens its navigation is a
       narrow sidebar beside the products; on small screens the same controls
-      become an off-canvas drawer. The full category descriptions remain below
-      the grid as static, crawlable links.
+      become an off-canvas drawer. Category descriptions live in the catalog
+      hub; the footer keeps ordinary links to every category page.
     */}
     <section
       class="catalog-main"
@@ -454,7 +420,7 @@ const structuredData = graph([
 
               {/* Progressive enhancement: controls are revealed only after every
                   filter target is found. Without JS all products stay visible and
-                  static category links remain below the grid and in the footer. */}
+                  static category links remain in the catalog hub and footer. */}
               <nav
                 class="catalog-filters"
                 aria-label="Фільтри каталогу"
@@ -568,21 +534,6 @@ const structuredData = graph([
                 </div>
               )
             }
-
-            <aside class="catalog-note" aria-label="Про каталог">
-              <p class="catalog-note__text">
-                Деталі для домашньої серверної інфраструктури: стійки, кріплення,
-                корпуси й аксесуари. Усе друкується під замовлення.
-              </p>
-
-              <ul class="catalog-note__tags" role="list">
-                <li class="tag tag--copper">10" rack</li>
-                <li class="tag tag--copper">HomeLab</li>
-                <li class="tag tag--copper">NAS</li>
-                <li class="tag tag--copper">Rack mount</li>
-                <li class="tag tag--copper">PETG</li>
-              </ul>
-            </aside>
           </div>
         </div>
 
@@ -595,135 +546,29 @@ const structuredData = graph([
       </div>
     </section>
 
-    <section class="catalog-cats" aria-labelledby="categories-title">
-      <div class="container">
-        <div class="catalog-cats__head">
-          <div>
-            <p class="kicker">Категорії</p>
-            <h2 id="categories-title">Розділи каталогу</h2>
-          </div>
-
-          <p class="catalog-cats__lead">
-            {categoryLinks.length} розділи за типом деталі: стійки, корпуси та
-            дискові модулі, кріплення й аксесуари. Оберіть потрібний розділ
-            або перегляньте всі {products.length} товарів вище.
-          </p>
-        </div>
-
-        <div class="catalog-tiles">
-          {categoryLinks.map((category) => (
-            <article class="catalog-tile">
-              <h3 class="catalog-tile__title">
-                <a href={href(`catalog/${category.slug}/`)}>{category.heading}</a>
-              </h3>
-              <p class="catalog-tile__text">{category.description}</p>
-              <p class="catalog-tile__meta">{category.count} товарів</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <SkufnyaPromo />
-
-    <section class="catalog-seo" aria-labelledby="services-title">
-      <div class="container">
-        <div class="catalog-seo__intro">
-          <p class="kicker">Що ми робимо</p>
-          <h2 id="services-title">3D-друк для домашньої серверної інфраструктури</h2>
+    <section class="catalog-order" aria-labelledby="order-title">
+      <div class="container catalog-order__inner">
+        <div class="catalog-order__intro">
+          <h2 id="order-title">Як замовити</h2>
           <p>
-            Домашня лабораторія майже завжди складається з обладнання, яке не
-            призначалося для стійки: настільні роутери, mini-PC, зовнішні диски,
-            одноплатні компʼютери. Друковані деталі закривають саме цей розрив —
-            дають кожному пристрою своє місце в 10-дюймовій стійці й прибирають
-            зі столу купу коробок і кабелів.
+            Оберіть товар і напишіть нам на OLX. Вкажіть артикул (P…),
+            кількість і колір; за потреби — матеріал.
+          </p>
+          <a class="btn btn--primary" href={olxUrl} target="_blank" rel="noopener noreferrer">
+            Написати на OLX
+          </a>
+          <p class="catalog-order__more">
+            <a href={href('about/#pricing')}>Ціни та умови замовлення</a>
           </p>
         </div>
 
-        <div class="catalog-seo__grid">
-          <article class="catalog-seo__item">
-            <h3>Стійки та кріплення</h3>
-            <p>
-              Модульні каркаси 1U–5U і адаптери під конкретні моделі обладнання:
-              MikroTik, TP-Link, Lenovo ThinkCentre Tiny, Dell OptiPlex Micro,
-              HP EliteDesk Mini, Raspberry Pi. Для нестандартних пристроїв —
-              параметричне кріплення.
-            </p>
-            <p>
-              <a href={href('catalog/10-inch-server-rack/')}>10-дюймові стійки</a> ·{' '}
-              <a href={href('catalog/equipment-mounts/')}>кріплення для обладнання</a>
-            </p>
-          </article>
-
-          <article class="catalog-seo__item">
-            <h3>Сховище та NAS</h3>
-            <p>
-              Корпуси для домашнього NAS на 4, 6 і 8 дисків — навколо готового
-              mini-PC або під плату Mini-ITX — і окремі дискові модулі для стійки
-              на 6 та 12 накопичувачів, включно з hot-swap конфігураціями.
-            </p>
-            <p>
-              <a href={href('catalog/cases-and-storage/')}>корпуси та дискові модулі</a>
-            </p>
-          </article>
-
-          <article class="catalog-seo__item">
-            <h3>Обвʼязка стійки</h3>
-            <p>
-              Полиці, патч-панелі на кейстоуни, кабельні панелі й напрямні,
-              шухляди Gridfinity та кріплення блоків живлення — те, що
-              перетворює набір пристроїв на акуратно зібрану систему.
-            </p>
-            <p>
-              <a href={href('catalog/rack-accessories/')}>аксесуари для стійок</a> ·{' '}
-              <a href={href('catalog/equipment-mounts/')}>кріплення блоків живлення</a>
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="catalog-seo" aria-labelledby="materials-title">
-      <div class="container">
-        <div class="catalog-seo__intro">
-          <p class="kicker">Гайди</p>
-          <h2 id="materials-title">Що почитати перед вибором</h2>
-          <p>
-            Практичні матеріали, які відповідають на питання до покупки: який
-            формат стійки обрати, скільки місця займе обладнання, який пластик
-            витримає цілодобову роботу. Кожен гайд починається з короткої
-            відповіді.
-          </p>
-        </div>
-
-        <div class="catalog-tiles">
-          {GUIDES.map((guide) => (
-            <article class="catalog-tile">
-              <h3 class="catalog-tile__title">
-                <a href={href(`guides/${guide.slug}/`)}>{guide.heading}</a>
-              </h3>
-              <p class="catalog-tile__text">{guide.description}</p>
-            </article>
+        <div class="catalog-order__details">
+          {FAQ_ITEMS.map((item) => (
+            <details class="catalog-order__item">
+              <summary data-faq-question>{item.question}</summary>
+              <p data-faq-answer>{item.answer}</p>
+            </details>
           ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="catalog-faq" aria-labelledby="order-title">
-      <div class="container">
-        <div class="catalog-faq__inner">
-          <h2 id="order-title">Часті питання: стійки, ціни, строки й доставка</h2>
-
-          <div class="catalog-faq__list">
-            {
-              FAQ_ITEMS.map((item) => (
-                <article class="catalog-faq__item">
-                  <h3 data-faq-question>{item.question}</h3>
-                  <p data-faq-answer>{item.answer}</p>
-                </article>
-              ))
-            }
-          </div>
         </div>
       </div>
     </section>

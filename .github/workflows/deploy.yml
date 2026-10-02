@@ -3,8 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
-  # SKUFNYA promo prices and the Offer priceValidUntil date are baked in at
-  # build time, so rebuild weekly to keep them from drifting out of date.
+  # The Offer priceValidUntil date is baked in at build time, so rebuild
+  # weekly to keep it from drifting out of date.
   schedule:
     - cron: '17 3 * * 1'
   workflow_dispatch:

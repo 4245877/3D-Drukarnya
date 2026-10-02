@@ -107,15 +107,6 @@ const structuredData = graph([
         <p class="kicker">Категорія каталогу</p>
         <h1 class="content-head__title content-head__title--wide">{category.heading}</h1>
         <p class="content-lead">{category.lead}</p>
-      </header>
-
-      <section class="content-section" aria-labelledby="category-overview">
-        <h2 id="category-overview">Що є в цій категорії</h2>
-
-        <ul class="content-list" role="list">
-          {category.highlights.map((item) => <li>{item}</li>)}
-        </ul>
-
         <dl class="content-facts">
           <div>
             <dt>Товарів у категорії</dt>
@@ -132,7 +123,7 @@ const structuredData = graph([
             <dd>Під замовлення, Київ</dd>
           </div>
         </dl>
-      </section>
+      </header>
 
       <section class="content-section" aria-labelledby="category-products">
         <h2 id="category-products">Товари в категорії «{category.heading}»</h2>
@@ -172,16 +163,11 @@ const structuredData = graph([
       {relatedGuides.length > 0 && (
         <section class="content-section" aria-labelledby="category-guides">
           <h2 id="category-guides">Гайди на цю тему</h2>
-          <div class="content-grid">
+          <ul class="content-linkrow" role="list">
             {relatedGuides.map((guide) => (
-              <article class="content-card">
-                <h3 class="content-card__title">
-                  <a href={href(`guides/${guide.slug}/`)}>{guide.heading}</a>
-                </h3>
-                <p class="content-card__text">{guide.description}</p>
-              </article>
+              <li><a href={href(`guides/${guide.slug}/`)}>{guide.heading}</a></li>
             ))}
-          </div>
+          </ul>
         </section>
       )}
 
