@@ -1,0 +1,349 @@
+---
+interface Props {
+  id?: string;
+}
+
+const { id = 'sla-mechanism' } = Astro.props;
+const paint = (name: string) => `url(#${id}-${name})`;
+const screwThreads = Array.from({ length: 46 }, (_, index) => 83 + index * 6);
+const railBolts = [90, 125, 245, 285, 325];
+---
+
+<svg
+  class="sla-mechanism"
+  viewBox="0 0 560 540"
+  role="img"
+  aria-labelledby={`${id}-title ${id}-description`}
+  focusable="false"
+  data-sla-mechanism
+>
+  <title id={`${id}-title`}>Механізм підйому платформи фотополімерного 3D-принтера</title>
+  <desc id={`${id}-description`}>
+    Каретка рухається вертикально по сталевій напрямній за допомогою ходового
+    гвинта. Консоль і затиск утримують металеву платформу для друку. Під нею на
+    тонких підтримках формується деталізована мініатюра, а нижче розташована
+    ванна з фотополімерною смолою та м’яким світлом засвічення.
+  </desc>
+
+  <defs>
+    <linearGradient id={`${id}-body`} x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A64B52" />
+      <stop offset=".5" stop-color="#843B43" />
+      <stop offset="1" stop-color="#58282F" />
+    </linearGradient>
+    <linearGradient id={`${id}-copper`} x1="0" y1="0" x2="1" y2=".6">
+      <stop offset="0" stop-color="#E0AB84" />
+      <stop offset=".5" stop-color="#C88463" />
+      <stop offset="1" stop-color="#9C5B47" />
+    </linearGradient>
+    <linearGradient id={`${id}-graphite`} x1="0" y1="0" x2=".35" y2="1">
+      <stop offset="0" stop-color="#59616D" />
+      <stop offset=".52" stop-color="#3C434D" />
+      <stop offset="1" stop-color="#282D35" />
+    </linearGradient>
+    <linearGradient id={`${id}-steel`} x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#66717C" />
+      <stop offset=".22" stop-color="#D5D8D7" />
+      <stop offset=".38" stop-color="#F3E9D7" />
+      <stop offset=".56" stop-color="#A2ACB4" />
+      <stop offset="1" stop-color="#515A68" />
+    </linearGradient>
+    <linearGradient id={`${id}-aluminium`} x1="0" y1="0" x2=".7" y2="1">
+      <stop offset="0" stop-color="#E0DFD8" />
+      <stop offset=".33" stop-color="#ACB4BB" />
+      <stop offset=".61" stop-color="#7A8590" />
+      <stop offset="1" stop-color="#596574" />
+    </linearGradient>
+    <linearGradient id={`${id}-plate-edge`} x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#AEB6BC" />
+      <stop offset=".24" stop-color="#707B86" />
+      <stop offset="1" stop-color="#39414C" />
+    </linearGradient>
+    <linearGradient id={`${id}-resin`} x1="0" y1="0" x2=".7" y2="1">
+      <stop offset="0" stop-color="#DBA5AA" />
+      <stop offset=".35" stop-color="#B97D94" />
+      <stop offset=".7" stop-color="#815A78" />
+      <stop offset="1" stop-color="#513A58" />
+    </linearGradient>
+    <radialGradient id={`${id}-resin-surface`} cx=".52" cy=".48" r=".65">
+      <stop offset="0" stop-color="#7E506E" />
+      <stop offset=".42" stop-color="#443247" />
+      <stop offset="1" stop-color="#1D222D" />
+    </radialGradient>
+    <radialGradient id={`${id}-halo`} cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#C88463" stop-opacity=".13" />
+      <stop offset=".62" stop-color="#A64B52" stop-opacity=".05" />
+      <stop offset="1" stop-color="#A64B52" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id={`${id}-uv`} cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#E0A4C5" stop-opacity=".42" />
+      <stop offset=".42" stop-color="#BA82AC" stop-opacity=".18" />
+      <stop offset="1" stop-color="#AA739E" stop-opacity="0" />
+    </radialGradient>
+    <filter id={`${id}-shadow`} x="-.3" y="-.8" width="1.6" height="2.6">
+      <feGaussianBlur stdDeviation="8" />
+    </filter>
+    <filter id={`${id}-soft-light`} x="-.5" y="-.5" width="2" height="2">
+      <feGaussianBlur stdDeviation="5" />
+    </filter>
+    <clipPath id={`${id}-vat-clip`}>
+      <path d="M143 354 349 450 458 395 252 299Z" />
+    </clipPath>
+    <clipPath id={`${id}-plate-clip`}>
+      <path d="M146 233 347 327 444 278 243 184Z" />
+    </clipPath>
+  </defs>
+
+  <!-- All horizontal planes share the Hero's 2:1 isometric projection. -->
+  <ellipse cx="294" cy="269" rx="251" ry="237" fill={paint('halo')} />
+  <path d="M94 429 345 525 505 442 270 344Z" fill="#25191A" opacity=".19" filter={paint('shadow')} />
+
+  <!-- Grounded chassis, feet and warm anodised perimeter. -->
+  <g class="sla-mechanism__base">
+    <path d="M104 414 130 426 130 444 104 432Z" fill="#2E2830" />
+    <path d="M330 510 356 497 356 516 330 529Z" fill="#27252C" />
+    <path d="M476 436 496 426 496 443 476 453Z" fill="#27252C" />
+    <path d="M97 397 343 512 501 433 255 318Z" fill={paint('copper')} />
+    <path d="M97 397 343 512 343 530 97 415Z" fill={paint('body')} />
+    <path d="M343 512 501 433 501 451 343 530Z" fill="#54262F" />
+    <path d="M112 397 343 504 486 433 255 326Z" fill={paint('graphite')} />
+    <path d="M97 397 343 512 501 433" fill="none" stroke="#F1D5B7" stroke-width="1.5" stroke-opacity=".62" />
+    <path d="M103 409 343 521" fill="none" stroke="#C88463" stroke-width="1" stroke-opacity=".35" />
+    <path d="M366 502 474 448" fill="none" stroke="#E6C4A7" stroke-width="1.2" stroke-opacity=".16" />
+    <path d="M147 411 195 433" fill="none" stroke="#252830" stroke-width="3" stroke-linecap="round" />
+    <path d="M153 420 189 437" fill="none" stroke="#A1A9AF" stroke-opacity=".18" stroke-width="1" />
+  </g>
+
+  <!-- Fixed Z column: an extruded beam, with a separate front guide and screw. -->
+  <g class="sla-mechanism__z-axis">
+    <path d="M334 47 371 65 396 52 359 34Z" fill={paint('copper')} />
+    <path d="M334 47 371 65 371 373 334 355Z" fill={paint('body')} />
+    <path d="M371 65 396 52 396 360 371 373Z" fill="#4A2830" />
+    <path d="M378 70 388 65 388 347 378 352Z" fill="#241F27" />
+    <path d="M379 72 379 350" fill="none" stroke="#B37862" stroke-width="1" stroke-opacity=".5" />
+    <path d="M337 51 337 353 M371 66 371 371" stroke="#E8D8BE" stroke-width="1.2" stroke-opacity=".3" fill="none" />
+    <path d="M334 349 371 367 400 353 400 371 371 386 326 364Z" fill={paint('graphite')} />
+    <path d="M326 364 371 386 371 399 326 377Z" fill="#30343E" />
+    <path d="M371 386 400 371 400 384 371 399Z" fill="#222731" />
+    <path d="M340 356 371 371 389 362" fill="none" stroke="#CCD0CD" stroke-opacity=".4" stroke-width="1" />
+
+    <!-- Linear rail: polished raised edges, fasteners and a dark central channel. -->
+    <path d="M346 77 362 85 362 351 346 343Z" fill="#343C48" />
+    <path d="M346 77 350 79 350 345 346 343Z" fill="#D0D4D1" />
+    <path d="M356 82 362 85 362 351 356 348Z" fill={paint('steel')} />
+    <path d="M350 80 356 83 356 348 350 345Z" fill="#7A8792" />
+    <path d="M349 78 349 343" stroke="#F2E9D7" stroke-width=".9" fill="none" opacity=".8" />
+    {railBolts.map((y) => (
+      <g>
+        <ellipse cx="353" cy={y} rx="2.4" ry="3" fill="#303844" />
+        <path d={`M351.7 ${y - .8} 354.3 ${y + .8}`} stroke="#CAD0CD" stroke-width=".8" />
+      </g>
+    ))}
+
+    <!-- Exposed lead screw, parallel to the rail, with machined helical threads. -->
+    <path d="M316 76 326 81 326 355 316 350Z" fill={paint('steel')} />
+    {screwThreads.map((y) => (
+      <path d={`M316 ${y} 326 ${y - 3}`} stroke="#485364" stroke-width="1.4" fill="none" />
+    ))}
+    <path d="M320 78 320 351" fill="none" stroke="#E8E5D9" stroke-width="1" stroke-opacity=".5" />
+
+    <!-- Top bearing ties the shaft back to the same column. -->
+    <path d="M304 61 329 73 355 60 330 48Z" fill={paint('aluminium')} />
+    <path d="M304 61 329 73 329 87 304 75Z" fill={paint('graphite')} />
+    <path d="M329 73 355 60 355 74 329 87Z" fill="#303742" />
+    <ellipse cx="320" cy="71" rx="7" ry="3.8" fill="#2D343E" />
+    <ellipse cx="320" cy="71" rx="4.5" ry="2.3" fill="#B4BDC1" />
+    <path d="M306 61 329 72 351 61" stroke="#F1E7D3" stroke-width="1" stroke-opacity=".6" fill="none" />
+    <ellipse cx="340" cy="61" rx="2.1" ry="1.2" fill="#535F6B" />
+
+    <!-- Fixed motor and shaft coupling, visible below the moving carriage. -->
+    <path d="M298 355 327 369 350 357 321 343Z" fill="#727C85" />
+    <path d="M298 355 327 369 327 399 298 385Z" fill={paint('graphite')} />
+    <path d="M327 369 350 357 350 387 327 399Z" fill="#252B35" />
+    <path d="M300 358 324 370 M300 382 324 394" fill="none" stroke="#C5C8C4" stroke-opacity=".28" stroke-width="1" />
+    <path d="M313 335 327 342 327 360 313 353Z" fill={paint('steel')} />
+    <ellipse cx="320" cy="338" rx="7" ry="3.5" fill="#BBC2C4" />
+    <path d="M313 344 327 351 M313 348 327 355" fill="none" stroke="#475463" stroke-width="1.2" />
+    <ellipse cx="324" cy="349" rx="1.4" ry="2" fill="#303C49" />
+    <path d="M343 383C353 391 372 387 385 397" fill="none" stroke="#262530" stroke-width="4" stroke-linecap="round" />
+    <path d="M343 382C353 390 372 386 385 396" fill="none" stroke="#C88463" stroke-opacity=".42" stroke-width="1" stroke-linecap="round" />
+  </g>
+
+  <!-- Resin tank: broad, low, and visibly separate from the build platform. -->
+  <g class="sla-mechanism__vat">
+    <path d="M121 350 350 457 482 391 253 284Z" fill="#929CA4" />
+    <path d="M121 350 350 457 350 488 121 381Z" fill={paint('graphite')} />
+    <path d="M350 457 482 391 482 422 350 488Z" fill="#30343E" />
+    <path d="M134 352 349 452 468 393 253 293Z" fill="#161B25" />
+    <path d="M143 354 349 450 458 395 252 299Z" fill={paint('resin-surface')} />
+    <g clip-path={paint('vat-clip')}>
+      <ellipse cx="304" cy="390" rx="115" ry="52" fill={paint('uv')} />
+      <path d="M196 356C260 371 300 417 396 416" fill="none" stroke="#DEADBF" stroke-opacity=".14" stroke-width="1.2" />
+      <path d="M225 363C259 372 286 389 315 394" fill="none" stroke="#E6BDD0" stroke-opacity=".25" stroke-width="1.1" stroke-linecap="round" />
+      <path d="M251 365 352 412 393 392 292 345Z" fill="#AB789C" opacity=".09" />
+      <path d="M253 309 447 399" fill="none" stroke="#A8B1BC" stroke-opacity=".17" stroke-width="2" />
+    </g>
+    <path d="M121 350 350 457 482 391" fill="none" stroke="#DADDD5" stroke-width="1.6" stroke-opacity=".76" />
+    <path d="M134 352 349 452 468 393 253 293Z" fill="none" stroke="#5F6B79" stroke-width="2" />
+    <path d="M127 359 343 460" fill="none" stroke="#707987" stroke-width="1.4" stroke-opacity=".52" />
+    <path d="M124 372 350 477" fill="none" stroke="#232631" stroke-width="2" stroke-opacity=".5" />
+    <path d="M357 461 474 402" fill="none" stroke="#BC89AB" stroke-width="2" stroke-opacity=".34" />
+    <path d="M357 471 474 412" fill="none" stroke="#C4A9C8" stroke-width="3.5" stroke-opacity=".12" filter={paint('soft-light')} />
+    <g fill="#29303B" stroke="#A7AFB4" stroke-width=".8">
+      <ellipse cx="137" cy="352" rx="2.6" ry="1.6" />
+      <ellipse cx="347" cy="452" rx="2.6" ry="1.6" />
+      <ellipse cx="469" cy="391" rx="2.6" ry="1.6" />
+      <ellipse cx="255" cy="290" rx="2.6" ry="1.6" />
+    </g>
+    <!-- Tank handles and securing knobs. -->
+    <path d="M183 389 218 405 218 415 183 399Z" fill="#2B313B" />
+    <path d="M184 389 219 405 219 409 184 393Z" fill="#A0AAB2" />
+    <path d="M414 426 451 407 451 416 414 435Z" fill="#222A35" />
+    <path d="M414 426 451 407 451 411 414 430Z" fill="#768290" />
+    <path d="M154 352 166 358 178 352 166 346Z" fill={paint('copper')} />
+    <path d="M154 352 166 358 166 366 154 360Z" fill="#68323A" />
+    <path d="M166 358 178 352 178 360 166 366Z" fill="#462B33" />
+    <path d="M426 399 438 405 450 399 438 393Z" fill={paint('copper')} />
+    <path d="M426 399 438 405 438 413 426 407Z" fill="#68323A" />
+    <path d="M438 405 450 399 450 407 438 413Z" fill="#462B33" />
+  </g>
+
+  <!-- One rigid moving assembly: carriage, arm, clamp, platform and print. -->
+  <g class="sla-mechanism__moving">
+    <!-- Lead-screw nut and linear-bearing carriage both fasten to this block. -->
+    <path d="M307 151 352 173 377 160 332 138Z" fill={paint('aluminium')} />
+    <path d="M307 151 352 173 352 216 307 194Z" fill={paint('graphite')} />
+    <path d="M352 173 377 160 377 203 352 216Z" fill="#303743" />
+    <path d="M307 153 352 175" stroke="#E8D8BE" stroke-width="1.2" stroke-opacity=".6" fill="none" />
+    <path d="M339 153 358 162 370 156 351 147Z" fill="#D0D3CF" />
+    <path d="M339 153 358 162 358 190 339 181Z" fill="#677582" />
+    <path d="M358 162 370 156 370 184 358 190Z" fill="#414D5B" />
+    <path d="M339 181 358 190 370 184" fill="none" stroke="#C7CECE" stroke-width="1" stroke-opacity=".55" />
+    <path d="M309 164 323 171 323 187 309 180Z" fill={paint('copper')} />
+    <path d="M311 165 321 170" fill="none" stroke="#F0D1B0" stroke-width="1" />
+    <g fill="#232C38" stroke="#A2ABB2" stroke-width=".9">
+      <ellipse cx="330" cy="167" rx="2.3" ry="3" />
+      <ellipse cx="330" cy="190" rx="2.3" ry="3" />
+      <ellipse cx="364" cy="196" rx="2.2" ry="2.8" />
+    </g>
+    <path d="M329 166 331 168 M329 189 331 191 M363 195 365 197" stroke="#CBD0CC" stroke-width=".8" />
+
+    <g class="sla-mechanism__resin">
+      <!-- Resin raft and slender branching supports under the build plate. -->
+      <path d="M234 278 295 307 334 287 273 258Z" fill="#533F58" />
+      <path d="M234 278 295 307 295 312 234 283Z" fill="#9A6C87" />
+      <path d="M295 307 334 287 334 292 295 312Z" fill="#654563" />
+      <g fill="none" stroke="#BD8DA2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M243 286 250 319 259 331 M256 292 261 321 268 327 M272 300 278 322 M290 308 290 329 M307 305 302 329 M324 297 316 323 311 333" />
+        <path d="M250 319 249 332 M261 321 256 342 M278 322 273 337 M302 329 308 345 M316 323 323 337" />
+      </g>
+      <g fill="#D5AAB9" opacity=".8">
+        <ellipse cx="243" cy="286" rx="2.6" ry="1.2" />
+        <ellipse cx="256" cy="292" rx="2.6" ry="1.2" />
+        <ellipse cx="272" cy="300" rx="2.6" ry="1.2" />
+        <ellipse cx="290" cy="308" rx="2.6" ry="1.2" />
+        <ellipse cx="307" cy="305" rx="2.6" ry="1.2" />
+        <ellipse cx="324" cy="297" rx="2.6" ry="1.2" />
+      </g>
+
+      <!-- A small inverted sculpted fox-spirit miniature; the supports carry it. -->
+      <path d="M253 320C266 314 294 320 310 330L315 338C298 343 272 339 251 329Z" fill={paint('resin')} />
+      <path d="M253 320C268 325 291 336 310 330" fill="none" stroke="#E3B3BF" stroke-width="1.2" stroke-opacity=".65" />
+      <path d="M257 329C252 335 255 344 266 347L274 361 294 363 305 350C313 346 315 340 311 335 301 340 290 337 282 335Z" fill={paint('resin')} />
+      <path d="M262 331C267 340 269 347 278 351M275 336C281 345 282 352 279 359M294 341C289 346 289 353 294 358M307 339C304 345 299 346 298 351" fill="none" stroke="#E3BAC7" stroke-opacity=".43" stroke-width="1.2" stroke-linecap="round" />
+      <path d="M263 336C253 329 244 331 245 341 245 350 255 358 266 356 257 352 251 344 256 341L266 345Z" fill="#A27490" />
+      <path d="M246 339C247 347 254 352 262 354" fill="none" stroke="#D9AABD" stroke-opacity=".65" stroke-width="1" />
+      <path d="M283 350C281 355 281 358 286 362L301 363C310 357 312 351 307 346L299 340 297 349Z" fill="#6F4F73" />
+      <path d="M280 354C274 355 271 361 275 367L282 375 288 373C289 378 296 379 301 375L311 365C313 360 309 356 303 356L294 351Z" fill={paint('resin')} />
+      <path d="M280 367 274 383 288 374M299 374 308 385 308 365" fill="#AA7C95" />
+      <path d="M280 367 278 377 285 372M301 374 307 380 307 370" fill="#DFABB9" opacity=".55" />
+      <path d="M279 362 287 366 294 361 301 366 308 362M287 366 289 370 297 372 301 366" fill="none" stroke="#E8BECD" stroke-width="1" stroke-opacity=".6" stroke-linejoin="round" />
+      <path d="M289 373 294 375 299 372" fill="none" stroke="#5A405C" stroke-width="1.4" stroke-linecap="round" />
+      <path d="M252 328 271 337 304 336" fill="none" stroke="#64435F" stroke-width="1" stroke-opacity=".45" />
+    </g>
+
+    <!-- Wide metal build plate: no nozzle, belt gantry or FDM filament. -->
+    <path d="M146 233 347 327 444 278 243 184Z" fill={paint('aluminium')} />
+    <g clip-path={paint('plate-clip')}>
+      <path d="M142 242 320 325 400 185 222 102Z" fill="#F3E8D2" opacity=".13" />
+      <path d="M178 243 354 325 M193 235 369 317 M208 227 384 309 M223 219 399 301 M238 211 414 293 M253 203 429 285" fill="none" stroke="#EEF0E9" stroke-opacity=".065" stroke-width="1" />
+      <path d="M154 230 346 321 436 276" fill="none" stroke="#EDF0E7" stroke-opacity=".38" stroke-width="1" />
+    </g>
+    <path d="M146 233 347 327 347 339 146 245Z" fill={paint('plate-edge')} />
+    <path d="M347 327 444 278 444 290 347 339Z" fill="#3D4857" />
+    <path d="M146 233 347 327 444 278" fill="none" stroke="#F1E9D5" stroke-width="1.5" stroke-opacity=".78" />
+    <path d="M148 244 347 337 442 289" fill="none" stroke="#222F3C" stroke-width="1.2" stroke-opacity=".6" />
+    <path d="M248 214 295 236 320 224 273 202Z" fill="#4C5866" opacity=".16" />
+    <!-- Raised mounting shoe is in front of the top surface. -->
+    <path d="M270 247 296 260 320 248 294 235Z" fill="#CED2CE" />
+    <path d="M270 247 296 260 296 266 270 253Z" fill="#6B7783" />
+    <path d="M296 260 320 248 320 254 296 266Z" fill="#465362" />
+    <path d="M282 239 296 246 306 241 292 234Z" fill="#ACB6BC" />
+    <path d="M282 239 296 246 296 256 282 249Z" fill={paint('steel')} />
+    <path d="M296 246 306 241 306 251 296 256Z" fill="#576675" />
+    <path d="M272 247 296 258 318 248" stroke="#F7ECD5" stroke-width="1" stroke-opacity=".75" fill="none" />
+    <ellipse cx="279" cy="250" rx="2" ry="1.2" fill="#364351" />
+    <ellipse cx="310" cy="250" rx="2" ry="1.2" fill="#364351" />
+
+    <!-- Box-section cantilever extends forward from the carriage. -->
+    <path d="M321 180 343 191 300 213 278 202Z" fill={paint('aluminium')} />
+    <path d="M278 202 300 213 300 235 278 224Z" fill={paint('graphite')} />
+    <path d="M300 213 343 191 343 213 300 235Z" fill="#485461" />
+    <path d="M281 202 300 211 340 191" stroke="#F2E5D0" stroke-width="1.2" stroke-opacity=".68" fill="none" />
+    <path d="M307 214 334 200 334 207 307 221Z" fill="#2B3644" />
+    <path d="M310 220 331 209" stroke="#BAC2C6" stroke-width="1" stroke-opacity=".34" fill="none" />
+    <path d="M311 214 331 204 331 208 311 218Z" fill="#C88463" opacity=".63" />
+
+    <!-- Central mount: locking wheel, stem and ball-joint plate attachment. -->
+    <path d="M282 223 298 231 298 254 282 246Z" fill={paint('steel')} />
+    <path d="M298 231 308 226 308 249 298 254Z" fill="#4B5867" />
+    <path d="M282 223 298 231 308 226 292 218Z" fill="#BAC0BE" />
+    <path d="M277 217 293 225 299 222 283 214Z" fill="#4A3440" />
+    <path d="M277 217 293 225 293 233 277 225Z" fill={paint('body')} />
+    <ellipse cx="278" cy="219" rx="9.4" ry="11.5" transform="rotate(-24 278 219)" fill="#2C303A" />
+    <ellipse cx="275" cy="218" rx="8.4" ry="10.6" transform="rotate(-24 275 218)" fill={paint('copper')} />
+    <ellipse cx="275" cy="218" rx="4" ry="5.2" transform="rotate(-24 275 218)" fill="#78443C" />
+    <path d="M269 211 271 214 M273 208 274 211 M281 216 278 216 M279 225 277 222 M270 224 273 223" stroke="#F1CFAB" stroke-width="1" stroke-opacity=".65" />
+  </g>
+</svg>
+
+<style>
+  .sla-mechanism {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .sla-mechanism__moving {
+    animation: sla-platform-lift 8s ease-in-out 1 both;
+    animation-play-state: paused;
+  }
+
+  .sla-mechanism[data-in-view='true'] .sla-mechanism__moving {
+    animation-play-state: running;
+  }
+
+  @keyframes sla-platform-lift {
+    0%, 100% { transform: translateY(0); }
+    45%, 55% { transform: translateY(-8px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sla-mechanism__moving { animation: none; }
+  }
+</style>
+
+<script>
+  const mechanisms = document.querySelectorAll<SVGSVGElement>('[data-sla-mechanism]');
+
+  if ('IntersectionObserver' in window) {
+    const mechanismObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        entry.target.setAttribute('data-in-view', String(entry.isIntersecting));
+      });
+    }, { threshold: 0.2 });
+
+    mechanisms.forEach((mechanism) => mechanismObserver.observe(mechanism));
+  }
+</script>

@@ -1,5 +1,5 @@
 ---
-import SlaShowcase from './SlaShowcase.astro';
+import SlaMechanism from './SlaMechanism.astro';
 import SlaIcon from './SlaIcon.astro';
 import { href } from '../utils/urls';
 ---
@@ -9,29 +9,248 @@ import { href } from '../utils/urls';
       <div class="sla-preview__copy">
         <p class="kicker">Окремий напрям · SLA-друк</p>
         <h2 id="sla-preview-title">Більше деталей.<br /><span>Більше характеру.</span></h2>
-        <p>Фотополімерний друк для мініатюр, фігурок і складних прототипів. Тонкий рельєф, плавні форми та гладка поверхня — з вашої 3D-моделі.</p>
-        <a class="btn btn--primary" href={href('sla/')}>Дізнатися про SLA <SlaIcon name="arrow" /></a>
+        <p class="sla-preview__lead">
+          Фотополімерний 3D-друк для мініатюр, фігурок і невеликих прототипів.
+          Зберігаємо тонкий рельєф, плавні контури та виразні деталі вашої моделі.
+        </p>
+        <ul class="sla-preview__benefits" role="list">
+          <li><SlaIcon name="detail" /> Тонкий рельєф</li>
+          <li><SlaIcon name="smooth" /> Гладка поверхня</li>
+        </ul>
+        <a class="btn btn--primary" href={href('sla/')}>
+          Дізнатися про SLA <SlaIcon name="arrow" />
+        </a>
+        <p class="sla-preview__note">Перевірка моделі та розрахунок вартості — до друку.</p>
       </div>
-      <figure class="sla-preview__visual"><SlaShowcase id="sla-home" /><figcaption>Ілюстрація можливостей SLA</figcaption></figure>
+      <figure class="sla-preview__visual">
+        <div class="sla-preview__stage">
+          <div class="sla-preview__stage-heading" aria-hidden="true">
+            <span class="sla-preview__technology">SLA / MSLA</span>
+            <span>Фотополімерний друк</span>
+          </div>
+          <SlaMechanism id="sla-home-mechanism" />
+          <div class="sla-preview__stage-footer" aria-hidden="true">
+            <span class="sla-preview__axis">Z ↕</span>
+            <span>Пошарове формування зі смоли</span>
+          </div>
+        </div>
+        <figcaption>
+          Підіймальний вузол SLA-принтера
+          <span>Напрямна · гвинт · каретка · платформа</span>
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
 
 <style>
-  .sla-preview { padding: var(--space-10) 0; }
-  .sla-preview__inner { display: grid; grid-template-columns: 1.2fr .8fr; align-items: center; gap: var(--space-8); padding: var(--space-8) var(--space-10); border: var(--border-card); border-radius: var(--radius-xl); background: linear-gradient(120deg, var(--bg-card), var(--bg-inset)); box-shadow: var(--shadow-card); }
-  .sla-preview h2 { font-family: var(--font-display); font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: var(--fw-extrabold); line-height: 1.15; margin-bottom: var(--space-4); letter-spacing: -.035em; }
+  .sla-preview {
+    padding-block: var(--space-10);
+  }
+
+  .sla-preview__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    padding: var(--space-4);
+    border: var(--border-card);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(115deg, var(--bg-card) 35%, var(--bg-inset));
+    box-shadow: var(--shadow-card);
+  }
+
+  .sla-preview__copy {
+    min-width: 0;
+    padding: clamp(1rem, 3vw, 2.5rem);
+    padding-right: 0;
+  }
+
+  .sla-preview .kicker {
+    margin-bottom: var(--space-5);
+    line-height: 1.6;
+    letter-spacing: .1em;
+  }
+
+  .sla-preview h2 {
+    margin-bottom: var(--space-5);
+    font-family: var(--font-display);
+    font-size: clamp(1.875rem, 3vw, 2.75rem);
+    font-weight: var(--fw-extrabold);
+    line-height: 1.18;
+    letter-spacing: -.035em;
+  }
+
   .sla-preview h2 span { color: var(--burgundy); }
-  .sla-preview__copy > p:not(.kicker) { max-width: 52ch; font-size: var(--fs-sm); color: var(--text-secondary); }
-  .sla-preview .btn { gap: var(--space-3); min-height: 48px; margin-top: var(--space-6); font-size: var(--fs-sm); }
-  .sla-preview__visual { max-width: 300px; justify-self: center; }
-  .sla-preview figcaption { text-align: center; color: var(--text-muted); font-size: .6875rem; }
+
+  .sla-preview__lead {
+    max-width: 43ch;
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--fs-base);
+    line-height: 1.75;
+  }
+
+  .sla-preview__benefits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-5);
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sla-preview__benefits li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text-secondary);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+  }
+
+  .sla-preview__benefits :global(.sla-icon) {
+    width: 20px;
+    height: 20px;
+    color: var(--burgundy);
+  }
+
+  .sla-preview .btn {
+    max-width: 100%;
+    min-height: 48px;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+    padding-inline: var(--space-6);
+    font-size: var(--fs-sm);
+    white-space: normal;
+  }
+
+  .sla-preview .btn :global(.sla-icon) {
+    width: 20px;
+    height: 20px;
+    transition: transform var(--dur-normal) var(--ease-out);
+  }
+
+  .sla-preview .btn:hover :global(.sla-icon) { transform: translateX(3px); }
+
+  .sla-preview__note {
+    max-width: 42ch;
+    margin: var(--space-4) 0 0;
+    color: var(--text-muted);
+    font-size: var(--fs-xs);
+    line-height: 1.65;
+  }
+
+  .sla-preview__visual {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .sla-preview__stage {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid rgba(232, 216, 190, .14);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(ellipse at 75% 15%, rgba(169, 174, 184, .16), transparent 55%),
+      radial-gradient(ellipse at 25% 70%, rgba(217, 154, 116, .15), transparent 60%),
+      linear-gradient(135deg, #30251f, #3b2b29 50%, #64333e);
+    box-shadow: inset 0 1px 0 rgba(245, 237, 224, .08);
+  }
+
+  .sla-preview__stage-heading,
+  .sla-preview__stage-footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-5) var(--space-6);
+    color: var(--cream);
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+  }
+
+  .sla-preview__stage-heading { padding-bottom: 0; }
+
+  .sla-preview__technology {
+    color: var(--copper);
+    font-weight: var(--fw-bold);
+    letter-spacing: .12em;
+    white-space: nowrap;
+  }
+
+  .sla-preview__stage :global(.sla-mechanism) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .sla-preview__stage-footer {
+    justify-content: flex-start;
+    padding-top: 0;
+  }
+
+  .sla-preview__axis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 28px;
+    border: 1px solid rgba(217, 154, 116, .35);
+    border-radius: var(--radius-sm);
+    color: var(--copper);
+    font-weight: var(--fw-bold);
+  }
+
+  .sla-preview figcaption {
+    padding: var(--space-3) var(--space-2) var(--space-1);
+    color: var(--text-secondary);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    line-height: 1.7;
+    text-align: center;
+  }
+
+  .sla-preview figcaption span {
+    display: block;
+    color: var(--text-muted);
+    font-weight: var(--fw-regular);
+  }
+
+  @media (max-width: 1024px) {
+    .sla-preview__inner { gap: var(--space-5); }
+    .sla-preview__copy { padding: var(--space-4); padding-right: 0; }
+    .sla-preview h2 { font-size: clamp(1.75rem, 3.6vw, 2.25rem); }
+  }
+
   @media (max-width: 768px) {
     .sla-preview { padding-block: var(--space-6); }
-    .sla-preview__inner { padding: var(--space-6); gap: var(--space-4); }
+    .sla-preview__inner { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
+    .sla-preview__copy { padding: var(--space-5) var(--space-4) 0; }
+    .sla-preview h2 { font-size: clamp(1.875rem, 5.6vw, 2.5rem); }
+    .sla-preview__lead { max-width: 54ch; }
+    .sla-preview__visual { max-width: 480px; justify-self: center; }
+    .sla-preview .btn { margin-top: var(--space-6); }
   }
+
   @media (max-width: 480px) {
-    .sla-preview__inner { grid-template-columns: 1fr; }
-    .sla-preview__visual { max-width: 230px; }
+    .sla-preview__inner { padding: var(--space-3); border-radius: var(--radius-lg); }
+    .sla-preview__copy { padding: var(--space-3) var(--space-2) 0; }
+    .sla-preview .kicker { letter-spacing: .06em; margin-bottom: var(--space-4); }
+    .sla-preview h2 { font-size: clamp(1.65rem, 7vw, 2rem); }
+    .sla-preview .btn { width: 100%; padding-inline: var(--space-4); }
+    .sla-preview__stage-heading,
+    .sla-preview__stage-footer { padding-inline: var(--space-4); }
+    .sla-preview__stage-heading { align-items: flex-start; }
+    .sla-preview__stage-heading > span:last-child { max-width: 15ch; text-align: right; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sla-preview .btn :global(.sla-icon) { transition: none; }
   }
 </style>
