@@ -16,7 +16,7 @@ const projectRoot = fileURLToPath(new URL('..', import.meta.url));
 const distDir = path.join(projectRoot, 'dist');
 const productsDir = path.join(projectRoot, 'src', 'data', 'products');
 
-const { PRICE_PER_GRAM_UAH, computePriceFromWeight } = await import(
+const { computeCatalogPrice } = await import(
   new URL('../src/data/pricing.config.mjs', import.meta.url)
 );
 const { STATIC_ROUTE_PATHS } = await import(
@@ -519,10 +519,14 @@ export async function checkBuild() {
     const digits = normalizeText(visiblePrice).replace(/\D/g, '');
     check(digits === String(product.price), where(`visible price "${visiblePrice}" != ${product.price}`));
 
-    // Weight-based pricing, where a source weight is known: the published
-    // price is exactly weight × rate, and the weight itself appears both as a
-    // visible fact and in JSON-LD. Products still awaiting a weight publish
-    // neither, and must not fake one.
+    const calculatedPrice = computeCatalogPrice(product);
+    if (calculatedPrice !== undefined) {
+      check(product.price === calculatedPrice,
+        where(`price ${product.price} != policy price ${calculatedPrice}`));
+    }
+
+    // Physical weight appears only when the target product has a known weight.
+    // Benchmark weights must never leak into visible facts or JSON-LD.
     const visibleWeights = [...html.matchAll(/<dt>Вага<\/dt>\s*<dd>([^<]*)<\/dd>/g)].map(
       (match) => normalizeText(match[1]).replace(/\D/g, ''),
     );
@@ -530,15 +534,11 @@ export async function checkBuild() {
     if (product.weightGrams === undefined) {
       check(node.weight === undefined, where('no weightGrams in data but JSON-LD publishes a weight'));
       check(visibleWeights.length === 0, where(`no weightGrams in data but page shows ${JSON.stringify(visibleWeights)}`));
+      if (product.pricingProfile) {
+        check(html.includes('Попередня ціна за аналогічним виробом.'),
+          where('benchmark price must be labelled as provisional'));
+      }
     } else {
-      check(
-        product.price === computePriceFromWeight(product.weightGrams),
-        where(
-          `price ${product.price} != ${product.weightGrams} g × ${PRICE_PER_GRAM_UAH} ₴/g` +
-            ` = ${computePriceFromWeight(product.weightGrams)}`,
-        ),
-      );
-
       const weightNode = node.weight;
       check(
         weightNode?.value === product.weightGrams && weightNode?.unitCode === 'GRM',

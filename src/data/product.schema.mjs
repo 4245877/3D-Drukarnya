@@ -6,7 +6,12 @@
 // never duplicated between the build and the standalone checks.
 import { z } from 'zod';
 
-import { PRICE_PER_GRAM_UAH, computePriceFromWeight } from './pricing.config.mjs';
+import {
+  PRICING_PROFILE_IDS,
+  REVIEWED_PRICING_SKUS,
+  computeCatalogPrice,
+  getPricingProfile,
+} from './pricing.config.mjs';
 
 /** Safe URL slug: lowercase latin, digits, single dashes between segments. */
 export const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -131,8 +136,8 @@ const imageReference = z
  * Every model page for these is either Printables (which publishes no
  * filament weight at all) or a MakerWorld model we could not identify with
  * certainty. Until a weight is measured — by slicing the model with the shop's
- * own profile, or by weighing a finished print — these keep their previous
- * hand-set price and are excluded from weight-based pricing.
+ * own profile, or by weighing a finished print — reviewed rack parts use a
+ * provisional pricingProfile benchmark. Others retain their legacy price.
  *
  * Removing a SKU from this set without adding `weightGrams` fails validation,
  * so the list can only ever shrink deliberately.
@@ -274,8 +279,7 @@ export const productSchema = z.strictObject({
   license: nonEmptyString.optional(),
   licenseUrl: absoluteHttpsUrl('licenseUrl').optional(),
   attributionRequired: z.boolean().default(false),
-  // Printed weight of the product in grams — the only hand-maintained input
-  // to the price, taken from the print profile published on the original
+  // Printed weight of this product in grams, taken from the original
   // model page. Required for every product except the SKUs listed in
   // WEIGHT_PENDING_SKUS below; never estimated here.
   weightGrams: z
@@ -284,8 +288,11 @@ export const productSchema = z.strictObject({
       message: 'weightGrams must be a finite positive number',
     })
     .optional(),
-  // Derived from `weightGrams` × the catalog rate (src/data/pricing.config.mjs)
-  // and cross-checked below — edit the weight or the rate, then run
+  // Reviewed manufacturing class; without a known weight this selects a
+  // provisional catalog benchmark. It does not invent a physical weight.
+  pricingProfile: z.enum(PRICING_PROFILE_IDS).optional(),
+  // Derived from the shared pricing policy and cross-checked below — edit
+  // the weight, profile or rate, then run
   // `npm run prices:recalculate`; never edit this number directly.
   // Also rendered in JSON-LD (Offer.price for `exact`, AggregateOffer.lowPrice
   // for `from`), so it must stay a plain number.
@@ -320,9 +327,8 @@ export const productSchema = z.strictObject({
     .optional(),
 }).superRefine((product, ctx) => {
   if (product.weightGrams === undefined) {
-    // Weight-based pricing is the rule, not the default. A product may only
-    // keep a hand-set price while its source weight is still unknown, and
-    // only if it is named here — so the backlog is visible instead of silent.
+    // Unknown physical weights remain explicit, even when benchmark pricing
+    // makes it possible to calculate a provisional starting price.
     if (!WEIGHT_PENDING_SKUS.has(product.sku)) {
       ctx.addIssue({
         code: 'custom',
@@ -332,20 +338,47 @@ export const productSchema = z.strictObject({
           `model page, or list ${product.sku} in WEIGHT_PENDING_SKUS while it is unknown`,
       });
     }
-    return;
+    if (product.pricingProfile !== undefined && product.priceType !== 'from') {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['priceType'],
+        message: 'benchmark pricing without a known weight requires priceType=from',
+      });
+    }
+    if (REVIEWED_PRICING_SKUS.has(product.sku) && product.pricingProfile === undefined) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['pricingProfile'],
+        message: 'reviewed products require a pricingProfile until their weight is known',
+      });
+    }
   }
 
-  // The price is a pure function of the weight and the catalog rate. Checking
-  // it here means a stale price fails `astro build`, `npm run validate:data`
-  // and the tests alike, instead of silently shipping.
-  const expected = computePriceFromWeight(product.weightGrams);
-  if (product.price !== expected) {
+  if (product.pricingProfile !== undefined) {
+    const profile = getPricingProfile(product.pricingProfile);
+    if (product.category !== profile.category) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['pricingProfile'],
+        message: `pricingProfile ${product.pricingProfile} requires category ${profile.category}`,
+      });
+    }
+  }
+
+  // Both measured and benchmark prices must match the shared calculator.
+  // Legacy pending products outside this review have no computed price yet.
+  // A failed numeric refinement has already recorded its error; do not let
+  // the calculator throw out of safeParse for that same invalid input.
+  if (product.weightGrams !== undefined &&
+      (!Number.isFinite(product.weightGrams) || product.weightGrams <= 0)) return;
+  const expected = computeCatalogPrice(product);
+  if (expected !== undefined && product.price !== expected) {
     ctx.addIssue({
       code: 'custom',
       path: ['price'],
       message:
-        `price ${product.price} does not match weightGrams ${product.weightGrams} × ` +
-        `${PRICE_PER_GRAM_UAH} ₴/g = ${expected}; run \`npm run prices:recalculate\``,
+        `price ${product.price} does not match the pricing policy (${expected} ₴); ` +
+        'run `npm run prices:recalculate`',
     });
   }
 });

@@ -20,6 +20,7 @@ import {
 } from '../src/data/product.schema.mjs';
 import {
   PRICE_PER_GRAM_UAH,
+  computeCatalogPrice,
   computePriceFromWeight,
 } from '../src/data/pricing.config.mjs';
 
@@ -277,13 +278,14 @@ test('every product stores a positive weight unless its SKU is pending', async (
   }
 });
 
-test('every weighted price equals weightGrams x the catalog rate', async () => {
+test('every calculated price follows the shared weight/benchmark policy', async () => {
   for (const { source, data } of await loadEntries()) {
-    if (data.weightGrams === undefined) continue;
+    const expected = computeCatalogPrice(data);
+    if (expected === undefined) continue;
     assert.equal(
       data.price,
-      computePriceFromWeight(data.weightGrams),
-      `${source}: price ${data.price} != ${data.weightGrams} g x ${PRICE_PER_GRAM_UAH} ₴/g` +
+      expected,
+      `${source}: price ${data.price} != policy price ${expected}` +
         ' — run `npm run prices:recalculate`',
     );
   }

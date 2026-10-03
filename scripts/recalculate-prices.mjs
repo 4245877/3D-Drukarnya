@@ -1,11 +1,8 @@
 #!/usr/bin/env node
-// Recomputes every product's `price` from its `weightGrams` and the catalog
-// rate in src/data/pricing.config.mjs (price = weight × rate).
-//
-// This is the only supported way to change catalog prices: edit
-// PRICE_PER_GRAM_UAH (or a product's weight), run this script, review the
-// diff. The schema rejects any product whose stored price no longer matches
-// the formula, so a forgotten run fails the build rather than shipping.
+// Recomputes prices using the shared weight/benchmark policy. Edit the rate,
+// weight or pricingProfile, run this script, then review the diff. Reviewed
+// products without a weight participate too; only unreviewed legacy prices
+// remain pending. No writes happen until the entire candidate catalog validates.
 //
 // Usage:
 //   npm run prices:recalculate          rewrite stale prices
@@ -15,8 +12,12 @@ import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
-import { PRICE_PER_GRAM_UAH, computePriceFromWeight } from '../src/data/pricing.config.mjs';
-import { WEIGHT_PENDING_SKUS } from '../src/data/product.schema.mjs';
+import {
+  PRICE_PER_GRAM_UAH,
+  computeCatalogPrice,
+  getPricingProfile,
+} from '../src/data/pricing.config.mjs';
+import { validateProductCollection } from '../src/data/product.schema.mjs';
 
 const productsDir = fileURLToPath(new URL('../src/data/products/', import.meta.url));
 const checkOnly = process.argv.includes('--check');
@@ -42,6 +43,8 @@ const changes = [];
 const pending = [];
 /** @type {Array<{ filePath: string, data: Record<string, unknown> }>} */
 const writes = [];
+/** @type {Array<{ source: string, data: unknown }>} */
+const entries = [];
 
 for (const fileName of fileNames) {
   const filePath = path.join(productsDir, fileName);
@@ -57,31 +60,30 @@ for (const fileName of fileNames) {
     continue;
   }
 
-  if (data.weightGrams === undefined) {
-    // Known-unknown weights are a backlog item, not a failure: the SKU must be
-    // declared in WEIGHT_PENDING_SKUS, and its price is left untouched.
-    if (WEIGHT_PENDING_SKUS.has(data.sku)) {
-      pending.push(`${fileName} (${data.sku}): no source weight yet, price ${data.price} ₴ left as is`);
-      continue;
-    }
-    problems.push(`${fileName} (${data.sku}): weightGrams is missing`);
+  entries.push({ source: fileName, data });
+  let expected;
+  try {
+    expected = computeCatalogPrice(data);
+  } catch (error) {
+    problems.push(`${fileName}: ${error instanceof Error ? error.message : String(error)}`);
     continue;
   }
 
-  if (typeof data.weightGrams !== 'number' || !Number.isFinite(data.weightGrams) || data.weightGrams <= 0) {
-    problems.push(
-      `${fileName}: weightGrams is not a positive number (got ${JSON.stringify(data.weightGrams)})`,
-    );
+  if (expected === undefined) {
+    pending.push(`${fileName} (${data.sku}): no weight or reviewed profile, legacy price ${data.price} ₴ retained`);
     continue;
   }
-
-  const expected = computePriceFromWeight(data.weightGrams);
   if (data.price === expected) {
     continue;
   }
 
+  const profile = data.pricingProfile === undefined ? undefined : getPricingProfile(data.pricingProfile);
+  const basis = data.weightGrams === undefined
+    ? `benchmark ${profile.reference.sku}, ${data.pricingProfile}`
+    : `${data.weightGrams} g × ${PRICE_PER_GRAM_UAH}`;
   changes.push(
-    `${fileName} (${data.sku}): ${data.price} → ${expected} ₴  [${data.weightGrams} g × ${PRICE_PER_GRAM_UAH}]`,
+    `${fileName} (${data.sku}): ${data.price} → ${expected} ₴  [${basis}` +
+      `${profile?.extraWorkUah ? ` + ${profile.extraWorkUah} ₴ extra work` : ''}]`,
   );
 
   // JSON.parse preserves key order, so rewriting the parsed object keeps
@@ -89,6 +91,10 @@ for (const fileName of fileNames) {
   // now: nothing touches disk until the whole catalog has been checked.
   data.price = expected;
   writes.push({ filePath, data });
+}
+
+if (problems.length === 0) {
+  problems.push(...validateProductCollection(entries).errors);
 }
 
 if (problems.length > 0) {
@@ -112,7 +118,7 @@ console.log(`Rate: ${PRICE_PER_GRAM_UAH} ₴ per gram (src/data/pricing.config.m
 
 if (pending.length > 0) {
   console.log(`
-${pending.length} product(s) still awaiting a source weight:`);
+${pending.length} product(s) still awaiting a weight and pricing review:`);
   for (const item of pending) {
     console.log(`  ${item}`);
   }
@@ -122,7 +128,7 @@ ${pending.length} product(s) still awaiting a source weight:`);
 const priced = fileNames.length - pending.length;
 
 if (changes.length === 0) {
-  console.log(`OK: all ${priced} weighted product price(s) already match weight × rate.`);
+  console.log(`OK: all ${priced} calculated product price(s) match the weight/benchmark policy.`);
   process.exit(0);
 }
 
