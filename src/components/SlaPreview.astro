@@ -31,12 +31,12 @@ import { href } from '../utils/urls';
           <SlaMechanism id="sla-home-mechanism" />
           <div class="sla-preview__stage-footer" aria-hidden="true">
             <span class="sla-preview__axis">Z ↕</span>
-            <span>Пошарове формування зі смоли</span>
+            <span>Підйом платформи над ванною</span>
           </div>
         </div>
         <figcaption>
           Підіймальний вузол SLA-принтера
-          <span>Напрямна · гвинт · каретка · платформа</span>
+          <span>Модель знизу платформи · ванна нерухома</span>
         </figcaption>
       </figure>
     </div>
@@ -143,8 +143,10 @@ import { href } from '../utils/urls';
 
   .sla-preview__visual {
     width: 100%;
+    max-width: 460px;
     min-width: 0;
     margin: 0;
+    justify-self: end;
   }
 
   .sla-preview__stage {
@@ -158,6 +160,11 @@ import { href } from '../utils/urls';
       radial-gradient(ellipse at 25% 70%, rgba(217, 154, 116, .15), transparent 60%),
       linear-gradient(135deg, #30251f, #3b2b29 50%, #64333e);
     box-shadow: inset 0 1px 0 rgba(245, 237, 224, .08);
+  }
+
+  .sla-preview__stage ::selection {
+    background: rgba(232, 216, 190, .9);
+    color: var(--chocolate);
   }
 
   .sla-preview__stage-heading,
@@ -234,7 +241,7 @@ import { href } from '../utils/urls';
     .sla-preview__copy { padding: var(--space-5) var(--space-4) 0; }
     .sla-preview h2 { font-size: clamp(1.875rem, 5.6vw, 2.5rem); }
     .sla-preview__lead { max-width: 54ch; }
-    .sla-preview__visual { max-width: 480px; justify-self: center; }
+    .sla-preview__visual { max-width: 400px; justify-self: center; }
     .sla-preview .btn { margin-top: var(--space-6); }
   }
 
