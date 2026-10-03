@@ -666,15 +666,6 @@
   line-height: 1.65;
 }
 
-.catalog-order__intro .catalog-order__more {
-  margin: var(--space-3) 0 0;
-}
-
-.catalog-order__more a {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
 .catalog-order__item {
   border-bottom: var(--border-soft);
 }

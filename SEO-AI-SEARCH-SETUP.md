@@ -15,7 +15,7 @@
 | Механізм | Де реалізовано | Що робить |
 | --- | --- | --- |
 | Статичний HTML | Astro, `output` за замовчуванням | Кожна сторінка повністю читається без JavaScript. Категорії, гайди, товари, ціни, FAQ, хлібні крихти — усе в HTML. |
-| `sitemap.xml` | [`src/pages/sitemap.xml.ts`](src/pages/sitemap.xml.ts) | Генерується з даних: головна, хаб каталогу, 4 категорії, хаб гайдів, 6 гайдів, About, `/en/` і всі товарні сторінки. Некононічні та неіндексовані URL (перенаправлення старих категорій, 404, сам sitemap, robots.txt, ключ IndexNow) у нього не потрапляють — це перевіряють тести. |
+| `sitemap.xml` | [`src/pages/sitemap.xml.ts`](src/pages/sitemap.xml.ts) | Генерується з даних: головна, хаб каталогу, 4 категорії, SLA-друк, 6 гайдів, `/en/` і всі товарні сторінки. Некононічні та неіндексовані URL (перенаправлення старих категорій, 404, сам sitemap, robots.txt, ключ IndexNow) у нього не потрапляють — це перевіряють тести. |
 | `lastmod` | там само | Публікується **тільки** для гайдів, де є справжня дата зміни. Sitemap, у якому в усіх URL однакова вигадана дата, знецінює сам сигнал. |
 | `robots.txt` | [`public/robots.txt`](public/robots.txt) | Один блок `User-agent: * / Allow: /` + посилання на sitemap. Див. розділ 7 — **важливе застереження про GitHub Pages**. |
 | `canonical` | [`src/components/Layout.astro`](src/components/Layout.astro) | Абсолютний URL, побудований з єдиного джерела (`src/data/site.config.mjs`). Перевірка збірки вимагає власний URL для звичайних сторінок і URL призначення для перенаправлень. |
@@ -30,9 +30,7 @@
 | `/` | CollectionPage | Позиціювання: 10-дюймові стійки, HomeLab, NAS, rack mount. Статичні (не JS) посилання на всі 4 категорії. |
 | `/catalog/` | CollectionPage | Хаб категорій + таблиця «задача → розділ». |
 | `/catalog/<slug>/` × 4 | CollectionPage + ItemList | Посадкові сторінки категорій. |
-| `/guides/` | CollectionPage | Хаб інформаційних матеріалів. |
 | `/guides/<slug>/` × 6 | Article + FAQPage | Гайди з короткою відповіддю на початку. |
-| `/about/` | AboutPage | Довіра: хто друкує, ціноутворення, доставка, контакти. |
 | `/en/` | WebPage (lang=en) | Англомовний огляд для запитів `10 inch server rack Ukraine`, `NAS case Ukraine`. |
 | `/products/<slug>/` × 38 | ItemPage + Product | Товарні сторінки. |
 
@@ -55,7 +53,7 @@
 де їй місце — у `Offer`.
 
 Повернути `LocalBusiness` (і додати `telephone`, `openingHours`, `priceRange`)
-має сенс тоді — і тільки тоді — коли на `/about/` зʼявиться справжня публічна
+має сенс тоді — і тільки тоді — коли на сайті зʼявиться справжня публічна
 адреса й канал звʼязку. Див. розділ 11.
 
 ### Перевірки, які не дають зламати SEO
@@ -345,10 +343,8 @@ Job **не запускається** на щотижневому cron-пере�
 4. `https://4245877.github.io/3D-Drukarnya/catalog/cases-and-storage/`
 5. `https://4245877.github.io/3D-Drukarnya/catalog/equipment-mounts/`
 6. `https://4245877.github.io/3D-Drukarnya/catalog/rack-accessories/`
-7. `https://4245877.github.io/3D-Drukarnya/guides/`
-8. `https://4245877.github.io/3D-Drukarnya/guides/10-inch-vs-19-inch-rack/`
-9. `https://4245877.github.io/3D-Drukarnya/guides/rack-units-1u-2u-3u/`
-10. `https://4245877.github.io/3D-Drukarnya/about/`
+7. `https://4245877.github.io/3D-Drukarnya/guides/10-inch-vs-19-inch-rack/`
+8. `https://4245877.github.io/3D-Drukarnya/guides/rack-units-1u-2u-3u/`
 
 Решта категорій, гайдів і товарів підтягнеться з sitemap. У Search Console є
 добовий ліміт на ручні запити — не витрачайте його на товарні сторінки.
@@ -504,9 +500,9 @@ Gemini. Фіксуйте дату, систему, запит і те, чи бу
 - [ ] **Власні фотографії надрукованих виробів.** Зараз усі фото — з
       оригінальних сторінок моделей. Свої фото знімають питання «а чи справді
       ви це друкуєте» і дають унікальні зображення для image search.
-- [ ] **Фото робочого місця / принтера.** Одне-два фото на `/about/`.
+- [ ] **Фото робочого місця / принтера.** Одне-два фото на сайті.
 - [ ] **Другий канал зв'язку** — Telegram, e-mail або телефон. Зараз єдиний
-      канал це OLX. Додайте в `src/pages/about.astro` і в `sameAs` у
+      канал це OLX. Додайте в підвал сайту і в `sameAs` у
       `src/utils/schema.mjs`.
 - [ ] **Публічна адреса точки видачі**, якщо вона існує і її можна назвати.
       Це єдина причина, з якої сайт зараз публікує `Organization`, а не

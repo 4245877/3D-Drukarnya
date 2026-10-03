@@ -4,7 +4,7 @@
 // structured data.
 //
 // Only purchase details belong on the compact homepage. Selection advice
-// lives on product/category pages and in guides; pricing details are on About.
+// lives on product/category pages and in guides; prices are on product pages.
 
 export interface FaqItem {
   question: string;

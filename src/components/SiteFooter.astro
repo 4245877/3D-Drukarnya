@@ -1,6 +1,6 @@
 ---
 // Compact navigation keeps every category reachable without JavaScript.
-// The guides hub holds the full article list instead of repeating it here.
+// Articles are linked from the relevant category and product pages.
 import { CATEGORIES } from '../data/categories.mjs';
 import { OLX_URL, SITE_NAME, SKUFNYA_URL } from '../data/site.config.mjs';
 import { href } from '../utils/urls';
@@ -22,10 +22,7 @@ const columns = [
     title: 'Інформація',
     links: [
       { label: 'SLA-друк', href: href('sla/') },
-      { label: 'Гайди з вибору', href: href('guides/') },
-      { label: 'Про нас і контакти', href: href('about/') },
-      { label: 'Доставка та оплата', href: href('about/#delivery') },
-      { label: 'Як зробити замовлення', href: href('about/#how-to-order') },
+      { label: 'Замовлення та доставка', href: href('#order-title') },
       { label: 'English overview', href: href('en/') },
     ],
   },

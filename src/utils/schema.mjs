@@ -59,7 +59,8 @@ export function websiteNode() {
  *
  * Switch back to LocalBusiness (and re-add `priceRange`, `openingHours`,
  * `telephone`) only once a real, publicly stated address and contact
- * channel exist on /about/ — see SEO-AI-SEARCH-SETUP.md, section 11.
+ * channel are publicly stated on the site — see SEO-AI-SEARCH-SETUP.md,
+ * section 11.
  *
  * The node carries only facts the site states elsewhere (city, country,
  * channels). No street address, phone, rating or founding date is invented.

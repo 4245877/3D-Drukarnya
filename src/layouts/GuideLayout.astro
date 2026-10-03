@@ -38,7 +38,6 @@ if (!guide) {
 
 const canonicalPath = `/guides/${guide.slug}/`;
 const pageUrl = absoluteUrl(canonicalPath);
-const guidesUrl = absoluteUrl('guides/');
 const pageTitle = `${guide.title} | ${SITE_NAME}`;
 
 const relatedCategories = resolveCategories(guide.relatedCategories);
@@ -46,7 +45,6 @@ const relatedGuides = resolveGuides(guide.relatedGuides);
 
 const breadcrumbItems = [
   { name: 'Головна', url: absoluteUrl('') },
-  { name: 'Гайди', url: guidesUrl },
   { name: guide.heading, url: pageUrl },
 ];
 
@@ -104,7 +102,6 @@ const structuredData = graph([
       <Breadcrumbs
         items={[
           { label: 'Головна', href: href() },
-          { label: 'Гайди', href: href('guides/') },
           { label: guide.heading },
         ]}
       />

@@ -220,7 +220,27 @@ test('production build generates every product page and the sitemap', async (t) 
     for (const { slug } of GUIDES) {
       await access(path.join(distDir, 'guides', slug, 'index.html'));
     }
-    await access(path.join(distDir, 'guides', 'index.html'));
+  });
+
+  await t.test('removed pages are absent from the build, links and structured data', async () => {
+    const removedRoutes = ['guides/', 'about/'];
+    for (const route of removedRoutes) {
+      assert.ok(!STATIC_ROUTE_PATHS.includes(route), `${route} is still indexable`);
+      await assert.rejects(access(path.join(distDir, route, 'index.html')), { code: 'ENOENT' });
+    }
+
+    const files = await readdir(distDir, { recursive: true });
+    for (const file of files.filter((file) => file.endsWith('.html') || file === 'sitemap.xml')) {
+      const content = await readFile(path.join(distDir, file), 'utf8');
+      for (const route of removedRoutes) {
+        const url = new URL(route, SITE_BASE);
+        // Match the page URL and its anchors/query strings, while allowing
+        // separate articles beneath /guides/ to keep their existing URLs.
+        const escapedPath = url.pathname.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const reference = new RegExp(`${escapedPath}(?=["'<>?#\\s])`);
+        assert.ok(!reference.test(content), `${file} still references ${route}`);
+      }
+    }
   });
 
   await t.test('sitemap lists exactly the indexable URLs', async () => {

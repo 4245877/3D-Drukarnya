@@ -140,9 +140,7 @@ SEO, structured data й доступність для пошукових та AI
 | `/` | 1 | [`src/pages/index.astro`](src/pages/index.astro) |
 | `/catalog/` | 1 | [`src/pages/catalog/index.astro`](src/pages/catalog/index.astro) |
 | `/catalog/<slug>/` | 4 | [`src/pages/catalog/[category].astro`](src/pages/catalog/[category].astro) з [`src/data/categories.mjs`](src/data/categories.mjs) |
-| `/guides/` | 1 | [`src/pages/guides/index.astro`](src/pages/guides/index.astro) |
 | `/guides/<slug>/` | 6 | сторінки в [`src/pages/guides/`](src/pages/guides/) + [`src/layouts/GuideLayout.astro`](src/layouts/GuideLayout.astro) |
-| `/about/` | 1 | [`src/pages/about.astro`](src/pages/about.astro) |
 | `/en/` | 1 | [`src/pages/en/index.astro`](src/pages/en/index.astro) |
 | `/products/<slug>/` | 39 | [`src/pages/products/[slug].astro`](src/pages/products/[slug].astro) з JSON товарів |
 

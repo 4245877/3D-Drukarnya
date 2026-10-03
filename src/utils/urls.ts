@@ -7,7 +7,7 @@ import { BASE_PATH, SITE_URL, absoluteUrl } from '../data/site.config.mjs';
 export { BASE_PATH, SITE_URL, absoluteUrl };
 
 /**
- * Site-relative href for an internal link (`/3D-Drukarnya/guides/`).
+ * Site-relative href for an internal link (`/3D-Drukarnya/catalog/`).
  * Accepts paths with or without a leading slash; '' and '/' both mean home.
  */
 export function href(path = ''): string {

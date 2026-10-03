@@ -148,7 +148,7 @@ test('static routes cover every landing page exactly once', () => {
       `guide "${guide.slug}" is missing from the route table`,
     );
   }
-  for (const routePath of ['', 'catalog/', 'sla/', 'guides/', 'about/', 'en/']) {
+  for (const routePath of ['', 'catalog/', 'sla/', 'en/']) {
     assert.ok(STATIC_ROUTE_PATHS.includes(routePath), `route "${routePath}" is missing`);
   }
 });
@@ -163,7 +163,7 @@ test('retired categories lead directly to active routes and stay out of the site
 
 test('only guides publish a lastmod, and it matches their dateModified', () => {
   for (const route of STATIC_ROUTES) {
-    if (route.path.startsWith('guides/') && route.path !== 'guides/') {
+    if (route.path.startsWith('guides/')) {
       const slug = route.path.slice('guides/'.length, -1);
       assert.equal(
         route.lastmod,
