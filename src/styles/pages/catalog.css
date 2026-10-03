@@ -208,6 +208,7 @@
 .catalog-hero__rack {
   position: relative;
   width: clamp(240px, 22vw, 340px);
+  max-width: 100%;
   filter: drop-shadow(0 18px 38px rgba(26, 10, 6, 0.45));
 }
 
@@ -737,9 +738,11 @@
   .catalog-hero__inner {
     flex-direction: column;
     justify-content: center;
+    gap: var(--space-4);
   }
 
   .catalog-hero__left {
+    width: 100%;
     text-align: center;
     min-width: 0;
   }
@@ -747,8 +750,12 @@
   .catalog-hero__actions,
   .catalog-hero__eyebrow { justify-content: center; }
 
-  /* Keep products close to the introduction on smaller screens. */
-  .catalog-hero__aside { display: none; }
+  /* Keep the required rack in normal flow below the text and actions. */
+  .catalog-hero__aside { width: 100%; }
+
+  .catalog-hero__rack {
+    width: clamp(240px, 70vw, 320px);
+  }
 
   .catalog-main {
     padding-top: 0;
