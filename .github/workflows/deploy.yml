@@ -25,6 +25,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read
     steps:
@@ -68,6 +69,9 @@ jobs:
       - name: Check build artifact
         run: npm run check:build
 
+      - name: Validate IndexNow payload
+        run: npm run indexnow:dry-run
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
@@ -81,11 +85,13 @@ jobs:
         with:
           name: sitemap
           path: dist/sitemap.xml
+          if-no-files-found: error
           retention-days: 1
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     # The only job that needs deployment permissions.
     permissions:
       pages: write
@@ -107,6 +113,7 @@ jobs:
     needs: deploy
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       contents: read
     steps:
@@ -120,6 +127,11 @@ jobs:
         with:
           name: sitemap
           path: dist
+
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: 22
 
       # The submitter has no dependencies beyond Node itself: it reads
       # dist/sitemap.xml and src/data/site.config.mjs, then POSTs once.
