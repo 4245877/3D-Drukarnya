@@ -11,6 +11,7 @@ const directory = new URL('src/data/products/', root);
 const products = await Promise.all((await readdir(directory)).filter((name) => name.endsWith('.json'))
   .map(async (name) => JSON.parse(await readFile(new URL(name, directory), 'utf8'))));
 const drafts = products.filter((product) => product.publicationStatus === 'draft');
+const additions = products.filter((product) => Number(product.sku.slice(1)) >= 40);
 process.env.PUBLIC_CATALOG_PREVIEW_DRAFTS = '1';
 const server = await dev({
   root: fileURLToPath(root),
@@ -30,16 +31,18 @@ try {
   assert.equal([...catalog.matchAll(/data-product-sku="P\d+"/g)].length, 49);
   assert.match(catalog, /name="robots" content="noindex/);
   const sitemap = await get('sitemap.xml');
-  for (const draft of drafts) {
-    assert.ok(catalog.includes(`data-product-sku="${draft.sku}"`), draft.sku);
-    assert.ok(!sitemap.includes(`products/${draft.slug}/`), draft.sku);
-    const html = await get(`products/${draft.slug}/`);
+  for (const product of additions) {
+    const draft = product;
+    const isDraft = product.publicationStatus === 'draft';
+    assert.ok(catalog.includes(`data-product-sku="${product.sku}"`), product.sku);
+    assert.equal(sitemap.includes(`products/${product.slug}/`), !isDraft, product.sku);
+    const html = await get(`products/${product.slug}/`);
     assert.match(html, /name="robots" content="noindex/);
-    assert.ok(html.includes('Чернетка · продаж ще не відкрито'), draft.sku);
-    assert.ok(html.includes('Орієнтовна ціна'), draft.sku);
-    assert.ok(!html.includes('data-order-cta'), draft.sku);
-    assert.ok(!/<a[^>]*class="[^"]*product-recap__button/.test(html), draft.sku);
-    assert.ok(!/<a[^>]*class="[^"]*product-buybar__button/.test(html), draft.sku);
+    assert.equal(html.includes('Чернетка · продаж ще не відкрито'), isDraft, product.sku);
+    assert.ok(html.includes(isDraft ? 'Орієнтовна ціна' : 'Ціна від'), product.sku);
+    assert.equal(html.includes('data-order-cta'), !isDraft, product.sku);
+    assert.equal(/<a[^>]*class="[^"]*product-recap__button/.test(html), !isDraft, product.sku);
+    assert.equal(/<a[^>]*class="[^"]*product-buybar__button/.test(html), !isDraft, product.sku);
     const ld = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)]
       .flatMap((match) => JSON.parse(match[1])['@graph'] ?? []);
     const node = ld.find((item) => item['@type'] === 'Product');
@@ -64,7 +67,7 @@ try {
     const items = products.filter((product) => product.category === category.name);
     for (const item of items) assert.ok(html.includes(`products/${item.slug}/`), `${category.slug}: ${item.sku}`);
   }
-  console.log(`OK: 49 preview cards, ${drafts.length} draft pages, four categories, covers and gallery order; no offers/order buttons or draft sitemap entries.`);
+  console.log(`OK: 49 preview cards, ${additions.length} new product pages (${drafts.length} drafts), four categories, covers, gallery order, sitemap and order buttons.`);
 } finally {
   await server.stop();
 }

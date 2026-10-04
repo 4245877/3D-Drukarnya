@@ -15,6 +15,7 @@
     "check": "astro check",
     "check:build": "node scripts/check-build.mjs",
     "check:drafts": "node scripts/check-draft-preview.mjs",
+    "check:catalog": "node scripts/check-draft-preview.mjs",
     "validate:data": "node scripts/validate-data.mjs",
     "prices:recalculate": "node scripts/recalculate-prices.mjs",
     "prices:check": "node scripts/recalculate-prices.mjs --check",

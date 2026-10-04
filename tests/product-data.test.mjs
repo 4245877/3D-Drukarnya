@@ -111,7 +111,7 @@ const validProduct = {
 test('every product JSON file passes the schema and collection rules', async () => {
   const entries = await loadEntries();
 
-  assert.equal(entries.length, 49, 'the catalog must keep 39 products and ten new drafts');
+  assert.equal(entries.length, 49, 'the catalog must keep 39 products and ten published additions');
 
   const { products, errors } = validateProductCollection(entries);
 
@@ -171,9 +171,11 @@ test('merchandising priorities produce the curated catalog order', async () => {
   );
 });
 
-test('categories, rights metadata and requested product families are structured', async () => {
+test('existing categories, rights metadata and product families remain structured', async () => {
   const entries = await loadEntries();
-  const products = entries.map(({ data }) => data).filter((product) => product.publicationStatus !== 'draft');
+  const products = entries
+    .map(({ data }) => data)
+    .filter((product) => Number(product.sku.slice(1)) <= 39);
   const skusWithStatus = (status) =>
     products
       .filter((product) => product.commercialRightsStatus === status)
@@ -224,6 +226,23 @@ test('categories, rights metadata and requested product families are structured'
       .map(({ sku }) => sku)
       .sort((a, b) => Number(a.slice(1)) - Number(b.slice(1)));
     assert.deepEqual(actualSkus, expectedSkus, `${familyId}: unexpected family members`);
+  }
+});
+
+test('new public products retain author attribution and approved model and photo rights', async () => {
+  const products = (await loadEntries())
+    .map(({ data }) => data)
+    .filter((product) => Number(product.sku.slice(1)) >= 40);
+
+  assert.equal(products.length, 10);
+  for (const product of products) {
+    assert.equal(product.publicationStatus, 'published', product.sku);
+    assert.equal(product.commercialRightsStatus, 'approved', product.sku);
+    assert.equal(product.photoRightsStatus, 'approved', product.sku);
+    assert.ok(product.author, `${product.sku}: author attribution is missing`);
+    assert.ok(product.sourceUrl, `${product.sku}: model source is missing`);
+    assert.ok(product.license, `${product.sku}: source license is missing`);
+    assert.ok(CATALOG_CATEGORIES.includes(product.category), product.sku);
   }
 });
 

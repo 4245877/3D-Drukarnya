@@ -22,7 +22,7 @@ SEO, structured data й доступність для пошукових та AI
 | ----------------------- | -------------------------------------------------------------------- |
 | `npm ci`                | Чиста відтворювана установка залежностей із `package-lock.json`      |
 | `npm run dev`           | Dev-сервер із живим перезавантаженням                                 |
-| `npm run dev:drafts`    | Приватний перегляд 10 чернеток на `http://127.0.0.1:4322/3D-Drukarnya/` |
+| `npm run dev:drafts`    | Приватний перегляд каталогу з можливими чернетками на `http://127.0.0.1:4322/3D-Drukarnya/` |
 | `npm run validate:data` | Перевірка всіх JSON-файлів товарів за схемою (ненульовий код при помилці) |
 | `npm run prices:recalculate` | Перерахунок цін за вагою або погодженим профілем аналога |
 | `npm run prices:check`   | Перевірка відповідності цін розрахунку без зміни файлів |
@@ -31,6 +31,7 @@ SEO, structured data й доступність для пошукових та AI
 | `npm run build`         | Production-збірка у `dist/`                                           |
 | `npm run check:build`   | Перевірки готового артефакту в `dist/` (метадані, JSON-LD, посилання) |
 | `npm run check:drafts`  | HTTP-перевірка приватних чернеток, категорій, обкладинок і галерей |
+| `npm run check:catalog` | HTTP-перевірка всіх десяти нових сторінок, обкладинок, галерей і кнопок замовлення |
 | `npm run preview`       | Локальний перегляд зібраного сайту                                    |
 | `npm audit`             | Перевірка залежностей на відомі вразливості                           |
 | `npm run indexnow:dry-run` | Показує, які URL буде надіслано в IndexNow (нічого не надсилає)    |
@@ -104,11 +105,15 @@ SEO, structured data й доступність для пошукових та AI
 Причини перегляду, аналоги, припущення та таблиця змін:
 **[PRICING-AUDIT.md](PRICING-AUDIT.md)**.
 
-Чернетки P40–P49 зберігають початкові цінові орієнтири замовника без вигаданої
-ваги або профілю аналога. У приватному перегляді вони позначені «Орієнтовна ціна»,
-а `prices:recalculate` зберігає цей орієнтир до появи підтвердженої ваги чи профілю.
-Перед публікацією потрібно заповнити основу розрахунку та перерахувати ціну за
-чинною політикою. Повний аудит нових моделей: [звіт](docs/CATALOG-ADDITIONS-2026-10-04.md).
+P40–P49 опубліковані після підтвердження власником дозволів авторів на продаж
+і розміщення зображень. Обидва статуси прав — `approved`; автори, джерела та
+ліцензії збережені. Цінові орієнтири замовника залишаються «Ціна від» без
+вигаданої ваги або профілю аналога; SKU додані до `WEIGHT_PENDING_SKUS`.
+`prices:recalculate` зберігає орієнтир до появи підтвердженої ваги чи профілю,
+після чого застосовує чинну політику. Наявність і негайне відправлення не
+заявляються: `availability: unconfirmed`, термін узгоджується після перевірки
+конфігурації. Кнопки OLX доступні, а `publishOffer: false` поки утримує
+попередні торгові дані поза JSON-LD. Актуальний стан: [публікація](docs/CATALOG-PUBLICATION-2026-10-04.md).
 
 ### Чернетки
 
@@ -168,7 +173,7 @@ production-збірка їх не показують. `npm run dev:drafts` за�
 | `/catalog/<slug>/` | 4 | [`src/pages/catalog/[category].astro`](src/pages/catalog/[category].astro) з [`src/data/categories.mjs`](src/data/categories.mjs) |
 | `/guides/<slug>/` | 6 | сторінки в [`src/pages/guides/`](src/pages/guides/) + [`src/layouts/GuideLayout.astro`](src/layouts/GuideLayout.astro) |
 | `/en/` | 1 | [`src/pages/en/index.astro`](src/pages/en/index.astro) |
-| `/products/<slug>/` | 39 | [`src/pages/products/[slug].astro`](src/pages/products/[slug].astro) з JSON товарів |
+| `/products/<slug>/` | 49 | [`src/pages/products/[slug].astro`](src/pages/products/[slug].astro) з JSON товарів |
 
 ### Модулі даних
 

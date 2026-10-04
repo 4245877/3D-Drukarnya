@@ -52,19 +52,19 @@ test('production build generates every product page and the sitemap', async (t) 
   const allProducts = await loadProducts();
   const products = selectCatalogProducts(allProducts);
   const slugs = products.map(({ slug }) => slug);
-  assert.equal(products.length, 39, 'production build must contain all 39 products');
+  assert.equal(products.length, 49, 'production build must contain all 49 products');
 
   await t.test('drafts never leak into production pages, catalogs, sitemap or photos', async () => {
     const catalog = await readFile(path.join(distDir, 'index.html'), 'utf8');
     const sitemap = await readFile(path.join(distDir, 'sitemap.xml'), 'utf8');
     const drafts = allProducts.filter((product) => product.publicationStatus === 'draft');
-    assert.equal(drafts.length, 10);
+    assert.equal(drafts.length, 0, 'all ten additions are approved for publication');
     for (const draft of drafts) {
       await assert.rejects(access(path.join(distDir, 'products', draft.slug, 'index.html')));
       assert.ok(!catalog.includes(`data-product-sku="${draft.sku}"`), draft.sku);
       assert.ok(!sitemap.includes(`/products/${draft.slug}/`), draft.sku);
       for (const photo of draft.images.filter((image) => image.startsWith('https:'))) {
-        assert.ok(!catalog.includes(photo), `${draft.sku}: unapproved photo leaked`);
+        assert.ok(!catalog.includes(photo), `${draft.sku}: private draft photo leaked`);
       }
     }
   });
@@ -218,8 +218,8 @@ test('production build generates every product page and the sitemap', async (t) 
       }
       categorized.push(...urls);
     }
-    assert.equal(new Set(categorized).size, 39);
-    assert.equal(categorized.length, 39);
+    assert.equal(new Set(categorized).size, 49);
+    assert.equal(categorized.length, 49);
   });
 
   await t.test('retired category routes redirect without appearing in navigation', async () => {

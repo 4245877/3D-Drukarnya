@@ -133,11 +133,10 @@ const imageReference = z
 /**
  * SKUs whose printed weight is not published anywhere we can cite yet.
  *
- * Every model page for these is either Printables (which publishes no
- * filament weight at all) or a MakerWorld model we could not identify with
- * certainty. Until a weight is measured — by slicing the model with the shop's
- * own profile, or by weighing a finished print — reviewed rack parts use a
- * provisional pricingProfile benchmark. Others retain their legacy price.
+ * Until the selected kit has a validated shop slicing profile or a measured
+ * print weight, reviewed rack parts use a provisional pricingProfile benchmark.
+ * Other entries retain their catalog price. P40–P49 retain the owner's initial
+ * guides after explicit approval to publish; no target weight is invented.
  *
  * Removing a SKU from this set without adding `weightGrams` fails validation,
  * so the list can only ever shrink deliberately.
@@ -159,6 +158,7 @@ export const WEIGHT_PENDING_SKUS = new Set([
   'P37', // Printables 1369947 — no weight published
   'P38', // Printables 150719 — no weight published
   'P39', // Printables 883453 — no weight published
+  'P40', 'P41', 'P42', 'P43', 'P44', 'P45', 'P46', 'P47', 'P48', 'P49',
 ]);
 
 export const productVariantSchema = z.strictObject({
