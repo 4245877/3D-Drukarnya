@@ -1,4 +1,6 @@
 import type { z } from 'zod';
+import { isDraftPreview } from './draft-preview';
+import { selectCatalogProducts } from '../data/publication.mjs';
 import {
   CATALOG_CATEGORIES,
   productSchema,
@@ -50,7 +52,10 @@ export function compareProductsByMerchandising(a: Product, b: Product): number {
   return aSkuNumber - bSkuNumber;
 }
 
-const products = [...validatedProducts].sort(compareProductsByMerchandising);
+// The preview switch is deliberately ignored by production builds, including
+// builds started from a shell that previously ran the draft preview.
+const products: Product[] = selectCatalogProducts(validatedProducts, isDraftPreview)
+  .sort(compareProductsByMerchandising);
 
 export function getAllProducts(): Product[] {
   return products;

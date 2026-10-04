@@ -11,6 +11,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { CATEGORY_REDIRECTS } from '../src/data/category-redirects.mjs';
+import { selectCatalogProducts } from '../src/data/publication.mjs';
 
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
 const distDir = path.join(projectRoot, 'dist');
@@ -106,12 +107,17 @@ export async function checkBuild() {
 
   // ── Source products (the contract for what must exist) ──
   const productFiles = (await readdir(productsDir)).filter((n) => n.endsWith('.json'));
-  const products = await Promise.all(
+  const allProducts = await Promise.all(
     productFiles.map(async (name) =>
       JSON.parse(await readFile(path.join(productsDir, name), 'utf8')),
     ),
   );
-  check(products.length === 39, `expected 39 product JSON files, found ${products.length}`);
+  check(allProducts.length === 49, `expected 49 product JSON files, found ${allProducts.length}`);
+  const products = selectCatalogProducts(allProducts);
+  for (const draft of allProducts.filter((product) => product.publicationStatus === 'draft')) {
+    check((await fileSize(path.join(distDir, 'products', draft.slug, 'index.html'))) === -1,
+      `draft must not have a production page: ${draft.sku}`);
+  }
 
   // ── Required pages ──
   for (const product of products) {

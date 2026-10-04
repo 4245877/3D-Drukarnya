@@ -37,6 +37,7 @@ interface Props {
 }
 
 const { product } = Astro.props as Props;
+const isDraft = product.publicationStatus === 'draft';
 
 // Short SEO <title> (shared rules in src/utils/seo.mjs); the visible <h1>
 // below keeps the full product title.
@@ -92,7 +93,7 @@ const priceValidUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
 // ── Price & availability: one typed source for the card, this page and the
 // JSON-LD offer (see src/data/product.schema.mjs). ─────────────────────────
 const isFromPrice = product.priceType === 'from';
-const priceLabel = isFromPrice ? 'Ціна від' : 'Ціна';
+const priceLabel = isDraft ? 'Орієнтовна ціна' : isFromPrice ? 'Ціна від' : 'Ціна';
 
 const AVAILABILITY_SCHEMA_URL: Partial<Record<Product['availability'], string>> = {
   in_stock: 'https://schema.org/InStock',
@@ -349,6 +350,7 @@ const structuredData = graph([
   imageAlt={product.title}
   keywords={pageKeywords}
   ogType="product"
+  noindex={isDraft}
 >
   <script
     slot="head"
@@ -375,6 +377,7 @@ const structuredData = graph([
             aria-label="Фотографії товару"
           >
             <ProductGallery title={product.title} images={imageUrls} />
+            {product.imageNotice && <p class="product-specs__note">{product.imageNotice}</p>}
           </section>
         )}
 
@@ -420,6 +423,15 @@ const structuredData = graph([
               <p class="product-buy__price-note">{product.priceNote}</p>
             )}
 
+            {isDraft && (
+              <section class="product-warning" role="note" aria-label="Статус чернетки">
+                <p class="product-warning__title">Чернетка · продаж ще не відкрито</p>
+                <ul class="product-prose__list" role="list">
+                  {product.draftReasons?.map((reason) => <li>{reason}</li>)}
+                </ul>
+              </section>
+            )}
+
             {keyFacts.length > 0 && (
               <dl class="product-buy__facts">
                 {keyFacts.map((fact) => (
@@ -458,7 +470,7 @@ const structuredData = graph([
               </div>
             )}
 
-            <div class="product-buy__cta">
+            {!isDraft && <div class="product-buy__cta">
               <a
                 class="btn btn--primary btn--lg product-page__cta-button"
                 href={orderHref}
@@ -474,14 +486,14 @@ const structuredData = graph([
                 </svg>
               </a>
               <p class="product-buy__cta-note">{orderNote}</p>
-            </div>
+            </div>}
           </section>
 
-          <ul class="product-summary__points" role="list">
+          {!isDraft && <ul class="product-summary__points" role="list">
             {orderPoints.map((point) => (
               <li>{point}</li>
             ))}
-          </ul>
+          </ul>}
         </div>
       </div>
 
@@ -580,8 +592,8 @@ const structuredData = graph([
             </div>
 
             <p class="product-section__lead">
-              Цей виріб друкується під замовлення методом FDM. У комплект входять
-              лише надруковані пластикові деталі — метизи, вставки, електроніка,
+              {isDraft ? 'Заплановано виготовлення методом FDM після перевірки моделі та дозволів.' : 'Цей виріб друкується під замовлення методом FDM.'} У комплект входять
+              лише надруковані пластикові деталі — метизи, металеві різьбові вставки, електроніка,
               кабелі, вентилятори та блоки живлення узгоджуються окремо.
               <a href={href('guides/petg-vs-pla-for-racks/')}>Як обрати матеріал</a>.
             </p>
@@ -657,14 +669,14 @@ const structuredData = graph([
             {product.leadTime && (
               <p class="product-recap__meta">Термін виготовлення: {product.leadTime}</p>
             )}
-            <a
+            {!isDraft && <a
               class="btn btn--primary product-page__cta-button product-recap__button"
               href={orderHref}
               target="_blank"
               rel="noopener noreferrer"
             >
               {orderCtaShortText}
-            </a>
+            </a>}
           </div>
         </aside>
       </div>
@@ -697,7 +709,7 @@ const structuredData = graph([
       )}
     </div>
 
-    <div class="product-buybar" data-buybar hidden>
+    {!isDraft && <div class="product-buybar" data-buybar hidden>
       <div class="product-buybar__inner">
         <div class="product-buybar__price">
           <p class="product-buybar__label">{priceLabel}</p>
@@ -713,7 +725,7 @@ const structuredData = graph([
           {orderCtaShortText}
         </a>
       </div>
-    </div>
+    </div>}
   </section>
 </Layout>
 

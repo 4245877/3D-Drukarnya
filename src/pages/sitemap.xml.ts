@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { STATIC_ROUTES } from '../data/routes.mjs';
+import { isPublishedProduct } from '../data/publication.mjs';
 import { getAllProducts } from '../utils/products';
 import { absoluteUrl } from '../utils/urls';
 
@@ -16,7 +17,7 @@ import { absoluteUrl } from '../utils/urls';
 export const GET: APIRoute = () => {
   const routes = [
     ...STATIC_ROUTES,
-    ...getAllProducts().map((product) => ({
+    ...getAllProducts().filter(isPublishedProduct).map((product) => ({
       path: `products/${product.slug}/`,
       lastmod: undefined as string | undefined,
     })),

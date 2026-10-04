@@ -13,7 +13,8 @@ const { product } = Astro.props;
 const href = `${import.meta.env.BASE_URL}products/${product.slug}/`;
 const imageSrc = withBase(product.images[0]);
 // Same typed field that drives the product page and the JSON-LD offer shape.
-const priceLabel = product.priceType === 'from' ? 'Ціна від' : 'Ціна';
+const isDraft = product.publicationStatus === 'draft';
+const priceLabel = isDraft ? 'Орієнтовна ціна' : product.priceType === 'from' ? 'Ціна від' : 'Ціна';
 ---
 
 <article class="product-card">
@@ -53,6 +54,7 @@ const priceLabel = product.priceType === 'from' ? 'Ціна від' : 'Ціна'
   </a>
 
   <div class="product-card__body">
+    {isDraft && <p class="tag tag--copper">Чернетка · продаж ще не відкрито</p>}
     <p class="product-card__category tag tag--copper">
       {product.category ?? 'Товар'}
     </p>

@@ -1,0 +1,110 @@
+[
+  {
+    "modelId": 642650,
+    "id": "2830285",
+    "name": "top_full.stl",
+    "byteSize": 418384,
+    "triangles": 8366,
+    "boundingBoxModelUnits": [
+      91.2,
+      62.2,
+      17.28
+    ]
+  },
+  {
+    "modelId": 642650,
+    "id": "2830286",
+    "name": "bottom.stl",
+    "byteSize": 568684,
+    "triangles": 11372,
+    "boundingBoxModelUnits": [
+      91.2,
+      62.2,
+      8.32
+    ]
+  },
+  {
+    "modelId": 909805,
+    "id": "3823658",
+    "name": "top.stl",
+    "byteSize": 397384,
+    "triangles": 7946,
+    "boundingBoxModelUnits": [
+      92.83,
+      62.2,
+      17.28
+    ]
+  },
+  {
+    "modelId": 909805,
+    "id": "3823660",
+    "name": "top.stl",
+    "byteSize": 397384,
+    "triangles": 7946,
+    "boundingBoxModelUnits": [
+      92.83,
+      62.2,
+      17.28
+    ]
+  },
+  {
+    "modelId": 909805,
+    "id": "3823657",
+    "name": "bottom_nomount.stl",
+    "byteSize": 821684,
+    "triangles": 16432,
+    "boundingBoxModelUnits": [
+      92.83,
+      62.2,
+      17.47
+    ]
+  },
+  {
+    "modelId": 605642,
+    "id": "2584392",
+    "name": "Pi Zero 2W Case - top.stl",
+    "byteSize": 201984,
+    "triangles": 4038,
+    "boundingBoxModelUnits": [
+      67.0,
+      32.0,
+      4.4
+    ]
+  },
+  {
+    "modelId": 605642,
+    "id": "2584397",
+    "name": "Pi Zero 2W Case - bottom with ears.stl",
+    "byteSize": 330584,
+    "triangles": 6610,
+    "boundingBoxModelUnits": [
+      89.059,
+      32.0,
+      3.6
+    ]
+  },
+  {
+    "modelId": 4074,
+    "id": "508872",
+    "name": "Top_Slots_SM.stl",
+    "byteSize": 3487284,
+    "triangles": 69744,
+    "boundingBoxModelUnits": [
+      90.6,
+      61.4,
+      16.85
+    ]
+  },
+  {
+    "modelId": 4074,
+    "id": "508912",
+    "name": "Bottom_Slots_SM.stl",
+    "byteSize": 494384,
+    "triangles": 9886,
+    "boundingBoxModelUnits": [
+      90.6,
+      61.4,
+      9.7
+    ]
+  }
+]

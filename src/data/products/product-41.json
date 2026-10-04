@@ -1,0 +1,48 @@
+{
+  "merchandisingPriority": 0,
+  "featured": false,
+  "publicationStatus": "draft",
+  "familyId": "raspberry-pi-cases",
+  "photoRightsStatus": "review_required",
+  "attributionRequired": true,
+  "priceType": "from",
+  "availability": "unconfirmed",
+  "publishOffer": false,
+  "category": "Корпуси та дискові модулі",
+  "leadTime": "Після пробного друку та перевірки складання",
+  "sku": "P41",
+  "author": "pyrho // 25.wf",
+  "sourceUrl": "https://www.printables.com/model/909805-case-for-raspberry-pi-5-with-pimoroni-nvme-base-op",
+  "slug": "raspberry-pi-5-pimoroni-nvme-base-case",
+  "title": "Raspberry Pi 5 + Pimoroni NVMe Base — корпус",
+  "shortDescription": "Друкований корпус у виконанні Simple саме для Raspberry Pi 5 з Pimoroni NVMe Base. Дві половини без настінного кріплення; плата, адаптер, SSD і кулер не входять.",
+  "commercialRightsStatus": "permission_required",
+  "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 (CC BY-NC-SA 4.0)",
+  "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  "price": 499,
+  "material": "PETG",
+  "priceNote": "Орієнтир від 499 грн за 2 PETG-половини корпуса Simple після дозволу автора та виробничої перевірки. Raspberry Pi 5, Pimoroni NVMe Base, SSD, Active Cooler й монтажні стійки плати не входять.",
+  "variantSummary": "Simple: bottom_nomount.stl + top.stl; 2 деталі; тільки Pimoroni NVMe Base",
+  "variants": [
+    {
+      "name": "Simple без зовнішнього кріплення",
+      "badge": "чернетка",
+      "description": "1×bottom_nomount.stl та 1×top.stl. На вибраних фото це зелена нижня частина; mount.stl і помаранчеве Mounted-виконання не входять."
+    }
+  ],
+  "description": "Case for Raspberry Pi 5 With Pimoroni NVMe Base + Optional mounting від pyrho // 25.wf — окрема модифікація корпуса на защіпках під Raspberry Pi 5 з адаптером Pimoroni NVMe Base. Сумісність заявлена саме з Pimoroni NVMe Base; NVMe Base Duo, NVMe HAT+ та адаптери інших виробників автоматично сумісними не вважаються.\n\nВибрано настільний варіант Simple: 1×bottom_nomount.stl і 1×top.stl, усього 2 друковані деталі. Для комплекту використовується кришка top.stl із групи Simple. Файл mount.stl та основа bottom_mounted.stl не входять. На авторських фотографіях Simple має зелену нижню частину; помаранчева версія Mounted з монтажними вушками є іншою комплектацією.\n\nКорпус походить від моделі автора під офіційний Active Cooler і має отвори вентиляції. Посадку Active Cooler, прокладання PCIe-шлейфа, доступ до портів, кнопки, microSD та GPIO в конкретній збірці Raspberry Pi 5 + Pimoroni NVMe Base потрібно перевірити пробним складанням. Автор не опублікував вичерпного переліку допустимих SSD із радіаторами; таку сумісність не обіцяємо.\n\nКомплектація за орієнтиром 499 грн: 1 нижня частина Simple та 1 кришка. PETG вибрано як матеріал для нашого пробного друку; автор окремо не зазначив матеріал цього реміксу. Raspberry Pi 5, Pimoroni NVMe Base, NVMe SSD, Active Cooler, блок живлення, PCIe-шлейф, microSD, гвинти й стійки плати не входять. Зовнішній кріпильний комплект Mounted не потрібний цьому виконанню та не включається.\n\nSTL обох половин доступні; є вихідний slimcase2_pimo v6.f3d. Підтвердженого 3MF не виявлено. Габарити зібраного надрукованого корпуса, маса комплекту та час друку ще не підтверджені; остаточний розрахунок ціни виконується після пробного друку й зважування.\n\nЛіцензія цієї модифікації — CC BY-NC-SA 4.0, хоча вихідний корпус №642650 має CC BY-SA. Комерційне виготовлення №909805 потребує окремого дозволу pyrho // 25.wf. Також необхідне підтвердження прав на фотографії. Товар залишається чернеткою без приймання замовлень до завершення цих перевірок.",
+  "draftReasons": [
+    "Для CC BY-NC-SA 4.0 потрібний окремий дозвіл автора на комерційне виготовлення.",
+    "Не підтверджено право використання авторських фотографій у магазині.",
+    "Потрібне пробне складання Raspberry Pi 5 + Pimoroni NVMe Base із перевіркою PCIe-шлейфа, кулера, портів і зазорів.",
+    "Потрібні габарити готового виробу, зважування та остаточний виробничий розрахунок."
+  ],
+  "imageNotice": "На вибраних фото зелена версія Simple: продаються тільки 2 друковані половини корпуса. Raspberry Pi 5, Pimoroni NVMe Base, SSD та Active Cooler не входять. Права на фотографії ще перевіряються.",
+  "images": [
+    "https://media.printables.com/media/prints/909805/images/6952660_d8d768bd-7971-40ab-8512-343010f80cc2_ed95b4d4-22d0-4a66-b126-fdbb4dfbd3a7/dsc_0298.jpg",
+    "https://media.printables.com/media/prints/909805/images/6952656_b8de6a57-a2c0-42cb-b079-6763bb8ca7ec_0863da5e-314d-4553-84c3-b2de53489356/dsc_0299.jpg",
+    "https://media.printables.com/media/prints/909805/images/6952658_5c301da2-856c-46ed-929c-075dc4315f41_4877275a-9b02-4bf6-886b-b6cb19a2cffc/dsc_0300.jpg",
+    "https://media.printables.com/media/prints/909805/images/6952659_e9fce416-a7fe-4c78-a069-590c2f4888c4_64e63c93-6df5-49ec-ac54-e31a07c166be/dsc_0301.jpg",
+    "https://media.printables.com/media/prints/909805/images/6952655_f90c07d9-65ee-4646-bf4d-6c79cfed8ce7_88c16085-1319-4ef1-b36a-75411cc1e458/dsc_0297.jpg"
+  ]
+}

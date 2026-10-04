@@ -1,0 +1,164 @@
+[
+  {
+    "modelId": "1422338",
+    "fileId": "5986153",
+    "filename": "SLZB-06 wall mount.stl",
+    "sha256": "6c52d6f3a2d49a97664f1633757aeb4cd14f6ba2c657e4c1c0818ce214894f11",
+    "bytes": 542484,
+    "triangles": 10848,
+    "connectedVertexComponents": 1,
+    "coordinateBounds": [
+      [
+        -80.0999984741211,
+        -13.729999542236328,
+        0.0
+      ],
+      [
+        80.0999984741211,
+        13.729999542236328,
+        6.599999904632568
+      ]
+    ],
+    "coordinateExtent": [
+      160.1999969482422,
+      27.459999084472656,
+      6.599999904632568
+    ],
+    "unitNote": "STL has no unit metadata. Coordinates treated as mm per printing convention; not measured printed dimensions."
+  },
+  {
+    "modelId": "1132964",
+    "fileId": "4727284",
+    "filename": "Home Assistant Voice PE wall mount.stl",
+    "sha256": "2de04a3d56cb7b91221f9c7eb0be7ff6fd09fb7db8b8b5a9d36fdf07f971a6fc",
+    "bytes": 190084,
+    "triangles": 3800,
+    "connectedVertexComponents": 1,
+    "coordinateBounds": [
+      [
+        -1.0,
+        -86.0,
+        -1.0
+      ],
+      [
+        86.0,
+        1.0,
+        16.5
+      ]
+    ],
+    "coordinateExtent": [
+      87.0,
+      87.0,
+      17.5
+    ],
+    "unitNote": "STL has no unit metadata. Coordinates treated as mm per printing convention; not measured printed dimensions."
+  },
+  {
+    "modelId": "378810",
+    "fileId": "1660027",
+    "filename": "double 2.5 to 3.5.stl",
+    "sha256": "1cebae53cd9f465459d14af9390a4070eeaf807986472f545dbe8f58170b62e6",
+    "bytes": 592584,
+    "triangles": 11850,
+    "connectedVertexComponents": 1,
+    "coordinateBounds": [
+      [
+        -59.91709899902344,
+        -5.5,
+        -0.0
+      ],
+      [
+        59.91709899902344,
+        14.5,
+        101.0
+      ]
+    ],
+    "coordinateExtent": [
+      119.83409881591797,
+      20.0,
+      101.0
+    ],
+    "unitNote": "STL has no unit metadata. Coordinates treated as mm per printing convention; not measured printed dimensions."
+  },
+  {
+    "modelId": "644063",
+    "fileId": "3053740",
+    "filename": "rpi-case-vesa-base-nvme-V3.stl",
+    "sha256": "dd1581b8275a17696dd73ef32c56a2aa33a605f71007650050f44083bc455e7a",
+    "bytes": 478884,
+    "triangles": 9576,
+    "connectedVertexComponents": 1,
+    "coordinateBounds": [
+      [
+        1.4581999778747559,
+        1.9795000553131104,
+        0.0
+      ],
+      [
+        116.92790222167969,
+        117.44940185546875,
+        5.0
+      ]
+    ],
+    "coordinateExtent": [
+      115.46980285644531,
+      115.46980285644531,
+      5.0
+    ],
+    "unitNote": "STL has no unit metadata. Coordinates treated as mm per printing convention; not measured printed dimensions."
+  },
+  {
+    "modelId": "644063",
+    "fileId": "2993950",
+    "filename": "rpi-case-nvme-lid.stl",
+    "sha256": "db2157fa684d9bc9b39ba11982da5a82d9efdcbebd424e2e1299bd1707725565",
+    "bytes": 152684,
+    "triangles": 3052,
+    "connectedVertexComponents": 3,
+    "coordinateBounds": [
+      [
+        -0.0,
+        -0.0,
+        0.0
+      ],
+      [
+        93.5,
+        62.0,
+        40.0
+      ]
+    ],
+    "coordinateExtent": [
+      93.5,
+      62.0,
+      40.0
+    ],
+    "unitNote": "STL has no unit metadata. Coordinates treated as mm per printing convention; not measured printed dimensions."
+  },
+  {
+    "modelId": "644063",
+    "fileId": "2993951",
+    "filename": "rpi-case-power-switch.stl",
+    "sha256": "e7b398342a3aa172d4352fe6f1bbee2f3e3225e13a4849209dd0df3899c64667",
+    "bytes": 14084,
+    "triangles": 280,
+    "connectedVertexComponents": 2,
+    "coordinateBounds": [
+      [
+        -1.0,
+        -1.0,
+        0.0
+      ],
+      [
+        5.5,
+        4.800000190734863,
+        7.5
+      ]
+    ],
+    "coordinateExtent": [
+      6.5,
+      5.800000190734863,
+      7.5
+    ],
+    "unitNote": "STL has no unit metadata. Coordinates treated as mm per printing convention; not measured printed dimensions."
+  }
+]

@@ -1,0 +1,43 @@
+{
+  "slug": "home-assistant-voice-pe-wall-mount-v2",
+  "sku": "P45",
+  "merchandisingPriority": 0,
+  "featured": false,
+  "publicationStatus": "draft",
+  "draftReasons": [
+    "Ліцензія CC BY-NC-SA не дозволяє комерційне використання без окремого дозволу delphiki.",
+    "Не підтверджено право комерційного використання обкладинки й рендера автора.",
+    "Потрібно перевірити завантажений файл саме v2, точні габарити, настінні гвинти, посадку пристрою та доступ до портів після пробного друку."
+  ],
+  "commercialRightsStatus": "permission_required",
+  "photoRightsStatus": "review_required",
+  "author": "delphiki",
+  "sourceUrl": "https://makerworld.com/en/models/943189#profileId-909273",
+  "license": "Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA; MakerWorld)",
+  "licenseUrl": "https://makerworld.com/en/models/943189",
+  "attributionRequired": true,
+  "title": "Home Assistant Voice PE v2 — настінне кріплення",
+  "shortDescription": "Оновлений цільний тримач delphiki для Home Assistant Voice Preview Edition: уточнена посадка, менша товщина та виконання без вирізу під Grove.",
+  "description": "Настінний тримач для Home Assistant Voice Preview Edition за оновленою моделлю delphiki Home Assistant Voice PE wall mount v2, MakerWorld №943189. Автор уточнив розміри для кращої посадки, зменшив товщину та прибрав виріз під порт Grove. Це виконання не слід замовляти, якщо потрібен доступ до Grove без зняття пристрою.\n\nОбраний файл — Home Assistant Voice PE wall mount v2.stl, один цільний тримач; авторський 3MF-профіль №909273 використовує PLA. Виріз для кабелю та чотири монтажні отвори видно на авторському рендері. Розміри гвинтів, точні габарити v2 та зазор для кабелю потребують перевірки файлу й пробного складання. Прогноз витрати PLA та тривалості в профілі не є виміряною масою або строком виготовлення майстерні.\n\nКомплектація: один надрукований настінний тримач із PLA. Home Assistant Voice PE, електроніка, дисплеї, кабель USB-C, блок живлення, настінні гвинти та дюбелі не входять. Тип і довжина кріплення підбираються під стіну та монтажні отвори після перевірки.\n\nСторінка Printables №1132964 збережена як попереднє джерело в дослідженні; для цього товару обрана саме оновлена v2 на MakerWorld. Ліцензія v2 — CC BY-NC-SA: публікація для продажу очікує дозволу автора. Використання зображень також потребує окремого підтвердження. Виріб ще не пройшов пробний друк у майстерні.",
+  "price": 279,
+  "priceType": "from",
+  "availability": "unconfirmed",
+  "publishOffer": false,
+  "priceNote": "Початковий орієнтир за один тримач v2 із PLA. Voice PE, кабелі, живлення, гвинти, дюбелі та монтаж не входять. Ціна уточнюється після дозволу автора й пробного друку.",
+  "category": "Кріплення для обладнання",
+  "material": "PLA",
+  "leadTime": "Після пробного друку та перевірки складання",
+  "variantSummary": "v2, 1 тримач, PLA, без вирізу Grove",
+  "variants": [
+    {
+      "name": "Home Assistant Voice PE wall mount v2",
+      "badge": "орієнтир",
+      "description": "Одна друкована деталь із PLA за STL v2 / профілем 909273. Порт Grove не має окремого вирізу; електроніка, USB-C кабель і настінне кріплення не входять."
+    }
+  ],
+  "imageNotice": "Авторська обкладинка v2 показує Voice PE у тримачі; додаткове зображення — рендер тримача. Продається лише друковане кріплення. Voice PE, кабель і блок живлення не входять. Права на зображення ще перевіряються.",
+  "images": [
+    "https://makerworld.bblmw.com/makerworld/model/USc48ad98ead7199/design/2025-01-02_9abda76f4d093.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USc48ad98ead7199/design/2025-01-03_658fc35948eb9.png?x-oss-process=image/resize,w_1000/format,webp"
+  ]
+}

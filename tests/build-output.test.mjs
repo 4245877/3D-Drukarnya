@@ -14,6 +14,7 @@ import { CATEGORY_REDIRECTS } from '../src/data/category-redirects.mjs';
 import { GUIDES } from '../src/data/guides.mjs';
 import { STATIC_ROUTE_PATHS } from '../src/data/routes.mjs';
 import { INDEXNOW_KEY } from '../src/data/site.config.mjs';
+import { selectCatalogProducts } from '../src/data/publication.mjs';
 
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
 const distDir = path.join(projectRoot, 'dist');
@@ -43,12 +44,30 @@ test('production build generates every product page and the sitemap', async (t) 
   execFileSync(process.execPath, [astroBin, 'build'], {
     cwd: projectRoot,
     stdio: 'pipe',
+    // A preview flag accidentally inherited by CI must not publish drafts.
+    env: { ...process.env, PUBLIC_CATALOG_PREVIEW_DRAFTS: '1' },
     timeout: 10 * 60 * 1000,
   });
 
-  const products = await loadProducts();
+  const allProducts = await loadProducts();
+  const products = selectCatalogProducts(allProducts);
   const slugs = products.map(({ slug }) => slug);
   assert.equal(products.length, 39, 'production build must contain all 39 products');
+
+  await t.test('drafts never leak into production pages, catalogs, sitemap or photos', async () => {
+    const catalog = await readFile(path.join(distDir, 'index.html'), 'utf8');
+    const sitemap = await readFile(path.join(distDir, 'sitemap.xml'), 'utf8');
+    const drafts = allProducts.filter((product) => product.publicationStatus === 'draft');
+    assert.equal(drafts.length, 10);
+    for (const draft of drafts) {
+      await assert.rejects(access(path.join(distDir, 'products', draft.slug, 'index.html')));
+      assert.ok(!catalog.includes(`data-product-sku="${draft.sku}"`), draft.sku);
+      assert.ok(!sitemap.includes(`/products/${draft.slug}/`), draft.sku);
+      for (const photo of draft.images.filter((image) => image.startsWith('https:'))) {
+        assert.ok(!catalog.includes(photo), `${draft.sku}: unapproved photo leaked`);
+      }
+    }
+  });
 
   await t.test('catalog page exists', async () => {
     await access(path.join(distDir, 'index.html'));

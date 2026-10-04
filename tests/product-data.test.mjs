@@ -34,6 +34,7 @@ const EXPECTED_SKUS_IN_CATALOG_ORDER = [
   'P14', 'P13', 'P7', 'P25', 'P34', 'P17', 'P19', 'P24',
   'P35', 'P31', 'P36', 'P20', 'P28', 'P16', 'P18', 'P29',
   'P33', 'P30', 'P27', 'P32', 'P37', 'P38', 'P39',
+  'P40', 'P41', 'P42', 'P43', 'P44', 'P45', 'P46', 'P47', 'P48', 'P49',
 ];
 
 const EXPECTED_SLUGS_BY_SKU = {
@@ -110,7 +111,7 @@ const validProduct = {
 test('every product JSON file passes the schema and collection rules', async () => {
   const entries = await loadEntries();
 
-  assert.equal(entries.length, 39, 'the catalog must keep all 39 product files');
+  assert.equal(entries.length, 49, 'the catalog must keep 39 products and ten new drafts');
 
   const { products, errors } = validateProductCollection(entries);
 
@@ -118,9 +119,9 @@ test('every product JSON file passes the schema and collection rules', async () 
   assert.equal(products.length, entries.length);
 });
 
-test('P1-P39 filenames, SKUs and published slugs remain stable', async () => {
+test('P1-P49 filenames and SKUs match; existing published slugs remain stable', async () => {
   const entries = await loadEntries();
-  const expectedFiles = Array.from({ length: 39 }, (_, index) => `product-${index + 1}.json`);
+  const expectedFiles = Array.from({ length: 49 }, (_, index) => `product-${index + 1}.json`);
 
   assert.deepEqual(
     entries.map(({ source }) => source).sort((a, b) => {
@@ -135,7 +136,7 @@ test('P1-P39 filenames, SKUs and published slugs remain stable', async () => {
     const number = Number.parseInt(source.match(/\d+/)?.[0] ?? '', 10);
     const expectedSku = `P${number}`;
     assert.equal(data.sku, expectedSku, `${source}: SKU no longer matches its P-number`);
-    assert.equal(
+    if (number <= 39) assert.equal(
       data.slug,
       EXPECTED_SLUGS_BY_SKU[expectedSku],
       `${source}: published product slug changed`,
@@ -172,7 +173,7 @@ test('merchandising priorities produce the curated catalog order', async () => {
 
 test('categories, rights metadata and requested product families are structured', async () => {
   const entries = await loadEntries();
-  const products = entries.map(({ data }) => data);
+  const products = entries.map(({ data }) => data).filter((product) => product.publicationStatus !== 'draft');
   const skusWithStatus = (status) =>
     products
       .filter((product) => product.commercialRightsStatus === status)
@@ -260,7 +261,7 @@ test('every product stores a positive weight unless its SKU is pending', async (
   for (const { source, data } of await loadEntries()) {
     if (data.weightGrams === undefined) {
       assert.ok(
-        WEIGHT_PENDING_SKUS.has(data.sku),
+        data.publicationStatus === 'draft' || WEIGHT_PENDING_SKUS.has(data.sku),
         `${source}: no weightGrams and ${data.sku} is not listed in WEIGHT_PENDING_SKUS`,
       );
       continue;

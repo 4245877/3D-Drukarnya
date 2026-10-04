@@ -265,6 +265,11 @@ export const productSchema = z.strictObject({
   // `featured` are deliberately not part of the ordering contract.
   merchandisingPriority: z.number().int().nonnegative(),
   featured: z.boolean().default(false),
+  // Drafts are retained in the same data collection but never shipped by a
+  // production build. Rights metadata remains independent of merchandising.
+  publicationStatus: z.enum(['published', 'draft']).default('published'),
+  draftReasons: z.array(nonEmptyString).min(1).optional(),
+  imageNotice: nonEmptyString.optional(),
   familyId: z
     .string()
     .regex(
@@ -326,10 +331,21 @@ export const productSchema = z.strictObject({
     .min(1, 'variants, when present, must not be empty')
     .optional(),
 }).superRefine((product, ctx) => {
+  if (product.publicationStatus === 'draft') {
+    if (!product.draftReasons?.length) {
+      ctx.addIssue({ code: 'custom', path: ['draftReasons'], message: 'drafts require publication blockers' });
+    }
+    if (product.publishOffer || product.availability !== 'unconfirmed' || product.orderUrl) {
+      ctx.addIssue({
+        code: 'custom', path: ['publicationStatus'],
+        message: 'drafts require publishOffer=false, availability=unconfirmed and no orderUrl',
+      });
+    }
+  }
   if (product.weightGrams === undefined) {
     // Unknown physical weights remain explicit, even when benchmark pricing
     // makes it possible to calculate a provisional starting price.
-    if (!WEIGHT_PENDING_SKUS.has(product.sku)) {
+    if (product.publicationStatus !== 'draft' && !WEIGHT_PENDING_SKUS.has(product.sku)) {
       ctx.addIssue({
         code: 'custom',
         path: ['weightGrams'],

@@ -70,7 +70,7 @@ for (const fileName of fileNames) {
   }
 
   if (expected === undefined) {
-    pending.push(`${fileName} (${data.sku}): no weight or reviewed profile, legacy price ${data.price} ₴ retained`);
+    pending.push(`${fileName} (${data.sku}): no weight or reviewed profile, ${data.publicationStatus === 'draft' ? 'draft guide' : 'legacy'} price ${data.price} ₴ retained`);
     continue;
   }
   if (data.price === expected) {

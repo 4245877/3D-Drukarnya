@@ -1,4 +1,5 @@
 ---
+import { isDraftPreview } from '../utils/draft-preview';
 import '../styles/base.css';
 import '../styles/layout.css';
 import SiteHeader from './SiteHeader.astro';
@@ -43,11 +44,14 @@ const {
   imageAlt,
   keywords = '10-дюймова серверна стійка, mini rack, HomeLab стійка, NAS корпус, rack mount, 3D-друк Київ',
   ogType = 'website',
-  noindex = false,
+  noindex: requestedNoindex = false,
   lang = SITE_LANG,
   ogLocale = SITE_LOCALE,
   alternates = [],
 } = Astro.props;
+
+// A local draft preview must never advertise its pages for indexing.
+const noindex = requestedNoindex || isDraftPreview;
 
 // The site's branded OG image. Dimensions verified against the actual file
 // (PNG IHDR: 1983×793) — never publish unconfirmed sizes.
