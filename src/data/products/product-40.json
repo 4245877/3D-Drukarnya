@@ -19,9 +19,9 @@
   "commercialRightsStatus": "approved",
   "license": "Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0)",
   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-  "price": 329,
+  "price": 165,
   "material": "PLA",
-  "priceNote": "Орієнтир від 329 грн за 1 нижню частину та 1 кришку з PLA. Остаточна ціна після пробного друку й зважування; Raspberry Pi 5, Active Cooler, карта microSD та кабелі не входять.",
+  "priceNote": "Орієнтир від 165 грн за 1 нижню частину та 1 кришку з PLA. Остаточна ціна після пробного друку й зважування; Raspberry Pi 5, Active Cooler, карта microSD та кабелі не входять.",
   "variantSummary": "Поточна група v3: bottom.stl + top_full.stl; 2 деталі; Raspberry Pi 5 / Active Cooler",
   "variants": [
     {

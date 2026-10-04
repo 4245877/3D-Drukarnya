@@ -19,9 +19,9 @@
   "commercialRightsStatus": "approved",
   "license": "Creative Commons Attribution 4.0 (CC BY 4.0)",
   "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
-  "price": 199,
+  "price": 100,
   "material": "PETG",
-  "priceNote": "Орієнтир від 199 грн за 1 кришку та 1 нижню частину з вушками з PETG. Для складання потрібні 4×M2.5×8, які не входять; плата, радіатор і кріплення до поверхні також окремо.",
+  "priceNote": "Орієнтир від 100 грн за 1 кришку та 1 нижню частину з вушками з PETG. Для складання потрібні 4×M2.5×8, які не входять; плата, радіатор і кріплення до поверхні також окремо.",
   "variantSummary": "top.stl + bottom with ears.stl; 2 деталі; GPIO / радіатор; 4×M2.5×8 окремо",
   "variants": [
     {
