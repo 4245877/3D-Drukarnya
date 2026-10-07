@@ -11,7 +11,7 @@ const base = import.meta.env.BASE_URL.endsWith('/')
 
 const title = 'Сторінку не знайдено (404) | 3D Друкарня';
 const description =
-  'Такої сторінки немає або її було переміщено. Поверніться до каталогу FDM 3D-друку — корпуси, кріплення та прототипи в Києві.';
+  'Сторінку не знайдено. Перевір адресу або відкрий каталог стійок, NAS-корпусів, кріплень і аксесуарів для HomeLab.';
 ---
 
 <Layout
@@ -31,12 +31,12 @@ const description =
           </h1>
 
           <p class="catalog-no-results__text">
-            Схоже, такої сторінки немає, її було переміщено або в адресі
-            допущено помилку (404).
+            Ця адреса не веде до сторінки (404). Перевір її написання
+            або повернися до товарів — каталог доступний за посиланням нижче.
           </p>
 
           <div class="catalog-no-results__actions">
-            <a class="btn btn--primary" href={base}>До каталогу 3D-друку</a>
+            <a class="btn btn--primary" href={base}>Переглянути товари</a>
             <a class="btn btn--secondary" href={`${base}#order-title`}>
               Строки та доставка
             </a>

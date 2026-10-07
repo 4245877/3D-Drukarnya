@@ -6,12 +6,13 @@ interface Crumb {
 
 interface Props {
   items: Crumb[];
+  lang?: string;
 }
 
 const { items } = Astro.props;
 ---
 
-<nav class="breadcrumbs" aria-label="Хлібні крихти">
+<nav class="breadcrumbs" aria-label={Astro.props.lang === 'en' ? 'Page navigation' : 'Шлях до сторінки'}>
   {/* role="list" restores list semantics removed by the global
       `ul, ol { list-style: none }` reset in WebKit/VoiceOver */}
   <ol class="breadcrumbs__list" role="list">

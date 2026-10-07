@@ -34,9 +34,9 @@ const rateLabel = new Intl.NumberFormat('en-US', {
 const canonicalPath = '/en/';
 const pageUrl = absoluteUrl(canonicalPath);
 
-const title = '10 inch server rack & 3D printed HomeLab parts in Ukraine';
+const title = '10 inch server racks, NAS cases & HomeLab mounts in Ukraine';
 const description =
-  '3D printed 10 inch server racks, NAS cases and rack mounts for MikroTik, TP-Link, Raspberry Pi and Lenovo Tiny mini PCs. Made to order in Kyiv, Ukraine, shipped nationwide.';
+  '10 inch server racks, NAS and Raspberry Pi cases, network and mini PC mounts, drive modules and workspace accessories. Made to order in Kyiv, with OLX Delivery in Ukraine.';
 
 const faq = [
   {
@@ -52,17 +52,17 @@ const faq = [
   {
     question: 'What is the price based on?',
     answer:
-      `Every catalogue price is the printed weight of the part in grams multiplied by ${rateLabel} UAH per gram. The weight is published in each product's specifications, so the price can be verified. Prices are in Ukrainian hryvnia (UAH).`,
+      `Where the printed weight is known, pricing starts with weight × ${rateLabel} UAH per gram; some profiles add a preparation fee. Other items use a comparable product or a provisional starting price. Check the price note in each card. A “from” price needs confirmation for your chosen version. All prices are in Ukrainian hryvnia (UAH).`,
   },
   {
     question: 'Which materials do you print in?',
     answer:
-      'PETG and PLA, with ABS for selected items. PETG is the default for racks, mounts and NAS cases because they carry load and sit next to hardware that runs around the clock. Each product page states its material.',
+      'The catalogue includes PETG, PLA, ABS and ASA. Check the material stated for the particular item; it varies with the model and its use. If you need a different material, agree it with the shop before production.',
   },
   {
     question: 'Is the catalogue in English?',
     answer:
-      'The product pages and guides are written in Ukrainian, but product names keep the original English hardware model names (MikroTik hAP ac², TP-Link TL-SG108, Lenovo ThinkCentre M920q and so on), so the catalogue is navigable without Ukrainian.',
+      'Product pages and guides are in Ukrainian. Hardware names such as MikroTik hAP ac², TP-Link TL-SG108 and Lenovo ThinkCentre M920q stay in their original form, so you can search by model. Please check the compatibility notes too; a similar name alone is not enough.',
   },
 ];
 
@@ -105,20 +105,22 @@ const structuredData = graph([
   <div class="content-page">
     <div class="container">
       <Breadcrumbs
+        lang="en"
         items={[{ label: 'Home', href: href() }, { label: 'English' }]}
       />
 
       <header class="content-head">
         <p class="kicker">English overview</p>
         <h1 class="content-head__title content-head__title--wide">
-          3D printed 10 inch server racks and HomeLab parts, made in Ukraine
+          10 inch server racks and HomeLab parts, made in Ukraine
         </h1>
         <p class="content-lead">
-          3D Друкарня is a small FDM 3D printing workshop in Kyiv, Ukraine,
-          focused on compact home server infrastructure: 10 inch (mini rack)
-          server racks, DIY NAS cases, rack mounts for network gear and mini
-          PCs, shelves, keystone patch panels and cable management. All
-          {' '}{products.length} catalogue items are printed to order in PETG or PLA.
+          I’m Raphtalia. I’m glad you’re here, and I’d like your equipment to have
+          a comfortable place in your home. At 3D Друкарня you’ll find 10 inch
+          server racks, NAS and Raspberry Pi cases, mounts for network gear and
+          mini PCs, drive modules, shelves, Keystone panels and workspace organisers.
+          The {' '}{products.length} catalogue items are made to order in Kyiv.
+          Take your time with the specifications — the small differences matter.
         </p>
       </header>
 
@@ -144,15 +146,15 @@ const structuredData = graph([
               </tr>
               <tr>
                 <th scope="row"><a href={href('catalog/cases-and-storage/')}>Cases and drive modules</a></th>
-                <td>NAS and PC cases, an ATX bench power supply enclosure, drive cages, HDD holders and adapters</td>
+                <td>NAS, PC and Raspberry Pi cases, an ATX bench power supply enclosure, HDD/SSD holders and adapters</td>
               </tr>
               <tr>
                 <th scope="row"><a href={href('catalog/equipment-mounts/')}>Equipment mounts</a></th>
-                <td>Mounts for network devices, mini-PCs, Raspberry Pi, power supplies, a power strip and Starlink Gen 3</td>
+                <td>Rack mounts for network devices, mini PCs, Raspberry Pi and power supplies; SMLIGHT and Home Assistant Voice PE wall mounts, a power strip holder and Starlink Gen 3 mount</td>
               </tr>
               <tr>
                 <th scope="row"><a href={href('catalog/rack-accessories/')}>Rack accessories</a></th>
-                <td>Shelves, Gridfinity drawers, Keystone patch panels, cable organisers and a Synology DS920+ front panel</td>
+                <td>Shelves, Gridfinity drawers, Keystone panels, cable guides, a Synology DS920+ front panel, Honeycomb Storage Wall kit and desktop organiser</td>
               </tr>
             </tbody>
           </table>
@@ -183,17 +185,20 @@ const structuredData = graph([
 
         <div class="content-prose">
           <p>
-            Every item is printed to order, so there is no shelf stock: lead time
-            is stated on each product page and depends on print time. Prices are
-            derived from the printed weight of the part — {rateLabel} UAH per gram —
-            and the weight is published alongside the price, so the number can be
-            checked.
+            Items are made to order. Read the lead time and price note on the
+            product page; some versions still need a confirmed production estimate.
+            Where weight is known, the base calculation is {rateLabel} UAH per gram.
+            Other prices use a comparable item or a provisional starting estimate.
+            I’d rather make that distinction clear now than leave you with an
+            unexpected cost when you order.
           </p>
           <p>
             Orders and questions go through the{' '}
             <a href={OLX_URL} target="_blank" rel="noopener noreferrer">
               seller profile on OLX
-            </a>. Quote the product SKU (P1, P2, …) from the catalogue page.
+            </a>. The link opens the profile. Send the shop the SKU (P1, P2, …),
+            quantity, colour and chosen version. Only printed plastic parts are
+            included; hardware and electronics are agreed separately.
           </p>
         </div>
       </section>
@@ -219,8 +224,9 @@ const structuredData = graph([
         <div class="content-prose">
           <p>
             The catalogue lists {CATEGORIES.length} sections. Product pages carry the
-            specifications, weight, material, lead time, price and compatibility in
-            Ukrainian, with all hardware model names in their original form.
+            specifications, material, price and available compatibility details in
+            Ukrainian. Weight and lead time are shown where confirmed. Hardware
+            model names stay in their original form, so you can compare them with yours.
           </p>
         </div>
       </section>

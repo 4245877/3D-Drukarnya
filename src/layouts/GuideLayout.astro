@@ -108,18 +108,18 @@ const structuredData = graph([
 
       <article>
         <header class="content-head">
-          <p class="kicker">Гайд</p>
+          <p class="kicker">Поради для твоєї збірки</p>
           <h1 class="content-head__title content-head__title--wide">{guide.heading}</h1>
           <p class="content-meta">Оновлено: {updatedLabel}</p>
           <p class="content-lead">
-            <strong>Коротка відповідь.</strong> {guide.summary}
+            <strong>Коротко.</strong> {guide.summary}
           </p>
         </header>
 
         <slot />
 
         <section class="content-section" aria-labelledby="guide-faq">
-          <h2 id="guide-faq">Часті питання</h2>
+          <h2 id="guide-faq">Подробиці, які варто знати</h2>
           <div class="content-faq">
             {guide.faq.map((item: { question: string; answer: string }) => (
               <article class="content-faq__item">
@@ -133,7 +133,7 @@ const structuredData = graph([
 
       {relatedCategories.length > 0 && (
         <section class="content-section" aria-labelledby="guide-categories">
-          <h2 id="guide-categories">Товари з каталогу на цю тему</h2>
+          <h2 id="guide-categories">Відповідні розділи каталогу</h2>
           <ul class="content-linkrow" role="list">
             {relatedCategories.map((category) => (
               <li>
@@ -146,7 +146,7 @@ const structuredData = graph([
 
       {relatedGuides.length > 0 && (
         <section class="content-section" aria-labelledby="guide-related">
-          <h2 id="guide-related">Читати далі</h2>
+          <h2 id="guide-related">Ще про планування збірки</h2>
           <div class="content-grid">
             {relatedGuides.map((related) => (
               <article class="content-card">

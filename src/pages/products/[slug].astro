@@ -44,7 +44,7 @@ const isDraft = product.publicationStatus === 'draft';
 const pageTitle = buildProductTitle(product.title);
 
 const META_DESCRIPTION_MAX = 160;
-const META_DESCRIPTION_SUFFIX = 'FDM 3D-друк у Києві з PLA/PETG під замовлення.';
+const META_DESCRIPTION_SUFFIX = 'Виготовлення на замовлення в Києві. Деталі в картці.';
 
 // The suffix carries the page's target keywords, so the lead has to be cut to
 // fit around it — truncating the joined string instead would drop the suffix.
@@ -124,14 +124,14 @@ const availabilityTone = AVAILABILITY_TONE[product.availability];
 const orderHref = product.orderUrl ?? olxUrl;
 const hasDirectOrderUrl = Boolean(product.orderUrl);
 const orderCtaText = hasDirectOrderUrl
-  ? 'Переглянути оголошення цього товару'
-  : 'Перейти до продавця на OLX';
+  ? 'Відкрити оголошення на OLX'
+  : 'Відкрити профіль на OLX';
 // The sticky mobile bar has room for a few words only; both variants stay
 // honest about where the link actually goes.
 const orderCtaShortText = hasDirectOrderUrl ? 'Відкрити на OLX' : 'Перейти на OLX';
 const orderNote = hasDirectOrderUrl
-  ? 'Кнопка відкриває окрему сторінку цього товару на OLX.'
-  : 'Окремого оголошення для цього товару поки немає. Кнопка відкриває загальний профіль продавця — вкажіть артикул товару в повідомленні.';
+  ? 'Кнопка відкриє оголошення цього виробу на OLX. Замовлення узгоджується там із магазином.'
+  : `Кнопка відкриє загальний профіль продавця на OLX. Напиши магазину й зазнач артикул ${product.sku} та потрібне виконання. Окремого посилання на оголошення цього виробу тут немає.`;
 
 const pageKeywords = [
   product.title,
@@ -160,7 +160,7 @@ const hasVariants = variants.length > 0;
 const warnings = product.safetyWarnings ?? [];
 const hasWarnings = warnings.length > 0;
 const warningDefaultTitle = (level: 'notice' | 'critical') =>
-  level === 'critical' ? 'Важливе попередження щодо безпеки' : 'Зверніть увагу';
+  level === 'critical' ? 'Важливе попередження щодо безпеки' : 'Що варто врахувати';
 
 // Only the target product's known weight is published as a physical fact.
 // A benchmark is explained as provisional pricing, never as measured weight.
@@ -208,9 +208,9 @@ const keyFacts = [
 
 // Ordering and customization details stay beside the purchase action.
 const orderPoints = [
-  'Самовивіз у Києві або OLX Доставка по Україні',
+  'Самовивіз у Києві або OLX Доставка за її умовами',
   'Матеріал, колір і заповнення узгоджуються перед друком',
-  'Невеликі зміни моделі під вашу задачу — за домовленістю',
+  'Невеликі зміни моделі під твою задачу — за домовленістю',
 ];
 
 // Page sections, in the order they appear. Drives both the sticky section
@@ -220,7 +220,7 @@ const pageSections = [
   hasFacts ? { id: 'product-details', label: 'Характеристики' } : null,
   hasVariants ? { id: 'product-variants', label: 'Варіанти' } : null,
   { id: 'fdm-print-use-cases', label: 'Комплектація' },
-  hasImages ? { id: 'product-gallery', label: 'Фото' } : null,
+  hasImages ? { id: 'product-gallery', label: 'Зображення' } : null,
 ].filter((item): item is { id: string; label: string } => Boolean(item));
 
 // Public attribution is intentionally separate from internal rights-review
@@ -374,7 +374,7 @@ const structuredData = graph([
           <section
             id="product-gallery"
             class="product-page__gallery"
-            aria-label="Фотографії товару"
+            aria-label="Зображення товару"
           >
             <ProductGallery title={product.title} images={imageUrls} />
             {product.imageNotice && <p class="product-specs__note">{product.imageNotice}</p>}
@@ -547,7 +547,8 @@ const structuredData = graph([
               </>
             ) : (
               <p class="product-section__lead">
-                Опис товару буде додано найближчим часом.
+                Докладного опису поки немає. Перед замовленням уточни сумісність
+                і комплектацію в магазині на OLX.
               </p>
             )}
           </section>
@@ -559,7 +560,7 @@ const structuredData = graph([
               aria-labelledby="product-variants-title"
             >
               <div class="product-section__head">
-                <p class="kicker">Конфігурації</p>
+                <p class="kicker">Виконання виробу</p>
                 <h2 id="product-variants-title" class="product-section__title">Варіанти</h2>
               </div>
 
@@ -587,14 +588,15 @@ const structuredData = graph([
           >
             <div class="product-section__head">
               <h2 id="fdm-print-use-cases-title" class="product-section__title">
-                Друк і комплектація
+                Виготовлення й комплектація
               </h2>
             </div>
 
             <p class="product-section__lead">
-              {isDraft ? 'Заплановано виготовлення методом FDM після перевірки моделі та дозволів.' : 'Цей виріб друкується під замовлення методом FDM.'} У комплект входять
-              лише надруковані пластикові деталі — метизи, металеві різьбові вставки, електроніка,
-              кабелі, вентилятори та блоки живлення узгоджуються окремо.
+              {isDraft ? 'Виготовлення методом FDM заплановане після перевірки моделі та дозволів.' : 'Виріб виготовляється на замовлення методом FDM.'} У комплект входять
+              лише надруковані пластикові деталі. Метизи, металеві різьбові вставки, електроніка,
+              кабелі, вентилятори та блоки живлення не входять і узгоджуються окремо.
+              Переглянь опис виконання, щоб підготувати потрібні компоненти до складання.
               <a href={href('guides/petg-vs-pla-for-racks/')}>Як обрати матеріал</a>.
             </p>
           </section>
@@ -656,8 +658,8 @@ const structuredData = graph([
 
               {hasAttribution && (
                 <p class="product-specs__note">
-                  Модель створена стороннім автором. Тут наведені лише фактичні дані
-                  про авторство, джерело та ліцензію.
+                  Авторство вихідної моделі та умови її ліцензії збережені.
+                  Посилання на джерело веде до оригінальної публікації автора.
                 </p>
               )}
             </section>
@@ -699,7 +701,7 @@ const structuredData = graph([
 
       {relatedGuides.length > 0 && (
         <section class="content-section" aria-labelledby="related-guides-title">
-          <h2 id="related-guides-title">Гайди, які допоможуть із вибором</h2>
+          <h2 id="related-guides-title">Поради для вибору й складання</h2>
           <ul class="content-linkrow" role="list">
             {relatedGuides.map((guide) => (
               <li><a href={href(`guides/${guide.slug}/`)}>{guide.heading}</a></li>

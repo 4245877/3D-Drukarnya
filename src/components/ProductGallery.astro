@@ -26,7 +26,7 @@ const [mainImage] = preparedImages;
 const imageCount = preparedImages.length;
 
 const imageAlt = (index: number) =>
-  index === 0 ? `${title} — головне фото` : `${title} — фото ${index + 1}`;
+  index === 0 ? `${title} — основне зображення` : `${title} — зображення ${index + 1}`;
 ---
 
 {
@@ -37,7 +37,7 @@ const imageAlt = (index: number) =>
         href={mainImage}
         target="_blank"
         rel="noopener"
-        aria-label={`Збільшити фото 1 з ${imageCount} товару ${title}`}
+        aria-label={`Збільшити зображення 1 з ${imageCount}: ${title}`}
         aria-haspopup="dialog"
         data-gallery-open
       >
@@ -80,14 +80,14 @@ const imageAlt = (index: number) =>
 
       {
         imageCount > 1 && (
-          <div class="product-gallery__thumbs" aria-label={`Фото товару ${title}`}>
+          <div class="product-gallery__thumbs" aria-label={`Зображення товару: ${title}`}>
             {preparedImages.map((image, index) => (
               <a
                 class="product-gallery__thumb"
                 href={image}
                 target="_blank"
                 rel="noopener"
-                aria-label={`Показати фото ${index + 1} товару ${title}`}
+                aria-label={`Показати зображення ${index + 1}: ${title}`}
                 aria-current={index === 0 ? 'true' : 'false'}
                 data-gallery-thumb
               >
@@ -118,13 +118,13 @@ const imageAlt = (index: number) =>
 
       <dialog
         class="product-gallery__dialog"
-        aria-label={`Збільшене фото товару ${title}`}
+        aria-label={`Збільшене зображення товару: ${title}`}
         data-gallery-dialog
       >
         <button
           type="button"
           class="product-gallery__close"
-          aria-label="Закрити збільшене фото"
+          aria-label="Закрити збільшене зображення"
           data-gallery-close
         >
           <span aria-hidden="true">&times;</span>
@@ -136,7 +136,7 @@ const imageAlt = (index: number) =>
               <button
                 type="button"
                 class="product-gallery__nav product-gallery__nav--previous"
-                aria-label="Показати попереднє фото"
+                aria-label="Показати попереднє зображення"
                 data-gallery-previous
               >
                 <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -147,7 +147,7 @@ const imageAlt = (index: number) =>
               <button
                 type="button"
                 class="product-gallery__nav product-gallery__nav--next"
-                aria-label="Показати наступне фото"
+                aria-label="Показати наступне зображення"
                 data-gallery-next
               >
                 <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -202,8 +202,8 @@ const imageAlt = (index: number) =>
     // markup; alts follow the same pattern the server rendered.
     const imageAlt = (index: number) =>
       index === 0
-        ? `${galleryTitle} — головне фото`
-        : `${galleryTitle} — фото ${index + 1}`;
+        ? `${galleryTitle} — основне зображення`
+        : `${galleryTitle} — зображення ${index + 1}`;
     const items =
       thumbnails.length > 0
         ? thumbnails.map((thumbnail, index) => ({
@@ -241,7 +241,7 @@ const imageAlt = (index: number) =>
       openLink.href = image;
       openLink.setAttribute(
         'aria-label',
-        `Збільшити фото ${currentIndex + 1} з ${items.length} товару ${galleryTitle}`,
+        `Збільшити зображення ${currentIndex + 1} з ${items.length}: ${galleryTitle}`,
       );
 
       if (currentNumber) {

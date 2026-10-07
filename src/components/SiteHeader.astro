@@ -1,25 +1,29 @@
 ---
 import { OLX_URL } from '../data/site.config.mjs';
 import { href } from '../utils/urls';
+import { SITE_COPY } from '../data/i18n.mjs';
+
+interface Props { lang?: string; }
+const copy = SITE_COPY[Astro.props.lang === 'en' ? 'en' : 'uk'];
 
 const base = href();
 
 // Every entry is a real page, not an on-page anchor: the header is the main
 // navigation crawlers follow, so it has to expose the site's actual sections.
 const links = [
-  { label: 'Каталог', href: href('catalog/') },
-  { label: 'SLA-друк', href: href('sla/') },
+  { label: copy.catalog, href: href('catalog/') },
+  { label: copy.sla, href: href('sla/') },
 ];
 ---
 
 <header class="site-header">
   <div class="site-header__inner">
-    <a class="site-header__logo" href={base} aria-label="3D Друкарня — на головну">
+    <a class="site-header__logo" href={base} aria-label={copy.homeLabel}>
       <span class="site-header__logo-mark" aria-hidden="true">3D</span>
       <span class="site-header__logo-text">Друкарня</span>
     </a>
 
-    <nav class="site-header__nav" aria-label="Головна навігація">
+    <nav class="site-header__nav" aria-label={copy.navigation}>
       {links.map((link) => (
         <a class="site-header__link" href={link.href}>{link.label}</a>
       ))}
@@ -30,14 +34,17 @@ const links = [
       href={OLX_URL}
       target="_blank"
       rel="noopener noreferrer"
+      aria-label={copy.olxLabel}
     >
-      Замовити
+      {copy.olx}
     </a>
 
     <button
       class="site-header__burger"
       type="button"
-      aria-label="Відкрити меню"
+      aria-label={copy.openMenu}
+      data-open-label={copy.openMenu}
+      data-close-label={copy.closeMenu}
       aria-expanded="false"
       aria-controls="site-header-menu"
     >
@@ -48,7 +55,7 @@ const links = [
   <nav
     id="site-header-menu"
     class="site-header__drawer"
-    aria-label="Мобільна навігація"
+    aria-label={copy.mobileNavigation}
   >
     {links.map((link) => (
       <a class="site-header__drawer-link" href={link.href}>{link.label}</a>
@@ -63,7 +70,7 @@ const links = [
   if (burger && drawer) {
     const setOpen = (open: boolean) => {
       burger.setAttribute('aria-expanded', String(open));
-      burger.setAttribute('aria-label', open ? 'Закрити меню' : 'Відкрити меню');
+      burger.setAttribute('aria-label', (open ? burger.dataset.closeLabel : burger.dataset.openLabel) ?? '');
       drawer.classList.toggle('is-open', open);
     };
 

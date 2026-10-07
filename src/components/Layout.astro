@@ -58,7 +58,9 @@ const noindex = requestedNoindex || isDraftPreview;
 const DEFAULT_OG_IMAGE = '/OGimage.png';
 const DEFAULT_OG_IMAGE_WIDTH = '1983';
 const DEFAULT_OG_IMAGE_HEIGHT = '793';
-const DEFAULT_OG_IMAGE_ALT = '3D-друковані 10-дюймові серверні стійки та кріплення для HomeLab';
+const DEFAULT_OG_IMAGE_ALT = lang === 'en'
+  ? '3D Друкарня brand illustration: Raphtalia in front of the Drukarnya lettering'
+  : 'Брендова ілюстрація 3D Друкарня: Рафталія на тлі напису Drukarnya';
 
 /**
  * MIME type of an image URL, only when it can be derived from the URL itself
@@ -204,13 +206,13 @@ const robotsContent = noindex
   </head>
 
   <body>
-    <SiteHeader />
+    <SiteHeader lang={lang} />
 
     <main class="site-main">
       <slot />
     </main>
 
-    <SiteFooter />
+    <SiteFooter lang={lang} />
 
     <script>
       // Local fallback for product images (~170 of them come from a single

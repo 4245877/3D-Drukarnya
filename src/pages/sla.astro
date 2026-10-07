@@ -12,7 +12,7 @@ import '../styles/pages/sla.css';
 const canonicalPath = '/sla/';
 const pageUrl = absoluteUrl(canonicalPath);
 const title = `SLA-друк фотополімерною смолою на замовлення | ${SITE_NAME}`;
-const description = 'SLA-друк смолою в Києві: мініатюри, фігурки, деталі й прототипи. Ціна та строк після перевірки моделі, обробка й доставка по Україні.';
+const description = 'SLA-друк у Києві для мініатюр, фігурок і невеликих прототипів. Перевірка моделі, погодження смоли, обробки, ціни та строку через OLX до виготовлення.';
 const applications = [
   { icon: 'miniature' as const, title: 'Мініатюри й фігурки', text: 'Персонажі для настільних ігор, колекційні моделі та скульптури.' },
   { icon: 'parts' as const, title: 'Невеликі деталі', text: 'Декоративні вставки, елементи макетів і дрібні компоненти.' },
@@ -20,18 +20,18 @@ const applications = [
   { icon: 'geometry' as const, title: 'Складна геометрія', text: 'Ажурні конструкції, орнаменти та вигнуті поверхні.' },
 ];
 const steps = [
-  { title: 'Модель', text: 'Надішли файл або посилання, розмір, кількість і призначення.' },
-  { title: 'Перевірка', text: 'Перевіримо модель: розміри, геометрію, тонкі стінки, дрібні елементи й місця для підтримок.' },
+  { title: 'Модель', text: 'Передай магазину через OLX файл або посилання, розмір, кількість і призначення виробу.' },
+  { title: 'Перевірка', text: 'Магазин перевіряє розміри, геометрію, тонкі стінки, дрібні елементи та місця для підтримок.' },
   { title: 'Погодження', text: 'Погодь смолу, обробку, ціну та строк до початку друку.' },
-  { title: 'Друк', text: 'Підготуємо модель і надрукуємо її зі смоли.' },
-  { title: 'Обробка', text: 'Промиємо виріб, дозасвітимо й знімемо підтримки.' },
+  { title: 'Друк', text: 'Після погодження магазин готує модель і друкує її зі смоли.' },
+  { title: 'Обробка', text: 'Виріб промивається й дозасвічується, підтримки знімаються.' },
   { title: 'Отримання', text: 'Узгодь отримання в Києві або доставку по Україні.' },
 ];
 const faq = [
-  { question: 'Скільки коштує друк і коли буде готовий виріб?', answer: 'Ціну та строк визначаємо після перевірки моделі. Вони залежать від розміру, кількості, смоли, підтримок і обсягу обробки.' },
-  { question: 'Яку смолу й колір можна обрати?', answer: 'Доступну смолу та колір уточнимо для твого замовлення. Вкажи, чи потрібен декор, виріб під фарбування або деталь під навантаженням. Спеціальні властивості смоли погоджуються окремо.' },
-  { question: 'Чи залишаться сліди на поверхні?', answer: 'У місцях підтримок можуть залишитися невеликі сліди. Їхнє розташування та потрібну фінішну обробку погодимо з тобою перед друком. Додаткове шліфування, фарбування й інший фініш погоджуються окремо.' },
-  { question: 'Що робити, якщо немає 3D-файлу?', answer: 'Надішли на OLX зображення або ескіз, приблизні розміри й опис того, що потрібно зробити. Можливість підготовки моделі та її вартість обговоримо окремо від друку.' },
+  { question: 'Скільки коштує друк і коли буде готовий виріб?', answer: 'Ціна та строк визначаються після перевірки моделі. На них впливають розмір, кількість, смола, підтримки й обсяг обробки. Узгодь ці умови з магазином на OLX до друку — хочу, щоб ти знав, на що розраховувати.' },
+  { question: 'Яку смолу й колір можна обрати?', answer: 'Доступна смола й колір уточнюються для конкретного замовлення. Вкажи призначення: декор, фарбування чи робота під навантаженням. Спеціальні властивості смоли погоджуються окремо; сама деталізація не гарантує потрібної міцності.' },
+  { question: 'Чи залишаться сліди на поверхні?', answer: 'Так, у місцях підтримок можливі невеликі сліди. Їхнє розташування та потрібна фінішна обробка погоджуються перед друком. Якщо для тебе важлива певна видима поверхня, зазнач це в запиті. Додаткове шліфування, фарбування та інший фініш узгоджуються окремо.' },
+  { question: 'Що робити, якщо немає 3D-файлу?', answer: 'Напиши магазину на OLX, додай зображення або ескіз, приблизні розміри та призначення деталі. Можливість підготовки моделі й її вартість узгоджуються окремо від друку.' },
 ];
 const breadcrumbItems = [{ name: 'Головна', url: absoluteUrl('') }, { name: 'SLA-друк', url: pageUrl }];
 const structuredData = graph([
@@ -48,7 +48,7 @@ const structuredData = graph([
 ]);
 ---
 
-<Layout title={title} description={description} canonicalPath={canonicalPath} keywords="SLA-друк, фотополімерний друк, друк смолою, 3D-друк мініатюр, друк фігурок, SLA Київ" imageAlt="3D Друкарня — майстерня 3D-друку в Києві">
+<Layout title={title} description={description} canonicalPath={canonicalPath} keywords="SLA-друк, фотополімерний друк, друк смолою, 3D-друк мініатюр, друк фігурок, SLA Київ">
   <script is:inline slot="head" type="application/ld+json" set:html={toJsonLd(structuredData)}></script>
 
   <div class="sla-page">
@@ -61,12 +61,12 @@ const structuredData = graph([
         <div class="sla-hero__copy">
           <p class="kicker">Фотополімерний 3D-друк</p>
           <h1 id="sla-title">SLA-друк<br /><span>зі смоли</span></h1>
-          <p class="sla-hero__lead">Для моделей із тонким рельєфом, дрібними написами та плавними контурами.</p>
+          <p class="sla-hero__lead">Тонкий рельєф, дрібні написи й плавні контури заслуговують на увагу. Хочу, щоб ти міг зберегти ці деталі у своїй мініатюрі, фігурці чи прототипі — і заздалегідь знав обмеження смоли.</p>
           <div class="sla-actions">
-            <a class="btn btn--primary" href="#sla-order">Надіслати модель <SlaIcon name="arrow" /></a>
+            <a class="btn btn--primary" href="#sla-order">Підготувати запит <SlaIcon name="arrow" /></a>
             <a class="sla-text-link" href="#sla-compare">SLA чи FDM?</a>
           </div>
-          <p class="sla-hero__note"><SlaIcon name="check" /> Ціну та строк погодимо з тобою до друку.</p>
+          <p class="sla-hero__note"><SlaIcon name="check" /> Смола, обробка, ціна й строк погоджуються до друку.</p>
         </div>
         <figure class="sla-hero__visual">
           <div class="sla-hero__art"><SlaShowcase /></div>
@@ -102,21 +102,21 @@ const structuredData = graph([
             <dl><div><dt>Поверхня</dt><dd>Гладкіша, шари менш помітні; зручна для фарбування</dd></div><div><dt>Для чого</dt><dd>Мініатюри, макети й дрібні деталі</dd></div><div><dt>Обмеження</dt><dd>Міцність залежить від смоли. З тонкими елементами поводься обережно.</dd></div></dl>
           </article>
           <article class="sla-tech-card">
-            <div class="sla-tech-card__heading"><span class="tag tag--copper">Пластикова нитка · PLA / PETG</span><strong>FDM</strong></div>
+            <div class="sla-tech-card__heading"><span class="tag tag--copper">Пластикова нитка</span><strong>FDM</strong></div>
             <div class="sla-surface sla-surface--fdm" aria-hidden="true"><div></div></div>
             <h3>Корпуси й великі деталі</h3>
             <dl><div><dt>Поверхня</dt><dd>Шари зазвичай помітніші</dd></div><div><dt>Для чого</dt><dd>Корпуси, стійки та великі деталі; може краще підійти для навантажених кріплень</dd></div><div><dt>Умови</dt><dd>Матеріал і напрямок шарів підбираються під навантаження та умови використання.</dd></div></dl>
-            <a class="sla-text-link" href={href('catalog/')}>До каталогу FDM <SlaIcon name="arrow" /></a>
+            <a class="sla-text-link" href={href('catalog/')}>Переглянути технічні вироби <SlaIcon name="arrow" /></a>
           </article>
         </div>
         <p class="sla-comparison-note">Поверхні показано схематично. Результат залежить від моделі, матеріалу, положення деталі під час друку та обробки.</p>
-        <div class="sla-help"><SlaIcon name="message" /><p>Не знаєш, що обрати? Надішли модель і опиши, як використовуватимеш виріб.</p><a class="sla-text-link" href="#sla-order">Обговорити модель <SlaIcon name="arrow" /></a></div>
+        <div class="sla-help"><SlaIcon name="message" /><p>Для вибору способу друку важливе призначення деталі. Додай до запиту модель і умови використання — форма нижче допоможе зібрати ці відомості.</p><a class="sla-text-link" href="#sla-order">До форми запиту <SlaIcon name="arrow" /></a></div>
       </div>
     </section>
 
     <section class="sla-section sla-process" aria-labelledby="sla-process-title">
       <div class="container">
-        <div class="sla-section-head"><div><h2 id="sla-process-title">Від моделі до готового виробу</h2></div></div>
+        <div class="sla-section-head"><div><h2 id="sla-process-title">Як проходить замовлення</h2></div></div>
         <ol class="sla-steps" role="list">
           {steps.map((step, index) => <li><span class="sla-steps__number">0{index + 1}</span><h3>{step.title}</h3><p>{step.text}</p></li>)}
         </ol>
@@ -128,22 +128,22 @@ const structuredData = graph([
         <div class="sla-order">
           <div class="sla-order__intro">
             <h2 id="sla-order-title">Замовити<br /><span>SLA-друк</span></h2>
-            <p>Для розрахунку надішли модель, вкажи бажаний розмір, кількість і призначення виробу.</p>
+            <p>Для розрахунку потрібні модель, бажаний розмір, кількість і призначення. Я раджу додати й те, які деталі поверхні для тебе особливо важливі.</p>
             <ul class="sla-order__checklist" role="list"><li><SlaIcon name="check" /> Файл STL, 3MF або STEP</li><li><SlaIcon name="check" /> Або посилання на модель</li></ul>
             <p class="sla-order__location">Київ · доставка по Україні</p>
           </div>
           <div class="sla-order__body">
             <h3>Запит через OLX</h3>
-            <p class="sla-order__instruction">Якщо файл не завантажений у хмару, спосіб передачі узгодимо в повідомленнях на OLX.</p>
+            <p class="sla-order__instruction">Форма підготує текст повідомлення. Скопіюй його й надішли магазину через профіль продавця на OLX. Якщо файл не у хмарі, узгодь спосіб передачі там.</p>
             <form class="sla-request-form" data-sla-form hidden>
               <div class="sla-field"><label for="sla-model">Посилання на модель <span>необов’язково</span></label><input id="sla-model" name="model" type="url" placeholder="https://…" autocomplete="url" maxlength="2000" /><small>Перевір, що файл відкривається за посиланням.</small></div>
               <div class="sla-field-row"><div class="sla-field"><label for="sla-size">Бажаний розмір</label><input id="sla-size" name="size" type="text" placeholder="Висота 50 мм" maxlength="120" /></div><div class="sla-field"><label for="sla-quantity">Кількість</label><input id="sla-quantity" name="quantity" type="number" inputmode="numeric" min="1" max="10000" value="1" required /></div></div>
-              <div class="sla-field"><label for="sla-purpose">Для чого потрібен виріб?</label><textarea id="sla-purpose" name="purpose" rows="2" placeholder="Мініатюра під фарбування, прототип, деталь…" maxlength="1500"></textarea></div>
+              <div class="sla-field"><label for="sla-purpose">Призначення та побажання</label><textarea id="sla-purpose" name="purpose" rows="2" placeholder="Наприклад: мініатюра під фарбування, важливо зберегти дрібні написи" maxlength="1500"></textarea></div>
               <details class="sla-message-preview"><summary>Текст запиту</summary><label class="sr-only" for="sla-message">Текст повідомлення для OLX</label><textarea id="sla-message" data-sla-message readonly rows="6"></textarea></details>
               <div class="sla-order__actions"><button class="btn btn--secondary" type="submit" data-sla-copy>Скопіювати запит</button><a class="btn btn--primary" href={OLX_URL} target="_blank" rel="noopener noreferrer">Перейти на OLX <SlaIcon name="arrow" /></a></div>
-              <p class="sla-form-status" data-sla-status role="status" aria-live="polite">Скопіюй запит і встав його в повідомлення на OLX.</p>
+              <p class="sla-form-status" data-sla-status role="status" aria-live="polite">Запит ще не надіслано. Скопіюй текст і встав його в повідомлення магазину на OLX.</p>
             </form>
-            <noscript><p class="sla-order__instruction">Напиши на OLX: «SLA-друк», додай модель або посилання, бажаний розмір, кількість і призначення виробу.</p><a class="btn btn--primary" href={OLX_URL} target="_blank" rel="noopener noreferrer">Надіслати запит на OLX <SlaIcon name="arrow" /></a></noscript>
+            <noscript><p class="sla-order__instruction">Відкрий профіль продавця на OLX і напиши магазину: «SLA-друк». Додай модель або посилання, бажаний розмір, кількість і призначення виробу.</p><a class="btn btn--primary" href={OLX_URL} target="_blank" rel="noopener noreferrer">Відкрити профіль на OLX <SlaIcon name="arrow" /></a></noscript>
           </div>
         </div>
       </div>
@@ -176,7 +176,7 @@ const structuredData = graph([
     };
     form.addEventListener('input', () => {
       composeMessage();
-      status.textContent = 'Скопіюй оновлений запит і встав його в повідомлення на OLX.';
+      status.textContent = 'Текст оновлено. Скопіюй його й надішли магазину на OLX.';
     });
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -184,13 +184,13 @@ const structuredData = graph([
       try {
         if (!navigator.clipboard) throw new Error('Clipboard unavailable');
         await navigator.clipboard.writeText(message.value);
-        status.textContent = 'Запит скопійовано. Перейди на OLX і надішли його в повідомленні.';
+        status.textContent = 'Текст скопійовано. Запит ще не надіслано: відкрий OLX і встав текст у повідомлення магазину.';
       } catch {
         const preview = form.querySelector<HTMLDetailsElement>('.sla-message-preview');
         if (preview) preview.open = true;
         message.focus();
         message.select();
-        status.textContent = 'Скопіюй виділений текст вручну й надішли його на OLX.';
+        status.textContent = 'Автоматичне копіювання не вдалося. Скопіюй виділений текст вручну й надішли магазину на OLX.';
       }
     });
     composeMessage();

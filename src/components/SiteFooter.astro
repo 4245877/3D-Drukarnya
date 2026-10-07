@@ -4,25 +4,29 @@
 import { CATEGORIES } from '../data/categories.mjs';
 import { OLX_URL, SITE_NAME, SKUFNYA_URL } from '../data/site.config.mjs';
 import { href } from '../utils/urls';
+import { SITE_COPY } from '../data/i18n.mjs';
+
+interface Props { lang?: string; }
+const copy = SITE_COPY[Astro.props.lang === 'en' ? 'en' : 'uk'];
 
 const currentYear = new Date().getFullYear();
 
 const columns = [
   {
-    title: 'Каталог',
+    title: copy.catalog,
     links: [
-      { label: 'Усі категорії', href: href('catalog/') },
-      ...CATEGORIES.map((category) => ({
-        label: category.shortLabel,
+      { label: copy.allCategories, href: href('catalog/') },
+      ...CATEGORIES.map((category, index) => ({
+        label: copy.categoryLabels[index],
         href: href(`catalog/${category.slug}/`),
       })),
     ],
   },
   {
-    title: 'Інформація',
+    title: copy.information,
     links: [
-      { label: 'SLA-друк', href: href('sla/') },
-      { label: 'Замовлення та доставка', href: href('#order-title') },
+      { label: copy.sla, href: href('sla/') },
+      { label: copy.ordering, href: href('#order-title') },
       { label: 'English overview', href: href('en/') },
     ],
   },
@@ -31,7 +35,7 @@ const columns = [
 
 <footer class="site-footer">
   <div class="container">
-    <nav class="site-footer__nav" aria-label="Мапа сайту">
+    <nav class="site-footer__nav" aria-label={copy.sitemap}>
       {columns.map((column) => (
         <div class="site-footer__column">
           <h2 class="site-footer__column-title">{column.title}</h2>
@@ -50,7 +54,7 @@ const columns = [
       <div>
         <strong>{SITE_NAME}</strong>
         <p class="site-footer__text">
-          Деталі для HomeLab · Київ · OLX Доставка по Україні
+          {copy.footer}
         </p>
       </div>
 
@@ -61,7 +65,7 @@ const columns = [
           target="_blank"
           rel="noopener noreferrer"
         >
-          Профіль на OLX
+          {copy.olxProfile}
         </a>
         <a
           class="site-footer__link"

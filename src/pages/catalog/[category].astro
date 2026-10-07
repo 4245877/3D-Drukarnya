@@ -136,7 +136,7 @@ const structuredData = graph([
           </div>
         ) : (
           <p class="content-prose">
-            У цій категорії поки немає опублікованих товарів.
+            У цьому розділі поки немає товарів. Переглянь інші категорії в каталозі.
           </p>
         )}
       </section>
@@ -162,7 +162,7 @@ const structuredData = graph([
 
       {relatedGuides.length > 0 && (
         <section class="content-section" aria-labelledby="category-guides">
-          <h2 id="category-guides">Гайди на цю тему</h2>
+          <h2 id="category-guides">Поради для твоєї збірки</h2>
           <ul class="content-linkrow" role="list">
             {relatedGuides.map((guide) => (
               <li><a href={href(`guides/${guide.slug}/`)}>{guide.heading}</a></li>
