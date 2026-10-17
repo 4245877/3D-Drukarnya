@@ -5,8 +5,10 @@
 // shortened. Names are clipped at natural separators (" — ", " (", " для "…)
 // or, failing that, at a word boundary — never mid-word.
 
-/** Brand suffix; "3D Друкарня" is the site name used across the project. */
-export const TITLE_SUFFIX = ' | 3D Друкарня';
+import { SITE_NAME } from '../data/site.config.mjs';
+
+/** Brand suffix, shared with the site name used across the project. */
+export const TITLE_SUFFIX = ` | ${SITE_NAME}`;
 
 /** Soft budget for the product-name part of the <title>. */
 const MAX_NAME_LENGTH = 48;

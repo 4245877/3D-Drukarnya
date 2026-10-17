@@ -21,7 +21,7 @@ const LOGO_URL = absoluteUrl('apple-touch-icon.png');
 const OG_IMAGE_URL = absoluteUrl('OGimage.png');
 
 const BUSINESS_DESCRIPTION =
-  '3D Друкарня в Києві: 10-дюймові серверні стійки, NAS-корпуси, ' +
+  `${SITE_NAME} в Києві: 10-дюймові серверні стійки, NAS-корпуси, ` +
   'кріплення обладнання та аксесуари для HomeLab і робочого місця, а також SLA-друк ' +
   'мініатюр, фігурок і прототипів фотополімерною смолою на замовлення.';
 
@@ -36,7 +36,7 @@ export function websiteNode() {
     '@type': 'WebSite',
     '@id': WEBSITE_ID,
     name: SITE_NAME,
-    alternateName: ['3D Drukarnya', '10-дюймові серверні стійки — 3D Друкарня'],
+    alternateName: [SITE_NAME, `10-дюймові серверні стійки — ${SITE_NAME}`],
     url: SITE_URL,
     inLanguage: 'uk-UA',
     description: BUSINESS_DESCRIPTION,

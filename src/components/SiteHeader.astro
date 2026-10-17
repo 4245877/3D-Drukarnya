@@ -1,5 +1,5 @@
 ---
-import { OLX_URL } from '../data/site.config.mjs';
+import { OLX_URL, SITE_NAME } from '../data/site.config.mjs';
 import { href } from '../utils/urls';
 import { SITE_COPY } from '../data/i18n.mjs';
 
@@ -20,7 +20,7 @@ const links = [
   <div class="site-header__inner">
     <a class="site-header__logo" href={base} aria-label={copy.homeLabel}>
       <span class="site-header__logo-mark" aria-hidden="true">3D</span>
-      <span class="site-header__logo-text">Друкарня</span>
+      <span class="site-header__logo-text">{SITE_NAME}</span>
     </a>
 
     <nav class="site-header__nav" aria-label={copy.navigation}>

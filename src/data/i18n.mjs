@@ -1,3 +1,5 @@
+import { SITE_NAME } from './site.config.mjs';
+
 // Language versions of the site.
 //
 // Only pages that genuinely exist in more than one language declare hreflang
@@ -38,7 +40,7 @@ export const SITE_COPY = {
   uk: {
     catalog: 'Каталог', sla: 'SLA-друк', olx: 'На OLX',
     olxLabel: 'Відкрити профіль продавця на OLX',
-    homeLabel: '3D Друкарня — на головну', navigation: 'Головна навігація',
+    homeLabel: `${SITE_NAME} — на головну`, navigation: 'Головна навігація',
     mobileNavigation: 'Мобільна навігація', openMenu: 'Відкрити меню', closeMenu: 'Закрити меню',
     allCategories: 'Усі категорії', information: 'Інформація',
     ordering: 'Замовлення та доставка', sitemap: 'Мапа сайту',
@@ -49,7 +51,7 @@ export const SITE_COPY = {
   en: {
     catalog: 'Catalogue', sla: 'SLA printing', olx: 'OLX',
     olxLabel: 'Open the seller profile on OLX',
-    homeLabel: '3D Друкарня — home', navigation: 'Main navigation',
+    homeLabel: `${SITE_NAME} — home`, navigation: 'Main navigation',
     mobileNavigation: 'Mobile navigation', openMenu: 'Open menu', closeMenu: 'Close menu',
     allCategories: 'All categories', information: 'Information',
     ordering: 'Ordering and delivery', sitemap: 'Site navigation',

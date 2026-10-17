@@ -21,7 +21,7 @@ export const BASE_PATH = '/3D-Drukarnya/';
 export const SITE_URL = `${SITE_ORIGIN}${BASE_PATH}`;
 
 /** Brand name, used in <title> suffixes, JSON-LD and visible chrome. */
-export const SITE_NAME = '3D Друкарня';
+export const SITE_NAME = 'TANMEK';
 
 /** Primary content language of the site (BCP 47). */
 export const SITE_LANG = 'uk';

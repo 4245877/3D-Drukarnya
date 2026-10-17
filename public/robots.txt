@@ -1,4 +1,4 @@
-# robots.txt — 3D Друкарня
+# robots.txt — TANMEK
 #
 # NOTE ON SCOPE (GitHub Pages project site):
 # Crawlers only read robots.txt from the ROOT of a host. This site is served
