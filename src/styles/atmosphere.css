@@ -1,0 +1,73 @@
+/* Sunlit clearing — Raphtalia's copper, ivory and quiet woodland tones.
+   A light central plane holds the products; colour gathers at the edges.
+   These are composed, non-repeating washes, not a tiled motif. */
+:root {
+  --ambient-paper: #F6F0E6;
+  --ambient-copper: 187, 125, 87;
+  --ambient-sage: 121, 141, 115;
+}
+
+body {
+  position: relative;
+  /* Contains the decorative negative layer without changing the containing
+     block of the catalog's fixed drawer or the existing sticky elements. */
+  isolation: isolate;
+  background-color: var(--ambient-paper);
+  background-image:
+    radial-gradient(ellipse 46rem 34rem at 0 9rem,
+      rgba(var(--ambient-copper), .2), rgba(var(--ambient-copper), .06) 48%, transparent 76%),
+    radial-gradient(ellipse 48rem 38rem at 100% 38rem,
+      rgba(var(--ambient-sage), .2), transparent 76%),
+    radial-gradient(ellipse 60rem 30rem at 18% 100%,
+      rgba(205, 163, 111, .16), transparent 74%),
+    linear-gradient(90deg,
+      #EEE5D7 0%, #F7F1E7 24%, #F8F4ED 52%, #F4F0E7 78%, #E9EADD 100%);
+  background-repeat: no-repeat;
+  /* Fixed rem heights keep the opening composition intact on a 49-product
+     catalog. The horizontal ivory/sage field continues for any page length.
+     No fixed attachment, blur, blend mode, JS or animated paint surfaces. */
+}
+
+/* Two fine, unequal contours suggest the fall of fabric and a clearing's
+   edge. The ellipses close outside the canvas; their lower ends fade fully
+   before this bounded box ends, so there is no visible seam on long pages.
+   Only this pseudo-element is behind content: no new page-level z-index. */
+body::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  max-height: 84rem;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 48rem 52rem at -36rem 12rem,
+      transparent calc(100% - 1px), rgba(163, 123, 82, .18) 100%, transparent calc(100% + 1px)),
+    radial-gradient(ellipse 50rem 44rem at calc(100% + 43rem) 38rem,
+      transparent calc(100% - 1px), rgba(113, 133, 107, .16) 100%, transparent calc(100% + 1px));
+  background-repeat: no-repeat;
+}
+
+/* On phones the content nearly fills the canvas. Keep the same light and
+   colour direction, but move the washes outward and omit the fine contours. */
+@media (max-width: 768px) {
+  body {
+    background-image:
+      radial-gradient(ellipse 30rem 28rem at -14rem 8rem,
+        rgba(var(--ambient-copper), .16), transparent 76%),
+      radial-gradient(ellipse 30rem 34rem at calc(100% + 18rem) 34rem,
+        rgba(var(--ambient-sage), .16), transparent 76%),
+      linear-gradient(105deg, #F2EADF, #F8F4ED 48%, #EEF0E5);
+  }
+
+  body::before { display: none; }
+}
+
+@media print {
+  body { background: #fff; }
+  body::before { display: none; }
+}
+
+@media (forced-colors: active) {
+  body { background: Canvas; }
+  body::before { display: none; }
+}
