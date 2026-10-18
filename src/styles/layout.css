@@ -34,7 +34,7 @@ body {
   height: var(--header-h);
   display: flex;
   align-items: center;
-  background: rgba(248, 244, 237, 0.94);
+  background: rgba(245, 237, 224, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: var(--border-soft);
@@ -52,8 +52,8 @@ body {
     90deg,
     transparent 0%,
     var(--copper) 22%,
-    var(--gold-beige) 50%,
-    var(--accent-sage) 78%,
+    var(--dusty-rose) 50%,
+    var(--burgundy) 78%,
     transparent 100%
   );
   opacity: 0.55;
@@ -75,7 +75,7 @@ body {
 
 .site-header__logo {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 0.35em;
   font-family: var(--font-display);
   font-size: var(--fs-lg);
@@ -89,16 +89,11 @@ body {
 .site-header__logo:hover { opacity: 0.8; color: var(--chocolate); }
 
 .site-header__logo-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.1em 0.4em;
-  border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--burgundy), var(--raphtalia-red));
-  color: var(--cream);
-  font-weight: var(--fw-black);
-  letter-spacing: -0.02em;
-  box-shadow: 0 3px 10px rgba(142, 63, 67, 0.3);
+  display: block;
+  flex-shrink: 0;
+  width: 40px;
+  height: 46px;
+  object-fit: contain;
 }
 
 .site-header__nav {
@@ -190,7 +185,7 @@ body {
   flex-direction: column;
   gap: var(--space-1);
   padding: var(--space-3) var(--container-px) var(--space-5);
-  background: #F8F4ED;
+  background: rgba(245, 237, 224, 0.97);
   border-bottom: var(--border-soft);
   box-shadow: var(--shadow-md);
 }
@@ -234,5 +229,6 @@ body {
 @media (max-width: 480px) {
   .site-header__inner { gap: var(--space-2); }
   .site-header__logo { font-size: var(--fs-md); }
+  .site-header__logo-mark { width: 32px; height: 38px; }
   .site-header__cta { padding-inline: var(--space-3); }
 }

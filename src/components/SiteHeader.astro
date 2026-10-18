@@ -19,7 +19,14 @@ const links = [
 <header class="site-header">
   <div class="site-header__inner">
     <a class="site-header__logo" href={base} aria-label={copy.homeLabel}>
-      <span class="site-header__logo-mark" aria-hidden="true">3D</span>
+      <img
+        class="site-header__logo-mark"
+        src={href('logo.svg')}
+        width="40"
+        height="46"
+        alt=""
+        aria-hidden="true"
+      />
       <span class="site-header__logo-text">{SITE_NAME}</span>
     </a>
 

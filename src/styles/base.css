@@ -463,9 +463,7 @@ p {
   position: relative;
   overflow: hidden;
   padding: var(--space-8) 0;
-  background:
-    radial-gradient(ellipse 48rem 24rem at 100% 100%, rgba(91, 107, 79, .22), transparent 75%),
-    linear-gradient(115deg, #39291F, #50362B 58%, #40382B);
+  background: var(--bg-deep);
   color: var(--text-inverse);
 }
 
@@ -474,7 +472,7 @@ p {
   position: absolute;
   inset: 0 0 auto;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(217, 154, 116, .7) 32%, rgba(232, 216, 190, .5) 64%, transparent);
+  background: linear-gradient(90deg, var(--burgundy), var(--copper), var(--dusty-rose));
 }
 
 .site-footer__inner {
@@ -505,7 +503,7 @@ p {
   flex-direction: column;
   gap: var(--space-2);
   flex-shrink: 0;
-  color: rgba(232, 216, 190, 0.76);
+  color: rgba(232, 216, 190, 0.55);
   font-size: var(--fs-sm);
 }
 

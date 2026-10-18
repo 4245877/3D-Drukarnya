@@ -1,10 +1,10 @@
-/* Sunlit clearing — Raphtalia's copper, ivory and quiet woodland tones.
+/* Sunlit clearing — the original copper, cream and burgundy palette.
    A light central plane holds the products; colour gathers at the edges.
    These are composed, non-repeating washes, not a tiled motif. */
 :root {
-  --ambient-paper: #F6F0E6;
-  --ambient-copper: 187, 125, 87;
-  --ambient-sage: 121, 141, 115;
+  --ambient-paper: var(--bg-base);
+  --ambient-copper: 217, 154, 116;
+  --ambient-rose: 181, 106, 124;
 }
 
 body {
@@ -15,16 +15,16 @@ body {
   background-color: var(--ambient-paper);
   background-image:
     radial-gradient(ellipse 46rem 34rem at 0 9rem,
-      rgba(var(--ambient-copper), .2), rgba(var(--ambient-copper), .06) 48%, transparent 76%),
+      rgba(var(--ambient-copper), .12), rgba(var(--ambient-copper), .04) 48%, transparent 76%),
     radial-gradient(ellipse 48rem 38rem at 100% 38rem,
-      rgba(var(--ambient-sage), .2), transparent 76%),
+      rgba(var(--ambient-rose), .08), transparent 76%),
     radial-gradient(ellipse 60rem 30rem at 18% 100%,
-      rgba(205, 163, 111, .16), transparent 74%),
+      rgba(var(--ambient-copper), .1), transparent 74%),
     linear-gradient(90deg,
-      #EEE5D7 0%, #F7F1E7 24%, #F8F4ED 52%, #F4F0E7 78%, #E9EADD 100%);
+      rgba(217, 154, 116, .06), transparent 24%, transparent 78%, rgba(181, 106, 124, .03));
   background-repeat: no-repeat;
   /* Fixed rem heights keep the opening composition intact on a 49-product
-     catalog. The horizontal ivory/sage field continues for any page length.
+     catalog. The cream field continues for any page length.
      No fixed attachment, blur, blend mode, JS or animated paint surfaces. */
 }
 
@@ -41,9 +41,9 @@ body::before {
   pointer-events: none;
   background:
     radial-gradient(ellipse 48rem 52rem at -36rem 12rem,
-      transparent calc(100% - 1px), rgba(163, 123, 82, .18) 100%, transparent calc(100% + 1px)),
+      transparent calc(100% - 1px), rgba(184, 154, 97, .18) 100%, transparent calc(100% + 1px)),
     radial-gradient(ellipse 50rem 44rem at calc(100% + 43rem) 38rem,
-      transparent calc(100% - 1px), rgba(113, 133, 107, .16) 100%, transparent calc(100% + 1px));
+      transparent calc(100% - 1px), rgba(181, 106, 124, .12) 100%, transparent calc(100% + 1px));
   background-repeat: no-repeat;
 }
 
@@ -53,10 +53,9 @@ body::before {
   body {
     background-image:
       radial-gradient(ellipse 30rem 28rem at -14rem 8rem,
-        rgba(var(--ambient-copper), .16), transparent 76%),
+        rgba(var(--ambient-copper), .08), transparent 76%),
       radial-gradient(ellipse 30rem 34rem at calc(100% + 18rem) 34rem,
-        rgba(var(--ambient-sage), .16), transparent 76%),
-      linear-gradient(105deg, #F2EADF, #F8F4ED 48%, #EEF0E5);
+        rgba(var(--ambient-rose), .05), transparent 76%);
   }
 
   body::before { display: none; }

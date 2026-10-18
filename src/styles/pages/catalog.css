@@ -34,11 +34,8 @@
 .catalog-hero {
   position: relative;
   overflow: hidden;
-  /* Chestnut shade and copper light continue the page's woodland palette.
-     Keep the text half dark; the lighter opening sits behind the rack. */
-  background:
-    radial-gradient(ellipse 48rem 30rem at 100% 0, rgba(200, 132, 99, .38), transparent 76%),
-    linear-gradient(115deg, #30231B 0%, #443026 52%, #55503A 100%);
+  /* Original chestnut, burgundy and copper palette. */
+  background: linear-gradient(130deg, #281A12 0%, #3E2718 38%, #743445 72%, #C88463 100%);
   padding: var(--space-8) 0;
 }
 
@@ -47,7 +44,9 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 44rem 25rem at 85% -8rem, rgba(246, 226, 187, .12), transparent 75%);
+    radial-gradient(ellipse 46% 58% at 82% 8%, rgba(169,174,184,.16) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 90% at 90% 60%, rgba(217,154,116,.22) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 55% at 10% 80%, rgba(181,106,124,.18) 0%, transparent 55%);
   pointer-events: none;
 }
 
@@ -62,8 +61,8 @@
   background: linear-gradient(90deg,
     transparent 0%,
     var(--copper) 25%,
-    var(--cream) 50%,
-    var(--gold-beige) 75%,
+    var(--dusty-rose) 50%,
+    var(--burgundy) 75%,
     transparent 100%
   );
   opacity: .6;
@@ -135,7 +134,7 @@
   font-style: italic;
   font-size: clamp(.95rem, 1.6vw, 1.15rem);
   font-weight: var(--fw-light);
-  color: rgba(232,216,190,.84);
+  color: rgba(232,216,190,.72);
   line-height: 1.65;
   max-width: 52ch;
   animation: fadeUp var(--dur-slow) var(--ease-out) 160ms both;
@@ -640,8 +639,7 @@
 .catalog-order {
   padding: var(--space-8) 0;
   border-top: var(--border-faint);
-  /* Let the shared atmosphere flow through the final section. */
-  background: linear-gradient(180deg, rgba(252, 248, 241, 0), rgba(252, 248, 241, .5));
+  background: var(--bg-base);
 }
 
 .catalog-order__inner {
