@@ -23,8 +23,7 @@ import '../../styles/pages/content.css';
 // HomeLab audience searches in English ("10 inch server rack", "rack mount
 // for MikroTik", "NAS case Ukraine") even in Ukraine, but the catalogue and
 // the guides are written in Ukrainian — so this page states plainly what the
-// shop sells, in English, and hands over to the Ukrainian pages. Machine
-// translating 50+ pages would create thin duplicates, not value.
+// shop sells, in English, and hands over to the Ukrainian or Russian catalog.
 const products = getAllProducts();
 const rateLabel = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 0,
@@ -62,7 +61,7 @@ const faq = [
   {
     question: 'Is the catalogue in English?',
     answer:
-      'Product pages and guides are in Ukrainian. Hardware names such as MikroTik hAP ac², TP-Link TL-SG108 and Lenovo ThinkCentre M920q stay in their original form, so you can search by model. Please check the compatibility notes too; a similar name alone is not enough.',
+      'Product buying summaries are available in Ukrainian and Russian; the detailed specifications and guides are in Ukrainian. Hardware names such as MikroTik hAP ac², TP-Link TL-SG108 and Lenovo ThinkCentre M920q stay in their original form. Please check the compatibility notes too; a similar name alone is not enough.',
   },
 ];
 

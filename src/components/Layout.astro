@@ -7,6 +7,7 @@ import SiteHeader from './SiteHeader.astro';
 import SiteFooter from './SiteFooter.astro';
 import { SITE_LANG, SITE_LOCALE, SITE_NAME } from '../data/site.config.mjs';
 import { absoluteUrl, toAbsoluteUrl } from '../utils/urls';
+import { getPageAlternates } from '../data/i18n.mjs';
 
 /** One alternate language version of the current page. */
 export interface AlternateLink {
@@ -48,7 +49,7 @@ const {
   noindex: requestedNoindex = false,
   lang = SITE_LANG,
   ogLocale = SITE_LOCALE,
-  alternates = [],
+  alternates = getPageAlternates(canonicalPath),
 } = Astro.props;
 
 // A local draft preview must never advertise its pages for indexing.
@@ -61,6 +62,7 @@ const DEFAULT_OG_IMAGE_WIDTH = '1983';
 const DEFAULT_OG_IMAGE_HEIGHT = '793';
 const DEFAULT_OG_IMAGE_ALT = lang === 'en'
   ? `${SITE_NAME} brand illustration: Raphtalia in front of the lettering`
+  : lang === 'ru' ? `Иллюстрация ${SITE_NAME}: Рафталия на фоне названия`
   : `Брендова ілюстрація ${SITE_NAME}: Рафталія на тлі напису`;
 
 /**
@@ -207,7 +209,7 @@ const robotsContent = noindex
   </head>
 
   <body>
-    <SiteHeader lang={lang} />
+    <SiteHeader lang={lang} alternates={alternates} />
 
     <main class="site-main">
       <slot />

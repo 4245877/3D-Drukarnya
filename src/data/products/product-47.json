@@ -33,8 +33,8 @@
   ],
   "imageNotice": "У галереї — авторські рендери трьох обраних STL. Фото зібраного надрукованого комплекту V3 поки немає. Електроніка, кулер, монітор і метизи не входять.",
   "images": [
-    "https://media.printables.com/media/prints/644063/stls/5637308_da1ee7f2-0dd3-48d0-9737-84f685b37c60_86c713f5-06c4-48d0-b89f-f63a20f2bd27/rpi-case-vesa-base-nvme-v3_preview.png",
-    "https://media.printables.com/media/prints/644063/stls/5576878_7142e3b4-69b0-42e6-a93d-ca224c531254_3d5ef724-c211-482e-a950-3b3a43ef4c51/rpi-case-nvme-lid_preview.png",
-    "https://media.printables.com/media/prints/644063/stls/5576877_17c86a02-1f71-4bb4-b334-299ba2b2b73f_0287a9d2-958f-4e79-a52f-39f45350d263/rpi-case-power-switch_preview.png"
+    "/images/products/p47/rpi-case-vesa-base-nvme-v3-preview.png",
+    "/images/products/p47/rpi-case-nvme-lid-preview.png",
+    "/images/products/p47/rpi-case-power-switch-preview.png"
   ]
 }

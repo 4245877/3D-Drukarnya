@@ -2,26 +2,37 @@
 import ProductPrice from './ProductPrice.astro';
 import type { Product } from '../utils/products';
 import { withBase } from '../utils/products';
+import { RUSSIAN_PRODUCTS } from '../data/products.ru.mjs';
+import { RUSSIAN_CATEGORIES } from '../data/categories.ru.mjs';
+import { getCategoryByName } from '../data/categories.mjs';
 
 import '../styles/components/product-card.css';
 
 interface Props {
   product: Product;
+  lang?: 'uk' | 'ru';
 }
 
-const { product } = Astro.props;
-const href = `${import.meta.env.BASE_URL}products/${product.slug}/`;
+const { product, lang = 'uk' } = Astro.props;
+const isRu = lang === 'ru';
+const translated = isRu ? RUSSIAN_PRODUCTS[product.sku] : undefined;
+if (isRu && !translated) throw new Error(`Missing Russian copy for ${product.sku}`);
+const title = translated?.title ?? product.title;
+const description = translated?.summary ?? product.shortDescription;
+const categorySlug = getCategoryByName(product.category)?.slug;
+const categoryLabel = isRu && categorySlug ? RUSSIAN_CATEGORIES[categorySlug].label : product.category;
+const href = `${import.meta.env.BASE_URL}${isRu ? 'ru/' : ''}products/${product.slug}/`;
 const imageSrc = withBase(product.images[0]);
 // Same typed field that drives the product page and the JSON-LD offer shape.
 const isDraft = product.publicationStatus === 'draft';
-const priceLabel = isDraft ? 'Орієнтовна ціна' : product.priceType === 'from' ? 'Ціна від' : 'Ціна';
+const priceLabel = isDraft ? (isRu ? 'Ориентировочная цена' : 'Орієнтовна ціна') : product.priceType === 'from' ? (isRu ? 'Цена от' : 'Ціна від') : (isRu ? 'Цена' : 'Ціна');
 ---
 
 <article class="product-card">
   <a
     class="product-card__image-link"
     href={href}
-    aria-label={`Перейти до товару ${product.title}`}
+    aria-label={`${isRu ? 'Перейти к товару' : 'Перейти до товару'} ${title}`}
   >
     {imageSrc && (
       <Fragment>
@@ -42,7 +53,7 @@ const priceLabel = isDraft ? 'Орієнтовна ціна' : product.priceType
         <img
           class="product-card__image"
           src={imageSrc}
-          alt={product.title}
+          alt={title}
           loading="lazy"
           decoding="async"
           width="800"
@@ -56,14 +67,14 @@ const priceLabel = isDraft ? 'Орієнтовна ціна' : product.priceType
   <div class="product-card__body">
     {isDraft && <p class="tag tag--copper">Чернетка · продаж ще не відкрито</p>}
     <p class="product-card__category tag tag--copper">
-      {product.category ?? 'Товар'}
+      {categoryLabel ?? 'Товар'}
     </p>
 
     <h3 class="product-card__title">
-      <a href={href}>{product.title}</a>
+      <a href={href}>{title}</a>
     </h3>
 
-    <p class="product-card__description">{product.shortDescription}</p>
+    <p class="product-card__description">{description}</p>
 
     {/* Price and CTA share one bottom row — stacking them cost the card
         ~90px of height on columns that are now wide enough to hold both. */}
@@ -76,9 +87,9 @@ const priceLabel = isDraft ? 'Орієнтовна ціна' : product.priceType
       <a
         class="btn btn--primary btn--sm product-card__button"
         href={href}
-        aria-label={`Детальніше про ${product.title}`}
+        aria-label={`${isRu ? 'Подробнее о' : 'Детальніше про'} ${title}`}
       >
-        Детальніше
+        {isRu ? 'Подробнее' : 'Детальніше'}
       </a>
     </div>
   </div>

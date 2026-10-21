@@ -38,7 +38,7 @@ export function websiteNode() {
     name: SITE_NAME,
     alternateName: [SITE_NAME, `10-дюймові серверні стійки — ${SITE_NAME}`],
     url: SITE_URL,
-    inLanguage: 'uk-UA',
+    inLanguage: ['uk-UA', 'ru-UA', 'en'],
     description: BUSINESS_DESCRIPTION,
     publisher: { '@id': ORGANIZATION_ID },
   };
@@ -121,16 +121,17 @@ export function organizationNode() {
  * @param {string} options.description
  * @param {string} [options.type]    A WebPage subtype (CollectionPage…).
  * @param {string} [options.breadcrumbId]
+ * @param {string} [options.inLanguage]
  * @returns {Record<string, unknown>}
  */
-export function webPageNode({ url, name, description, type = 'WebPage', breadcrumbId }) {
+export function webPageNode({ url, name, description, type = 'WebPage', breadcrumbId, inLanguage = 'uk-UA' }) {
   return {
     '@type': type,
     '@id': `${url}#webpage`,
     url,
     name,
     description,
-    inLanguage: 'uk-UA',
+    inLanguage,
     isPartOf: { '@id': WEBSITE_ID },
     ...(breadcrumbId ? { breadcrumb: { '@id': breadcrumbId } } : {}),
   };

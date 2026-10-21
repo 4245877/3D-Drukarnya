@@ -143,6 +143,17 @@ body {
   min-height: 44px;
 }
 
+.site-languages { display: flex; gap: 2px; flex-shrink: 0; }
+.site-languages a { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; min-height: 44px; font-size: 12px; font-weight: 700; border-radius: var(--radius-sm); }
+.site-languages a[aria-current="page"] { color: var(--burgundy); text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 640px) {
+  .site-header__inner { gap: 8px; }
+  .site-header__logo { margin-right: auto; }
+  .site-header__logo-mark { width: 28px; height: 34px; }
+  .site-header__cta { display: none; }
+  .site-languages a { min-width: 28px; }
+}
+
 /* ── Mobile burger + drawer (hidden on desktop) ───────────── */
 
 .site-header__burger {

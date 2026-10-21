@@ -171,15 +171,17 @@ export const productVariantSchema = z.strictObject({
  * Pricing model of the visible price and the JSON-LD offer.
  * - `exact` — the number is the final price (rendered as "Ціна",
  *   published as an Offer with `price`).
- * - `from`  — the number is a confirmed minimum ("Ціна від"; published as an
- *   AggregateOffer with `lowPrice` only — no invented upper bound).
+ * - `from` — starting price ("Ціна від"). Only a documented base configuration
+ *   with known weight can publish its own Offer; estimates remain visible
+ *   without an exact structured price. See utils/product-offer.mjs.
  */
 export const PRICE_TYPES = /** @type {const} */ (['exact', 'from']);
 
 /**
  * Confirmed availability status. Maps to schema.org ItemAvailability:
  * - `in_stock`      → https://schema.org/InStock
- * - `made_to_order` → https://schema.org/MadeToOrder
+ * - `made_to_order` → visible manufacturing status; no Google availability
+ *   enum is substituted for it.
  * - `unavailable`   → https://schema.org/OutOfStock
  * - `unconfirmed`   → the JSON-LD offer is published WITHOUT `availability`
  *   (never guess InStock for a product whose status is not confirmed).
@@ -299,8 +301,7 @@ export const productSchema = z.strictObject({
   // Derived from the shared pricing policy and cross-checked below — edit
   // the weight, profile or rate, then run
   // `npm run prices:recalculate`; never edit this number directly.
-  // Also rendered in JSON-LD (Offer.price for `exact`, AggregateOffer.lowPrice
-  // for `from`), so it must stay a plain number.
+  // Eligible, documented configurations also use this as Offer.price.
   price: z
     .number('price must be a number')
     .refine((value) => Number.isFinite(value) && value > 0, {
@@ -312,7 +313,7 @@ export const productSchema = z.strictObject({
   // Confirmed availability; defaults to `unconfirmed`, which keeps the
   // `availability` property out of the published offer entirely.
   availability: z.enum(AVAILABILITY_STATUSES).default('unconfirmed'),
-  // Escape hatch: set to false to keep the whole Offer/AggregateOffer out of
+  // Escape hatch: set to false to keep the whole Offer out of
   // JSON-LD until the commercial details are confirmed.
   publishOffer: z.boolean().default(true),
   priceNote: nonEmptyString.optional(),

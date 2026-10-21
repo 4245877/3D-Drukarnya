@@ -14,7 +14,6 @@ import { getAllProducts, getRelatedProducts } from '../../utils/products';
 import type { Product } from '../../utils/products';
 import { absoluteUrl, href } from '../../utils/urls';
 import {
-  ORGANIZATION_ID,
   breadcrumbNode,
   graph,
   organizationNode,
@@ -23,6 +22,7 @@ import {
 } from '../../utils/schema.mjs';
 import { parseDescription } from '../../utils/description.mjs';
 import { buildProductTitle } from '../../utils/seo.mjs';
+import { buildProductOffer } from '../../utils/product-offer.mjs';
 import { truncate, toJsonLd } from '../../utils/text';
 
 export function getStaticPaths() {
@@ -84,22 +84,12 @@ const categoryLabel = category?.heading ?? 'Каталог';
 
 const relatedProducts = getRelatedProducts(product);
 const relatedGuides = resolveGuides(category?.relatedGuides ?? []);
-// Baked in at build time. Anchoring to the end of the build year would mark
-// every Offer expired from 1 January until the next deploy, so roll a year on.
-const priceValidUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
-  .toISOString()
-  .slice(0, 10);
 
 // ── Price & availability: one typed source for the card, this page and the
 // JSON-LD offer (see src/data/product.schema.mjs). ─────────────────────────
 const isFromPrice = product.priceType === 'from';
 const priceLabel = isDraft ? 'Орієнтовна ціна' : isFromPrice ? 'Ціна від' : 'Ціна';
 
-const AVAILABILITY_SCHEMA_URL: Partial<Record<Product['availability'], string>> = {
-  in_stock: 'https://schema.org/InStock',
-  made_to_order: 'https://schema.org/MadeToOrder',
-  unavailable: 'https://schema.org/OutOfStock',
-};
 const AVAILABILITY_VISIBLE_TEXT: Partial<Record<Product['availability'], string>> = {
   in_stock: 'В наявності',
   made_to_order: 'Виготовлення під замовлення',
@@ -114,7 +104,6 @@ const AVAILABILITY_TONE: Partial<Record<Product['availability'], string>> = {
 };
 // `unconfirmed` stays undefined in both maps: no availability is published
 // and no status line is rendered until the status is confirmed.
-const schemaAvailability = AVAILABILITY_SCHEMA_URL[product.availability];
 const availabilityText = AVAILABILITY_VISIBLE_TEXT[product.availability];
 const availabilityTone = AVAILABILITY_TONE[product.availability];
 
@@ -262,33 +251,10 @@ const additionalProperties = [
     : null,
 ].filter(Boolean);
 
-// The seller is the same business node the rest of the site publishes; the
-// full description lives once, in src/utils/schema.mjs, and every offer just
-// references it by @id.
-const seller = { '@id': ORGANIZATION_ID };
-
-const offerShared = {
-  priceCurrency: 'UAH',
-  priceValidUntil,
-  ...(schemaAvailability ? { availability: schemaAvailability } : {}),
-  itemCondition: 'https://schema.org/NewCondition',
+const offers = buildProductOffer(product, {
   url: productUrl,
-  eligibleRegion: {
-    '@type': 'Country',
-    name: 'UA',
-  },
-  seller,
-};
-
-// "Ціна від" publishes an AggregateOffer with only the confirmed minimum
-// (lowPrice) — no invented highPrice and no exact Offer.price. All current
-// "from" products genuinely aggregate several configurations (variants).
-// publishOffer: false keeps the offer out of JSON-LD entirely.
-const offers = !product.publishOffer
-  ? undefined
-  : isFromPrice
-    ? { '@type': 'AggregateOffer', lowPrice: product.price, ...offerShared }
-    : { '@type': 'Offer', price: product.price, ...offerShared };
+  ...(isFromPrice ? {name: 'Базове виконання', description: product.priceNote} : {}),
+});
 
 const breadcrumbItems = [
   { name: 'Головна', url: catalogUrl },

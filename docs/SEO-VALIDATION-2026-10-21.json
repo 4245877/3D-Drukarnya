@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-21",
+  "scope": "Local Astro production preview; not a live production crawl",
+  "indexable_urls": 118,
+  "http_200": 118,
+  "failures": [],
+  "tests_passed": 83,
+  "typecheck": {
+    "errors": 0,
+    "warnings": 0,
+    "hints": 10
+  },
+  "product_offers_by_language": {
+    "uk": 25,
+    "ru": 25
+  },
+  "visual_browser_check": "Unavailable: no browser surfaces exposed",
+  "field_core_web_vitals": "Not measured",
+  "production_root_robots": "HTTP 200, allows all user agents; sitemap URL correct",
+  "search_console": "Not connected",
+  "indexnow": "118 URLs validated in dry-run; not submitted",
+  "deployment": "Local only",
+  "production_sitemap_urls_http_200": 63,
+  "image_http_checks": {
+    "source_urls_http_200": 270,
+    "source_mime_findings_fixed": 7,
+    "local_png_http_200": 7
+  }
+}

@@ -1,0 +1,111 @@
+---
+import Layout from '../../../components/Layout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import ProductGallery from '../../../components/ProductGallery.astro';
+import ProductPrice from '../../../components/ProductPrice.astro';
+import ProductCard from '../../../components/ProductCard.astro';
+import { getAllProducts, getRelatedProducts, type Product } from '../../../utils/products';
+import { getCategoryByName } from '../../../data/categories.mjs';
+import { RUSSIAN_CATEGORIES } from '../../../data/categories.ru.mjs';
+import { RUSSIAN_PRODUCTS, RUSSIAN_WARNINGS, RUSSIAN_IMAGE_NOTICES, russianLeadTime } from '../../../data/products.ru.mjs';
+import { OLX_URL, SITE_NAME } from '../../../data/site.config.mjs';
+import { absoluteUrl, href, toAbsoluteUrl } from '../../../utils/urls';
+import { buildProductTitle } from '../../../utils/seo.mjs';
+import { truncate, toJsonLd } from '../../../utils/text';
+import { graph, websiteNode, organizationNode, webPageNode, breadcrumbNode } from '../../../utils/schema.mjs';
+import { buildProductOffer } from '../../../utils/product-offer.mjs';
+import '../../../styles/pages/product.css';
+import '../../../styles/pages/content.css';
+
+export function getStaticPaths() {
+  return getAllProducts().map((product) => ({ params: {slug: product.slug}, props: {product} }));
+}
+interface Props { product: Product; }
+const {product} = Astro.props;
+const copy = RUSSIAN_PRODUCTS[product.sku];
+if (!copy) throw new Error(`Missing Russian copy for ${product.sku}`);
+const category = getCategoryByName(product.category)!;
+const categoryCopy = RUSSIAN_CATEGORIES[category.slug];
+const path = `/ru/products/${product.slug}/`;
+const url = absoluteUrl(path);
+const originalPath = `products/${product.slug}/`;
+const categoryPath = `ru/catalog/${category.slug}/`;
+const images = product.images.map(toAbsoluteUrl);
+const warnings = RUSSIAN_WARNINGS[product.sku] ?? [];
+if (warnings.length !== (product.safetyWarnings?.length ?? 0)) throw new Error(`Untranslated safety warning: ${product.sku}`);
+const availability = {
+  in_stock: {text: 'В наличии'},
+  made_to_order: {text: 'Изготовление на заказ'},
+  unavailable: {text: 'Временно недоступно'},
+  unconfirmed: undefined,
+}[product.availability];
+const offers = buildProductOffer(product, {
+  url,
+  ...(product.priceType === 'from' ? {name: 'Базовое исполнение', description: copy.scope} : {}),
+});
+const breadcrumbs = [
+  {name: 'Главная', url: absoluteUrl('ru/')},
+  {name: 'Каталог', url: absoluteUrl('ru/catalog/')},
+  {name: categoryCopy.label, url: absoluteUrl(categoryPath)},
+  {name: copy.title, url},
+];
+const description = truncate(`${copy.summary} Изготовление в Киеве. Доставка по Украине.`, 160);
+const structuredData = graph([
+  websiteNode(), organizationNode(),
+  {...webPageNode({url, name: copy.title, description: copy.summary, type: 'ItemPage', inLanguage: 'ru-UA', breadcrumbId: `${url}#breadcrumbs`}), mainEntity: {'@id': `${url}#product`}},
+  {
+    '@type': 'Product', '@id': `${url}#product`, name: copy.title,
+    description: `${copy.summary}\n\n${copy.details}\n\n${copy.scope}`,
+    sku: product.sku, image: images, category: categoryCopy.label, material: product.material,
+    ...(product.weightGrams === undefined ? {} : {weight: {'@type': 'QuantitativeValue', value: product.weightGrams, unitCode: 'GRM'}}),
+    brand: {'@type': 'Brand', name: SITE_NAME}, mainEntityOfPage: url, offers,
+  },
+  breadcrumbNode(url, breadcrumbs),
+]);
+const facts = [
+  {label: 'Артикул', value: product.sku},
+  ...(product.weightGrams === undefined ? [] : [{label: 'Вес', value: `${new Intl.NumberFormat('ru-UA').format(product.weightGrams)} г`}]),
+  ...(product.material ? [{label: 'Материал', value: product.material}] : []),
+  ...(product.leadTime ? [{label: 'Срок изготовления', value: russianLeadTime(product.leadTime)}] : []),
+];
+const related = getRelatedProducts(product);
+---
+<Layout title={buildProductTitle(copy.title)} description={description} canonicalPath={path} lang="ru" ogLocale="ru_UA" image={images[0]} imageAlt={copy.title} ogType="product" noindex={product.publicationStatus === 'draft'}>
+  <script slot="head" type="application/ld+json" set:html={toJsonLd(structuredData)}></script>
+  <section class="product-page"><div class="container">
+    <Breadcrumbs items={breadcrumbs.map((item, index) => ({label: item.name, ...(index < breadcrumbs.length - 1 ? {href: new URL(item.url).pathname} : {})}))} />
+    <div class="product-page__hero">
+      <section class="product-page__gallery" aria-label="Изображения товара">
+        <ProductGallery title={copy.title} images={images} lang="ru" />
+        {product.imageNotice && <p class="product-specs__note">{RUSSIAN_IMAGE_NOTICES[product.sku]}</p>}
+      </section>
+      <div class="product-page__summary">
+        <header class="product-summary__head">
+          <p class="product-summary__eyebrow"><a href={href(categoryPath)}>{categoryCopy.label}</a></p>
+          <h1 class="product-summary__title">{copy.title}</h1>
+          <p class="product-summary__lead">{copy.summary}</p>
+        </header>
+        <section class="product-buy" aria-label="Цена и заказ">
+          <p class="product-page__price-label">{product.priceType === 'from' ? 'Цена от' : 'Цена'}</p>
+          <ProductPrice amount={product.price} large />
+          {availability && <p>{availability.text}</p>}
+          <p class="product-buy__cta-note">{copy.scope}</p>
+          {product.weightGrams === undefined && product.pricingProfile && <p class="product-specs__note">Предварительная цена по аналогичному изделию. Окончательная стоимость — после проверки модели в слайсере.</p>}
+          {warnings.map((warning) => <section class="product-warning product-warning--critical" role="note"><p class="product-warning__title">⚠ {warning.title}</p><p class="product-warning__text">{warning.text}</p></section>)}
+          {product.publicationStatus !== 'draft' && <div class="product-buy__cta">
+            <a class="btn btn--primary btn--lg product-page__cta-button" href={product.orderUrl ?? OLX_URL} target="_blank" rel="noopener noreferrer" data-order-cta>{product.orderUrl ? 'Открыть объявление на OLX' : 'Открыть профиль на OLX'}</a>
+            <p class="product-buy__cta-note">{product.orderUrl ? 'Заказ согласовывается с магазином в объявлении OLX.' : `Ссылка открывает общий профиль продавца. Укажите артикул ${product.sku}, количество и нужное исполнение.`}</p>
+          </div>}
+        </section>
+        <ul class="product-summary__points" role="list"><li>Самовывоз в Киеве или OLX Доставка по её условиям</li><li>Материал, цвет, конфигурация и итоговая цена согласовываются до печати</li></ul>
+      </div>
+    </div>
+    <section class="content-section" aria-labelledby="product-details"><h2 id="product-details">Описание и совместимость</h2><div class="content-prose"><p>{copy.details}</p><p>{copy.scope}</p></div>
+      <dl class="content-facts">{facts.map((fact) => <div><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}</dl>
+      <p class="content-prose"><a href={href(originalPath)} lang="uk">Все исполнения, подробная комплектация и инструкция — українською</a></p>
+      {(product.author || product.sourceUrl || product.license) && <p class="product-specs__note">{product.author && `Автор модели: ${product.author}. `}{product.sourceUrl && <a href={product.sourceUrl} target="_blank" rel="noopener noreferrer">Исходная модель</a>}{' '}{product.licenseUrl ? <a href={product.licenseUrl} target="_blank" rel="noopener noreferrer">{product.license}</a> : product.license}</p>}
+      {product.commercialRightsStatus === 'permission_required' && <p class="product-specs__note">Изготовление на заказ возможно только при наличии необходимого разрешения автора на коммерческую печать.</p>}
+    </section>
+    <section class="content-section" aria-labelledby="related-products"><h2 id="related-products">Другие товары для вашей сборки</h2><div class="content-products">{related.map((item) => <ProductCard product={item} lang="ru" />)}</div></section>
+  </div></section>
+</Layout>

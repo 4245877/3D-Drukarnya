@@ -7,7 +7,9 @@ import { href } from '../utils/urls';
 import { SITE_COPY } from '../data/i18n.mjs';
 
 interface Props { lang?: string; }
-const copy = SITE_COPY[Astro.props.lang === 'en' ? 'en' : 'uk'];
+const lang = Astro.props.lang === 'ru' ? 'ru' : Astro.props.lang === 'en' ? 'en' : 'uk';
+const copy = SITE_COPY[lang];
+const prefix = lang === 'ru' ? 'ru/' : '';
 
 const currentYear = new Date().getFullYear();
 
@@ -15,10 +17,10 @@ const columns = [
   {
     title: copy.catalog,
     links: [
-      { label: copy.allCategories, href: href('catalog/') },
+      { label: copy.allCategories, href: href(`${prefix}catalog/`) },
       ...CATEGORIES.map((category, index) => ({
         label: copy.categoryLabels[index],
-        href: href(`catalog/${category.slug}/`),
+        href: href(`${prefix}catalog/${category.slug}/`),
       })),
     ],
   },
@@ -26,8 +28,9 @@ const columns = [
     title: copy.information,
     links: [
       { label: copy.sla, href: href('sla/') },
-      { label: copy.ordering, href: href('#order-title') },
+      { label: copy.ordering, href: href(`${prefix}#order-title`) },
       { label: 'English overview', href: href('en/') },
+      { label: lang === 'ru' ? 'Український каталог' : 'Каталог на русском', href: href(lang === 'ru' ? 'catalog/' : 'ru/catalog/') },
     ],
   },
 ];

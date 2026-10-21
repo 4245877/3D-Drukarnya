@@ -1,0 +1,2899 @@
+{
+  "date": "2026-10-21",
+  "scope": "Read-only external product image HTTP checks; HEAD with range GET fallback for 403/405",
+  "checked": 270,
+  "ok": 263,
+  "images": [
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/DSM00000001155098/design/2025-02-27_2b9jc6oaa03e.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P12"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "108090"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/DSM00000001155098/design/2025-02-27_e7khv874i3ki.gif?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P12"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "7319786"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/DSM00000001155098/design/2025-02-27_wzhr4lzad92e.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P12"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "83536"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US11364792079a34/design/0450bf022721bcde.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P13"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "84198"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US11364792079a34/design/0c3b024bc1aea900.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P13"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "59148"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US11364792079a34/design/0d7451b3a3845294.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P13"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "37182"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US11364792079a34/design/1a7d053c963a876d.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P13"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "92298"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US11364792079a34/design/1ee2ce73e5b1a828.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P13"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "55686"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US11364792079a34/design/24a3cf0b204343f5.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P13"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "28252"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US11364792079a34/design/2604a50c5dbdddb1.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P13"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "142332"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US11364792079a34/design/437eeddca71fddab.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P13"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "98980"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US11364792079a34/design/607e23d76f37d564.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P13"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "24270"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US11364792079a34/design/a905a2671b3cf0d7.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P13"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "137312"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US11364792079a34/design/c1a17b7cd5156a40.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P13"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "92346"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US11364792079a34/design/cfde79649ca495cc.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P13"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "102132"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/058980dae5691eac.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "62818"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/0698944d6ca0bba9.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "87830"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/1efd6480e392eedb.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "105824"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/28ad6391dbe00112.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "105880"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/3afeb1879e6ba925.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "99378"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/5d54cadeda879908.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "153974"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/645e67586089f3a5.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "94780"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/6dbdd97684f729cd.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "68444"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/83fb5b5edc449189.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "90588"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/a51859f00734cd50.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "93940"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/b259a630c7233925.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "65300"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/b4ef0c1b4437fa29.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "91722"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/b8b9183f1290d37b.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "97132"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/bce36d148b0fb613.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "107708"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/bff904d7e8e0cf4b.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "61080"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/c146dcd3feaa1c5e.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "61456"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US217012576e50a/design/d29de7a82972560f.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P10"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "88192"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US23479b0cddd03e/design/2025-04-07_8adc67d418a25.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P1"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "70898"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US23479b0cddd03e/design/2025-04-07_c992a20bd1377.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P1"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "75542"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US23479b0cddd03e/design/2025-04-07_d4007fad2f227.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P1"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "74138"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US23479b0cddd03e/design/2025-04-07_d433f4039b1d2.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P1"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "65110"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US23479b0cddd03e/design/2025-06-24_eea2d5aaa888c8.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P1"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "70998"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US2afb7c32c4cc6/design/2025-10-19_205d741963adb8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P7"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "103250"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US2afb7c32c4cc6/design/2025-10-19_5ee34922438568.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P7"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "149106"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US5d4723ecd5887b/306537669/instance/2025-04-29_0bfb7a36d7f578.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P18"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "85844"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US5d4723ecd5887b/306537669/instance/2025-04-29_51bcd3f9cca05.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P18"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "120988"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US5d4723ecd5887b/design/2025-04-29_5821dcfaab3fc8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P18"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "58978"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US5d4723ecd5887b/design/2025-04-29_81fd86c1fdceb.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P18"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "76272"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US5d4723ecd5887b/design/2025-04-29_971f5668803908.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P18"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "82702"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US5d4723ecd5887b/design/2025-04-29_a2b3baf1bee2f8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P18"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "77950"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US5d4723ecd5887b/design/2025-04-29_e7426d2d123a6.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P18"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "80904"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US5d4723ecd5887b/design/2025-04-29_e934f137df77d8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P18"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "85776"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US5deec9b1efe4f/design/0119fc3244d618db.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P8"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "92396"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US5deec9b1efe4f/design/68459184ebcc01e3.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P8"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "131376"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US5deec9b1efe4f/design/69d25df2074edee6.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P8"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "91306"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US5deec9b1efe4f/design/97ffd57cbb59a4b0.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P8"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "134246"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/0fecad013b312a94.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "184026"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/2025-12-20_34c8ebb3dc2698.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "26538"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/2025-12-20_f8ed20d6f9a21.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "86908"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/2026-01-16_79fbf42d2b9168.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "43382"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/5cf409fcc33fd81a.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "59100"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/67308df03abc7fa2.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "76970"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/6731521bbf64117a.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "257554"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/8661a942a2f38939.webp?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "59214"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/8e04d29a5e5b230d.webp?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "93344"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/98df26abb6c91fa9.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "48778"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/9d2376284cedd847.webp?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "158770"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/a6e08d27f99ae78d.gif?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "1756204"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/aae04a93f6e9a79d.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "119630"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/be007c063715c179.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "160926"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/cb319bc62b20a42d.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "67682"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/e56f2e990a755c37.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "84528"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US96a3177756b3a/design/ee79a3e48e490dd7.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P9"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "83124"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US9d23c574cefc0d/design/2024-05-17_66b68a99853c9.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P6"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "86696"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US9d23c574cefc0d/design/2024-05-17_7b4a536d48161.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P6"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "37966"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US9d23c574cefc0d/design/2024-05-17_afa214784ba9d.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P6"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "61360"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US9d23c574cefc0d/design/2024-05-17_e5762b36349a3.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P6"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "83112"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US9d23c574cefc0d/design/2024-05-17_f29ddfcddf395.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P6"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "67844"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/US9d23c574cefc0d/design/2024-05-18_3d5734175b9.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P6"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "58768"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa0a8f72aae7415/450800293/instance/2024-11-10_2a657e3fdfe2d8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P24"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "52116"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa0a8f72aae7415/450800293/instance/2024-11-10_b424ab4a66018.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P24"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "30036"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa0a8f72aae7415/design/2024-10-30_b1avc9o6zmub.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P24"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "40510"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa0a8f72aae7415/design/2024-10-30_glfpvidob8sa.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P24"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "30408"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa0a8f72aae7415/design/2024-10-30_hvvk9akpixcu.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P24"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "44560"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa0a8f72aae7415/design/2024-10-30_n7sx39c5accd.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P24"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "52548"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa0a8f72aae7415/design/2024-10-30_rbfb8zjp0yam.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P24"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "28414"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/3fca0a494216cd83.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P14"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "81116"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/55ad1f487fc74849.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P14"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "84624"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/72b054043426747b.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P14"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "89584"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/7597096b40ce17f7.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P14"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "40868"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/780987835162330f.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P14"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "96974"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/7f00be176af03d0e.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P14"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "51526"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/98afee3297a5b399.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P14"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "102064"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/ac78a0d882874a55.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P14"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "61928"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/c244c9c3abfd7399.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P14"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "95844"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/e2b339cf3b954e9a.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P14"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "106546"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa43a7bf5e77257/design/f55c8c654f5cb792.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P14"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "85386"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_43a0cab4acb4f.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P3"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "103510"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_66a649e0d484b.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P3"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "129530"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_ccae4d1e30b98.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P3"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "158196"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_d64c48b285115.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P3"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "79412"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_d7372f9baa4ee.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P3"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "74902"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_dc3dcac5852f2.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P3"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "109720"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_ea44a7a1bea12.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P3"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "153744"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USa4424222a33122/design/2024-10-06_edacc5d9af44f.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P3"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "117652"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_5b7c2f49870468.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P2"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "102256"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_7c9176762c2ad.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P2"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "62460"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_d5078071f0a198.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P2"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "71816"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_ebcaa9defaed78.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P2"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "70934"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-25_ed28055ee05be8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P2"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "66756"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-26_276374592931c8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P2"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "54268"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-05-26_3f99754be566c8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P2"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "61926"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USb4ef7bb504b3a4/design/2025-07-12_2ad0be628ff728.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P2"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "43408"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USb895f7e22d18be/design/2025-11-26_181943507caa3.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P19"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "18266"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USb895f7e22d18be/design/2025-11-26_b3410dde845578.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P19"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "19552"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USb895f7e22d18be/design/2025-11-26_dc6d3a95e3806.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P19"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "23652"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USbbab9cca1f8ff4/design/0d4260a29185900d.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P27"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "45072"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USbbab9cca1f8ff4/design/4fe6939cde0ce213.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P27"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "20386"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USbbab9cca1f8ff4/design/b6f8c174c1ba3f2e.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P27"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "15440"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USbbab9cca1f8ff4/design/bc5adf3b5280c429.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P27"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "27192"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USbbab9cca1f8ff4/design/e11a7404b72a8511.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P27"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "20166"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USc48ad98ead7199/design/2025-01-02_9abda76f4d093.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P45"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "53698"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USc48ad98ead7199/design/2025-01-03_658fc35948eb9.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P45"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "27448"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_098226edc.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P11"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "16412"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_0b9280c6321b2.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P11"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "121438"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_2394a31f9a002.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P11"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "55888"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_48b381d7b27c6.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P11"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "91120"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_6ad6e932c57fd.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P11"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "83892"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_8554108aaa6c4.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P11"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "79558"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_c9bc0755d1f27.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P11"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "137124"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_cf0636d3ba98d.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P11"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "42046"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_df880a31ed7ca.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P11"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "49808"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_e4ea74cbcb65b.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P11"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "131878"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/UScff1d888d7909b/design/2024-06-08_fa3609e963981.webp?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P11"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "9998"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_08d7f5b58ed33.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "50330"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_16f9f486855fc.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "43036"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_5d6c840d97c258.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "62168"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_67d34079984f88.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "43160"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_8f7c713c432708.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "49500"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_c586d3ccb4ddc.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "51950"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_d96fd97c8c0ca.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "69530"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-21_de27aa2f2264f.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "62436"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_1f15678b8ab6a8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "39576"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_20eab80f93d338.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "53776"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_3e60f56e06a4b8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "48426"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_440d505eeaa468.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "46018"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_945e447e212b78.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "47514"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_a389c128826818.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "58152"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_a3afc01341614.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "62452"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd52d10142f797/design/2025-12-22_c5230ae97ea2d.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P17"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "39926"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd9f707772d159/design/2025-05-09_231dc810ff329.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P5"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "106634"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd9f707772d159/design/2025-05-09_4022c1e8a1d79.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P5"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "138950"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd9f707772d159/design/2025-05-09_5bda642652f66.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P5"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "196604"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd9f707772d159/design/2025-05-09_6471f211eb71a8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P5"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "106896"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USdd9f707772d159/design/2025-05-09_6e25f61e9811e.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P5"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "124112"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_164717c886d36.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P16"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "53448"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_1f2de7642b952.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P16"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "52384"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_3137063b9f4f2.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P16"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "30708"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_3abfa01ad68c7.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P16"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "25500"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_72c735feaa011.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P16"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "56054"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_7fe75e719d888.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P16"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "30330"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_9c0f7d76fefe6.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P16"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "16870"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_b3d2da89b28a8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P16"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "48312"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_c8bba76d490a9.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P16"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "30248"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_e56cbb5a8214e.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P16"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "43278"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2023-09-23_f7c5a2e9db1e9.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P16"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "41410"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2024-07-08_336893e757d52.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P16"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "119828"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2024-07-08_679d464259a1a.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P16"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "169544"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USe4e7d851219ad1/design/2024-07-08_9ea0e00a5fa73.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P16"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "67150"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_125e2b9ee7f64.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P25"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "19276"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_1702fe8a2b8aa.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P25"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "18338"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_1c95bb6cbe4228.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P25"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "16430"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_3acfc462fc3298.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P25"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "29506"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_47fb1bbf4fc1a.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P25"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "43518"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_9cf0e494182ee.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P25"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "12860"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_af5002395b1408.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P25"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "20824"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf12b524dd16a79/design/2025-06-01_d36e1bee7fdbe.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P25"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "15666"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf2c799980504d/design/2360d58f5fe2c017.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P20"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "94278"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf2c799980504d/design/64bf1284f9ffb75d.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P20"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "88436"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf2c799980504d/design/6febf336fc62ce4d.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P20"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "95298"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf2c799980504d/design/71c5ff686d5379d9.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P20"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "116762"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf2c799980504d/design/81d462dc2b3c80e7.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P20"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "68488"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf2c799980504d/design/af707365e242c80f.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P20"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "93330"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf2c799980504d/design/c4af1d5d8dd5d878.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P20"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "88164"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf314c1cbc972e/design/0f2d3ee2a42cbbf4.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P15"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "47464"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf314c1cbc972e/design/10fc433aac728a2b.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P15"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "34592"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf314c1cbc972e/design/220f44754fdf8291.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P15"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "73064"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf314c1cbc972e/design/43219345b3ac7a31.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P15"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "44192"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf314c1cbc972e/design/6def9977c1fa6091.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P15"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "245834"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf314c1cbc972e/design/8d74259559e56e7c.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P15"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "89462"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USf314c1cbc972e/design/fb91f514469a311b.png?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P15"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "82250"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USfa400e1834649c/design/2025-08-27_39dcd5e6bed26.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P4"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "136028"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USfa400e1834649c/design/2025-08-27_55912876210b6.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P4"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "197804"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USfa400e1834649c/design/2025-08-27_7fd6cc32d9641.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P4"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "137630"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USfa400e1834649c/design/2025-08-27_a4091fe3962fa8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P4"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "22142"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USfa400e1834649c/design/2025-08-27_ac64224b42b72.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P4"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "119570"
+    },
+    {
+      "url": "https://makerworld.bblmw.com/makerworld/model/USfa400e1834649c/design/2025-08-27_f6d6ffb5a60c.jpg?x-oss-process=image/resize,w_1000/format,webp",
+      "skus": [
+        "P4"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/webp",
+      "content_length": "136640"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/03dd1db2-c0fd-4a7e-bf61-c6b460d0fa49/images/10345105_860d96bd-b22c-4b93-82e9-3610bf64071e_9f5e9c05-c171-462b-a763-ac85851e62ba/img_4409.jpeg",
+      "skus": [
+        "P37"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "3879542"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1040412/images/7890956_704d31d3-a3ef-425d-9a96-c5c74bd0e888_f3474338-503b-4ee2-9b8a-4c204f528136/m720q.jpeg",
+      "skus": [
+        "P26"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "311827"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1088263/images/8226829_cb0d4cbb-5911-4492-8175-43a79071350c_00b31d68-9762-485b-aa1f-321dd88e2900/model01.png",
+      "skus": [
+        "P33"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/png",
+      "content_length": "133683"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1088263/images/8226831_6f9b4f9e-c90e-44aa-96aa-64ce89c4ece9_ed712d13-8e92-4ebb-afc3-b20c2c7a194e/printed01.jpg",
+      "skus": [
+        "P33"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "283492"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1088263/images/8226833_efacb75f-e593-4b5c-b973-c2e2ac3f4309_c125d4e0-5586-4599-9935-e23b4ec0b362/printed03.jpg",
+      "skus": [
+        "P33"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "283383"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1088263/images/8226834_f8c03e5d-d6b0-4ee1-bd5f-433ed22d59bf_38f09978-1350-482d-9977-297400e15c72/printed02.jpg",
+      "skus": [
+        "P33"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "316858"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1088263/images/8226835_4aadd449-1fc8-49b6-a0d3-36cc4963a584_aa4ad302-7e87-4275-ab73-21bfab60f710/printed04.jpg",
+      "skus": [
+        "P33"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "299528"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1155360/images/8715168_496c7748-3264-457c-acd9-c275de037509_a0156759-732b-4993-9179-0ad6a7499294/hap.jpg",
+      "skus": [
+        "P22"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "102609"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1180979/images/8883068_8b459473-eb03-4e3e-9727-1f36f8662904_45148176-7ca0-4de5-9f6f-5011b89eb1c6/cover01.png",
+      "skus": [
+        "P34"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/png",
+      "content_length": "86635"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1180979/images/8883176_670a40af-6f17-43fc-959c-8f252ab395a9_4bb08fdd-6339-4c44-819d-058a48242afc/printed01.jpg",
+      "skus": [
+        "P34"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "230830"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1185545/images/8914828_e70a68d8-887f-47cb-a393-2aef73248d5a_85ede094-f7e3-4d55-806e-d4364e946417/printed02.jpg",
+      "skus": [
+        "P31"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "115896"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1185545/images/8914830_c01cd306-97a3-4ba3-b791-e75427101ad8_848731e0-fe13-4ccc-ae80-2d485782e28f/printed01.jpg",
+      "skus": [
+        "P31"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "134487"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1185545/images/8932729_3dbbe068-9dc3-4fc0-919e-256fce13c268_cec250c1-5fd7-4faa-b3fc-f46002320a38/model01.png",
+      "skus": [
+        "P31"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/png",
+      "content_length": "143480"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1185545/images/8932730_882b18c6-0a24-4e85-b6c7-e5e4a1ba7519_dc633aac-d162-4138-9124-48d84d419e29/model02.png",
+      "skus": [
+        "P31"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/png",
+      "content_length": "323975"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1187903/images/8935887_9027f297-967e-4ff8-be1d-c529050dcf82_ff22af02-7bb9-43c3-b7e6-bdcf11906bbc/screenshot-2025-02-12-132032.png",
+      "skus": [
+        "P30"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/png",
+      "content_length": "959158"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1188439/images/8935082_bcf5864c-22a2-44a2-b66d-d7241012b618_b989b198-5281-40c4-ae79-dbd71101de54/pxl_20250206_0221192212.jpg",
+      "skus": [
+        "P21"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "1564100"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1188439/images/8935083_2b18db1f-9cbc-4e3f-9ccf-4e2594a4f9f1_7abc1bb8-5362-4275-baef-a4e6545a23e4/pxl_20250206_0221237252.jpg",
+      "skus": [
+        "P21"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "1524878"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1188439/images/8935084_bb0bc315-e1e5-4c55-a52e-0258313a62d6_a290ab6d-50e7-4574-a23a-7dd94dcb0d52/pxl_20250206_0221303942.jpg",
+      "skus": [
+        "P21"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "1478789"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1349236/rich_content/0f11aed7-83ef-4b76-8233-1f47c379c27b/img_0306.jpeg",
+      "skus": [
+        "P29"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "884914"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/1349236/rich_content/6915e66e-5813-49c5-bbe6-75afe8756ec9/img_0306.jpeg",
+      "skus": [
+        "P29"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "88405"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/150719/images/2824641_99062a9a-7d7d-4245-af42-6e5baf39ca53/img_3737.jpg",
+      "skus": [
+        "P38"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "2730289"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/152592/images/1435724_8ff0e071-e88d-4e72-bf0e-6631b83fa336/resize_img_5596.jpg",
+      "skus": [
+        "P48"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "788930"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/152592/images/1435746_fb919f13-13ec-4ae3-a780-a15fbf467511/resize_img_5646.jpg",
+      "skus": [
+        "P48"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "833436"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/152592/images/1437091_178c2ccc-772f-4325-803a-55d0246727a6/resize_img_5743.jpg",
+      "skus": [
+        "P48"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "1012281"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/3380e3a2-5915-4717-a1af-f6deac5108c2/images/11178364_fbeb676b-603b-46b3-a5c0-ba2c715b5324_71d01874-9a6c-48fc-b63a-4b91f16d4327/screenshot-2025-11-15-133929.png",
+      "skus": [
+        "P26"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/png",
+      "content_length": "181965"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/33aa8d32-842d-4435-879d-2a980202863c/images/11178683_bf40a923-4788-4f3b-ae92-614a1fe74cd6_191340f1-9734-42b7-b0bd-ab69b5e127de/img_4006.jpeg",
+      "skus": [
+        "P26"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "2726206"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/378810/images/3182671_ae8694d8-c422-4bcd-be9b-f080009ad7fe/pxl_20230124_121624650.jpg",
+      "skus": [
+        "P46"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "2055151"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/378810/images/3182671_ae8694d8-c422-4bcd-be9b-f080009ad7fe/pxl_20230124_121631075.jpg",
+      "skus": [
+        "P46"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "2246574"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/378810/images/3182671_ae8694d8-c422-4bcd-be9b-f080009ad7fe/pxl_20230124_121643467.jpg",
+      "skus": [
+        "P46"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "1996773"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/3fb23f5e-361a-41dd-86ab-bc0b3dedd4b4/images/11178684_bda01044-315b-4e0e-b0c3-b66306bf3006_b695c144-9168-45f3-84c7-9a2705602ff0/img_4005.jpeg",
+      "skus": [
+        "P26"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "3346335"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/4074/images/1193591_c4ca656d-a1f3-4328-9909-e62557c733a6/slots_sm.jpg",
+      "skus": [
+        "P44"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "126728"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/4074/stls/1193500_2b08010e-d3fb-485d-ba5f-e50b42d64c71/top_slots_sm_preview.png",
+      "skus": [
+        "P44"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "application/octet-stream",
+      "content_length": "79889"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/4074/stls/1193544_eb77c8e8-2faa-4127-8055-4f80aa19f054/bottom_slots_sm_preview.png",
+      "skus": [
+        "P44"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "application/octet-stream",
+      "content_length": "72175"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/41ac2ddc-4eef-413a-bc78-6737145991e0/images/11642182_a27a1b41-d57f-468f-8465-460c55c7272a_dbb1567f-84e6-41bc-9aaa-0ee4aee7c8b8/y7lsblql.jpg",
+      "skus": [
+        "P23"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "463973"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/4c4760bf-1aec-4be4-ab17-27c06ad5b595/images/10366257_ef1f501e-fbd6-4075-af62-36f59f69115c_b0a793d6-dff9-48d9-b673-2b46bfd35949/cover01_12.png",
+      "skus": [
+        "P31"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/png",
+      "content_length": "169790"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/503156/images/4087606_3c22df76-601f-4707-85d9-64d305097fb5/desktop-organizer5.jpg",
+      "skus": [
+        "P49"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "80141"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/503156/images/4087607_e8d9eaca-18d4-444c-974b-a90570ea548c/desktop-organizer1.jpg",
+      "skus": [
+        "P49"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "91143"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/503156/images/4087608_d9fa49b4-90b9-40c5-b50b-32791ad2b54f/desktop-organizer3.jpg",
+      "skus": [
+        "P49"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "69262"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/503156/images/4087609_f047c451-56bf-4e36-8d37-3b850c3ffd54/desktop-organizer4.jpg",
+      "skus": [
+        "P49"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "78947"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/503156/images/4087610_41a71705-4f87-4369-a1cf-7926514d1866/desktop-organizer2.jpg",
+      "skus": [
+        "P49"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "95276"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/605642/stls/4863900_c7ea7d81-7159-4934-9146-b02081808b3f_f7598aaa-5c83-4a51-a604-d66d90e4a977/pi-zero-2w-case-top_preview.png",
+      "skus": [
+        "P42"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "application/octet-stream",
+      "content_length": "47940"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/605642/stls/4863914_5ee41607-a7a3-49d6-88c3-110085ac3552_271b6160-3fb5-4896-83b9-1caf51a43c4e/pi-zero-2w-case-bottom-with-ears_preview.png",
+      "skus": [
+        "P42"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "application/octet-stream",
+      "content_length": "38491"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/6375cec3-ba21-4ed5-ad4c-d04098c1085a/images/13242391_00a0187f-a348-453f-8afe-c8a4f334f3b0_5b50307c-c563-428c-8c21-6524ac9211fd/printed02.jpeg",
+      "skus": [
+        "P35"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "693325"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/642650/images/5221345_f896cfad-8475-4790-af15-ea408653ba43_3374f643-784f-4253-9073-99a6c3bd420e/dsc_0101.jpg",
+      "skus": [
+        "P40"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "10528525"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/642650/images/5221349_0b9f5fa5-4fc3-4062-8e95-86762a39c837_5870a010-21fb-4fb9-be84-ebdbd2610acd/dsc_0102.jpg",
+      "skus": [
+        "P40"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "10185002"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/642650/images/5221350_3681d02c-53cf-489f-9c32-a8f2780d1b1f_fc8b766d-d6c3-4c2c-83c5-0ab9ba56b434/dsc_0100.jpg",
+      "skus": [
+        "P40"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "10555279"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/642650/images/5221351_c40d96e8-48e6-44b5-8c66-6632a2249f36_0cc41814-c3dd-4a46-81f7-6d4771903f5d/dsc_0099.jpg",
+      "skus": [
+        "P40"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "10648002"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/644063/stls/5576877_17c86a02-1f71-4bb4-b334-299ba2b2b73f_0287a9d2-958f-4e79-a52f-39f45350d263/rpi-case-power-switch_preview.png",
+      "skus": [
+        "P47"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "application/octet-stream",
+      "content_length": "41101"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/644063/stls/5576878_7142e3b4-69b0-42e6-a93d-ca224c531254_3d5ef724-c211-482e-a950-3b3a43ef4c51/rpi-case-nvme-lid_preview.png",
+      "skus": [
+        "P47"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "application/octet-stream",
+      "content_length": "69899"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/644063/stls/5637308_da1ee7f2-0dd3-48d0-9737-84f685b37c60_86c713f5-06c4-48d0-b89f-f63a20f2bd27/rpi-case-vesa-base-nvme-v3_preview.png",
+      "skus": [
+        "P47"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "application/octet-stream",
+      "content_length": "35278"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/70338f2a-26be-4b28-a2c4-d45bb8cf3f82/images/13242389_fbd13a78-69db-447f-bc4d-78c16198d1a8_71cefa19-457f-45bf-8aa4-59ed41e0bfa9/printed03.jpeg",
+      "skus": [
+        "P35"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "452923"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/758235ba-49c7-4955-b922-1b4d7e83e823/images/11642183_89612225-c0cb-4e51-ae43-aa840a60868d_7b531221-11c9-4079-9995-1f2016a244e4/dkuvi_cm.jpg",
+      "skus": [
+        "P23"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "297807"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/7969721b-aa19-49b9-bc8c-12fd173f9200/images/10729004_ab913fed-ead9-405d-9022-804b32114a10_f3942d90-898a-42dd-bf93-70a235ef7233/img_4215-copy.jpg",
+      "skus": [
+        "P43"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "98191"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/87c03393-294a-471d-ba66-7c34de8518a7/images/12985349_ad9dbd58-136b-4fa3-a01a-f4ddaea54fbc_66ce268a-16fc-4c9c-b6cd-3a2fb94ed5cf/screenshot_24052026_003401.jpg",
+      "skus": [
+        "P32"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "198989"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/883453/images/6770939_b8acf823-e549-4009-87d4-8d176d340ee1_701ce0ba-3cea-4629-bf11-45172d6f2a0b/pxl_20240518_034344936.jpg",
+      "skus": [
+        "P39"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "1483122"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/883453/images/6770941_bb833cdb-b8e9-42a9-91b5-eda5377136ca_588fa74d-4120-4584-afb7-6c1354a07995/pxl_20240518_033053448.jpg",
+      "skus": [
+        "P39"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "1483788"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/883453/images/6770942_e24a9ec2-fdcc-4768-8a20-7d07dfca7084_6241e659-bbcc-480c-8127-b8ae9b5cef93/pxl_20240518_033046733.jpg",
+      "skus": [
+        "P39"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "1478743"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/883453/images/7025250_80fc9776-668d-4804-a18d-0aec9747fe62_0ad85949-0c19-4c22-854b-8ed556a24224/pxl_20240622_040935178.jpg",
+      "skus": [
+        "P39"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "1005688"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/8dc5589f-5db0-43e0-8062-2b6ae3958bc9/images/12985348_10f453cd-d172-47e4-9d02-88b5ab53cf7c_bca9901b-9da8-4b41-af5f-c7f78678cd0b/img_20260524_000903.jpg",
+      "skus": [
+        "P32"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "277851"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/909805/images/6952655_f90c07d9-65ee-4646-bf4d-6c79cfed8ce7_88c16085-1319-4ef1-b36a-75411cc1e458/dsc_0297.jpg",
+      "skus": [
+        "P41"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "8296925"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/909805/images/6952656_b8de6a57-a2c0-42cb-b079-6763bb8ca7ec_0863da5e-314d-4553-84c3-b2de53489356/dsc_0299.jpg",
+      "skus": [
+        "P41"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "7336292"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/909805/images/6952658_5c301da2-856c-46ed-929c-075dc4315f41_4877275a-9b02-4bf6-886b-b6cb19a2cffc/dsc_0300.jpg",
+      "skus": [
+        "P41"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "7605927"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/909805/images/6952659_e9fce416-a7fe-4c78-a069-590c2f4888c4_64e63c93-6df5-49ec-ac54-e31a07c166be/dsc_0301.jpg",
+      "skus": [
+        "P41"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "7648911"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/909805/images/6952660_d8d768bd-7971-40ab-8512-343010f80cc2_ed95b4d4-22d0-4a66-b126-fdbb4dfbd3a7/dsc_0298.jpg",
+      "skus": [
+        "P41"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "7868066"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/980541/images/7475744_625d77fa-a540-4bc2-a6eb-2c4b06870e5b_fc5ce31e-393c-4cdf-ae12-1d300e1f396a/454722935_503453032494702_2452878026384539749_n.png",
+      "skus": [
+        "P28"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/png",
+      "content_length": "190639"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/980541/images/7475750_f50ca1c4-cdc6-4ed4-b556-876ffe731366_b12ab8f5-b02c-46a7-b9c5-1e026cf7d553/be535911-83f5-4766-9649-9ee43024caf1_1_102_a.jpeg",
+      "skus": [
+        "P28"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "991826"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/980541/images/7475751_0df9a724-947d-4b53-85df-3579a2f6440c_c0a8b96e-3d39-45bc-917e-1a07335abc68/370fad21-c6e5-43a1-90fe-0b882d28bbde_1_102_a.jpeg",
+      "skus": [
+        "P28"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "1050107"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/980541/images/7493677_c2b39884-8094-4a99-b077-5b0a72d30137_2510213e-c2eb-4caa-9779-a6e061d19bee/454675839_1083581856707657_4855276502051667060_n.png",
+      "skus": [
+        "P28"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/png",
+      "content_length": "2618671"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/b08a67c3-2350-4970-ae02-e43889b41b74/images/11373811_16f031e9-1a6a-4318-a702-2179daa98b69_85837eb0-da84-4d6f-939e-41bfc278b3ab/cover01.png",
+      "skus": [
+        "P33"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/png",
+      "content_length": "251256"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/bff65198-9b77-4bca-ae86-35c1a2f16ce4/images/9363335_1516bfb4-e627-41d0-902c-1c6085427d4d_b02b5d30-6a27-4265-950e-869e9b0c393f/screenshot-2025-03-29-at-122317-pm.png",
+      "skus": [
+        "P36"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/png",
+      "content_length": "2774208"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/c6cb6fef-6426-4746-9723-bfc9bac758d0/images/13242392_cc8506b6-9872-4c95-8df5-10fe8754d1ea_4a64b1f4-b46e-488c-87c7-a35401ef5b34/printed01.jpeg",
+      "skus": [
+        "P35"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "794152"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/d57920ec-9ceb-48d4-9da7-02bf73ca0764/images/10729003_5fd4ac7e-5da1-46ae-b8e0-2d06d2420320_6711c960-b2ed-4311-83bd-006c2311e4f9/img_4217-copy.jpg",
+      "skus": [
+        "P43"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "487848"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/d67d7865-1066-45da-8f91-c6181195882f/images/10181403_9795b17f-5bc0-479d-994d-d0655a138ded_93398fbe-bf3d-4d80-a8dd-c6aeab76007d/img_0306.jpeg",
+      "skus": [
+        "P29"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "82415"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/de0f70ed-64d3-4af4-83c6-925d3293dc00/images/13242388_e32e7dd1-297e-423f-a85a-1dacb603c174_971da386-bcc2-4e76-b72e-94cfd52ee542/cover02.png",
+      "skus": [
+        "P35"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/png",
+      "content_length": "763469"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/e8a003ae-82fb-4235-aecc-1d8b449b22e2/images/10345104_5e1bf363-70f1-4e86-9012-1290280184d8_2bebf205-fab1-4044-a27e-bbf4d3ed1ed9/img_4408.jpeg",
+      "skus": [
+        "P37"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "2007728"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/f29d83ba-6079-4bc1-83bf-b31ff19b40c2/images/13242390_6e707345-4a87-492f-8b1d-9db0ed258537_3cdf7830-be43-47a9-b1cb-2f1525e7b54d/printed04.jpeg",
+      "skus": [
+        "P35"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "440726"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/fa60e853-c483-4d64-bd93-afa4a3858ac4/images/10729006_f9e0b670-b51a-4d06-acf3-9e8749aff9a8_7dffab09-15e7-412d-bd09-425aac0d3e53/img_4210-copy.jpg",
+      "skus": [
+        "P43"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/jpeg",
+      "content_length": "801414"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/ff51b7c3-dda3-4a43-9294-b8e3faf373e2/images/11168871_84765e67-62fc-4ed0-82b0-857362449c2e_cb7de0d4-52b6-4888-975a-8ff1275386fb/screenshot-2025-11-15-135851.png",
+      "skus": [
+        "P26"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "image/png",
+      "content_length": "319106"
+    }
+  ],
+  "local_fixes": [
+    {
+      "sku": "P42",
+      "source": "https://media.printables.com/media/prints/605642/stls/4863914_5ee41607-a7a3-49d6-88c3-110085ac3552_271b6160-3fb5-4896-83b9-1caf51a43c4e/pi-zero-2w-case-bottom-with-ears_preview.png",
+      "local_path": "/images/products/p42/pi-zero-2w-case-bottom-with-ears-preview.png",
+      "bytes": 38491,
+      "dimensions": [
+        1024,
+        576
+      ]
+    },
+    {
+      "sku": "P42",
+      "source": "https://media.printables.com/media/prints/605642/stls/4863900_c7ea7d81-7159-4934-9146-b02081808b3f_f7598aaa-5c83-4a51-a604-d66d90e4a977/pi-zero-2w-case-top_preview.png",
+      "local_path": "/images/products/p42/pi-zero-2w-case-top-preview.png",
+      "bytes": 47940,
+      "dimensions": [
+        1024,
+        576
+      ]
+    },
+    {
+      "sku": "P44",
+      "source": "https://media.printables.com/media/prints/4074/stls/1193500_2b08010e-d3fb-485d-ba5f-e50b42d64c71/top_slots_sm_preview.png",
+      "local_path": "/images/products/p44/top-slots-sm-preview.png",
+      "bytes": 79889,
+      "dimensions": [
+        1024,
+        576
+      ]
+    },
+    {
+      "sku": "P44",
+      "source": "https://media.printables.com/media/prints/4074/stls/1193544_eb77c8e8-2faa-4127-8055-4f80aa19f054/bottom_slots_sm_preview.png",
+      "local_path": "/images/products/p44/bottom-slots-sm-preview.png",
+      "bytes": 72175,
+      "dimensions": [
+        1024,
+        576
+      ]
+    },
+    {
+      "sku": "P47",
+      "source": "https://media.printables.com/media/prints/644063/stls/5637308_da1ee7f2-0dd3-48d0-9737-84f685b37c60_86c713f5-06c4-48d0-b89f-f63a20f2bd27/rpi-case-vesa-base-nvme-v3_preview.png",
+      "local_path": "/images/products/p47/rpi-case-vesa-base-nvme-v3-preview.png",
+      "bytes": 35278,
+      "dimensions": [
+        1024,
+        576
+      ]
+    },
+    {
+      "sku": "P47",
+      "source": "https://media.printables.com/media/prints/644063/stls/5576878_7142e3b4-69b0-42e6-a93d-ca224c531254_3d5ef724-c211-482e-a950-3b3a43ef4c51/rpi-case-nvme-lid_preview.png",
+      "local_path": "/images/products/p47/rpi-case-nvme-lid-preview.png",
+      "bytes": 69899,
+      "dimensions": [
+        1024,
+        576
+      ]
+    },
+    {
+      "sku": "P47",
+      "source": "https://media.printables.com/media/prints/644063/stls/5576877_17c86a02-1f71-4bb4-b334-299ba2b2b73f_0287a9d2-958f-4e79-a52f-39f45350d263/rpi-case-power-switch_preview.png",
+      "local_path": "/images/products/p47/rpi-case-power-switch-preview.png",
+      "bytes": 41101,
+      "dimensions": [
+        1024,
+        576
+      ]
+    }
+  ],
+  "note": "All external images answered 200; seven returned application/octet-stream. Their verified PNG bytes are now hosted locally with the proper MIME type. No image content was edited.",
+  "source_mime_findings": [
+    {
+      "url": "https://media.printables.com/media/prints/605642/stls/4863914_5ee41607-a7a3-49d6-88c3-110085ac3552_271b6160-3fb5-4896-83b9-1caf51a43c4e/pi-zero-2w-case-bottom-with-ears_preview.png",
+      "skus": [
+        "P42"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "application/octet-stream",
+      "content_length": "38491"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/605642/stls/4863900_c7ea7d81-7159-4934-9146-b02081808b3f_f7598aaa-5c83-4a51-a604-d66d90e4a977/pi-zero-2w-case-top_preview.png",
+      "skus": [
+        "P42"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "application/octet-stream",
+      "content_length": "47940"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/4074/stls/1193500_2b08010e-d3fb-485d-ba5f-e50b42d64c71/top_slots_sm_preview.png",
+      "skus": [
+        "P44"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "application/octet-stream",
+      "content_length": "79889"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/4074/stls/1193544_eb77c8e8-2faa-4127-8055-4f80aa19f054/bottom_slots_sm_preview.png",
+      "skus": [
+        "P44"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "application/octet-stream",
+      "content_length": "72175"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/644063/stls/5637308_da1ee7f2-0dd3-48d0-9737-84f685b37c60_86c713f5-06c4-48d0-b89f-f63a20f2bd27/rpi-case-vesa-base-nvme-v3_preview.png",
+      "skus": [
+        "P47"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "application/octet-stream",
+      "content_length": "35278"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/644063/stls/5576878_7142e3b4-69b0-42e6-a93d-ca224c531254_3d5ef724-c211-482e-a950-3b3a43ef4c51/rpi-case-nvme-lid_preview.png",
+      "skus": [
+        "P47"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "application/octet-stream",
+      "content_length": "69899"
+    },
+    {
+      "url": "https://media.printables.com/media/prints/644063/stls/5576877_17c86a02-1f71-4bb4-b334-299ba2b2b73f_0287a9d2-958f-4e79-a52f-39f45350d263/rpi-case-power-switch_preview.png",
+      "skus": [
+        "P47"
+      ],
+      "status": 200,
+      "method": "HEAD",
+      "content_type": "application/octet-stream",
+      "content_length": "41101"
+    }
+  ],
+  "source_http_200": 270,
+  "local_verification": [
+    {
+      "path": "/images/products/p42/pi-zero-2w-case-bottom-with-ears-preview.png",
+      "status": 200,
+      "content_type": "image/png",
+      "png_signature": true
+    },
+    {
+      "path": "/images/products/p42/pi-zero-2w-case-top-preview.png",
+      "status": 200,
+      "content_type": "image/png",
+      "png_signature": true
+    },
+    {
+      "path": "/images/products/p44/top-slots-sm-preview.png",
+      "status": 200,
+      "content_type": "image/png",
+      "png_signature": true
+    },
+    {
+      "path": "/images/products/p44/bottom-slots-sm-preview.png",
+      "status": 200,
+      "content_type": "image/png",
+      "png_signature": true
+    },
+    {
+      "path": "/images/products/p47/rpi-case-vesa-base-nvme-v3-preview.png",
+      "status": 200,
+      "content_type": "image/png",
+      "png_signature": true
+    },
+    {
+      "path": "/images/products/p47/rpi-case-nvme-lid-preview.png",
+      "status": 200,
+      "content_type": "image/png",
+      "png_signature": true
+    },
+    {
+      "path": "/images/products/p47/rpi-case-power-switch-preview.png",
+      "status": 200,
+      "content_type": "image/png",
+      "png_signature": true
+    }
+  ],
+  "unresolved": []
+}

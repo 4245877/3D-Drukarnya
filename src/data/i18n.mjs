@@ -1,20 +1,10 @@
 import { SITE_NAME } from './site.config.mjs';
+import { CATEGORIES } from './categories.mjs';
 
 // Language versions of the site.
 //
-// Only pages that genuinely exist in more than one language declare hreflang
-// alternates — a self-referencing alternate on a page with no counterpart is
-// noise, not a signal. Today that is exactly one pair: the Ukrainian home
-// page and its English overview.
-//
-// ── Adding a language (phase 2) ──────────────────────────────────────────
-// The plan documented in SEO-AI-SEARCH-SETUP.md is a `/ru/` branch mirroring
-// the catalog and the guides. When those pages exist:
-//   1. add their entry here;
-//   2. pass LANGUAGE_ALTERNATES (or a per-page subset) to <Layout>;
-//   3. set `lang` and `ogLocale` on the translated pages.
-// Nothing else in the codebase needs to change — Layout already renders the
-// <link rel="alternate" hreflang> set it is given.
+// Only genuine counterparts declare hreflang. Guides and the SLA service
+// remain Ukrainian; the English page remains an overview.
 
 /**
  * @typedef {object} LanguageAlternate
@@ -32,10 +22,28 @@ import { SITE_NAME } from './site.config.mjs';
 export const LANGUAGE_ALTERNATES = [
   { hreflang: 'uk', path: '/' },
   { hreflang: 'en', path: '/en/' },
+  { hreflang: 'ru', path: '/ru/' },
   { hreflang: 'x-default', path: '/' },
 ];
 
-// Shared interface copy for the two existing language versions.
+const catalogPaths = new Set(['/catalog/', ...CATEGORIES.map((c) => `/catalog/${c.slug}/`)]);
+
+/**
+ * @param {string} path Site-relative canonical path (without BASE_PATH).
+ * @returns {LanguageAlternate[]}
+ */
+export function getPageAlternates(path) {
+  if (['/', '/en/', '/ru/'].includes(path)) return LANGUAGE_ALTERNATES;
+  const ukrainianPath = path.replace(/^\/ru\//, '/');
+  if (!catalogPaths.has(ukrainianPath) && !/^\/products\/[a-z0-9]+(?:-[a-z0-9]+)*\/$/.test(ukrainianPath)) return [];
+  return [
+    { hreflang: 'uk', path: ukrainianPath },
+    { hreflang: 'ru', path: `/ru${ukrainianPath}` },
+    { hreflang: 'x-default', path: ukrainianPath },
+  ];
+}
+
+// Shared interface copy for the three existing language versions.
 export const SITE_COPY = {
   uk: {
     catalog: 'Каталог', sla: 'SLA-друк', olx: 'На OLX',
@@ -58,5 +66,16 @@ export const SITE_COPY = {
     footer: 'Parts for your HomeLab and workspace · Kyiv · OLX Delivery subject to its conditions',
     olxProfile: 'Seller profile on OLX',
     categoryLabels: ['Racks and frames', 'Cases and drive modules', 'Equipment mounts', 'Rack accessories'],
+  },
+  ru: {
+    catalog: 'Каталог', sla: 'SLA-печать (українською)', olx: 'На OLX',
+    olxLabel: 'Открыть профиль продавца на OLX',
+    homeLabel: `${SITE_NAME} — на главную`, navigation: 'Главная навигация',
+    mobileNavigation: 'Мобильная навигация', openMenu: 'Открыть меню', closeMenu: 'Закрыть меню',
+    allCategories: 'Все категории', information: 'Информация',
+    ordering: 'Заказ и доставка', sitemap: 'Навигация по сайту',
+    footer: 'Детали для HomeLab и рабочего места · Киев · OLX Доставка по её условиям',
+    olxProfile: 'Профиль продавца на OLX',
+    categoryLabels: ['Стойки и основания', 'Корпуса и дисковые модули', 'Крепления оборудования', 'Аксессуары для стоек'],
   },
 };

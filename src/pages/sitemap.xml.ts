@@ -17,10 +17,10 @@ import { absoluteUrl } from '../utils/urls';
 export const GET: APIRoute = () => {
   const routes = [
     ...STATIC_ROUTES,
-    ...getAllProducts().filter(isPublishedProduct).map((product) => ({
-      path: `products/${product.slug}/`,
+    ...getAllProducts().filter(isPublishedProduct).flatMap((product) => ['', 'ru/'].map((prefix) => ({
+      path: `${prefix}products/${product.slug}/`,
       lastmod: undefined as string | undefined,
-    })),
+    }))),
   ];
 
   // URL() percent-encodes every other character XML would choke on, but leaves

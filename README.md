@@ -62,10 +62,10 @@ SEO, structured data й доступність для пошукових та AI
 | `familyId`         | string     | ні          | спільний slug-подібний ID для споріднених товарів/варіантів     |
 | `weightGrams`      | number     | так, крім чернеток і `WEIGHT_PENDING_SKUS` | відома додатна маса саме цього виробу; вагу аналога сюди не записують |
 | `pricingProfile`   | enum       | для переглянутих товарів без ваги | виробничий профіль із `src/data/pricing.config.mjs`; визначає аналог і доплату за додаткову підготовку |
-| `price`            | number     | так         | скінченне додатне число (грн); `Offer.price` при `exact`, `AggregateOffer.lowPrice` при `from` |
+| `price`            | number     | так         | скінченне додатне число (грн); `Offer.price` лише для точної ціни або описаного базового виконання з відомою вагою; попередні ціни залишаються видимими без Offer |
 | `priceType`        | enum       | ні (`exact`) | `exact` \| `from`; керує написом «Ціна» / «Ціна від» на картці, сторінці й формою JSON-LD |
 | `availability`     | enum       | ні (`unconfirmed`) | `in_stock` \| `made_to_order` \| `unavailable` \| `unconfirmed`; при `unconfirmed` `availability` не публікується в JSON-LD |
-| `publishOffer`     | boolean    | ні (`true`) | `false` повністю прибирає `Offer`/`AggregateOffer` із JSON-LD, поки торгові параметри не підтверджені |
+| `publishOffer`     | boolean    | ні (`true`) | `false` прибирає `Offer` із JSON-LD; `true` дозволяє його лише за умовами `src/utils/product-offer.mjs` |
 | `images`           | string[]   | так         | непорожній масив; лише `https://`-URL або безпечний локальний шлях |
 | `category`         | enum       | так         | одна з категорій `CATALOG_CATEGORIES` у схемі                  |
 | `material`         | string     | ні          | непорожній                                                     |
@@ -254,8 +254,7 @@ slug="<slug>">` з прозою всередині. Посилання на то
 ## Деплой на GitHub Pages
 
 Workflow: [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
-Запускається при push у `main`, щотижня за розкладом (дата `priceValidUntil`
-запікається під час збірки) та вручну.
+Запускається при push у `main`, щотижня для перевірки та оновлення збірки та вручну.
 
 Job `build` (тільки `contents: read`): `npm ci` → `npm audit
 --audit-level=high` → `npm run validate:data` → `npm run check` → `npm test` →

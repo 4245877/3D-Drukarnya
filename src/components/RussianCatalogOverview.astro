@@ -1,0 +1,43 @@
+---
+import Layout from './Layout.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import ProductCard from './ProductCard.astro';
+import { CATEGORIES } from '../data/categories.mjs';
+import { RUSSIAN_CATEGORIES } from '../data/categories.ru.mjs';
+import { RUSSIAN_PRODUCTS } from '../data/products.ru.mjs';
+import { OLX_URL, SITE_NAME } from '../data/site.config.mjs';
+import { getAllProducts } from '../utils/products';
+import { absoluteUrl, href } from '../utils/urls';
+import { graph, websiteNode, organizationNode, webPageNode, itemListNode, breadcrumbNode } from '../utils/schema.mjs';
+import { toJsonLd } from '../utils/text';
+import '../styles/pages/content.css';
+interface Props {catalog?: boolean;}
+const {catalog = false} = Astro.props;
+const products = getAllProducts();
+const path = catalog ? '/ru/catalog/' : '/ru/';
+const url = absoluteUrl(path);
+const heading = catalog ? 'Каталог: стойки, корпуса NAS и крепления' : 'Серверные стойки 10 дюймов и детали для HomeLab';
+const description = catalog
+  ? 'Каталог TANMEK: стойки mini rack 10 дюймов, корпуса NAS, корзины HDD/SSD, крепления MikroTik, TP-Link и mini-PC, полки и патч-панели. Цены и комплектация.'
+  : '10-дюймовые серверные стойки, NAS-корпуса, крепления MikroTik, TP-Link, Raspberry Pi и mini-PC. Изготовление на заказ в Киеве, доставка по Украине.';
+const structuredData = graph([
+  websiteNode(), organizationNode(),
+  webPageNode({url, name: heading, description, type: 'CollectionPage', inLanguage: 'ru-UA', ...(catalog ? {breadcrumbId: `${url}#breadcrumbs`} : {})}),
+  ...(catalog ? [breadcrumbNode(url, [{name: 'Главная', url: absoluteUrl('ru/')}, {name: 'Каталог', url}])] : []),
+  itemListNode(url, (catalog ? CATEGORIES.map((c) => ({name: RUSSIAN_CATEGORIES[c.slug].label, url: absoluteUrl(`ru/catalog/${c.slug}/`)})) : products.map((p) => ({name: RUSSIAN_PRODUCTS[p.sku].title, url: absoluteUrl(`ru/products/${p.slug}/`)}))), catalog ? 'Категории каталога' : 'Товары для HomeLab'),
+]);
+---
+<Layout title={`${heading} | ${SITE_NAME}`} description={description} canonicalPath={path} lang="ru" ogLocale="ru_UA">
+  <script slot="head" type="application/ld+json" set:html={toJsonLd(structuredData)}></script>
+  <div class="content-page"><div class="container">
+    {catalog && <Breadcrumbs items={[{label: 'Главная', href: href('ru/')}, {label: 'Каталог'}]} />}
+    <header class="content-head"><p class="kicker">10″ mini rack · NAS · HomeLab</p><h1 class="content-head__title content-head__title--wide">{heading}</h1><p class="content-lead">{catalog ? 'Выберите раздел под вашу задачу: каркас домашней стойки, корпус для сетевого хранилища, кронштейн конкретного устройства или аксессуары для кабелей и рабочего места. Сверьте совместимость, исполнение и комплектность перед заказом.' : 'Соберите домашнюю лабораторию, в которой у каждого устройства есть своё место. В каталоге — печатные стойки, корпуса для сетевых хранилищ, крепления роутеров и мини-ПК, дисковые модули и органайзеры. Изготовление на заказ в Киеве, доставка по Украине.'}</p>
+      <ul class="content-linkrow" role="list"><li><a href={href(catalog ? 'ru/#catalog-products' : 'ru/catalog/')}>{catalog ? 'Все товары и цены' : 'Выбрать категорию'}</a></li><li><a href={href('ru/#order-title')}>Как заказать</a></li></ul>
+    </header>
+    <section class="content-section" aria-labelledby="catalog-categories"><h2 id="catalog-categories">Разделы каталога</h2><div class="content-products">{CATEGORIES.map((c) => <article class="content-card"><h3><a href={href(`ru/catalog/${c.slug}/`)}>{RUSSIAN_CATEGORIES[c.slug].label}</a></h3><p>{RUSSIAN_CATEGORIES[c.slug].lead}</p><p>{products.filter((p) => p.category === c.name).length} товаров</p></article>)}</div></section>
+    {!catalog && <>
+      <section class="content-section" aria-labelledby="catalog-products"><h2 id="catalog-products">Товары и цены</h2><p class="content-prose">{products.length} товаров. Названия устройств сохраняют обозначения производителя: например, hAP ac² также ищут как hAP ac2, а мини-ПК — как mini-PC или Tiny. Для выбора важны точная модель и ревизия.</p><div class="content-products">{products.map((product) => <ProductCard product={product} lang="ru" />)}</div></section>
+      <section class="content-section" aria-labelledby="order-title"><h2 id="order-title">Заказ, оплата и доставка</h2><div class="content-prose"><p>Откройте профиль магазина на OLX и укажите артикул товара, количество, модель оборудования, нужный материал и цвет. Магазин уточнит конфигурацию, окончательную стоимость и срок изготовления. Если у товара есть отдельное объявление, ссылка на него находится в карточке.</p><p>Самовывоз доступен в Киеве, в районе Академгородка. Доставка по Украине — через OLX Доставку по её условиям и с учётом габаритов изделия. Оплата и доступные способы получения согласовываются при оформлении на OLX.</p><p>Продаются печатные детали. Электроника, диски, кабели, вентиляторы и крепёж включаются только при явном указании в комплектации. Цена «от» относится к начальному исполнению; предварительные цены уточняются после проверки конфигурации.</p></div><a class="btn btn--primary" href={OLX_URL} target="_blank" rel="noopener noreferrer">Связаться с магазином на OLX</a></section>
+    </>}
+  </div></div>
+</Layout>

@@ -11,3 +11,11 @@ export const CATEGORY_REDIRECTS = {
   '/catalog/rack-power-and-workshop/': '/catalog/',
   '/catalog/custom-rack-parts/': '/catalog/',
 };
+
+// These former hubs still occur in search results and external links.
+// Keep their old URLs reachable without reintroducing duplicate content.
+export const PAGE_REDIRECTS = {
+  '/about/': '/',
+  '/guides/': '/catalog/',
+};
+export const SITE_REDIRECTS = {...CATEGORY_REDIRECTS, ...PAGE_REDIRECTS};

@@ -33,7 +33,7 @@
   "imageNotice": "У галереї — авторський рендер Slots SM і прев'ю STL. Фото готового зразка немає. У комплекті лише нижня частина та кришка; Raspberry Pi 4, кулер, радіатори, підставки й кабелі не входять.",
   "images": [
     "https://media.printables.com/media/prints/4074/images/1193591_c4ca656d-a1f3-4328-9909-e62557c733a6/slots_sm.jpg",
-    "https://media.printables.com/media/prints/4074/stls/1193500_2b08010e-d3fb-485d-ba5f-e50b42d64c71/top_slots_sm_preview.png",
-    "https://media.printables.com/media/prints/4074/stls/1193544_eb77c8e8-2faa-4127-8055-4f80aa19f054/bottom_slots_sm_preview.png"
+    "/images/products/p44/top-slots-sm-preview.png",
+    "/images/products/p44/bottom-slots-sm-preview.png"
   ]
 }

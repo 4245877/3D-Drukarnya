@@ -26,6 +26,9 @@ export const STATIC_ROUTES = [
   { path: 'sla/' },
   ...GUIDES.map((guide) => ({ path: `guides/${guide.slug}/`, lastmod: guide.dateModified })),
   { path: 'en/' },
+  { path: 'ru/' },
+  { path: 'ru/catalog/' },
+  ...CATEGORIES.map((category) => ({ path: `ru/catalog/${category.slug}/` })),
 ];
 
 /** Paths only, for the callers that do not care about lastmod. */

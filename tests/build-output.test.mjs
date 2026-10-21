@@ -10,7 +10,7 @@ import path from 'node:path';
 
 import { checkBuild } from '../scripts/check-build.mjs';
 import { CATEGORIES } from '../src/data/categories.mjs';
-import { CATEGORY_REDIRECTS } from '../src/data/category-redirects.mjs';
+import { SITE_REDIRECTS } from '../src/data/category-redirects.mjs';
 import { GUIDES } from '../src/data/guides.mjs';
 import { STATIC_ROUTE_PATHS } from '../src/data/routes.mjs';
 import { INDEXNOW_KEY } from '../src/data/site.config.mjs';
@@ -225,7 +225,7 @@ test('production build generates every product page and the sitemap', async (t) 
   await t.test('retired category routes redirect without appearing in navigation', async () => {
     const home = await readFile(path.join(distDir, 'index.html'), 'utf8');
     const catalog = await readFile(path.join(distDir, 'catalog', 'index.html'), 'utf8');
-    for (const [from, to] of Object.entries(CATEGORY_REDIRECTS)) {
+    for (const [from, to] of Object.entries(SITE_REDIRECTS)) {
       const html = await readFile(path.join(distDir, from.slice(1), 'index.html'), 'utf8');
       const destination = new URL(to.slice(1), SITE_BASE).pathname;
       assert.ok(html.includes(`<meta http-equiv="refresh" content="0;url=${destination}">`));
@@ -241,16 +241,18 @@ test('production build generates every product page and the sitemap', async (t) 
     }
   });
 
-  await t.test('removed pages are absent from the build, links and structured data', async () => {
+  await t.test('retired hubs are excluded from navigation, sitemap and structured data', async () => {
     const removedRoutes = ['guides/', 'about/'];
     for (const route of removedRoutes) {
       assert.ok(!STATIC_ROUTE_PATHS.includes(route), `${route} is still indexable`);
-      await assert.rejects(access(path.join(distDir, route, 'index.html')), { code: 'ENOENT' });
+      const redirect = await readFile(path.join(distDir, route, 'index.html'), 'utf8');
+      assert.ok(redirect.includes('<meta name="robots" content="noindex">'));
     }
 
     const files = await readdir(distDir, { recursive: true });
     for (const file of files.filter((file) => file.endsWith('.html') || file === 'sitemap.xml')) {
       const content = await readFile(path.join(distDir, file), 'utf8');
+      if (/<meta http-equiv="refresh"/.test(content)) continue;
       for (const route of removedRoutes) {
         const url = new URL(route, SITE_BASE);
         // Match the page URL and its anchors/query strings, while allowing
@@ -269,6 +271,7 @@ test('production build generates every product page and the sitemap', async (t) 
     const expected = [
       ...STATIC_ROUTE_PATHS.map((routePath) => `${SITE_BASE}${routePath}`),
       ...slugs.map((slug) => `${SITE_BASE}products/${slug}/`),
+      ...slugs.map((slug) => `${SITE_BASE}ru/products/${slug}/`),
     ];
 
     assert.deepEqual(
@@ -308,6 +311,7 @@ test('production build generates every product page and the sitemap', async (t) 
     const pages = {
       uk: await readFile(path.join(distDir, 'index.html'), 'utf8'),
       en: await readFile(path.join(distDir, 'en', 'index.html'), 'utf8'),
+      ru: await readFile(path.join(distDir, 'ru', 'index.html'), 'utf8'),
     };
 
     for (const [name, html] of Object.entries(pages)) {
@@ -320,6 +324,7 @@ test('production build generates every product page and the sitemap', async (t) 
         [
           ['uk', SITE_BASE],
           ['en', `${SITE_BASE}en/`],
+          ['ru', `${SITE_BASE}ru/`],
           ['x-default', SITE_BASE],
         ],
         `${name} page publishes the wrong hreflang set`,
@@ -327,6 +332,7 @@ test('production build generates every product page and the sitemap', async (t) 
     }
 
     assert.ok(pages.en.includes('<html lang="en">'), '/en/ must declare lang="en"');
+    assert.ok(pages.ru.includes('<html lang="ru">'), '/ru/ must declare lang="ru"');
     assert.ok(pages.uk.includes('<html lang="uk">'), 'home page must declare lang="uk"');
   });
 

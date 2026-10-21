@@ -1,0 +1,658 @@
+{
+  "date": "2026-10-21",
+  "scope": "Read-only production HTTP crawl",
+  "root_robots": {
+    "url": "https://4245877.github.io/robots.txt",
+    "status": 200,
+    "final_url": "https://4245877.github.io/robots.txt",
+    "content_type": "text/plain; charset=utf-8",
+    "x_robots_tag": null,
+    "body": "User-agent: *\nAllow: /\n\nSitemap: https://4245877.github.io/3D-Drukarnya/sitemap.xml\n"
+  },
+  "sitemap_status": 200,
+  "sitemap_url_count": 63,
+  "pages": [
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "10-дюймові серверні стійки, NAS-корпуси та rack mount | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/catalog/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/catalog/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Каталог: стійки, корпуси, кріплення та аксесуари | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/catalog/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/catalog/10-inch-server-rack/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/catalog/10-inch-server-rack/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Серверні стійки та основи для HomeLab — 10-дюймові каркаси | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/catalog/10-inch-server-rack/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/catalog/cases-and-storage/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/catalog/cases-and-storage/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Корпуси для NAS і ПК, дискові модулі та адаптери HDD | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/catalog/cases-and-storage/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/catalog/equipment-mounts/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/catalog/equipment-mounts/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Кріплення для обладнання — mini-PC, Raspberry Pi, мережа та живлення | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/catalog/equipment-mounts/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/catalog/rack-accessories/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/catalog/rack-accessories/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Аксесуари для стійок — полиці, панелі, шухляди та органайзери | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/catalog/rack-accessories/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/sla/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/sla/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "SLA-друк фотополімерною смолою на замовлення | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/sla/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/guides/10-inch-vs-19-inch-rack/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/guides/10-inch-vs-19-inch-rack/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "10 чи 19 дюймів: яку серверну стійку обрати для дому | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/guides/10-inch-vs-19-inch-rack/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/guides/rack-units-1u-2u-3u/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/guides/rack-units-1u-2u-3u/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Rack Unit: що таке 1U, 2U, 3U і скільки це в міліметрах | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/guides/rack-units-1u-2u-3u/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/guides/what-fits-in-10-inch-rack/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/guides/what-fits-in-10-inch-rack/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Що поміщається в 10-дюймову серверну стійку | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/guides/what-fits-in-10-inch-rack/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/guides/homelab-starter-rack/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/guides/homelab-starter-rack/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Як зібрати компактний HomeLab у 10-дюймовій стійці | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/guides/homelab-starter-rack/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/guides/diy-nas-case-guide/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/guides/diy-nas-case-guide/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Як обрати корпус для домашнього NAS | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/guides/diy-nas-case-guide/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/guides/petg-vs-pla-for-racks/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/guides/petg-vs-pla-for-racks/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "PETG чи PLA для серверної стійки та кріплень | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/guides/petg-vs-pla-for-racks/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/en/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/en/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "10 inch server racks, NAS cases &amp; HomeLab mounts in Ukraine | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/en/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/modulna-mini-stiika-dlia-homelab-raspberry-pi-mini-pc-merezha/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/modulna-mini-stiika-dlia-homelab-raspberry-pi-mini-pc-merezha/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Модульна міні-стійка для HomeLab | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/modulna-mini-stiika-dlia-homelab-raspberry-pi-mini-pc-merezha/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/korpus-dlia-nas-servera-na-8-dyskiv-mini-itx-analoh-jonsbo-n2/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/korpus-dlia-nas-servera-na-8-dyskiv-mini-itx-analoh-jonsbo-n2/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Корпус для NAS-сервера на 8 дисків | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/korpus-dlia-nas-servera-na-8-dyskiv-mini-itx-analoh-jonsbo-n2/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/kws-rack-v2-posylena-10-diuimova-stiika-dlia-homelab/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/kws-rack-v2-posylena-10-diuimova-stiika-dlia-homelab/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "KWS Rack v.2 — посилена 10-дюймова стійка | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/kws-rack-v2-posylena-10-diuimova-stiika-dlia-homelab/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/parametric-10-inch-server-rack-mount/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/parametric-10-inch-server-rack-mount/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Parametric 10 Inch Server Rack Mount | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/parametric-10-inch-server-rack-mount/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/modulna-10-serverna-stiika-mini-rack-1u-4u-dlia-homelab-merezhevoho/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/modulna-10-serverna-stiika-mini-rack-1u-4u-dlia-homelab-merezhevoho/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "модульна 10&quot; серверна стійка (mini rack) 1U–4U | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/modulna-10-serverna-stiika-mini-rack-1u-4u-dlia-homelab-merezhevoho/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-rack-2u-5x-2-5-3x-3-5-hdd-hot-swap/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-rack-2u-5x-2-5-3x-3-5-hdd-hot-swap/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "10&quot; rack 2U для HDD Hot Swap 5×2.5&quot; + 3×3.5&quot; | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/10-inch-rack-2u-5x-2-5-3x-3-5-hdd-hot-swap/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/thinknas-4x-korpus-dlia-nas-na-4-dysky-dlia-lenovo-m920q/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/thinknas-4x-korpus-dlia-nas-na-4-dysky-dlia-lenovo-m920q/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Корпус ThinkNAS для NAS на 4 диски | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/thinknas-4x-korpus-dlia-nas-na-4-dysky-dlia-lenovo-m920q/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/3-5-hdd-rack-caddy-holder-na-6-dyskiv/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/3-5-hdd-rack-caddy-holder-na-6-dyskiv/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "3.5&quot; HDD Rack / Caddy / Holder на 6 дисків | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/3-5-hdd-rack-caddy-holder-na-6-dyskiv/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/thinknas-6x-korpus-dlia-nas-na-6-dyskiv-dlia-lenovo-m920q/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/thinknas-6x-korpus-dlia-nas-na-6-dyskiv-dlia-lenovo-m920q/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Корпус ThinkNAS для NAS на 6 дисків | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/thinknas-6x-korpus-dlia-nas-na-6-dyskiv-dlia-lenovo-m920q/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/mikrotik-hap-ac2-10-inch-rackmount-4x-keystone/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/mikrotik-hap-ac2-10-inch-rackmount-4x-keystone/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "MikroTik hAP ac² + 4× Keystone — кріплення | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/mikrotik-hap-ac2-10-inch-rackmount-4x-keystone/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/lenovo-thinkcentre-tiny-10-inch-rack-mount-keystone/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/lenovo-thinkcentre-tiny-10-inch-rack-mount-keystone/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Lenovo ThinkCentre Tiny — кріплення | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/lenovo-thinkcentre-tiny-10-inch-rack-mount-keystone/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/nuc-nas-korpus-dlia-nas-na-bazi-intel-nuc/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/nuc-nas-korpus-dlia-nas-na-bazi-intel-nuc/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Корпус NUC NAS для NAS-системи на базі Intel NUC | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/nuc-nas-korpus-dlia-nas-na-bazi-intel-nuc/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/mikrotik-hap-ac2-10-inch-rackmount/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/mikrotik-hap-ac2-10-inch-rackmount/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "MikroTik hAP ac² — кріплення | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/mikrotik-hap-ac2-10-inch-rackmount/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/12-trays-hdd-enclosure-3u-rack-mountable/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/12-trays-hdd-enclosure-3u-rack-mountable/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "12 Trays HDD Enclosure — 3U rack-корпус для NAS | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/12-trays-hdd-enclosure-3u-rack-mountable/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/nas5070-korpus-dlia-dell-wyse-5070-na-6-dyskiv-2-5/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/nas5070-korpus-dlia-dell-wyse-5070-na-6-dyskiv-2-5/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "NAS5070 — NAS-корпус для Dell Wyse 5070 | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/nas5070-korpus-dlia-dell-wyse-5070-na-6-dyskiv-2-5/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/thinkbox-v2-korpus-dlia-nas-na-4-dysky-dlia-lenovo-m720q-m920q/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/thinkbox-v2-korpus-dlia-nas-na-4-dysky-dlia-lenovo-m720q-m920q/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Корпус ThinkBox V2 для NAS на 4 диски | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/thinkbox-v2-korpus-dlia-nas-na-4-dysky-dlia-lenovo-m720q-m920q/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/shukhliady-dlia-10-inch-lab-rax-rack-gridfinity-1u-2u/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/shukhliady-dlia-10-inch-lab-rax-rack-gridfinity-1u-2u/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Шухляди для 10&quot; Lab Rax — Gridfinity 1U / 2U | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/shukhliady-dlia-10-inch-lab-rax-rack-gridfinity-1u-2u/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/lab-rax-19-komplekt-poperechok-dlia-servernoi-stiiky/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/lab-rax-19-komplekt-poperechok-dlia-servernoi-stiiky/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Lab Rax 19&quot; — комплект поперечок | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/lab-rax-19-komplekt-poperechok-dlia-servernoi-stiiky/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/synology-ds920-front-plate-dlia-kastomnoi-stiiky/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/synology-ds920-front-plate-dlia-kastomnoi-stiiky/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Фронтальна панель для Synology DS920+ | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/synology-ds920-front-plate-dlia-kastomnoi-stiiky/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/tp-link-tl-sg108pe-sf1006p-10-inch-rack-mount/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/tp-link-tl-sg108pe-sf1006p-10-inch-rack-mount/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "TP-Link TL-SG108(PE) / TL-SF1006P — кріплення | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/tp-link-tl-sg108pe-sf1006p-10-inch-rack-mount/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-half-u-keystone-patchpanel-8-portiv/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-half-u-keystone-patchpanel-8-portiv/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "10-inch 1/2U Keystone Patchpanel — патч-панель | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/10-inch-half-u-keystone-patchpanel-8-portiv/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/open-frame-pc-case-atx-vidkrytyi-korpus/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/open-frame-pc-case-atx-vidkrytyi-korpus/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Open Frame PC Case — відкритий корпус ATX / mATX | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/open-frame-pc-case-atx-vidkrytyi-korpus/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/power-strip-holder-trymach-merezhevoho-filtra-pid-stil/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/power-strip-holder-trymach-merezhevoho-filtra-pid-stil/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Power Strip Holder — тримач мережевого фільтра | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/power-strip-holder-trymach-merezhevoho-filtra-pid-stil/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/tp-link-sg1005p-sg105-10-inch-rack-mount/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/tp-link-sg1005p-sg105-10-inch-rack-mount/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "TP-Link SG1005P / SG105 — кріплення | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/tp-link-sg1005p-sg105-10-inch-rack-mount/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-rack-cable-guide-modularni-hachky/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-rack-cable-guide-modularni-hachky/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "10-Inch Rack-Mount Cable Guide | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/10-inch-rack-cable-guide-modularni-hachky/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-2b-3b-4b-5b-10-inch-rack-mount/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-2b-3b-4b-5b-10-inch-rack-mount/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Raspberry Pi 2B/3B/4B/5B | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-2b-3b-4b-5b-10-inch-rack-mount/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-server-rack-cable-management-plate/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-server-rack-cable-management-plate/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "10 Inch Server Rack Cable Management Plate | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/10-inch-server-rack-cable-management-plate/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-rack-2u-atx-psu-trymach-bloka-zhyvlennia/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-rack-2u-atx-psu-trymach-bloka-zhyvlennia/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "10&quot; Rack 2U: ATX PSU — тримач блока живлення | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/10-inch-rack-2u-atx-psu-trymach-bloka-zhyvlennia/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/dell-optiplex-7060-micropc-10-inch-rack-mount/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/dell-optiplex-7060-micropc-10-inch-rack-mount/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Dell OptiPlex 7060 Micro — кріплення | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/dell-optiplex-7060-micropc-10-inch-rack-mount/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/modcase-mass-modulnyi-nas-korpus-mini-itx/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/modcase-mass-modulnyi-nas-korpus-mini-itx/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "MODCASE MASS — модульний NAS-корпус Mini-ITX | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/modcase-mass-modulnyi-nas-korpus-mini-itx/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/atx-bench-power-supply-laboratornyi-blok-zhyvlennia/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/atx-bench-power-supply-laboratornyi-blok-zhyvlennia/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "ATX Bench Power Supply | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/atx-bench-power-supply-laboratornyi-blok-zhyvlennia/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/hp-elitedesk-800-g3-g4-g5-10-inch-rack-bracket/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/hp-elitedesk-800-g3-g4-g5-10-inch-rack-bracket/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "HP EliteDesk 800 G3 / G4 / G5 — кріплення | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/hp-elitedesk-800-g3-g4-g5-10-inch-rack-bracket/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-keystone-patchpanel-10-portiv/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-keystone-patchpanel-10-portiv/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "10-inch Keystone Patchpanel — патч-панель | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/10-inch-keystone-patchpanel-10-portiv/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-rack-shelf-universal-universalna-polytsia/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-rack-shelf-universal-universalna-polytsia/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "10 inch Rack Shelf Universal | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/10-inch-rack-shelf-universal-universalna-polytsia/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/lenovo-thinkcentre-m70q-m80q-10-inch-rackmount/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/lenovo-thinkcentre-m70q-m80q-10-inch-rackmount/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Lenovo ThinkCentre M70q / M80q — кріплення | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/lenovo-thinkcentre-m70q-m80q-10-inch-rackmount/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-10-inch-rack-mount-ips-tft-12mm-switch/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-10-inch-rack-mount-ips-tft-12mm-switch/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Raspberry Pi 2B–5B — TFT 1.9&quot; і кнопка 12 мм | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-10-inch-rack-mount-ips-tft-12mm-switch/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-rack-meanwell-lrs-100-12-psu-mount/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/10-inch-rack-meanwell-lrs-100-12-psu-mount/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "10 inch rack Meanwell PSU Mount | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/10-inch-rack-meanwell-lrs-100-12-psu-mount/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/35-hard-drive-to-525-drive-bay-adapter/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/35-hard-drive-to-525-drive-bay-adapter/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "3.5&quot; HDD to 5.25&quot; Drive Bay Adapter — перехідник | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/35-hard-drive-to-525-drive-bay-adapter/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/starlink-gen-3-pole-mount/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/starlink-gen-3-pole-mount/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Starlink Gen 3 Pole Mount — кріплення антени | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/starlink-gen-3-pole-mount/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-5-snap-fit-case/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-5-snap-fit-case/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Raspberry Pi 5 — корпус на защіпках | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-5-snap-fit-case/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-5-pimoroni-nvme-base-case/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-5-pimoroni-nvme-base-case/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Raspberry Pi 5 + Pimoroni NVMe Base — корпус | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-5-pimoroni-nvme-base-case/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-zero-2w-gpio-heatsink-case/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-zero-2w-gpio-heatsink-case/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Raspberry Pi Zero 2 W | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-zero-2w-gpio-heatsink-case/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/smlight-slzb-06-slzb-mr-wall-mount/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/smlight-slzb-06-slzb-mr-wall-mount/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "SMLIGHT SLZB-06 / SLZB-MR — настінне кріплення | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/smlight-slzb-06-slzb-mr-wall-mount/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/malolo-raspberry-pi-4-snap-fit-case/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/malolo-raspberry-pi-4-snap-fit-case/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Raspberry Pi 4 Malolo — корпус на защіпках | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/malolo-raspberry-pi-4-snap-fit-case/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/home-assistant-voice-pe-wall-mount-v2/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/home-assistant-voice-pe-wall-mount-v2/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Home Assistant Voice PE v2 — настінне кріплення | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/home-assistant-voice-pe-wall-mount-v2/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/double-25-to-35-ssd-hdd-bay-adapter/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/double-25-to-35-ssd-hdd-bay-adapter/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Double 2.5 to 3.5 — адаптер для двох SSD / HDD | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/double-25-to-35-ssd-hdd-bay-adapter/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-5-vesa-case-v3/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-5-vesa-case-v3/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Raspberry Pi 5 VESA V3 — корпус із кріпленням 75 | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/raspberry-pi-5-vesa-case-v3/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/honeycomb-storage-wall-starter-kit/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/honeycomb-storage-wall-starter-kit/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Honeycomb Storage Wall | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/honeycomb-storage-wall-starter-kit/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/products/rugged-desktop-organizer-shq/",
+      "status": 200,
+      "final_url": "https://4245877.github.io/3D-Drukarnya/products/rugged-desktop-organizer-shq/",
+      "content_type": "text/html; charset=utf-8",
+      "x_robots_tag": null,
+      "title": "Rugged Desktop Organizer | TANMEK",
+      "canonical": "https://4245877.github.io/3D-Drukarnya/products/rugged-desktop-organizer-shq/",
+      "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/about/",
+      "status": 404
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/guides/",
+      "status": 404
+    },
+    {
+      "url": "https://4245877.github.io/3D-Drukarnya/seo-audit-nonexistent-page-2026-10-21/",
+      "status": 404
+    }
+  ]
+}

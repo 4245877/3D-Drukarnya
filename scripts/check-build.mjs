@@ -10,8 +10,9 @@ import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
-import { CATEGORY_REDIRECTS } from '../src/data/category-redirects.mjs';
+import { SITE_REDIRECTS } from '../src/data/category-redirects.mjs';
 import { selectCatalogProducts } from '../src/data/publication.mjs';
+import { RUSSIAN_PRODUCTS, RUSSIAN_WARNINGS } from '../src/data/products.ru.mjs';
 
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
 const distDir = path.join(projectRoot, 'dist');
@@ -26,7 +27,7 @@ const { STATIC_ROUTE_PATHS } = await import(
 const { INDEXNOW_KEY } = await import(
   new URL('../src/data/site.config.mjs', import.meta.url)
 );
-const { LANGUAGE_ALTERNATES } = await import(
+const { getPageAlternates } = await import(
   new URL('../src/data/i18n.mjs', import.meta.url)
 );
 
@@ -45,20 +46,6 @@ const INLINE_HANDLER = /\son[a-z]+\s*=\s*["']/i;
 // product page that starts advertising the English home page as its
 // "translation".
 const alternateHref = (path) => `${SITE_BASE}${path.replace(/^\/+/, '')}`;
-
-/** Ordered [hreflang, href] pairs every translated page must publish. */
-const EXPECTED_ALTERNATES = LANGUAGE_ALTERNATES.map(({ hreflang, path }) => [
-  hreflang,
-  alternateHref(path),
-]);
-
-/** dist-relative HTML files that are allowed (and required) to publish them. */
-const TRANSLATED_PAGES = new Set(
-  LANGUAGE_ALTERNATES.filter(({ hreflang }) => hreflang !== 'x-default').map(({ path }) => {
-    const clean = path.replace(/^\/+/, '');
-    return clean === '' ? 'index.html' : `${clean}index.html`;
-  }),
-);
 
 /** Stable site-wide JSON-LD @id values any page may reference. */
 const SITE_NODE_IDS = new Set([`${SITE_BASE}#website`, `${SITE_BASE}#organization`]);
@@ -117,12 +104,16 @@ export async function checkBuild() {
   for (const draft of allProducts.filter((product) => product.publicationStatus === 'draft')) {
     check((await fileSize(path.join(distDir, 'products', draft.slug, 'index.html'))) === -1,
       `draft must not have a production page: ${draft.sku}`);
+    check((await fileSize(path.join(distDir, 'ru', 'products', draft.slug, 'index.html'))) === -1,
+      `draft must not have a Russian production page: ${draft.sku}`);
   }
 
   // ── Required pages ──
   for (const product of products) {
     const page = path.join(distDir, 'products', product.slug, 'index.html');
     check((await fileSize(page)) > 0, `missing product page: products/${product.slug}/`);
+    check((await fileSize(path.join(distDir, 'ru', 'products', product.slug, 'index.html'))) > 0,
+      `missing Russian product page: ${product.sku}`);
   }
   // Every declared route (home, catalog hub, category landing pages, guides
   // hub, guides, About, /en/) must have been built.
@@ -130,7 +121,7 @@ export async function checkBuild() {
     const page = path.join(distDir, routePath, 'index.html');
     check((await fileSize(page)) > 0, `missing page for route: /${routePath}`);
   }
-  for (const routePath of Object.keys(CATEGORY_REDIRECTS)) {
+  for (const routePath of Object.keys(SITE_REDIRECTS)) {
     const page = path.join(distDir, routePath.slice(1), 'index.html');
     check((await fileSize(page)) > 0, `missing retired category redirect: ${routePath}`);
   }
@@ -192,7 +183,7 @@ export async function checkBuild() {
 
     // Astro's static redirects are small noindex documents, with a canonical
     // pointing to the destination. Verify them before the full-page checks.
-    const redirectTarget = CATEGORY_REDIRECTS[`/${rel.replace(/index\.html$/, '')}`];
+    const redirectTarget = SITE_REDIRECTS[`/${rel.replace(/index\.html$/, '')}`];
     if (redirectTarget) {
       const destination = `${BASE_PATH}${redirectTarget.slice(1)}`;
       check(
@@ -414,7 +405,8 @@ export async function checkBuild() {
     const alternates = [...html.matchAll(/rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)].map(
       ([, hreflang, url]) => [hreflang, url],
     );
-    const expectedAlternates = TRANSLATED_PAGES.has(rel) ? EXPECTED_ALTERNATES : [];
+    const routePath = rel === 'index.html' ? '/' : `/${rel.replace(/index\.html$/, '')}`;
+    const expectedAlternates = getPageAlternates(routePath).map(({hreflang, path}) => [hreflang, alternateHref(path)]);
     check(
       JSON.stringify(alternates) === JSON.stringify(expectedAlternates),
       where(
@@ -432,6 +424,13 @@ export async function checkBuild() {
         alternates.some(([hreflang]) => hreflang === 'x-default'),
         where('hreflang set has no x-default'),
       );
+      for (const [code, targetUrl] of alternates.filter(([code]) => code !== 'x-default')) {
+        const targetRel = `${targetUrl.slice(SITE_BASE.length)}index.html`;
+        const targetPage = pages.find((page) => page.rel === targetRel);
+        check(Boolean(targetPage), where(`missing alternate ${targetUrl}`));
+        check(targetPage?.html.includes(`<html lang="${code}">`), where(`alternate language mismatch: ${targetUrl}`));
+        check(targetPage?.html.includes(`hreflang="${html.match(/<html lang="([^"]+)"/)?.[1]}" href="${canonical}"`), where(`alternate does not link back: ${targetUrl}`));
+      }
     }
 
     // ── JSON-LD graph integrity ──
@@ -464,7 +463,7 @@ export async function checkBuild() {
       // item's own page. Listing pages use ItemList, never inline Products.
       const hasProductNode = graphNodes.some((node) => node['@type'] === 'Product');
       check(
-        hasProductNode === rel.startsWith('products/'),
+        hasProductNode === /^(?:ru\/)?products\//.test(rel),
         where(
           hasProductNode
             ? 'Product node on a page that is not a product page'
@@ -485,8 +484,9 @@ export async function checkBuild() {
   }
 
   // ── Product pages: visible price/availability vs JSON-LD ──
-  for (const product of products) {
-    const rel = `products/${product.slug}/index.html`;
+  for (const {product, lang} of products.flatMap((product) => ['uk', 'ru'].map((lang) => ({product, lang})))) {
+    const isRu = lang === 'ru';
+    const rel = `${isRu ? 'ru/' : ''}products/${product.slug}/index.html`;
     const page = pages.find((p) => p.rel === rel);
     if (!page) continue; // missing page already reported
     const where = (msg) => `${rel}: ${msg}`;
@@ -501,23 +501,23 @@ export async function checkBuild() {
     const visibleLabel = html.match(/class="product-page__price-label">\s*([^<]+?)\s*</)?.[1] ?? '';
     const offers = node.offers;
 
-    if (product.publishOffer === false) {
-      check(offers === undefined, where('publishOffer=false but JSON-LD contains offers'));
-      continue;
-    }
-    check(Boolean(offers), where('JSON-LD Product has no offers'));
-    if (!offers) continue;
-
     if (product.priceType === 'from') {
-      check(visibleLabel === 'Ціна від', where(`visible label "${visibleLabel}" for priceType=from`));
-      check(offers['@type'] === 'AggregateOffer', where(`priceType=from but offers is ${offers['@type']}`));
-      check(offers.lowPrice === product.price, where(`lowPrice ${offers.lowPrice} != data price ${product.price}`));
-      check(offers.price === undefined, where('AggregateOffer must not publish an exact price'));
-      check(offers.highPrice === undefined, where('highPrice must never be invented'));
+      check(visibleLabel === (isRu ? 'Цена от' : 'Ціна від'), where(`visible label "${visibleLabel}" for priceType=from`));
     } else {
-      check(visibleLabel === 'Ціна', where(`visible label "${visibleLabel}" for priceType=exact`));
-      check(offers['@type'] === 'Offer', where(`priceType=exact but offers is ${offers['@type']}`));
+      check(visibleLabel === (isRu ? 'Цена' : 'Ціна'), where(`visible label "${visibleLabel}" for priceType=exact`));
+    }
+    const expectsOffer = product.publishOffer !== false &&
+      (product.priceType !== 'from' || (product.weightGrams !== undefined && Boolean(product.priceNote)));
+    check(Boolean(offers) === expectsOffer, where('Offer must describe a priced, documented configuration, never an estimate'));
+    if (offers) {
+      check(offers['@type'] === 'Offer', where('product variants must not use AggregateOffer'));
       check(offers.price === product.price, where(`Offer.price ${offers.price} != data price ${product.price}`));
+      check(offers.priceValidUntil === undefined, where('price expiry has not been confirmed'));
+      if (product.priceType === 'from') {
+        const scope = isRu ? RUSSIAN_PRODUCTS[product.sku].scope : product.priceNote;
+        check(offers.description === scope, where('base Offer must identify its visible scope'));
+        check(normalizeText(html).includes(normalizeText(scope)), where('base Offer scope is not visible'));
+      }
     }
 
     // Visible price digits match the data price
@@ -533,7 +533,7 @@ export async function checkBuild() {
 
     // Physical weight appears only when the target product has a known weight.
     // Benchmark weights must never leak into visible facts or JSON-LD.
-    const visibleWeights = [...html.matchAll(/<dt>Вага<\/dt>\s*<dd>([^<]*)<\/dd>/g)].map(
+    const visibleWeights = [...html.matchAll(/<dt>(?:Вага|Вес)<\/dt>\s*<dd>([^<]*)<\/dd>/g)].map(
       (match) => normalizeText(match[1]).replace(/\D/g, ''),
     );
 
@@ -541,7 +541,7 @@ export async function checkBuild() {
       check(node.weight === undefined, where('no weightGrams in data but JSON-LD publishes a weight'));
       check(visibleWeights.length === 0, where(`no weightGrams in data but page shows ${JSON.stringify(visibleWeights)}`));
       if (product.pricingProfile) {
-        check(html.includes('Попередня ціна за аналогічним виробом.'),
+        check(html.includes(isRu ? 'Предварительная цена по аналогичному изделию.' : 'Попередня ціна за аналогічним виробом.'),
           where('benchmark price must be labelled as provisional'));
       }
     } else {
@@ -560,17 +560,18 @@ export async function checkBuild() {
     // Availability: only confirmed statuses, mapped 1:1 from the data
     const expectedAvailability = {
       in_stock: 'https://schema.org/InStock',
-      made_to_order: 'https://schema.org/MadeToOrder',
+      made_to_order: undefined,
       unavailable: 'https://schema.org/OutOfStock',
       unconfirmed: undefined,
     }[product.availability ?? 'unconfirmed'];
-    check(
+    if (offers) check(
       offers.availability === expectedAvailability,
       where(`availability ${offers.availability} != expected ${expectedAvailability}`),
     );
 
     // Structured warnings must be rendered visibly
-    for (const warning of product.safetyWarnings ?? []) {
+    const warnings = isRu ? (RUSSIAN_WARNINGS[product.sku] ?? []).map((warning) => ({...warning, level: 'critical'})) : product.safetyWarnings ?? [];
+    for (const warning of warnings) {
       check(
         normalizeText(html).includes(normalizeText(warning.text)),
         where('safety warning text is not visible on the page'),
@@ -582,6 +583,13 @@ export async function checkBuild() {
 
     // CTA present
     check(html.includes('product-page__cta-button'), where('order CTA missing'));
+    if (isRu) {
+      const copy = RUSSIAN_PRODUCTS[product.sku];
+      check(node.name === copy.title, where('Russian Product name differs from visible copy'));
+      for (const text of [copy.title, copy.summary, copy.details, copy.scope]) {
+        check(normalizeText(html).includes(normalizeText(text)), where('Russian buying information is missing'));
+      }
+    }
   }
 
   // ── Homepage: visible FAQ == FAQPage JSON-LD ──
