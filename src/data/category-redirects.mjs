@@ -1,6 +1,8 @@
 // Retired catalog sections stay reachable from bookmarks and search results.
 // Split sections lead to the catalog hub so neither part becomes hard to find.
 // These routes are redirects only, excluded from navigation and the sitemap.
+import { LANGUAGE_REDIRECTS } from './language-redirects.mjs';
+
 export const CATEGORY_REDIRECTS = {
   '/catalog/nas-cases/': '/catalog/cases-and-storage/',
   '/catalog/hdd-modules/': '/catalog/cases-and-storage/',
@@ -18,4 +20,4 @@ export const PAGE_REDIRECTS = {
   '/about/': '/',
   '/guides/': '/catalog/',
 };
-export const SITE_REDIRECTS = {...CATEGORY_REDIRECTS, ...PAGE_REDIRECTS};
+export const SITE_REDIRECTS = {...CATEGORY_REDIRECTS, ...PAGE_REDIRECTS, ...LANGUAGE_REDIRECTS};

@@ -6,8 +6,8 @@ import { absoluteUrl } from '../utils/urls';
 
 /**
  * Sitemap of every indexable, canonical URL: the home page, the catalog hub
- * and its category landing pages, the SLA service, the guide articles, the
- * English overview and every product page.
+ * and its category landing pages, the SLA service, the guide articles
+ * and every product page. Former language URLs are redirects only.
  *
  * Deliberately excluded: 404.html (noindex), sitemap.xml and robots.txt
  * themselves, and the IndexNow key file — none of them are content, and a
@@ -17,10 +17,10 @@ import { absoluteUrl } from '../utils/urls';
 export const GET: APIRoute = () => {
   const routes = [
     ...STATIC_ROUTES,
-    ...getAllProducts().filter(isPublishedProduct).flatMap((product) => ['', 'ru/'].map((prefix) => ({
-      path: `${prefix}products/${product.slug}/`,
+    ...getAllProducts().filter(isPublishedProduct).map((product) => ({
+      path: `products/${product.slug}/`,
       lastmod: undefined as string | undefined,
-    }))),
+    })),
   ];
 
   // URL() percent-encodes every other character XML would choke on, but leaves

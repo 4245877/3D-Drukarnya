@@ -12,7 +12,7 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { SITE_REDIRECTS } from '../src/data/category-redirects.mjs';
 import { selectCatalogProducts } from '../src/data/publication.mjs';
-import { RUSSIAN_PRODUCTS, RUSSIAN_WARNINGS } from '../src/data/products.ru.mjs';
+import { getSearchTerms } from '../src/data/search-terms.mjs';
 
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
 const distDir = path.join(projectRoot, 'dist');
@@ -27,9 +27,6 @@ const { STATIC_ROUTE_PATHS } = await import(
 const { INDEXNOW_KEY } = await import(
   new URL('../src/data/site.config.mjs', import.meta.url)
 );
-const { getPageAlternates } = await import(
-  new URL('../src/data/i18n.mjs', import.meta.url)
-);
 
 // Must mirror astro.config.mjs (site + base + trailingSlash: 'always').
 const SITE_BASE = 'https://4245877.github.io/3D-Drukarnya/';
@@ -37,15 +34,6 @@ const BASE_PATH = '/3D-Drukarnya/';
 
 const DANGEROUS_HREF = /^(javascript|data|vbscript):/i;
 const INLINE_HANDLER = /\son[a-z]+\s*=\s*["']/i;
-
-// ── hreflang: the exact, whole-site expectation ──────────────────────────
-// hreflang may only join pages that are genuine counterparts of each other.
-// Deriving the expectation from src/data/i18n.mjs means BOTH mistakes fail
-// the build: a translated page that drops (or reorders) its set, and — the
-// one that silently damages a site — an untranslated category, guide or
-// product page that starts advertising the English home page as its
-// "translation".
-const alternateHref = (path) => `${SITE_BASE}${path.replace(/^\/+/, '')}`;
 
 /** Stable site-wide JSON-LD @id values any page may reference. */
 const SITE_NODE_IDS = new Set([`${SITE_BASE}#website`, `${SITE_BASE}#organization`]);
@@ -112,18 +100,16 @@ export async function checkBuild() {
   for (const product of products) {
     const page = path.join(distDir, 'products', product.slug, 'index.html');
     check((await fileSize(page)) > 0, `missing product page: products/${product.slug}/`);
-    check((await fileSize(path.join(distDir, 'ru', 'products', product.slug, 'index.html'))) > 0,
-      `missing Russian product page: ${product.sku}`);
   }
-  // Every declared route (home, catalog hub, category landing pages, guides
-  // hub, guides, About, /en/) must have been built.
+  // Every declared route (home, catalog hub, categories, guide articles
+  // and SLA service) must have been built.
   for (const routePath of STATIC_ROUTE_PATHS) {
     const page = path.join(distDir, routePath, 'index.html');
     check((await fileSize(page)) > 0, `missing page for route: /${routePath}`);
   }
   for (const routePath of Object.keys(SITE_REDIRECTS)) {
     const page = path.join(distDir, routePath.slice(1), 'index.html');
-    check((await fileSize(page)) > 0, `missing retired category redirect: ${routePath}`);
+    check((await fileSize(page)) > 0, `missing retired route redirect: ${routePath}`);
   }
   check((await fileSize(path.join(distDir, '404.html'))) > 0, 'missing dist/404.html');
   check((await fileSize(path.join(distDir, 'sitemap.xml'))) > 0, 'missing dist/sitemap.xml');
@@ -397,40 +383,19 @@ export async function checkBuild() {
       );
     }
 
-    // ── hreflang ──
-    // Translated pages publish the whole reciprocal set (self-reference and
-    // x-default included); every other page publishes none. Linking a
-    // Ukrainian category page to the English home page would claim they are
-    // translations of each other, which they are not.
-    const alternates = [...html.matchAll(/rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)].map(
-      ([, hreflang, url]) => [hreflang, url],
-    );
+    // One public language: never advertise retired translations.
+    check(html.includes('<html lang="uk">'), where('content language must be Ukrainian'));
+    check(!/\bhreflang=/.test(html), where('retired language alternate remains'));
+    check(!html.includes('site-languages'), where('language switcher remains'));
+    check(!/(?:href|content)="[^"<>]*\/3D-Drukarnya\/(?:ru|en)\//.test(html),
+      where('page still references a retired language URL'));
     const routePath = rel === 'index.html' ? '/' : `/${rel.replace(/index\.html$/, '')}`;
-    const expectedAlternates = getPageAlternates(routePath).map(({hreflang, path}) => [hreflang, alternateHref(path)]);
-    check(
-      JSON.stringify(alternates) === JSON.stringify(expectedAlternates),
-      where(
-        `wrong hreflang set
-  published: ${JSON.stringify(alternates)}
-  expected:  ${JSON.stringify(expectedAlternates)}`,
-      ),
-    );
-    if (alternates.length > 0) {
-      check(
-        alternates.some(([, url]) => url === canonical),
-        where('hreflang set does not reference this page itself'),
-      );
-      check(
-        alternates.some(([hreflang]) => hreflang === 'x-default'),
-        where('hreflang set has no x-default'),
-      );
-      for (const [code, targetUrl] of alternates.filter(([code]) => code !== 'x-default')) {
-        const targetRel = `${targetUrl.slice(SITE_BASE.length)}index.html`;
-        const targetPage = pages.find((page) => page.rel === targetRel);
-        check(Boolean(targetPage), where(`missing alternate ${targetUrl}`));
-        check(targetPage?.html.includes(`<html lang="${code}">`), where(`alternate language mismatch: ${targetUrl}`));
-        check(targetPage?.html.includes(`hreflang="${html.match(/<html lang="([^"]+)"/)?.[1]}" href="${canonical}"`), where(`alternate does not link back: ${targetUrl}`));
-      }
+    const keywords = normalizeText(html.match(/<meta name="keywords" content="([^"]*)"/)?.[1] ?? '');
+    for (const term of getSearchTerms(routePath, products)) {
+      check(keywords.includes(term), where(`missing retained search term: ${term}`));
+    }
+    for (const node of graphNodes.filter((node) => node.inLanguage !== undefined)) {
+      check(node.inLanguage === 'uk-UA', where('structured data advertises an unavailable language'));
     }
 
     // ── JSON-LD graph integrity ──
@@ -463,7 +428,7 @@ export async function checkBuild() {
       // item's own page. Listing pages use ItemList, never inline Products.
       const hasProductNode = graphNodes.some((node) => node['@type'] === 'Product');
       check(
-        hasProductNode === /^(?:ru\/)?products\//.test(rel),
+        hasProductNode === /^products\//.test(rel),
         where(
           hasProductNode
             ? 'Product node on a page that is not a product page'
@@ -484,9 +449,8 @@ export async function checkBuild() {
   }
 
   // ── Product pages: visible price/availability vs JSON-LD ──
-  for (const {product, lang} of products.flatMap((product) => ['uk', 'ru'].map((lang) => ({product, lang})))) {
-    const isRu = lang === 'ru';
-    const rel = `${isRu ? 'ru/' : ''}products/${product.slug}/index.html`;
+  for (const product of products) {
+    const rel = `products/${product.slug}/index.html`;
     const page = pages.find((p) => p.rel === rel);
     if (!page) continue; // missing page already reported
     const where = (msg) => `${rel}: ${msg}`;
@@ -502,9 +466,9 @@ export async function checkBuild() {
     const offers = node.offers;
 
     if (product.priceType === 'from') {
-      check(visibleLabel === (isRu ? 'Цена от' : 'Ціна від'), where(`visible label "${visibleLabel}" for priceType=from`));
+      check(visibleLabel === 'Ціна від', where(`visible label "${visibleLabel}" for priceType=from`));
     } else {
-      check(visibleLabel === (isRu ? 'Цена' : 'Ціна'), where(`visible label "${visibleLabel}" for priceType=exact`));
+      check(visibleLabel === 'Ціна', where(`visible label "${visibleLabel}" for priceType=exact`));
     }
     const expectsOffer = product.publishOffer !== false &&
       (product.priceType !== 'from' || (product.weightGrams !== undefined && Boolean(product.priceNote)));
@@ -514,7 +478,7 @@ export async function checkBuild() {
       check(offers.price === product.price, where(`Offer.price ${offers.price} != data price ${product.price}`));
       check(offers.priceValidUntil === undefined, where('price expiry has not been confirmed'));
       if (product.priceType === 'from') {
-        const scope = isRu ? RUSSIAN_PRODUCTS[product.sku].scope : product.priceNote;
+        const scope = product.priceNote;
         check(offers.description === scope, where('base Offer must identify its visible scope'));
         check(normalizeText(html).includes(normalizeText(scope)), where('base Offer scope is not visible'));
       }
@@ -541,7 +505,7 @@ export async function checkBuild() {
       check(node.weight === undefined, where('no weightGrams in data but JSON-LD publishes a weight'));
       check(visibleWeights.length === 0, where(`no weightGrams in data but page shows ${JSON.stringify(visibleWeights)}`));
       if (product.pricingProfile) {
-        check(html.includes(isRu ? 'Предварительная цена по аналогичному изделию.' : 'Попередня ціна за аналогічним виробом.'),
+        check(html.includes('Попередня ціна за аналогічним виробом.'),
           where('benchmark price must be labelled as provisional'));
       }
     } else {
@@ -570,7 +534,7 @@ export async function checkBuild() {
     );
 
     // Structured warnings must be rendered visibly
-    const warnings = isRu ? (RUSSIAN_WARNINGS[product.sku] ?? []).map((warning) => ({...warning, level: 'critical'})) : product.safetyWarnings ?? [];
+    const warnings = product.safetyWarnings ?? [];
     for (const warning of warnings) {
       check(
         normalizeText(html).includes(normalizeText(warning.text)),
@@ -583,13 +547,6 @@ export async function checkBuild() {
 
     // CTA present
     check(html.includes('product-page__cta-button'), where('order CTA missing'));
-    if (isRu) {
-      const copy = RUSSIAN_PRODUCTS[product.sku];
-      check(node.name === copy.title, where('Russian Product name differs from visible copy'));
-      for (const text of [copy.title, copy.summary, copy.details, copy.scope]) {
-        check(normalizeText(html).includes(normalizeText(text)), where('Russian buying information is missing'));
-      }
-    }
   }
 
   // ── Homepage: visible FAQ == FAQPage JSON-LD ──

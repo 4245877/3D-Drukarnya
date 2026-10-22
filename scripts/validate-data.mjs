@@ -14,7 +14,6 @@ import { fileURLToPath } from 'node:url';
 import { validateCategoryDefinitions } from '../src/data/categories.mjs';
 import { validateGuideDefinitions } from '../src/data/guides.mjs';
 import { validateProductCollection } from '../src/data/product.schema.mjs';
-import { validateRussianCopy } from '../src/data/localization.mjs';
 
 const productsDir = fileURLToPath(new URL('../src/data/products/', import.meta.url));
 
@@ -49,7 +48,6 @@ for (const fileName of fileNames) {
 
 const result = validateProductCollection(entries);
 errors.push(...result.errors);
-errors.push(...validateRussianCopy(result.products));
 
 // Content architecture: exactly one landing page per catalog category, no
 // orphans in either direction, and no cross-link pointing at a page that does

@@ -173,8 +173,13 @@ production-збірка їх не показують. `npm run dev:drafts` за�
 | `/catalog/` | 1 | [`src/pages/catalog/index.astro`](src/pages/catalog/index.astro) |
 | `/catalog/<slug>/` | 4 | [`src/pages/catalog/[category].astro`](src/pages/catalog/[category].astro) з [`src/data/categories.mjs`](src/data/categories.mjs) |
 | `/guides/<slug>/` | 6 | сторінки в [`src/pages/guides/`](src/pages/guides/) + [`src/layouts/GuideLayout.astro`](src/layouts/GuideLayout.astro) |
-| `/en/` | 1 | [`src/pages/en/index.astro`](src/pages/en/index.astro) |
+| `/sla/` | 1 | [`src/pages/sla.astro`](src/pages/sla.astro) |
 | `/products/<slug>/` | 49 | [`src/pages/products/[slug].astro`](src/pages/products/[slug].astro) з JSON товарів |
+
+Публічний сайт має лише українську версію: 62 канонічні сторінки. Колишні
+56 адрес `/en/` та `/ru/…` збережено як миттєві HTML-перенаправлення на
+відповідні українські сторінки. Вони не входять у sitemap і навігацію.
+Деталі та перевірки після публікації: [міграція мов](docs/LANGUAGE-MIGRATION-2026-10-22.md).
 
 ### Модулі даних
 
@@ -185,7 +190,9 @@ production-збірка їх не показують. `npm run dev:drafts` за�
 | [`src/data/category-redirects.mjs`](src/data/category-redirects.mjs) | Старі адреси розділів: статичні перенаправлення, які не потрапляють у навігацію та sitemap. |
 | [`src/data/guides.mjs`](src/data/guides.mjs) | Метадані 6 гайдів: `<title>`, опис, коротка відповідь, дати, теми, FAQ, перелінковка. Проза кожного гайда — у його сторінці. |
 | [`src/data/routes.mjs`](src/data/routes.mjs) | Таблиця нетоварних маршрутів. З неї будується `sitemap.xml`, її ж перевіряють `check:build` і тести. |
-| [`src/data/i18n.mjs`](src/data/i18n.mjs) | Набір `hreflang` для сторінок, у яких є переклад (зараз `/` ↔ `/en/`). |
+| [`src/data/i18n.mjs`](src/data/i18n.mjs) | Українські тексти інтерфейсу. |
+| [`src/data/language-redirects.mjs`](src/data/language-redirects.mjs) | Відповідність колишніх мовних адрес основним сторінкам. Використовується також у `astro.config.mjs`. |
+| [`src/data/search-terms.mjs`](src/data/search-terms.mjs) | Релевантні пошукові назви з попередніх версій для метаданих основних сторінок. |
 | [`src/utils/schema.mjs`](src/utils/schema.mjs) | Генератори вузлів JSON-LD зі стабільними `@id`, спільними для всіх сторінок. |
 | [`src/utils/urls.ts`](src/utils/urls.ts) | `href()` для внутрішніх посилань і `absoluteUrl()` для canonical/JSON-LD/sitemap. |
 
@@ -229,14 +236,14 @@ slug="<slug>">` з прозою всередині. Посилання на то
   жодному напрямку, безпечні та унікальні slug, повнота й унікальність
   метаданих (довжина description, наявність FAQ і короткої відповіді),
   відмова резолверів на невідомих slug, повнота таблиці маршрутів, те, що
-  `lastmod` публікується лише там, де є справжня дата зміни, і що кожен
-  `hreflang` вказує на реально збудований маршрут.
+  `lastmod` публікується лише там, де є справжня дата зміни, а мовні
+  перенаправлення не потрапляють до індексованих маршрутів.
 - `tests/build-output.test.mjs` — виконує справжній production build і
   перевіряє порядок карток, перші вісім товарів, сторінку кожного товару,
   кожної категорії та кожного гайда; що `sitemap.xml` точно збігається з
   набором індексованих маршрутів і не містить неканонічних URL; що
-  `robots.txt` і файл ключа IndexNow опубліковані; що набір `hreflang`
-  взаємний; що в HTML немає inline-обробників подій. Після цього проганяє
+  `robots.txt` і файл ключа IndexNow опубліковані; що всі старі мовні URL
+  перенаправляють на відповідні сторінки; що в HTML немає inline-обробників подій. Після цього проганяє
   повний набір перевірок артефакту (`scripts/check-build.mjs`, він же
   `npm run check:build`): рівно один `<h1>` на сторінку, canonical, що
   вказує на власний URL сторінки, збіг `og:url` із canonical, коректний
@@ -247,9 +254,8 @@ slug="<slug>">` з прозою всередині. Посилання на то
   й OG-зображення, відсутність небезпечних URL-схем і порожніх файлів.
   Окремо перевіряється граф JSON-LD: кожне посилання `@id` веде на вузол, який
   справді існує; вузол `Product` є лише на товарних сторінках; `Offer.seller`
-  скрізь той самий `#organization`; а набір `hreflang` збігається з
-  [`src/data/i18n.mjs`](src/data/i18n.mjs) **на кожній сторінці** — сторінка без
-  перекладу не має права оголошувати альтернативну мовну версію.
+  скрізь той самий `#organization`; `hreflang`, перемикач мов і посилання на
+  видалені мовні версії відсутні, а збережені пошукові терміни є в метаданих.
 
 ## Деплой на GitHub Pages
 

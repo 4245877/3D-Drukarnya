@@ -7,15 +7,8 @@ import SiteHeader from './SiteHeader.astro';
 import SiteFooter from './SiteFooter.astro';
 import { SITE_LANG, SITE_LOCALE, SITE_NAME } from '../data/site.config.mjs';
 import { absoluteUrl, toAbsoluteUrl } from '../utils/urls';
-import { getPageAlternates } from '../data/i18n.mjs';
-
-/** One alternate language version of the current page. */
-export interface AlternateLink {
-  /** BCP 47 code, or 'x-default' for the fallback entry. */
-  hreflang: string;
-  /** Site-relative path, e.g. '/' or '/en/'. */
-  path: string;
-}
+import { getSearchTerms } from '../data/search-terms.mjs';
+import { getAllProducts } from '../utils/products';
 
 interface Props {
   title: string;
@@ -26,16 +19,6 @@ interface Props {
   keywords?: string;
   ogType?: 'website' | 'product' | 'article';
   noindex?: boolean;
-  /** Content language of THIS page (BCP 47). */
-  lang?: string;
-  /** OG locale matching `lang`. */
-  ogLocale?: string;
-  /**
-   * hreflang set for this page. Only pass it on pages that genuinely have a
-   * translated counterpart — a self-referencing alternate on a page with no
-   * translation is noise, not a signal.
-   */
-  alternates?: AlternateLink[];
 }
 
 const {
@@ -47,10 +30,12 @@ const {
   keywords = '10-дюймова серверна стійка, mini rack, HomeLab стійка, NAS корпус, rack mount, 3D-друк Київ',
   ogType = 'website',
   noindex: requestedNoindex = false,
-  lang = SITE_LANG,
-  ogLocale = SITE_LOCALE,
-  alternates = getPageAlternates(canonicalPath),
 } = Astro.props;
+
+const pageKeywords = [...new Set([
+  ...keywords.split(',').map((term) => term.trim()).filter(Boolean),
+  ...getSearchTerms(canonicalPath, getAllProducts()),
+])].join(', ');
 
 // A local draft preview must never advertise its pages for indexing.
 const noindex = requestedNoindex || isDraftPreview;
@@ -60,10 +45,7 @@ const noindex = requestedNoindex || isDraftPreview;
 const DEFAULT_OG_IMAGE = '/OGimage.png';
 const DEFAULT_OG_IMAGE_WIDTH = '1983';
 const DEFAULT_OG_IMAGE_HEIGHT = '793';
-const DEFAULT_OG_IMAGE_ALT = lang === 'en'
-  ? `${SITE_NAME} brand illustration: Raphtalia in front of the lettering`
-  : lang === 'ru' ? `Иллюстрация ${SITE_NAME}: Рафталия на фоне названия`
-  : `Брендова ілюстрація ${SITE_NAME}: Рафталія на тлі напису`;
+const DEFAULT_OG_IMAGE_ALT = `Брендова ілюстрація ${SITE_NAME}: Рафталія на тлі напису`;
 
 /**
  * MIME type of an image URL, only when it can be derived from the URL itself
@@ -106,7 +88,7 @@ const robotsContent = noindex
 ---
 
 <!DOCTYPE html>
-<html lang={lang}>
+<html lang={SITE_LANG}>
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -131,25 +113,17 @@ const robotsContent = noindex
 
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="keywords" content={keywords} />
+    <meta name="keywords" content={pageKeywords} />
     <meta name="robots" content={robotsContent} />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="sitemap" type="application/xml" href={sitemapUrl} />
-
-    {alternates.map((alternate) => (
-      <link
-        rel="alternate"
-        hreflang={alternate.hreflang}
-        href={absoluteUrl(alternate.path === '/' ? '' : alternate.path)}
-      />
-    ))}
 
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content={SITE_NAME} />
-    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale" content={SITE_LOCALE} />
 
     {/*
       Primary og:image. og:image:type is only declared when the MIME type can
@@ -209,13 +183,13 @@ const robotsContent = noindex
   </head>
 
   <body>
-    <SiteHeader lang={lang} alternates={alternates} />
+    <SiteHeader />
 
     <main class="site-main">
       <slot />
     </main>
 
-    <SiteFooter lang={lang} />
+    <SiteFooter />
 
     <script>
       // Local fallback for product images (~170 of them come from a single

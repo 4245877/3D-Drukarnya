@@ -3,17 +3,14 @@ import { OLX_URL, SITE_NAME } from '../data/site.config.mjs';
 import { href } from '../utils/urls';
 import { SITE_COPY } from '../data/i18n.mjs';
 
-interface Props { lang?: string; alternates?: {hreflang: string; path: string}[]; }
-const lang = Astro.props.lang === 'ru' ? 'ru' : Astro.props.lang === 'en' ? 'en' : 'uk';
-const copy = SITE_COPY[lang];
-const languageLinks = (Astro.props.alternates ?? []).filter((a) => a.hreflang !== 'x-default');
+const copy = SITE_COPY.uk;
 
-const base = href(lang === 'ru' ? 'ru/' : lang === 'en' ? 'en/' : '');
+const base = href();
 
 // Every entry is a real page, not an on-page anchor: the header is the main
 // navigation crawlers follow, so it has to expose the site's actual sections.
 const links = [
-  { label: copy.catalog, href: href(lang === 'ru' ? 'ru/catalog/' : 'catalog/') },
+  { label: copy.catalog, href: href('catalog/') },
   { label: copy.sla, href: href('sla/') },
 ];
 ---
@@ -37,10 +34,6 @@ const links = [
         <a class="site-header__link" href={link.href}>{link.label}</a>
       ))}
     </nav>
-
-    {languageLinks.length > 0 && <nav class="site-languages" aria-label={lang === 'ru' ? 'Язык страницы' : lang === 'en' ? 'Page language' : 'Мова сторінки'}>
-      {languageLinks.map((alternate) => <a href={href(alternate.path)} hreflang={alternate.hreflang} lang={alternate.hreflang} aria-current={alternate.hreflang === lang ? 'page' : undefined}>{alternate.hreflang === 'uk' ? 'UA' : alternate.hreflang.toUpperCase()}</a>)}
-    </nav>}
 
     <a
       class="btn btn--primary btn--sm site-header__cta"

@@ -222,7 +222,7 @@ test('production build generates every product page and the sitemap', async (t) 
     assert.equal(categorized.length, 49);
   });
 
-  await t.test('retired category routes redirect without appearing in navigation', async () => {
+  await t.test('retired routes redirect without appearing in navigation', async () => {
     const home = await readFile(path.join(distDir, 'index.html'), 'utf8');
     const catalog = await readFile(path.join(distDir, 'catalog', 'index.html'), 'utf8');
     for (const [from, to] of Object.entries(SITE_REDIRECTS)) {
@@ -271,7 +271,6 @@ test('production build generates every product page and the sitemap', async (t) 
     const expected = [
       ...STATIC_ROUTE_PATHS.map((routePath) => `${SITE_BASE}${routePath}`),
       ...slugs.map((slug) => `${SITE_BASE}products/${slug}/`),
-      ...slugs.map((slug) => `${SITE_BASE}ru/products/${slug}/`),
     ];
 
     assert.deepEqual(
@@ -305,35 +304,6 @@ test('production build generates every product page and the sitemap', async (t) 
     // IndexNow proves ownership with a key file whose body is exactly the key.
     const keyFile = await readFile(path.join(distDir, `${INDEXNOW_KEY}.txt`), 'utf8');
     assert.equal(keyFile.trim(), INDEXNOW_KEY);
-  });
-
-  await t.test('hreflang alternates are reciprocal and self-referencing', async () => {
-    const pages = {
-      uk: await readFile(path.join(distDir, 'index.html'), 'utf8'),
-      en: await readFile(path.join(distDir, 'en', 'index.html'), 'utf8'),
-      ru: await readFile(path.join(distDir, 'ru', 'index.html'), 'utf8'),
-    };
-
-    for (const [name, html] of Object.entries(pages)) {
-      const alternates = Array.from(
-        html.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g),
-        (m) => [m[1], m[2]],
-      );
-      assert.deepEqual(
-        alternates,
-        [
-          ['uk', SITE_BASE],
-          ['en', `${SITE_BASE}en/`],
-          ['ru', `${SITE_BASE}ru/`],
-          ['x-default', SITE_BASE],
-        ],
-        `${name} page publishes the wrong hreflang set`,
-      );
-    }
-
-    assert.ok(pages.en.includes('<html lang="en">'), '/en/ must declare lang="en"');
-    assert.ok(pages.ru.includes('<html lang="ru">'), '/ru/ must declare lang="ru"');
-    assert.ok(pages.uk.includes('<html lang="uk">'), 'home page must declare lang="uk"');
   });
 
   await t.test('product pages carry no inline event handlers', async () => {

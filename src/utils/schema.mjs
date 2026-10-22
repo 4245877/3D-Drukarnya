@@ -38,7 +38,7 @@ export function websiteNode() {
     name: SITE_NAME,
     alternateName: [SITE_NAME, `10-дюймові серверні стійки — ${SITE_NAME}`],
     url: SITE_URL,
-    inLanguage: ['uk-UA', 'ru-UA', 'en'],
+    inLanguage: 'uk-UA',
     description: BUSINESS_DESCRIPTION,
     publisher: { '@id': ORGANIZATION_ID },
   };
