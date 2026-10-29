@@ -23,7 +23,8 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Keep the verified runner during the ubuntu-latest migration to Ubuntu 26.
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
       contents: read
@@ -37,8 +38,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
-          # Must satisfy the "engines" range in package.json (Astro 7 needs
-          # Node >= 22.12).
+          # Must satisfy package.json and the build toolchain, including
+          # undici (Node >= 22.19). Astro stays on the compatible 7.3 line.
           node-version: 22
           cache: npm
 
@@ -89,7 +90,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     # The only job that needs deployment permissions.
     permissions:
@@ -111,7 +112,7 @@ jobs:
   indexnow:
     needs: deploy
     if: github.event_name != 'schedule'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
       contents: read
