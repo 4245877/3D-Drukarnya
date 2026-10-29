@@ -29,7 +29,16 @@ export const SITE_LANG = 'uk';
 /** OG locale matching SITE_LANG. */
 export const SITE_LOCALE = 'uk_UA';
 
-/** Seller profile on the marketplace all orders currently go through. */
+/** Direct seller contacts. Keep phone numbers in international format. */
+export const VIBER_PHONE = '+380989073072';
+export const VIBER_PHONE_LABEL = '+380 98 907 30 72';
+export const TELEGRAM_URL = 'https://t.me/M4245877';
+// WebK routes #@username to a chat (src/lib/appImManager.ts in its public source).
+export const TELEGRAM_WEB_URL = `https://web.telegram.org/k/#@${new URL(TELEGRAM_URL).pathname.slice(1)}`;
+export const VIBER_URL = `viber://chat?number=${encodeURIComponent(VIBER_PHONE)}`;
+export const VIBER_DOWNLOAD_URL = 'https://www.viber.com/en/download/';
+
+/** Optional marketplace ordering route. */
 export const OLX_URL = 'https://www.olx.ua/uk/list/user/15L7LS/';
 
 /** Related project of the same owner, linked in the footer and `sameAs`. */

@@ -2,13 +2,15 @@
 // Compact navigation keeps every category reachable without JavaScript.
 // Articles are linked from the relevant category and product pages.
 import { CATEGORIES } from '../data/categories.mjs';
-import { OLX_URL, SITE_NAME, SKUFNYA_URL } from '../data/site.config.mjs';
+import { OLX_URL, SITE_NAME, SKUFNYA_URL, TELEGRAM_URL, VIBER_PHONE_LABEL, VIBER_DOWNLOAD_URL } from '../data/site.config.mjs';
+import ContactActions from './ContactActions.astro';
 import { href } from '../utils/urls';
 import { SITE_COPY } from '../data/i18n.mjs';
 
 const copy = SITE_COPY.uk;
 
 const currentYear = new Date().getFullYear();
+const telegramUsername = new URL(TELEGRAM_URL).pathname.slice(1);
 
 const columns = [
   {
@@ -33,6 +35,21 @@ const columns = [
 
 <footer class="site-footer">
   <div class="container">
+    <section id="contacts" class="footer-contacts" aria-labelledby="contacts-title">
+      <div class="footer-contacts__intro">
+        <h2 id="contacts-title">Обговорімо твоє замовлення</h2>
+        <p>Напиши в зручний месенджер — уточнимо сумісність, виконання та термін до друку.</p>
+      </div>
+      <div class="footer-contacts__actions">
+        <ContactActions />
+        <p class="footer-contacts__web-note">Без застосунку скористайся Telegram у браузері. Потрібен вхід у свій акаунт; мій контакт — @{telegramUsername}.</p>
+        <details>
+          <summary>Не відкрився Viber?</summary>
+          <p>Знайди мене у Viber за номером {VIBER_PHONE_LABEL}. Для чату потрібен застосунок. На комп’ютері спершу активуй Viber на телефоні.</p>
+          <a href={VIBER_DOWNLOAD_URL} target="_blank" rel="noopener noreferrer">Встановити Viber ↗</a>
+        </details>
+      </div>
+    </section>
     <nav class="site-footer__nav" aria-label={copy.sitemap}>
       {columns.map((column) => (
         <div class="site-footer__column">

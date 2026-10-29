@@ -1,5 +1,6 @@
 ---
-import { OLX_URL, SITE_NAME } from '../data/site.config.mjs';
+import { SITE_NAME } from '../data/site.config.mjs';
+import ContactActions from './ContactActions.astro';
 import { href } from '../utils/urls';
 import { SITE_COPY } from '../data/i18n.mjs';
 
@@ -35,15 +36,7 @@ const links = [
       ))}
     </nav>
 
-    <a
-      class="btn btn--primary btn--sm site-header__cta"
-      href={OLX_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={copy.olxLabel}
-    >
-      {copy.olx}
-    </a>
+    <div class="site-header__contacts"><ContactActions compact /></div>
 
     <button
       class="site-header__burger"

@@ -231,26 +231,6 @@
   gap: var(--space-3);
 }
 
-/* ── Order CTA ─────────────────────────────────────────────
-   These rules are qualified with the button class on purpose: Astro emits
-   this page's CSS *before* base.css, so a single-class rule here would lose
-   to the base button on equal specificity — that is what kept white-space
-   at nowrap and clipped the label on mobile. */
-
-.btn.product-page__cta-button {
-  width: 100%;
-  min-height: 3.5rem;
-  padding: var(--space-3) var(--space-6);
-  /* A whole sentence in caps is unreadable and could not wrap; the main
-     action is the only sentence-case button on the site, which also makes
-     it read as the primary one. */
-  font-size: var(--fs-md);
-  letter-spacing: 0.005em;
-  text-align: center;
-  text-transform: none;
-  white-space: normal;
-}
-
 .product-buy__cta-icon {
   width: 1.125rem;
   height: 1.125rem;
@@ -263,8 +243,8 @@
   transition: transform var(--dur-normal) var(--ease-out);
 }
 
-.btn.product-page__cta-button:hover .product-buy__cta-icon,
-.btn.product-page__cta-button:focus-visible .product-buy__cta-icon {
+.contact-marketplace:hover .product-buy__cta-icon,
+.contact-marketplace:focus-visible .product-buy__cta-icon {
   transform: translate(2px, -2px);
 }
 
@@ -737,12 +717,6 @@
   line-height: 1.5;
 }
 
-.btn.product-recap__button {
-  margin-top: var(--space-2);
-  min-height: 3rem;
-  font-size: var(--fs-base);
-}
-
 /* ── Mobile sticky buy bar ────────────────────────────────── */
 
 .product-buybar {
@@ -792,14 +766,6 @@
   font-weight: var(--fw-bold);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-}
-
-.btn.product-buybar__button {
-  width: auto;
-  flex: 1 1 auto;
-  min-height: 3rem;
-  padding: var(--space-2) var(--space-4);
-  font-size: var(--fs-base);
 }
 
 /* ── Tablet: one column ───────────────────────────────────── */
@@ -921,8 +887,8 @@
     transition: none;
   }
 
-  .btn.product-page__cta-button:hover .product-buy__cta-icon,
-  .btn.product-page__cta-button:focus-visible .product-buy__cta-icon {
+  .contact-marketplace:hover .product-buy__cta-icon,
+  .contact-marketplace:focus-visible .product-buy__cta-icon {
     transform: none;
   }
 }

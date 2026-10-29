@@ -2,6 +2,7 @@
 import Layout from '../components/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import SlaPreview from '../components/SlaPreview.astro';
+import ContactActions from '../components/ContactActions.astro';
 import { CATEGORIES } from '../data/categories.mjs';
 import { FAQ_ITEMS } from '../data/faq';
 import { OLX_URL, SITE_NAME } from '../data/site.config.mjs';
@@ -532,7 +533,7 @@ const structuredData = graph([
                   <div class="catalog-no-results__art">∅</div>
                   <h2 class="catalog-no-results__title">Каталог поки порожній</h2>
                   <p class="catalog-no-results__text">
-                    Опублікованих товарів ще немає. Контакт магазину на OLX є нижче.
+                    Опублікованих товарів ще немає. Контакти магазину є нижче.
                   </p>
                 </div>
               )
@@ -556,12 +557,13 @@ const structuredData = graph([
         <div class="catalog-order__intro">
           <h2 id="order-title">Як замовити</h2>
           <p>
-            Обери виріб і відкрий профіль продавця на OLX. У повідомленні магазину
+            Обери виріб і напиши напряму в Telegram або Viber. У повідомленні
             вкажи артикул (P…), кількість, колір і потрібне виконання; за потреби — матеріал.
             Перед виготовленням узгодь сумісність і склад комплекту — так буде легше підготувати збірку.
           </p>
-          <a class="btn btn--primary" href={olxUrl} target="_blank" rel="noopener noreferrer">
-            Відкрити профіль на OLX
+          <ContactActions message="Вітаю! Хочу замовити виріб із каталогу TANMEK." />
+          <a class="contact-marketplace" href={olxUrl} target="_blank" rel="noopener noreferrer">
+            Або замовити через OLX ↗
           </a>
         </div>
 

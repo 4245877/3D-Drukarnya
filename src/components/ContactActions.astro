@@ -1,0 +1,36 @@
+---
+import ContactIcon from './ContactIcon.astro';
+import { TELEGRAM_WEB_URL, VIBER_URL } from '../data/site.config.mjs';
+import { telegramChatUrl } from '../utils/contact.mjs';
+import '../styles/components/contact.css';
+
+interface Props {
+  message?: string;
+  compact?: boolean;
+  copyMessage?: boolean;
+}
+const { message = '', compact = false, copyMessage = false } = Astro.props;
+---
+
+<div class:list={['contact-actions', { 'contact-actions--compact': compact }]} data-contact-actions>
+  <div class="contact-actions__links" role="group" aria-label="Написати продавцю">
+    <a class="btn contact-button contact-button--telegram" href={telegramChatUrl(message)} target="_blank" rel="noopener noreferrer" aria-label="Написати в Telegram" title="Написати в Telegram" data-telegram-link>
+      <ContactIcon name="telegram" /><span>{compact ? 'Telegram' : 'Написати в Telegram'}</span>
+    </a>
+    <a class="btn contact-button contact-button--viber" href={VIBER_URL} aria-label="Написати у Viber" title="Написати у Viber" aria-controls="viber-support" data-viber-link>
+      <ContactIcon name="viber" /><span>{compact ? 'Viber' : 'Написати у Viber'}</span>
+    </a>
+  </div>
+  {!compact && (
+    <div class="contact-actions__tools">
+      <a class="contact-browser" href={TELEGRAM_WEB_URL} target="_blank" rel="noopener noreferrer">Telegram у браузері ↗</a>
+      {copyMessage && message && <button class="contact-copy" type="button" data-contact-copy={message} hidden>Скопіювати запит про товар</button>}
+    </div>
+  )}
+  {copyMessage && message && (
+    <div class="contact-actions__copy">
+      <p class="contact-status" role="status" data-contact-status></p>
+      <textarea class="contact-manual-copy" aria-label="Запит про товар для ручного копіювання" readonly rows="5" data-contact-manual hidden>{message}</textarea>
+    </div>
+  )}
+</div>

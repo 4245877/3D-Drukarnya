@@ -5,6 +5,7 @@ import '../styles/layout.css';
 import '../styles/atmosphere.css';
 import SiteHeader from './SiteHeader.astro';
 import SiteFooter from './SiteFooter.astro';
+import ContactSupport from './ContactSupport.astro';
 import { SITE_LANG, SITE_LOCALE, SITE_NAME } from '../data/site.config.mjs';
 import { absoluteUrl, toAbsoluteUrl } from '../utils/urls';
 import { getSearchTerms } from '../data/search-terms.mjs';
@@ -190,6 +191,7 @@ const robotsContent = noindex
     </main>
 
     <SiteFooter />
+    <ContactSupport />
 
     <script>
       // Local fallback for product images (~170 of them come from a single

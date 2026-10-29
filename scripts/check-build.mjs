@@ -546,7 +546,7 @@ export async function checkBuild() {
     }
 
     // CTA present
-    check(html.includes('product-page__cta-button'), where('order CTA missing'));
+    check(html.includes('data-order-cta') && html.includes('data-telegram-link') && html.includes('data-viber-link'), where('direct contact order CTA missing'));
   }
 
   // ── Homepage: visible FAQ == FAQPage JSON-LD ──

@@ -1,0 +1,13 @@
+---
+import ContactActions from './ContactActions.astro';
+interface Props { message?: string }
+const { message = 'Вітаю! Допоможіть підібрати виріб для моєї збірки HomeLab.' } = Astro.props;
+---
+
+<aside class="contact-panel" aria-label="Допомога з вибором і замовленням">
+  <div>
+    <h2 class="contact-panel__title">Потрібна порада чи інше виконання?</h2>
+    <p class="contact-panel__text">Напиши напряму. Допоможу перевірити сумісність і погодити деталі замовлення.</p>
+  </div>
+  <ContactActions compact message={message} />
+</aside>

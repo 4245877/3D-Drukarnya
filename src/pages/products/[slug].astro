@@ -6,6 +6,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import ProductGallery from '../../components/ProductGallery.astro';
 import ProductPrice from '../../components/ProductPrice.astro';
+import ContactActions from '../../components/ContactActions.astro';
+import { productInquiry } from '../../utils/contact.mjs';
 import { getCategoryByName } from '../../data/categories.mjs';
 import { resolveGuides } from '../../data/guides.mjs';
 import { PRICE_PER_GRAM_UAH, getPricingProfile } from '../../data/pricing.config.mjs';
@@ -71,6 +73,7 @@ const hasImages = imageUrls.length > 0;
 const ogImage = imageUrls[0] ?? '';
 
 const productUrl = absoluteUrl(`products/${product.slug}/`);
+const inquiryMessage = productInquiry({ title: product.title, sku: product.sku, url: productUrl });
 const catalogUrl = absoluteUrl('');
 const olxUrl = OLX_URL;
 
@@ -115,12 +118,9 @@ const hasDirectOrderUrl = Boolean(product.orderUrl);
 const orderCtaText = hasDirectOrderUrl
   ? 'Відкрити оголошення на OLX'
   : 'Відкрити профіль на OLX';
-// The sticky mobile bar has room for a few words only; both variants stay
-// honest about where the link actually goes.
-const orderCtaShortText = hasDirectOrderUrl ? 'Відкрити на OLX' : 'Перейти на OLX';
 const orderNote = hasDirectOrderUrl
-  ? 'Кнопка відкриє оголошення цього виробу на OLX. Замовлення узгоджується там із магазином.'
-  : `Кнопка відкриє загальний профіль продавця на OLX. Напиши магазину й зазнач артикул ${product.sku} та потрібне виконання. Окремого посилання на оголошення цього виробу тут немає.`;
+  ? 'За бажанням можна оформити замовлення через оголошення цього виробу на OLX.'
+  : `Посилання OLX відкриє загальний профіль продавця. Зазнач артикул ${product.sku} та потрібне виконання.`;
 
 const pageKeywords = [
   product.title,
@@ -436,13 +436,14 @@ const structuredData = graph([
               </div>
             )}
 
-            {!isDraft && <div class="product-buy__cta">
+            {!isDraft && <div class="product-buy__cta" data-order-cta>
+              <p class="product-buy__cta-note">Уточни сумісність або замов напряму. У Telegram вже буде запит про цей товар; для Viber його можна скопіювати.</p>
+              <ContactActions message={inquiryMessage} copyMessage />
               <a
-                class="btn btn--primary btn--lg product-page__cta-button"
+                class="contact-marketplace"
                 href={orderHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                data-order-cta
               >
                 <span>{orderCtaText}</span>
                 <svg class="product-buy__cta-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -514,7 +515,7 @@ const structuredData = graph([
             ) : (
               <p class="product-section__lead">
                 Докладного опису поки немає. Перед замовленням уточни сумісність
-                і комплектацію в магазині на OLX.
+                і комплектацію в Telegram або Viber.
               </p>
             )}
           </section>
@@ -637,14 +638,7 @@ const structuredData = graph([
             {product.leadTime && (
               <p class="product-recap__meta">Термін виготовлення: {product.leadTime}</p>
             )}
-            {!isDraft && <a
-              class="btn btn--primary product-page__cta-button product-recap__button"
-              href={orderHref}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {orderCtaShortText}
-            </a>}
+            {!isDraft && <ContactActions message={inquiryMessage} compact />}
           </div>
         </aside>
       </div>
@@ -677,21 +671,14 @@ const structuredData = graph([
       )}
     </div>
 
-    {!isDraft && <div class="product-buybar" data-buybar hidden>
+    {!isDraft && <div class="product-buybar" data-buybar hidden inert aria-hidden="true">
       <div class="product-buybar__inner">
         <div class="product-buybar__price">
           <p class="product-buybar__label">{priceLabel}</p>
           <ProductPrice amount={product.price} />
         </div>
 
-        <a
-          class="btn btn--primary product-page__cta-button product-buybar__button"
-          href={orderHref}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {orderCtaShortText}
-        </a>
+        <ContactActions message={inquiryMessage} compact />
       </div>
     </div>}
   </section>
@@ -807,7 +794,10 @@ const structuredData = graph([
       // `hidden` is only the no-JS state; from here on the bar slides in and
       // out via a class so the transition has something to animate.
       buybar.hidden = false;
-      buybar.classList.toggle('is-visible', ctaPassed && !atFooter);
+      const visible = ctaPassed && !atFooter;
+      buybar.classList.toggle('is-visible', visible);
+      buybar.inert = !visible;
+      buybar.setAttribute('aria-hidden', String(!visible));
     };
 
     const schedule = () => {

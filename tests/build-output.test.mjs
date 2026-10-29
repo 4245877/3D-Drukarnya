@@ -15,6 +15,8 @@ import { GUIDES } from '../src/data/guides.mjs';
 import { STATIC_ROUTE_PATHS } from '../src/data/routes.mjs';
 import { INDEXNOW_KEY } from '../src/data/site.config.mjs';
 import { selectCatalogProducts } from '../src/data/publication.mjs';
+import { productInquiry } from '../src/utils/contact.mjs';
+import { TELEGRAM_URL, TELEGRAM_WEB_URL, VIBER_URL, VIBER_DOWNLOAD_URL, VIBER_PHONE_LABEL, OLX_URL } from '../src/data/site.config.mjs';
 
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
 const distDir = path.join(projectRoot, 'dist');
@@ -190,6 +192,30 @@ test('production build generates every product page and the sitemap', async (t) 
   await t.test('every product page exists', async () => {
     for (const slug of slugs) {
       await access(path.join(distDir, 'products', slug, 'index.html'));
+    }
+  });
+
+  await t.test('direct contacts and the no-app fallback are present on every sales page', async () => {
+    const routes = ['', 'catalog/', 'sla/', ...CATEGORIES.map(({ slug }) => `catalog/${slug}/`), ...slugs.map((slug) => `products/${slug}/`)];
+    for (const route of routes) {
+      const html = await readFile(path.join(distDir, route, 'index.html'), 'utf8');
+      assert.ok(html.includes(`href="${VIBER_URL}"`), `${route}: Viber URI missing`);
+      assert.ok(html.includes(`href="${TELEGRAM_URL}"`), `${route}: Telegram link missing`);
+      assert.ok(html.includes(`href="${TELEGRAM_WEB_URL}"`), `${route}: Telegram browser fallback missing`);
+      assert.ok(html.includes(`href="${VIBER_DOWNLOAD_URL}"`), `${route}: installation fallback missing`);
+      assert.ok(html.includes(VIBER_PHONE_LABEL), `${route}: readable Viber number missing`);
+      assert.equal([...html.matchAll(/\sdata-viber-support(?=[\s=>])/g)].length, 1, `${route}: help panel must be shared`);
+      assert.ok(html.includes('id="contacts"'), `${route}: contacts must also work without JS`);
+    }
+    for (const product of products) {
+      const html = await readFile(path.join(distDir, 'products', product.slug, 'index.html'), 'utf8');
+      const expected = productInquiry({ title: product.title, sku: product.sku, url: `${SITE_BASE}products/${product.slug}/` });
+      const drafts = [...html.matchAll(/<a\b[^>]*data-telegram-link[^>]*>/g)]
+        .map(([tag]) => tag.match(/href="([^"]*)"/)?.[1]?.replaceAll('&amp;', '&'))
+        .filter(Boolean).map((href) => new URL(href).searchParams.get('text')).filter(Boolean);
+      assert.ok(drafts.length >= 3, `${product.sku}: main, recap and mobile actions need product context`);
+      assert.ok(drafts.every((draft) => draft === expected), `${product.sku}: wrong product in Telegram draft`);
+      assert.ok(html.includes(`href="${product.orderUrl ?? OLX_URL}"`), `${product.sku}: original OLX route was lost`);
     }
   });
 

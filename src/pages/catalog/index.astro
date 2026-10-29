@@ -1,6 +1,7 @@
 ---
 import Layout from '../../components/Layout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ContactPanel from '../../components/ContactPanel.astro';
 import { CATEGORIES } from '../../data/categories.mjs';
 import { SITE_NAME } from '../../data/site.config.mjs';
 import { getAllProducts } from '../../utils/products';
@@ -90,6 +91,8 @@ const structuredData = graph([
           Виготовлення — на замовлення.
         </p>
       </header>
+
+      <ContactPanel />
 
       <section class="content-section" aria-labelledby="catalog-categories">
         <h2 id="catalog-categories">Категорії</h2>

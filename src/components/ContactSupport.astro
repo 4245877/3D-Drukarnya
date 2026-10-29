@@ -1,0 +1,26 @@
+---
+import { TELEGRAM_URL, TELEGRAM_WEB_URL, VIBER_DOWNLOAD_URL, VIBER_PHONE, VIBER_PHONE_LABEL } from '../data/site.config.mjs';
+---
+
+{/* Shown only after an intentional Viber click; never guesses app installation. */}
+<aside id="viber-support" class="contact-support" aria-labelledby="viber-help-title" tabindex="-1" data-viber-support hidden>
+  <button class="contact-support__close" type="button" aria-label="Закрити підказку Viber" data-viber-close>×</button>
+  <h2 id="viber-help-title">Якщо Viber не відкрився</h2>
+  <p>Для чату потрібен застосунок Viber. Скопіюй номер і знайди мене в ньому або напиши в Telegram.</p>
+  <div class="contact-support__number" data-contact-actions>
+    <span>{VIBER_PHONE_LABEL}</span>
+    <button class="contact-copy" type="button" data-contact-copy={VIBER_PHONE} data-contact-copy-success="Номер скопійовано. Встав його в пошук Viber.">Копіювати номер</button>
+    <p class="contact-status" role="status" data-contact-status></p>
+    <input class="contact-manual-copy" type="text" value={VIBER_PHONE} aria-label="Номер Viber для ручного копіювання" readonly data-contact-manual hidden />
+  </div>
+  <div class="contact-support__links">
+    <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer">Написати в Telegram ↗</a>
+    <a href={TELEGRAM_WEB_URL} target="_blank" rel="noopener noreferrer">Telegram у браузері ↗</a>
+    <a href={VIBER_DOWNLOAD_URL} target="_blank" rel="noopener noreferrer">Встановити Viber ↗</a>
+  </div>
+</aside>
+
+<script>
+  import { initContacts } from '../scripts/contacts';
+  initContacts();
+</script>

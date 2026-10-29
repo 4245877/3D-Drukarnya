@@ -2,6 +2,7 @@
 import Layout from '../../components/Layout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ProductCard from '../../components/ProductCard.astro';
+import ContactPanel from '../../components/ContactPanel.astro';
 import { CATEGORIES, resolveCategories } from '../../data/categories.mjs';
 import { resolveGuides } from '../../data/guides.mjs';
 import { SITE_NAME } from '../../data/site.config.mjs';
@@ -124,6 +125,8 @@ const structuredData = graph([
           </div>
         </dl>
       </header>
+
+      <ContactPanel message={`Вітаю! Допоможіть із вибором у категорії «${category.heading}».\n${pageUrl}`} />
 
       <section class="content-section" aria-labelledby="category-products">
         <h2 id="category-products">Товари в категорії «{category.heading}»</h2>
