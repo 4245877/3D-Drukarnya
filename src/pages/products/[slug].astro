@@ -7,6 +7,7 @@ import ProductCard from '../../components/ProductCard.astro';
 import ProductGallery from '../../components/ProductGallery.astro';
 import ProductPrice from '../../components/ProductPrice.astro';
 import ContactActions from '../../components/ContactActions.astro';
+import ContactIcon from '../../components/ContactIcon.astro';
 import { productInquiry } from '../../utils/contact.mjs';
 import { getCategoryByName } from '../../data/categories.mjs';
 import { resolveGuides } from '../../data/guides.mjs';
@@ -317,6 +318,7 @@ const structuredData = graph([
   keywords={pageKeywords}
   ogType="product"
   noindex={isDraft}
+  contactHref={isDraft ? '#contacts' : '#product-contact'}
 >
   <script
     slot="head"
@@ -436,8 +438,9 @@ const structuredData = graph([
               </div>
             )}
 
-            {!isDraft && <div class="product-buy__cta" data-order-cta>
-              <p class="product-buy__cta-note">Уточни сумісність або замов напряму. У Telegram вже буде запит про цей товар; для Viber його можна скопіювати.</p>
+            {!isDraft && <div id="product-contact" class="product-buy__cta" tabindex="-1" role="group" aria-labelledby="product-contact-title" data-order-cta>
+              <h2 id="product-contact-title" class="product-buy__contact-title">Обговорімо цей товар</h2>
+              <p class="product-buy__cta-note">Допоможу з вибором виконання та замовленням. Запит про цей товар уже готовий: відкрий Telegram або скопіюй його для Viber.</p>
               <ContactActions message={inquiryMessage} copyMessage />
               <a
                 class="contact-marketplace"
@@ -638,7 +641,7 @@ const structuredData = graph([
             {product.leadTime && (
               <p class="product-recap__meta">Термін виготовлення: {product.leadTime}</p>
             )}
-            {!isDraft && <ContactActions message={inquiryMessage} compact />}
+            {!isDraft && <a class="btn btn--secondary product-recap__button" href="#product-contact"><ContactIcon name="message" />Зв'язатися щодо товару</a>}
           </div>
         </aside>
       </div>
@@ -678,7 +681,7 @@ const structuredData = graph([
           <ProductPrice amount={product.price} />
         </div>
 
-        <ContactActions message={inquiryMessage} compact />
+        <a class="btn btn--secondary product-buybar__button" href="#product-contact"><ContactIcon name="message" />Зв'язатися</a>
       </div>
     </div>}
   </section>

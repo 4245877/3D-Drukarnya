@@ -229,6 +229,15 @@
 .product-buy__cta {
   display: grid;
   gap: var(--space-3);
+  scroll-margin-top: calc(var(--product-nav-h) + var(--space-4));
+}
+
+.product-buy__contact-title {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-snug);
 }
 
 .product-buy__cta-icon {
@@ -716,6 +725,24 @@
   font-size: var(--fs-sm);
   line-height: 1.5;
 }
+
+.btn.product-recap__button,
+.btn.product-buybar__button {
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  border-width: 1px;
+  border-radius: var(--radius-md);
+  font-size: var(--fs-sm);
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.product-recap__button svg,
+.product-buybar__button svg { flex: 0 0 20px; }
+.product-buybar__button { margin-left: auto; }
 
 /* ── Mobile sticky buy bar ────────────────────────────────── */
 

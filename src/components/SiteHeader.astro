@@ -1,10 +1,13 @@
 ---
 import { SITE_NAME } from '../data/site.config.mjs';
-import ContactActions from './ContactActions.astro';
+import ContactIcon from './ContactIcon.astro';
 import { href } from '../utils/urls';
 import { SITE_COPY } from '../data/i18n.mjs';
 
 const copy = SITE_COPY.uk;
+
+interface Props { contactHref?: string }
+const { contactHref = '#contacts' } = Astro.props;
 
 const base = href();
 
@@ -36,7 +39,9 @@ const links = [
       ))}
     </nav>
 
-    <div class="site-header__contacts"><ContactActions compact /></div>
+    <a class="site-header__contact" href={contactHref}>
+      <ContactIcon name="message" /><span>Зв'язатися</span>
+    </a>
 
     <button
       class="site-header__burger"

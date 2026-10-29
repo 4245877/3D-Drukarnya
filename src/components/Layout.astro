@@ -20,6 +20,7 @@ interface Props {
   keywords?: string;
   ogType?: 'website' | 'product' | 'article';
   noindex?: boolean;
+  contactHref?: string;
 }
 
 const {
@@ -31,6 +32,7 @@ const {
   keywords = '10-дюймова серверна стійка, mini rack, HomeLab стійка, NAS корпус, rack mount, 3D-друк Київ',
   ogType = 'website',
   noindex: requestedNoindex = false,
+  contactHref,
 } = Astro.props;
 
 const pageKeywords = [...new Set([
@@ -184,7 +186,7 @@ const robotsContent = noindex
   </head>
 
   <body>
-    <SiteHeader />
+    <SiteHeader contactHref={contactHref} />
 
     <main class="site-main">
       <slot />

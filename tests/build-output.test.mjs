@@ -206,6 +206,9 @@ test('production build generates every product page and the sitemap', async (t) 
       assert.ok(html.includes(VIBER_PHONE_LABEL), `${route}: readable Viber number missing`);
       assert.equal([...html.matchAll(/\sdata-viber-support(?=[\s=>])/g)].length, 1, `${route}: help panel must be shared`);
       assert.ok(html.includes('id="contacts"'), `${route}: contacts must also work without JS`);
+      const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0];
+      assert.ok(header?.includes('site-header__contact'), `${route}: named contact entry missing`);
+      assert.ok(!/data-(telegram|viber)-link/.test(header), `${route}: messenger actions must not be repeated in the header`);
     }
     for (const product of products) {
       const html = await readFile(path.join(distDir, 'products', product.slug, 'index.html'), 'utf8');
@@ -213,8 +216,12 @@ test('production build generates every product page and the sitemap', async (t) 
       const drafts = [...html.matchAll(/<a\b[^>]*data-telegram-link[^>]*>/g)]
         .map(([tag]) => tag.match(/href="([^"]*)"/)?.[1]?.replaceAll('&amp;', '&'))
         .filter(Boolean).map((href) => new URL(href).searchParams.get('text')).filter(Boolean);
-      assert.ok(drafts.length >= 3, `${product.sku}: main, recap and mobile actions need product context`);
+      assert.equal(drafts.length, 1, `${product.sku}: product inquiry must have one messenger block`);
       assert.ok(drafts.every((draft) => draft === expected), `${product.sku}: wrong product in Telegram draft`);
+      assert.equal([...html.matchAll(/href="#product-contact"/g)].length, 3, `${product.sku}: header, recap and mobile must lead to the product inquiry`);
+      const inquiry = html.match(/<div\b[^>]*id="product-contact"[\s\S]*?(?=<\/section>)/)?.[0];
+      assert.ok(inquiry?.includes('data-telegram-link') && inquiry.includes('data-viber-link'), `${product.sku}: product inquiry must offer both messengers`);
+      assert.ok(inquiry.includes('data-contact-copy='), `${product.sku}: Viber must retain the product request copy action`);
       assert.ok(html.includes(`href="${product.orderUrl ?? OLX_URL}"`), `${product.sku}: original OLX route was lost`);
     }
   });

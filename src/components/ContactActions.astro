@@ -14,17 +14,17 @@ const { message = '', compact = false, copyMessage = false } = Astro.props;
 
 <div class:list={['contact-actions', { 'contact-actions--compact': compact }]} data-contact-actions>
   <div class="contact-actions__links" role="group" aria-label="Написати продавцю">
-    <a class="btn contact-button contact-button--telegram" href={telegramChatUrl(message)} target="_blank" rel="noopener noreferrer" aria-label="Написати в Telegram" title="Написати в Telegram" data-telegram-link>
-      <ContactIcon name="telegram" /><span>{compact ? 'Telegram' : 'Написати в Telegram'}</span>
+    <a class="btn contact-button" href={telegramChatUrl(message)} target="_blank" rel="noopener noreferrer" aria-label="Написати в Telegram" data-telegram-link>
+      <ContactIcon name="telegram" /><span>Telegram</span>
     </a>
-    <a class="btn contact-button contact-button--viber" href={VIBER_URL} aria-label="Написати у Viber" title="Написати у Viber" aria-controls="viber-support" data-viber-link>
-      <ContactIcon name="viber" /><span>{compact ? 'Viber' : 'Написати у Viber'}</span>
+    <a class="btn contact-button" href={VIBER_URL} aria-label="Написати у Viber" aria-controls="viber-support" data-viber-link>
+      <ContactIcon name="viber" /><span>Viber</span>
     </a>
   </div>
   {!compact && (
     <div class="contact-actions__tools">
+      {copyMessage && message && <button class="contact-copy" type="button" data-contact-copy={message} hidden>Скопіювати запит</button>}
       <a class="contact-browser" href={TELEGRAM_WEB_URL} target="_blank" rel="noopener noreferrer">Telegram у браузері ↗</a>
-      {copyMessage && message && <button class="contact-copy" type="button" data-contact-copy={message} hidden>Скопіювати запит про товар</button>}
     </div>
   )}
   {copyMessage && message && (
