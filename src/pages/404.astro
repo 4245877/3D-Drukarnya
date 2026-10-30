@@ -21,7 +21,7 @@ const description =
   canonicalPath="/404.html"
   noindex={true}
 >
-  <div class="catalog-page not-found" data-live>
+  <div class="catalog-page not-found ears-listen" data-live data-parallax>
     <section class="not-found__inner container" aria-labelledby="not-found-title">
       <div class="not-found__copy">
         <p class="kicker">Помилка 404</p>
@@ -44,7 +44,9 @@ const description =
       </div>
 
       <div class="not-found__art">
-        <RaphtaliaPortrait sizes="(max-width: 768px) 90vw, 34rem" priority />
+        <div class="not-found__portrait">
+          <RaphtaliaPortrait sizes="(max-width: 768px) min(90vw, 26rem), 36rem" priority />
+        </div>
       </div>
     </section>
   </div>
@@ -94,6 +96,20 @@ const description =
     align-self: end;
     margin-bottom: calc(var(--space-16) * -1 - 44px);
     padding-top: var(--space-8);
+  }
+
+  .not-found__portrait {
+    transform: translate3d(calc(var(--px, 0) * -10px), calc(var(--py, 0) * -6px), 0);
+    transition: transform 500ms var(--ease-out);
+    animation: portraitEnter 900ms var(--ease-out) 120ms both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .not-found__portrait {
+      transform: none;
+      transition: none;
+      animation: none;
+    }
   }
 
   @media (max-width: 768px) {

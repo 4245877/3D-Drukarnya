@@ -130,7 +130,7 @@ function initPhotos() {
   });
 }
 
-/** A few pixels of depth under the pointer. Mouse only, on the hero. */
+/** A few pixels of depth under the pointer. Mouse only, on the hero or 404. */
 function initParallax() {
   const scene = document.querySelector<HTMLElement>('[data-parallax]');
   if (!scene || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;

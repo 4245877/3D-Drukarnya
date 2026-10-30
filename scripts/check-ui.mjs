@@ -86,7 +86,21 @@ try {
           return { left: r.left, right: r.right, height: r.height, fits: label.right <= r.right && label.left >= r.left };
         }));
         assert.ok(buttons.every((r) => r.left >= -1 && r.right <= width + 1 && r.height >= 44 && r.fits), `messenger bounds: ${width} ${route}`);
-        if (route === '') assert.equal(await page.locator('.catalog-hero__rack').isVisible(), true);
+        if (route === '') {
+          assert.equal(await page.locator('.portrait').count(), 0, 'the portrait belongs on 404');
+          const scene = await page.locator('.catalog-hero__aside').evaluate((el) => {
+            const area = el.getBoundingClientRect();
+            const rack = el.querySelector('.catalog-hero__rack').getBoundingClientRect();
+            const style = getComputedStyle(el);
+            return {
+              dx: rack.x + rack.width / 2 - (area.x + area.width / 2),
+              dy: rack.y + rack.height / 2 - (area.y + parseFloat(style.paddingTop) + (area.height - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom)) / 2),
+              ratio: rack.width / area.width,
+              fits: rack.left >= area.left - 1 && rack.right <= area.right + 1 && rack.top >= area.top && rack.bottom <= area.bottom,
+            };
+          });
+          assert.ok(Math.abs(scene.dx) < 1 && Math.abs(scene.dy) < 1 && scene.ratio >= 0.7 && scene.fits, `rack composition ${width}: ${JSON.stringify(scene)}`);
+        }
         if ([320, 390, 1440].includes(width)) {
           const slug = route === '' ? 'home' : route === productRoute ? 'product' : route === categoryRoute ? 'category' : route.replaceAll('/', '-').replace('.html', '');
           await shot(page, `${slug}-${width}`);
@@ -260,20 +274,40 @@ try {
   const animated = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const motion = observe(await animated.newPage());
   await go(motion);
-  await scenario('portrait breathing, ears, blink and offscreen pause; reveal on scroll', async () => {
+  await scenario('404 portrait: entrance, breathing, ears, blink, parallax, hover and offscreen pause; home reveal', async () => {
+    await shot(motion, 'home-desktop');
+    assert.equal(await motion.locator('.portrait').count(), 0);
+    await scrollToElement(motion, '.catalog-grid__item:nth-child(20)');
+    assert.equal(await motion.locator('.catalog-grid__item:nth-child(20)').evaluate((el) => getComputedStyle(el).opacity), '1');
+
+    await go(motion, '404.html');
     await motion.waitForFunction(() => document.querySelector('[data-live]').classList.contains('is-live'));
     const names = await motion.locator('.portrait__body, .portrait__ear, .portrait__blink').evaluateAll((els) => els.map((el) => getComputedStyle(el).animationName));
     assert.deepEqual(names, ['portraitBreath', 'earTwitchLeft', 'earTwitchRight', 'portraitBlink']);
-    await shot(motion, 'home-desktop');
+    assert.equal(await motion.locator('.not-found__portrait').evaluate((el) => getComputedStyle(el).animationName), 'portraitEnter');
+    await motion.mouse.move(1300, 180);
+    await motion.waitForFunction(() => Number(document.querySelector('.not-found').style.getPropertyValue('--px')) > 0);
+    await motion.locator('.not-found__actions a').first().hover();
+    assert.equal(await motion.locator('.portrait__ear--left').evaluate((el) => getComputedStyle(el).animationName), 'earPerkLeft');
+    assert.equal(await motion.locator('.portrait__ear--right').evaluate((el) => getComputedStyle(el).animationName), 'earPerkRight');
+    await motion.mouse.move(0, 0);
+    // A short 404 can fit almost entirely in a tall desktop viewport. Use a
+    // shorter viewport so scrolling can actually take the portrait offscreen.
+    await motion.setViewportSize({ width: 1440, height: 480 });
+    await scrollToElement(motion, '.site-footer__meta');
+    await motion.waitForFunction(() => !document.querySelector('.not-found').classList.contains('is-live'));
+    assert.equal(await motion.locator('.portrait__body').evaluate((el) => getComputedStyle(el).animationPlayState), 'paused');
+    await motion.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+    await motion.setViewportSize({ width: 1440, height: 1000 });
+    await motion.waitForFunction(() => document.querySelector('.not-found').classList.contains('is-live'));
+    await motion.waitForTimeout(950);
+    await shot(motion, '404-desktop');
     for (const [name, progress] of [['portrait-open', 0], ['portrait-blink', 0.445], ['portrait-ears', 0.635]]) {
       await motion.locator('.portrait').evaluate((el, progress) => {
         for (const animation of el.getAnimations({ subtree: true })) { animation.pause(); animation.currentTime = animation.effect.getTiming().duration * progress; }
       }, progress);
       await motion.locator('.portrait').screenshot({ path: path.join(output, `${name}.png`) });
     }
-    await scrollToElement(motion, '.catalog-grid__item:nth-child(20)');
-    assert.equal(await motion.locator('.catalog-grid__item:nth-child(20)').evaluate((el) => getComputedStyle(el).opacity), '1');
-    assert.equal(await motion.locator('.portrait__body').evaluate((el) => getComputedStyle(el).animationPlayState), 'paused');
   });
   await go(motion, productRoute);
   await scenario('messenger hover, press, keyboard focus and pill shape', async () => {
@@ -299,7 +333,12 @@ try {
 
   await scenario('reduced motion: portrait, ambient effects and messenger hover are still', async () => {
     await page.setViewportSize({ width: 1440, height: 1000 }); await go(page);
-    assert.equal(await page.locator('.portrait__body, .portrait__ear, .portrait__blink, .leaf').evaluateAll((els) => els.every((el) => getComputedStyle(el).animationName === 'none')), true);
+    assert.equal(await page.locator('.portrait').count(), 0);
+    assert.equal(await page.locator('.leaf').evaluateAll((els) => els.every((el) => getComputedStyle(el).animationName === 'none')), true);
+    assert.equal(await page.locator('.catalog-hero__rack').evaluate((el) => getComputedStyle(el).transform), 'none');
+    await go(page, '404.html');
+    assert.equal(await page.locator('.portrait__body, .portrait__ear, .portrait__blink').count(), 4);
+    assert.equal(await page.locator('.portrait__body, .portrait__ear, .portrait__blink, .not-found__portrait').evaluateAll((els) => els.every((el) => getComputedStyle(el).animationName === 'none')), true);
     await go(page, productRoute); await page.locator('#product-contact [data-telegram-link]').hover();
     assert.equal(await page.locator('#product-contact [data-telegram-link] svg').evaluate((el) => getComputedStyle(el).animationName), 'none');
     await page.setViewportSize({ width: 390, height: 844 });
@@ -361,6 +400,7 @@ try {
   const native = observe(await noJs.newPage());
   await scenario('no JavaScript: all products, native mobile menu, contacts, gallery links and SLA fallback', async () => {
     await go(native);
+    assert.equal(await native.locator('.portrait').count(), 0);
     assert.equal(await native.locator('[data-catalog-item]').count(), 49);
     assert.equal(await native.locator('.reveal-pending').count(), 0);
     assert.equal(await native.locator('.site-header__burger').isVisible(), false, 'do not expose an inert burger without JS');
@@ -377,6 +417,9 @@ try {
     await go(native, 'sla/');
     assert.equal(await native.locator('noscript [data-telegram-link]').isVisible(), true);
     assert.equal(await native.locator('[data-sla-form]').isVisible(), false);
+    await go(native, '404.html');
+    assert.equal(await native.locator('.portrait__base').isVisible(), true);
+    await noOverflow(native, 'no JS 404');
   });
   await noJs.close();
 

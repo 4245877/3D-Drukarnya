@@ -226,13 +226,19 @@ test('production build generates every product page and the sitemap', async (t) 
     }
   });
 
-  await t.test('the home hero keeps the required rack and shows the brand illustration', async () => {
+  await t.test('the home hero leads with the rack and the animated portrait stays on 404', async () => {
     const html = await readFile(path.join(distDir, 'index.html'), 'utf8');
     const hero = html.match(/<section class="catalog-hero[\s\S]*?<\/section>/)?.[0] ?? '';
     assert.ok(hero.includes('catalog-hero__rack'), 'the server rack is a mandatory part of the hero');
-    assert.match(hero, /alt="Брендова ілюстрація TANMEK: Рафталія"/);
-    assert.match(hero, /fetchpriority="high"/, 'the portrait is the first screen and must not wait');
+    assert.ok(!html.includes('class="portrait"'), 'the home page must not render the portrait');
     assert.ok(!/\sstyle="/.test(hero), 'style attributes would break the strict-CSP readiness');
+    const notFound = await readFile(path.join(distDir, '404.html'), 'utf8');
+    assert.match(notFound, /alt="Брендова ілюстрація TANMEK: Рафталія"/);
+    assert.match(notFound, /fetchpriority="high"/, 'the 404 portrait must not wait');
+    assert.match(notFound, /not-found ears-listen[^>]*data-live[^>]*data-parallax/);
+    for (const layer of ['portrait__body', 'portrait__ear--left', 'portrait__ear--right', 'portrait__blink']) {
+      assert.ok(notFound.includes(layer), `404 portrait layer missing: ${layer}`);
+    }
   });
 
   await t.test('messenger buttons carry the official marks and their own colours', async () => {

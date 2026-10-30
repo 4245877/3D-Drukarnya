@@ -3,7 +3,6 @@ import Layout from '../components/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import SlaPreview from '../components/SlaPreview.astro';
 import ContactActions from '../components/ContactActions.astro';
-import RaphtaliaPortrait from '../components/RaphtaliaPortrait.astro';
 import { CATEGORIES } from '../data/categories.mjs';
 import { FAQ_ITEMS } from '../data/faq';
 import { OLX_URL, SITE_NAME } from '../data/site.config.mjs';
@@ -101,9 +100,8 @@ const structuredData = graph([
   ></script>
 
   <div class="catalog-page" data-catalog-page>
-    <section class="catalog-hero ears-listen" data-live data-parallax>
-      {/* A few strands of her hair, lifted by the wind and running off the page.
-          They grow out from behind the portrait and stay clear of the text. */}
+    <section class="catalog-hero" data-live data-parallax>
+      {/* Warm copper contours frame the equipment and stay clear of the copy. */}
       <svg class="catalog-hero__strands" viewBox="0 0 1440 700" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" focusable="false">
         <defs>
           <linearGradient id="hero-strand" x1="1" y1="0" x2="0" y2="1">
@@ -159,13 +157,6 @@ const structuredData = graph([
           <span class="leaf catalog-hero__leaf catalog-hero__leaf--b"></span>
           <span class="leaf catalog-hero__leaf catalog-hero__leaf--c"></span>
 
-          <div class="catalog-hero__portrait">
-            <RaphtaliaPortrait
-              priority
-              sizes="(max-width: 900px) min(100vw, 36rem), 46rem"
-            />
-          </div>
-
           <!-- Серверна стійка — обов'язковий елемент Hero на всіх екранах, включно з мобільними. Не приховувати й не видаляти під час адаптації. -->
           <div class="catalog-hero__rack" aria-hidden="true">
               <!--
@@ -175,7 +166,7 @@ const structuredData = graph([
                 Printed parts (frame, rail, shelf, feet) = burgundy/copper,
                 equipment = graphite/steel, highlights = cream, LEDs = warm.
               -->
-              <svg viewBox="0 0 400 300" role="presentation" focusable="false">
+              <svg viewBox="72 -12 256 312" role="presentation" focusable="false">
                 <defs>
                   <linearGradient id="hlr-print-front" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0" stop-color="#A64B52" />
