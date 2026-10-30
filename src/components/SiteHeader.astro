@@ -65,9 +65,29 @@ const currentOf = (link: string) => (currentPath === link ? 'page' : isActive(li
       data-close-label={copy.closeMenu}
       aria-expanded="false"
       aria-controls="site-header-menu"
+      hidden
     >
       <span></span><span></span><span></span>
     </button>
+
+    <noscript>
+      <details class="site-header__native-menu">
+        <summary aria-label={copy.openMenu}>
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+            <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </summary>
+        <nav class="site-header__drawer site-header__drawer--native" aria-label={copy.mobileNavigation}>
+          <a class="site-header__drawer-link" href={links[0].href} aria-current={currentOf(links[0].href)}>{links[0].label}</a>
+          {categoryLinks.map((link) => (
+            <a class="site-header__drawer-link site-header__drawer-link--sub" href={link.href} aria-current={currentOf(link.href)}>{link.label}</a>
+          ))}
+          {links.slice(1).map((link) => (
+            <a class="site-header__drawer-link" href={link.href} aria-current={currentOf(link.href)}>{link.label}</a>
+          ))}
+        </nav>
+      </details>
+    </noscript>
   </div>
 
   <nav
@@ -118,5 +138,8 @@ const currentOf = (link: string) => (currentPath === link ? 'page' : isActive(li
       const target = event.target as Node;
       if (isOpen() && !drawer.contains(target) && !burger.contains(target)) setOpen(false);
     });
+
+    // Only expose the enhanced control after its handlers are attached.
+    burger.hidden = false;
   }
 </script>

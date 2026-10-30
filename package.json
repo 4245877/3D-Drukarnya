@@ -14,6 +14,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "check:build": "node scripts/check-build.mjs",
+    "check:design": "node scripts/check-design-regressions.mjs",
+    "check:ui": "node scripts/check-ui.mjs",
     "check:drafts": "node scripts/check-draft-preview.mjs",
     "check:catalog": "node scripts/check-draft-preview.mjs",
     "validate:data": "node scripts/validate-data.mjs",

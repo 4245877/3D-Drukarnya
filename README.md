@@ -31,6 +31,8 @@ SEO, structured data й доступність для пошукових та AI
 | `npm test`              | Тести (`node --test`): схема даних + реальний production build        |
 | `npm run build`         | Production-збірка у `dist/`                                           |
 | `npm run check:build`   | Перевірки готового артефакту в `dist/` (метадані, JSON-LD, посилання) |
+| `npm run check:design`  | 15 навмисних дефектів в ізольованій копії: перевірка дієвості регресійних тестів |
+| `npm run check:ui`      | Додатковий браузерний аудит локального preview через наявний Playwright; [налаштування](docs/FINAL-QA-2026-10-30.md) |
 | `npm run check:drafts`  | HTTP-перевірка приватних чернеток, категорій, обкладинок і галерей |
 | `npm run check:catalog` | HTTP-перевірка всіх десяти нових сторінок, обкладинок, галерей і кнопок замовлення |
 | `npm run preview`       | Локальний перегляд зібраного сайту                                    |

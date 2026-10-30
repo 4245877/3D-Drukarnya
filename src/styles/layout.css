@@ -253,6 +253,24 @@ body {
 .site-header__burger[aria-expanded='true'] span:nth-child(2) { opacity: 0; }
 .site-header__burger[aria-expanded='true'] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+.site-header__burger[hidden],
+.site-header__native-menu { display: none; }
+
+.site-header__native-menu summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  color: var(--chocolate);
+  list-style: none;
+  cursor: pointer;
+}
+
+.site-header__native-menu summary::-webkit-details-marker { display: none; }
+.site-header__native-menu:not([open]) .site-header__drawer { display: none; }
+
 .site-header__drawer {
   display: none;
   position: absolute;
@@ -313,6 +331,7 @@ body {
   /* Logo stays left; CTA + burger group on the right */
   .site-header__logo { margin-right: auto; }
   .site-header__burger { display: flex; }
+  .site-header__native-menu { display: block; }
 
   /* Rendered at all times so it can move; visibility keeps the closed menu out
      of the tab order and the accessibility tree. */
@@ -332,6 +351,12 @@ body {
     visibility: visible;
     transform: translateY(0);
     transition-delay: 0s;
+  }
+
+  .site-header__drawer--native {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
   }
 }
 
@@ -355,7 +380,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-header__burger span, .site-header__contact { transition: none; }
+  .site-header__burger span, .site-header__contact, .site-header__drawer { transition: none; }
   .site-header__contact:hover, .site-header__contact:active { transform: none; }
   .site-header__logo:hover .site-header__logo-mark { transform: none; }
   /* A bar that fills while scrolling is motion: keep the plain hairline. */

@@ -112,7 +112,9 @@
 }
 
 .btn.contact-button:focus-visible {
-  outline-color: var(--brand);
+  /* Telegram blue falls just below 3:1 on the warm paper. Keep the keyboard
+     outline in the shop's darker action colour; the badge keeps its brand. */
+  outline-color: var(--burgundy);
   border-color: rgba(var(--brand-rgb), 0.6);
 }
 

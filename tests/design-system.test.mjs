@@ -19,7 +19,7 @@ async function sourceFiles(dir, extensions) {
 
 test('keyboard focus keeps each element its own shape', async () => {
   const css = await read('src/styles/base.css');
-  const rule = css.match(/:focus-visible\s*\{[^}]*\}/)?.[0] ?? '';
+  const rule = css.match(/^:focus-visible\s*\{[^}]*\}/m)?.[0] ?? '';
   assert.ok(rule, 'global focus rule is missing');
   assert.ok(!rule.includes('border-radius'), 'a radius here squares off every pill and card on focus');
 });
@@ -27,8 +27,8 @@ test('keyboard focus keeps each element its own shape', async () => {
 test('grid tracks never demand more width than a 320px phone has', async () => {
   for (const file of await sourceFiles('src/styles', ['.css'])) {
     const css = await read(file);
-    for (const [track, size] of css.matchAll(/minmax\((\d+(?:\.\d+)?)rem,\s*1fr\)/g)) {
-      assert.ok(Number(size) * 16 <= 288, `${file}: ${track} overflows a 320px screen; wrap it in min(100%, …)`);
+    for (const [track, size, unit] of css.matchAll(/minmax\(\s*(\d+(?:\.\d+)?)(rem|px)\s*,\s*1fr\s*\)/g)) {
+      assert.ok(Number(size) * (unit === 'rem' ? 16 : 1) <= 288, `${file}: ${track} overflows a 320px screen; wrap it in min(100%, …)`);
     }
   }
 });
@@ -48,8 +48,9 @@ test('the catalog drawer never gains a transformed ancestor', async () => {
   const motion = await read('src/scripts/motion.ts');
   const selectors = motion.match(/REVEAL_SELECTOR = \[([\s\S]*?)\]/)?.[1] ?? '';
   assert.ok(selectors.includes('.catalog-grid__item'), 'cards are the part of the catalog that moves');
+  const revealed = [...selectors.matchAll(/['"]([^'"]+)['"]/g)].map((match) => match[1]);
   for (const ancestor of ['.catalog-page', '.catalog-main', '.catalog-layout']) {
-    assert.ok(!selectors.includes(`'${ancestor}'`), `${ancestor} must not animate: the drawer is position: fixed inside it`);
+    assert.ok(!revealed.includes(ancestor), `${ancestor} must not animate: the drawer is position: fixed inside it`);
   }
 });
 
@@ -61,10 +62,12 @@ test('the character is shown, never voiced', async () => {
 
   // docs/RAPHTALIA-VOICE.md: the shop speaks, not a person introducing herself.
   // Letter lookarounds, not \b: in JavaScript \b does not see Cyrillic at all.
-  const firstPerson = /(?<!\p{L})(Допоможу|допоможу|підкажу|раджу|рекомендую|мене|мій контакт|мені)(?!\p{L})/u;
+  const firstPerson = /(?<!\p{L})(допоможу|підкажу|раджу|рекомендую|мене|мій контакт|мені)(?!\p{L})/iu;
   const files = (await sourceFiles('src/components', ['.astro'])).filter((file) => /Contact|SiteFooter|SiteHeader/.test(file));
   for (const file of [...files, 'src/pages/products/[slug].astro']) {
-    const source = (await read(file)).replace(/\/\/.*$|\/\*[\s\S]*?\*\/|\{\/\*[\s\S]*?\*\/\}/gm, '');
+    // Only whole-line // comments: matching every // also erases visible text
+    // after an https:// URL on the same line.
+    const source = (await read(file)).replace(/<!--[^]*?-->|\/\*[\s\S]*?\*\/|^\s*\/\/.*$/gm, '');
     assert.ok(!source.match(firstPerson), `${file}: first person in the shop's voice`);
   }
 });
@@ -88,6 +91,6 @@ test('brand layers are small enough for the first screen', async () => {
 test('pages stay ready for a strict CSP: no style attributes in templates', async () => {
   for (const file of await sourceFiles('src', ['.astro'])) {
     const source = (await read(file)).replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
-    assert.ok(!/<[a-z][^>]*\sstyle=["{]/i.test(source), `${file}: move the style attribute to a stylesheet`);
+    assert.ok(!/<[a-z][^>]*\sstyle\s*=/i.test(source), `${file}: move the style attribute to a stylesheet`);
   }
 });

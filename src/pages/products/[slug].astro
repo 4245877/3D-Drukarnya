@@ -733,7 +733,10 @@ const structuredData = graph([
         if (track && track.scrollWidth > track.clientWidth) {
           const offset =
             active.offsetLeft - track.clientWidth / 2 + active.offsetWidth / 2;
-          track.scrollTo({ left: Math.max(0, offset), behavior: 'smooth' });
+          track.scrollTo({
+            left: Math.max(0, offset),
+            behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+          });
         }
       };
 
