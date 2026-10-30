@@ -18,7 +18,11 @@ export function initContacts() {
       if (support) {
         trigger = link;
         support.hidden = false;
-        if (event.detail === 0) support.focus({ preventScroll: true });
+        // Gecko's keyboard-generated click can have detail=1, but its
+        // PointerEvent still has an empty pointerType (mouse/touch do not).
+        if (event.detail === 0 || ('pointerType' in event && event.pointerType === '')) {
+          support.focus({ preventScroll: true });
+        }
       }
       // Do not preventDefault: the OS must receive the Viber URI immediately.
     });

@@ -7,6 +7,8 @@
  * would change its containing block (docs/BACKGROUND-DESIGN.md).
  */
 
+import { initDisclosures } from './disclosures';
+
 const REVEAL_SELECTOR = [
   '.catalog-grid__item',
   '.sla-preview__inner',
@@ -34,17 +36,63 @@ function initHeader() {
 
   let frame = 0;
   let scrolled: boolean | undefined;
+  const root = document.documentElement;
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const nativeProgress = CSS.supports('animation-timeline: scroll(root block)');
+  let progress: Animation | undefined;
+  let range = 0;
+  let measureRange = true;
+  let previousProgress = -1;
   const update = () => {
     frame = 0;
     const next = window.scrollY > 8;
-    if (next === scrolled) return;
-    scrolled = next;
-    header.classList.toggle('is-scrolled', next);
+    if (next !== scrolled) {
+      scrolled = next;
+      header.classList.toggle('is-scrolled', next);
+    }
+    if (!progress) return;
+    if (measureRange) {
+      range = Math.max(0, root.scrollHeight - root.clientHeight);
+      measureRange = false;
+    }
+    const position = range ? Math.max(0, Math.min(1, window.scrollY / range)) : 0;
+    if (position !== previousProgress) {
+      // Animate only the pseudo-element: no inherited custom property that
+      // would invalidate the header's text and links on every scroll frame.
+      progress.currentTime = position;
+      previousProgress = position;
+    }
   };
 
-  window.addEventListener('scroll', () => {
+  const schedule = () => {
     if (frame === 0) frame = requestAnimationFrame(update);
-  }, { passive: true });
+  };
+  window.addEventListener('scroll', schedule, { passive: true });
+  if (!nativeProgress) {
+    const syncProgress = () => {
+      progress?.cancel();
+      progress = undefined;
+      if (!motionQuery.matches) {
+        progress = header.animate([
+          { transform: 'scaleX(0)', opacity: 1 },
+          { transform: 'scaleX(1)', opacity: 1 },
+        ], { duration: 1, fill: 'both', pseudoElement: '::after' });
+        progress.pause();
+      }
+      previousProgress = -1;
+      schedule();
+    };
+    const resize = () => { measureRange = true; schedule(); };
+    if ('ResizeObserver' in window) {
+      const observer = new ResizeObserver(resize);
+      observer.observe(document.body);
+      observer.observe(root);
+    }
+    window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('pageshow', resize);
+    motionQuery.addEventListener('change', syncProgress);
+    syncProgress();
+  }
   update();
 }
 
@@ -69,10 +117,13 @@ function initReveal() {
         if (!element.classList.contains('reveal-pending')) continue;
         element.classList.remove('reveal-pending');
         element.classList.add('reveal-in');
-        element.addEventListener('animationend', () => {
+        const finish = (event: AnimationEvent) => {
+          if (event.target !== element || event.animationName !== 'fadeUp') return;
           element.classList.remove('reveal-in');
           element.style.removeProperty('--reveal-delay');
-        }, { once: true });
+          element.removeEventListener('animationend', finish);
+        };
+        element.addEventListener('animationend', finish);
       }
     },
     { rootMargin: '0px 0px -6% 0px' },
@@ -187,6 +238,7 @@ function initParallax() {
 
 export function initMotion() {
   initHeader();
+  initDisclosures();
   // Keep the current animation phase across hidden tabs and the back/forward
   // cache, including CSS/SVG animations managed by individual components.
   const syncVisibility = () => document.documentElement.classList.toggle('motion-suspended', document.hidden);

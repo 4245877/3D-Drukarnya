@@ -62,7 +62,7 @@ function setup(clipboard = { writeText: async () => {} }) {
   const exports = {};
   runInNewContext(runtime, { document, navigator: { clipboard }, exports });
   exports.initContacts();
-  return { link, support, close, button, status, manual, events };
+  return { link, support, close, button, status, manual, events, get activeElement() { return activeElement; } };
 }
 
 test('Viber opens its native URI immediately and exposes dismissible help', () => {
@@ -74,6 +74,10 @@ test('Viber opens its native URI immediately and exposes dismissible help', () =
   assert.equal(ui.support.hidden, true);
   ui.link.handlers.click({ detail: 0 });
   assert.equal(ui.support.hidden, false);
+  ui.events.get('keydown')({ key: 'Escape' });
+  assert.equal(ui.support.hidden, true);
+  ui.link.handlers.click({ detail: 1, pointerType: '' });
+  assert.equal(ui.activeElement, ui.support, 'Gecko keyboard activation moves focus into help');
   ui.events.get('keydown')({ key: 'Escape' });
   assert.equal(ui.support.hidden, true);
   ui.link.handlers.click({ ctrlKey: true });

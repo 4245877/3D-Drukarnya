@@ -51,8 +51,8 @@ body {
   box-shadow: 0 12px 30px -22px rgba(74, 44, 26, 0.6);
 }
 
-/* A single auburn strand along the edge. Where scroll timelines exist it grows
-   with reading progress; elsewhere it is simply a quiet hairline. */
+/* A single auburn strand grows with reading progress. motion.ts supplies a
+   paused pseudo-element animation where native scroll timelines are absent. */
 .site-header::after {
   content: '';
   position: absolute;
@@ -68,10 +68,11 @@ body {
 
 /* Longhands on purpose: given the `animation` shorthand, the CSS minifier folds
    the timeline into it, a form Chromium rejects as a whole. */
-@supports (animation-timeline: scroll()) {
+@supports (animation-timeline: scroll(root block)) {
   .site-header::after {
     opacity: 1;
     animation-name: headerProgress;
+    animation-duration: 1ms;
     animation-timing-function: linear;
     animation-fill-mode: both;
     animation-timeline: scroll(root block);

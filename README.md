@@ -32,8 +32,9 @@ SEO, structured data й доступність для пошукових та AI
 | `npm run build`         | Production-збірка у `dist/`                                           |
 | `npm run check:build`   | Перевірки готового артефакту в `dist/` (метадані, JSON-LD, посилання) |
 | `npm run check:design`  | 15 навмисних дефектів в ізольованій копії: перевірка дієвості регресійних тестів |
-| `npm run check:ui`      | Додатковий браузерний аудит локального preview через наявний Playwright; [налаштування](docs/FINAL-QA-2026-10-30.md) |
+| `npm run check:ui`      | Браузерний аудит Firefox/Chromium через наявний Playwright; `TANMEK_BROWSER=firefox` обирає Gecko; [налаштування](docs/FIREFOX-AUDIT-2026-10-30.md) |
 | `npm run check:performance` | Трасування анімацій на desktop/mobile з CPU ×1/×6, перевірка пауз і відсутності покадрового layout; [аудит](docs/PERFORMANCE-AUDIT-2026-10-30.md) |
+| `npm run check:performance:gecko` | Три заміри rAF для кожної ширини 1440/390 px у Firefox, перевірка пауз та швидкого перемикання галереї; [аудит Gecko](docs/FIREFOX-AUDIT-2026-10-30.md) |
 | `npm run check:performance:frames` | Порівняння однакових кадрів до/після змін; шляхи до двох наборів PNG можна передати аргументами |
 | `npm run check:drafts`  | HTTP-перевірка приватних чернеток, категорій, обкладинок і галерей |
 | `npm run check:catalog` | HTTP-перевірка всіх десяти нових сторінок, обкладинок, галерей і кнопок замовлення |

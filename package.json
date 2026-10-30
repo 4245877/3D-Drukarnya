@@ -17,6 +17,7 @@
     "check:design": "node scripts/check-design-regressions.mjs",
     "check:ui": "node scripts/check-ui.mjs",
     "check:performance": "node scripts/check-performance.mjs --verify",
+    "check:performance:gecko": "node scripts/check-gecko-performance.mjs --verify",
     "check:performance:frames": "node scripts/compare-performance-frames.mjs",
     "check:drafts": "node scripts/check-draft-preview.mjs",
     "check:catalog": "node scripts/check-draft-preview.mjs",

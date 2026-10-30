@@ -7,19 +7,21 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 
 const require = createRequire(import.meta.url);
-let chromium;
+let browserType;
+const engine = process.env.TANMEK_BROWSER || 'chromium';
+assert.ok(['chromium', 'firefox'].includes(engine), 'TANMEK_BROWSER must be chromium or firefox');
 try {
-  ({ chromium } = require(process.env.TANMEK_PLAYWRIGHT_MODULE || 'playwright'));
+  browserType = require(process.env.TANMEK_PLAYWRIGHT_MODULE || 'playwright')[engine];
 } catch {
   console.error('Playwright is optional. Set TANMEK_PLAYWRIGHT_MODULE to an existing installation; see docs/FINAL-QA-2026-10-30.md.');
   process.exit(1);
 }
-const executablePath = process.env.TANMEK_BROWSER_PATH || [
+const executablePath = process.env.TANMEK_BROWSER_PATH || (engine === 'chromium' ? [
   'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
   'C:/Program Files/Google/Chrome/Application/chrome.exe',
-].find(existsSync);
+].find(existsSync) : undefined);
 const base = process.env.TANMEK_PREVIEW_URL || 'http://127.0.0.1:4321/3D-Drukarnya/';
-const output = path.resolve('.contact-qa.tmp/final');
+const output = path.resolve(process.env.TANMEK_UI_OUTPUT || `.contact-qa.tmp/${engine}`);
 await mkdir(output, { recursive: true });
 const product = JSON.parse(await readFile(new URL('../src/data/products/product-1.json', import.meta.url), 'utf8'));
 const { CATEGORIES } = await import('../src/data/categories.mjs');
@@ -31,13 +33,28 @@ const results = [];
 const pageErrors = [];
 const consoleErrors = [];
 const failedRequests = [];
+const cancelledFontRequests = [];
+const noScriptPages = new WeakSet();
 let passed = false;
-const browser = await chromium.launch({ executablePath, headless: true });
+const browser = await browserType.launch({
+  executablePath, headless: true,
+  // Test-only permission bypass: Firefox does not accept Chromium's clipboard
+  // permission names. Keep exercising the real Clipboard API on both engines.
+  ...(engine === 'firefox' ? { firefoxUserPrefs: { 'dom.events.testing.asyncClipboard': true } } : {}),
+});
 
 function observe(page) {
   page.on('pageerror', (e) => pageErrors.push({ url: page.url(), message: e.message }));
-  page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push({ url: page.url(), message: m.text() }); });
-  page.on('requestfailed', (r) => { if (r.failure()?.errorText !== 'net::ERR_ABORTED') failedRequests.push({ url: r.url(), error: r.failure()?.errorText }); });
+  page.on('console', (m) => {
+    if (m.type() !== 'error') return;
+    const entry = { url: page.url(), message: m.text() };
+    // Gecko also logs NS_BINDING_ABORTED (0x804b0002) for font requests
+    // cancelled by navigation/context close. Preserve these diagnostics, but
+    // do not mistake a cancellation for a font, network or application error.
+    if (/downloadable font: download failed.*status=2152398850/.test(entry.message)) cancelledFontRequests.push(entry);
+    else consoleErrors.push(entry);
+  });
+  page.on('requestfailed', (r) => { if (!['net::ERR_ABORTED', 'NS_BINDING_ABORTED'].includes(r.failure()?.errorText)) failedRequests.push({ url: r.url(), error: r.failure()?.errorText }); });
   return page;
 }
 async function scenario(name, run) {
@@ -47,8 +64,10 @@ async function scenario(name, run) {
 }
 async function go(page, route = '') {
   const response = await page.goto(new URL(route, base).href, { waitUntil: 'networkidle' });
-  assert.equal(response.status(), 200, `HTTP ${response.status()}: ${route}`);
-  await page.evaluate(() => document.fonts.ready);
+  assert.ok([200, 304].includes(response.status()), `HTTP ${response.status()}: ${route}`);
+  // Gecko cannot settle page-evaluated promises when scripting is disabled.
+  // Network-idle still waits for the browser's stylesheet/font requests.
+  if (!noScriptPages.has(page)) await page.evaluate(() => document.fonts.ready);
 }
 async function noOverflow(page, label) {
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `horizontal overflow: ${label}`);
@@ -63,12 +82,16 @@ function contrast(a, b) {
   return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
 }
 async function scrollToElement(page, selector) {
-  await page.locator(selector).first().scrollIntoViewIfNeeded();
+  const target = page.locator(selector).first();
+  await target.scrollIntoViewIfNeeded();
   await page.waitForTimeout(650);
+  await target.evaluate((el) => Promise.all(el.getAnimations()
+    .filter((a) => a.effect.getTiming().iterations !== Infinity && a.playState === 'running')
+    .map((a) => a.finished.catch(() => {}))));
 }
 
 try {
-  const context = await browser.newContext({ permissions: ['clipboard-read', 'clipboard-write'], reducedMotion: 'reduce' });
+  const context = await browser.newContext({ ...(engine === 'chromium' ? { permissions: ['clipboard-read', 'clipboard-write'] } : {}), reducedMotion: 'reduce' });
   const page = observe(await context.newPage());
   if (!process.argv.includes('--functional-only')) await scenario('responsive layout: 7 pages × 11 widths (320–2560px)', async () => {
     for (const width of widths) {
@@ -400,6 +423,52 @@ try {
     assert.equal(await mechanism.locator('.sla-mechanism__moving').evaluate((el) => getComputedStyle(el).animationPlayState), 'running');
     await shot(motion, 'sla-mechanism-visible');
   });
+  await scenario('Gecko/Blink parity: scroll progress, disclosure height and bounded gallery cross-fades', async () => {
+    await go(motion, 'sla/');
+    await motion.evaluate(() => scrollTo({ top: 700, behavior: 'instant' }));
+    await motion.waitForTimeout(100);
+    const progress = await motion.locator('.site-header').evaluate((el) => {
+      const style = getComputedStyle(el, '::after');
+      return { actual: new DOMMatrix(style.transform).a, expected: scrollY / (document.documentElement.scrollHeight - document.documentElement.clientHeight), opacity: style.opacity };
+    });
+    assert.ok(Math.abs(progress.actual - progress.expected) < 0.01, JSON.stringify(progress));
+    assert.equal(progress.opacity, '1');
+    const disclosure = motion.locator('.sla-faq__item').first();
+    await scrollToElement(motion, '.sla-faq__item');
+    const collapsed = (await disclosure.boundingBox()).height;
+    await disclosure.locator('summary').click();
+    await motion.waitForTimeout(40);
+    const duringOpen = (await disclosure.boundingBox()).height;
+    await motion.waitForTimeout(350);
+    const expanded = (await disclosure.boundingBox()).height;
+    assert.ok(duringOpen > collapsed && duringOpen < expanded, `smooth opening: ${collapsed}, ${duringOpen}, ${expanded}`);
+    await disclosure.locator('summary').click();
+    await motion.waitForTimeout(40);
+    const duringClose = (await disclosure.boundingBox()).height;
+    assert.ok(duringClose > collapsed && duringClose < expanded, `smooth closing: ${duringClose}`);
+    await motion.waitForTimeout(350);
+    assert.ok(Math.abs((await disclosure.boundingBox()).height - collapsed) < 1);
+    await disclosure.locator('summary').click();
+    await motion.waitForTimeout(40);
+    await disclosure.locator('summary').click();
+    await motion.waitForTimeout(400);
+    assert.equal(await disclosure.getAttribute('open'), null);
+    assert.equal(await motion.locator('.disclosure-sizing').count(), 0);
+    await motion.emulateMedia({ reducedMotion: 'reduce' });
+    await motion.waitForFunction(() => getComputedStyle(document.querySelector('.site-header'), '::after').opacity === '0.55');
+    assert.equal(await motion.locator('.site-header').evaluate((el) => getComputedStyle(el, '::after').opacity), '0.55');
+    await disclosure.locator('summary').click();
+    await motion.waitForTimeout(100);
+    assert.equal(await motion.locator('.disclosure-sizing').count(), 0);
+    await motion.emulateMedia({ reducedMotion: 'no-preference' });
+    await go(motion, productRoute);
+    await motion.locator('[data-product-gallery]').evaluate((gallery) => {
+      const thumbnails = gallery.querySelectorAll('[data-gallery-thumb]');
+      for (let i = 0; i < 30; i++) thumbnails[i % thumbnails.length].click();
+    });
+    const count = await motion.locator('[data-gallery-main-image]').evaluate((el) => el.getAnimations().filter((a) => a.playState !== 'finished').length);
+    assert.ok(count <= 1, `rapid gallery activation queued ${count} animations`);
+  });
   await animated.close();
 
   await scenario('reduced motion: portrait, ambient effects and messenger hover are still', async () => {
@@ -427,7 +496,7 @@ try {
   });
 
   await scenario('touch screen: 44px targets, no sticky messenger hover, Viber sheet within viewport', async () => {
-    const touch = await browser.newContext({ viewport: { width: 320, height: 844 }, hasTouch: true, isMobile: true });
+    const touch = await browser.newContext({ viewport: { width: 320, height: 844 }, hasTouch: true, ...(engine === 'chromium' ? { isMobile: true } : {}) });
     const phone = observe(await touch.newPage());
     await go(phone, productRoute);
     assert.equal(await phone.evaluate(() => matchMedia('(hover: none) and (pointer: coarse)').matches), true);
@@ -469,6 +538,7 @@ try {
 
   const noJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 320, height: 844 } });
   const native = observe(await noJs.newPage());
+  noScriptPages.add(native);
   await scenario('no JavaScript: all products, native mobile menu, contacts, gallery links and SLA fallback', async () => {
     await go(native);
     assert.equal(await native.locator('.portrait').count(), 0);
@@ -478,7 +548,8 @@ try {
     await native.locator('.site-header__native-menu summary').click();
     assert.equal(await native.locator('.site-header__native-menu nav').isVisible(), true);
     assert.equal(await native.locator('.site-header__native-menu nav a').count(), 6);
-    await shot(native, 'no-js-menu');
+    // Firefox's screenshot font wait uses the same disabled JS promise queue.
+    if (engine !== 'firefox') await shot(native, 'no-js-menu');
     await go(native, productRoute);
     assert.equal(await native.locator('#product-contact [data-contact-copy]').isVisible(), false);
     assert.ok((await native.locator('[data-gallery-open]').getAttribute('href')).startsWith('https://'));
@@ -500,6 +571,6 @@ try {
   passed = true;
   console.log(`PASS: ${results.length} scenarios. Screenshots: ${output}`);
 } finally {
-  await writeFile(path.join(output, 'results.json'), JSON.stringify({ status: passed ? 'passed' : 'failed', browser: browser.version(), functionalOnly: process.argv.includes('--functional-only'), results, pageErrors, consoleErrors, failedRequests }, null, 2));
+  await writeFile(path.join(output, 'results.json'), JSON.stringify({ status: passed ? 'passed' : 'failed', engine, browser: browser.version(), functionalOnly: process.argv.includes('--functional-only'), results, pageErrors, consoleErrors, failedRequests, cancelledFontRequests }, null, 2));
   await browser.close();
 }

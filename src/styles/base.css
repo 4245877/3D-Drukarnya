@@ -499,6 +499,15 @@ p {
   animation: fadeUp var(--dur-normal) var(--ease-out) both;
 }
 
+/* Measured-height fallback for Gecko. The class exists only for the duration
+   of a native toggle; settled content remains auto-sized and fully responsive. */
+.disclosure-sizing { overflow: clip; overflow-clip-margin: 4px; }
+.disclosure-sizing::details-content {
+  block-size: auto;
+  content-visibility: visible;
+  transition: none;
+}
+
 /* ── Breadcrumbs ──────────────────────────────────────────── */
 .breadcrumbs {
   min-width: 0;

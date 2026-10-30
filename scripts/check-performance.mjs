@@ -8,11 +8,14 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 
 const require = createRequire(import.meta.url);
-const { chromium } = require(process.env.TANMEK_PLAYWRIGHT_MODULE || 'playwright');
-const executablePath = process.env.TANMEK_BROWSER_PATH || [
+const engine = process.env.TANMEK_BROWSER || 'chromium';
+assert.ok(['chromium', 'firefox'].includes(engine));
+assert.ok(engine === 'chromium' || process.argv.includes('--visual-only'), 'Use check:performance:gecko for Gecko timing; CDP metrics require Chromium.');
+const browserType = require(process.env.TANMEK_PLAYWRIGHT_MODULE || 'playwright')[engine];
+const executablePath = process.env.TANMEK_BROWSER_PATH || (engine === 'chromium' ? [
   'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
   'C:/Program Files/Google/Chrome/Application/chrome.exe',
-].find(existsSync);
+].find(existsSync) : undefined);
 const label = process.argv.find((arg) => arg.startsWith('--label='))?.slice(8) || 'after';
 assert.match(label, /^[a-z0-9-]+$/);
 const dist = path.resolve(process.argv.find((arg) => arg.startsWith('--dist='))?.slice(7) || 'dist');
@@ -35,7 +38,7 @@ await mkdir(output, { recursive: true });
 if (label === 'before' && !existsSync('.performance-qa.tmp/before-dist')) await cp(dist, path.resolve('.performance-qa.tmp/before-dist'), { recursive: true });
 let browser;
 try {
-  browser = await chromium.launch({ executablePath, headless: true });
+  browser = await browserType.launch({ executablePath, headless: true });
 } catch (error) {
   server.close();
   throw error;
@@ -196,7 +199,7 @@ try {
       if (width === 390 && !route) await page.locator('.catalog-hero__rack').scrollIntoViewIfNeeded();
       await page.evaluate(() => {
         for (const animation of document.getAnimations()) {
-          if (typeof animation.currentTime !== 'number') continue; // scroll timeline
+          if (typeof animation.currentTime !== 'number' || animation.effect?.pseudoElement === '::after') continue; // reading progress has its own scroll phase
           animation.pause(); animation.currentTime = 4000;
         }
       });
@@ -214,7 +217,7 @@ try {
         await page.waitForTimeout(900); // let its below-fold reveal finish
         await page.evaluate(() => {
           for (const animation of document.getAnimations()) {
-            if (typeof animation.currentTime === 'number') { animation.pause(); animation.currentTime = 4000; }
+            if (typeof animation.currentTime === 'number' && animation.effect?.pseudoElement !== '::after') { animation.pause(); animation.currentTime = 4000; }
           }
         });
         await page.screenshot({ path: path.join(output, `mechanism-${width}.png`) });
@@ -224,7 +227,7 @@ try {
   await context.close();
   assert.deepEqual(errors, [], 'browser errors');
 } finally {
-  await writeFile(path.join(output, 'results.json'), JSON.stringify({ browser: browser.version(), label, quick, verification: process.argv.includes('--verify'), profiles: results, errors }, null, 2));
+  await writeFile(path.join(output, 'results.json'), JSON.stringify({ engine, browser: browser.version(), label, quick, verification: process.argv.includes('--verify'), profiles: results, errors }, null, 2));
   await browser.close();
   server.close();
 }

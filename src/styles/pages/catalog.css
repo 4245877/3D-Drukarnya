@@ -321,7 +321,6 @@
   position: relative;
   z-index: 1;
   width: min(100%, 27rem);
-  filter: drop-shadow(0 18px 24px rgba(74, 44, 26, 0.26));
   transform: translate3d(0, 0, 0);
   transition: transform 500ms var(--ease-out);
   animation: heroRackIn 800ms var(--ease-out) 340ms both;
@@ -336,6 +335,24 @@
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* Cache the unchanged vectors as SVG images. Gecko otherwise repeatedly
+   rebuilds the inline artwork while its independent detail layers animate.
+   Every moving detail stays inside this opaque silhouette, so its original
+   drop shadow can be cached with the static art instead of the whole group. */
+.catalog-hero__rack .rack-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 18px 24px rgba(74, 44, 26, 0.26));
+}
+
+.catalog-hero__rack .rack-detail img,
+.catalog-hero__rack .rack-sheen img {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 /* Convert the original 256 × 312 viewBox (origin 72, -12) to percentages.

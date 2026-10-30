@@ -232,14 +232,16 @@ const imageAlt = (index: number) =>
       image.alt = alt;
     };
 
+    let photoTransition: Animation | undefined;
     const selectImage = (index: number) => {
       currentIndex = (index + items.length) % items.length;
 
       const { image, alt } = items[currentIndex];
       swapImage(mainImage, image, alt);
       // A short cross-fade: the frame keeps its size, only the photo changes.
+      photoTransition?.cancel();
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        mainImage.animate([{ opacity: 0.35 }, { opacity: 1 }], { duration: 280, easing: 'ease-out' });
+        photoTransition = mainImage.animate([{ opacity: 0.35 }, { opacity: 1 }], { duration: 280, easing: 'ease-out' });
       }
       // The backdrop is the same file, so it follows the main photo; it is
       // decorative, hence no alt and no fallback handling.

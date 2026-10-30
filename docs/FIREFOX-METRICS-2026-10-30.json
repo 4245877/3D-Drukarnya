@@ -1,0 +1,1122 @@
+{
+  "date": "2026-10-30",
+  "sourceCommit": "8bc2f4c3895564573c63d7bdb1ea5f20bb76fc23",
+  "environment": {
+    "node": "v22.22.0",
+    "os": "win32",
+    "mode": "local production build, headless browsers",
+    "firefoxPlaywrightBuild": 1532
+  },
+  "ui": {
+    "firefox": {
+      "status": "passed",
+      "engine": "firefox",
+      "browser": "151.0",
+      "functionalOnly": false,
+      "results": [
+        "responsive layout: 7 pages × 11 widths (320–2560px)",
+        "all 49 product pages load with working contact drafts",
+        "mobile menu: keyboard, Escape, outside click",
+        "catalog drawer after deep scroll: viewport bounds, focus trap, filters, Escape",
+        "gallery: thumbnails, dialog, keyboard arrows/Home/End, Escape and focus return",
+        "Telegram: seller, Unicode product draft, canonical URL, browser fallback and new tab",
+        "product copy: complete inquiry, clipboard and visible success",
+        "Viber: encoded native URI, help, keyboard focus, phone copy, Escape and close",
+        "mobile buy bar: appears after inquiry, returns to contact and yields to footer",
+        "SLA form: editable draft, Unicode, copy and native validation",
+        "denied clipboard: product, Viber phone and SLA select complete manual text",
+        "404 portrait: entrance, breathing, ears, blink, parallax, hover and offscreen pause; home reveal",
+        "messenger hover, press, keyboard focus and pill shape",
+        "animation performance: pause/resume, hidden document, batched pointer and bounded filter wave",
+        "Gecko/Blink parity: scroll progress, disclosure height and bounded gallery cross-fades",
+        "reduced motion: portrait, ambient effects and messenger hover are still",
+        "touch screen: 44px targets, no sticky messenger hover, Viber sheet within viewport",
+        "blocked web fonts: fallback typography remains readable and within 320px",
+        "failed product image: local placeholder and recovery on another thumbnail",
+        "no JavaScript: all products, native mobile menu, contacts, gallery links and SLA fallback"
+      ],
+      "pageErrors": [],
+      "consoleErrors": [],
+      "failedRequests": [],
+      "cancelledFontRequests": [
+        {
+          "url": "http://127.0.0.1:4321/3D-Drukarnya/products/modulna-mini-stiika-dlia-homelab-raspberry-pi-mini-pc-merezha/",
+          "message": "[JavaScript Error: \"downloadable font: download failed (font-family: \"Mulish\" style:normal weight:700 stretch:100 src index:0): status=2152398850 source: https://fonts.gstatic.com/s/mulish/v18/1Ptvg83HX_SGhgqk0QotcqA.woff2\"]"
+        }
+      ]
+    },
+    "chromium": {
+      "status": "passed",
+      "engine": "chromium",
+      "browser": "156.0.4314.50",
+      "functionalOnly": false,
+      "results": [
+        "responsive layout: 7 pages × 11 widths (320–2560px)",
+        "all 49 product pages load with working contact drafts",
+        "mobile menu: keyboard, Escape, outside click",
+        "catalog drawer after deep scroll: viewport bounds, focus trap, filters, Escape",
+        "gallery: thumbnails, dialog, keyboard arrows/Home/End, Escape and focus return",
+        "Telegram: seller, Unicode product draft, canonical URL, browser fallback and new tab",
+        "product copy: complete inquiry, clipboard and visible success",
+        "Viber: encoded native URI, help, keyboard focus, phone copy, Escape and close",
+        "mobile buy bar: appears after inquiry, returns to contact and yields to footer",
+        "SLA form: editable draft, Unicode, copy and native validation",
+        "denied clipboard: product, Viber phone and SLA select complete manual text",
+        "404 portrait: entrance, breathing, ears, blink, parallax, hover and offscreen pause; home reveal",
+        "messenger hover, press, keyboard focus and pill shape",
+        "animation performance: pause/resume, hidden document, batched pointer and bounded filter wave",
+        "Gecko/Blink parity: scroll progress, disclosure height and bounded gallery cross-fades",
+        "reduced motion: portrait, ambient effects and messenger hover are still",
+        "touch screen: 44px targets, no sticky messenger hover, Viber sheet within viewport",
+        "blocked web fonts: fallback typography remains readable and within 320px",
+        "failed product image: local placeholder and recovery on another thumbnail",
+        "no JavaScript: all products, native mobile menu, contacts, gallery links and SLA fallback"
+      ],
+      "pageErrors": [],
+      "consoleErrors": [],
+      "failedRequests": [],
+      "cancelledFontRequests": []
+    }
+  },
+  "gecko": {
+    "before": {
+      "label": "gecko-before",
+      "browser": "151.0",
+      "capabilities": {
+        "scrollTimeline": false,
+        "interpolateSize": false,
+        "detailsContent": true,
+        "prettyWrap": false,
+        "crossDocumentViewTransitions": false
+      },
+      "results": [
+        {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "visible": [
+            {
+              "frames": 116,
+              "rafMedianMs": 15,
+              "rafP95Ms": 40,
+              "rafOver34ms": 8
+            },
+            {
+              "frames": 122,
+              "rafMedianMs": 15,
+              "rafP95Ms": 35,
+              "rafOver34ms": 19
+            },
+            {
+              "frames": 126,
+              "rafMedianMs": 15,
+              "rafP95Ms": 35.02000000000044,
+              "rafOver34ms": 19
+            }
+          ],
+          "offscreen": {
+            "frames": 333,
+            "rafMedianMs": 5,
+            "rafP95Ms": 5,
+            "rafOver34ms": 6
+          },
+          "pausedLoops": 9,
+          "queuedPhotoAnimations": 30
+        },
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "visible": [
+            {
+              "frames": 366,
+              "rafMedianMs": 5,
+              "rafP95Ms": 10,
+              "rafOver34ms": 0
+            },
+            {
+              "frames": 373,
+              "rafMedianMs": 5,
+              "rafP95Ms": 10,
+              "rafOver34ms": 0
+            },
+            {
+              "frames": 366,
+              "rafMedianMs": 5,
+              "rafP95Ms": 10,
+              "rafOver34ms": 0
+            }
+          ],
+          "offscreen": {
+            "frames": 415,
+            "rafMedianMs": 5,
+            "rafP95Ms": 5,
+            "rafOver34ms": 1
+          },
+          "pausedLoops": 9,
+          "queuedPhotoAnimations": 30
+        }
+      ],
+      "errors": [],
+      "limitations": "Headless rAF timing measures scheduling, not physical display FPS, CPU/GPU utilization or Android hardware. No CPU throttling is claimed for Gecko."
+    },
+    "after": {
+      "label": "gecko-after",
+      "browser": "151.0",
+      "capabilities": {
+        "scrollTimeline": false,
+        "interpolateSize": false,
+        "detailsContent": true,
+        "prettyWrap": false,
+        "crossDocumentViewTransitions": false
+      },
+      "results": [
+        {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "visible": [
+            {
+              "frames": 147,
+              "rafMedianMs": 10,
+              "rafP95Ms": 30.019999999999982,
+              "rafOver34ms": 6
+            },
+            {
+              "frames": 175,
+              "rafMedianMs": 10,
+              "rafP95Ms": 30,
+              "rafOver34ms": 1
+            },
+            {
+              "frames": 165,
+              "rafMedianMs": 10,
+              "rafP95Ms": 30,
+              "rafOver34ms": 3
+            }
+          ],
+          "offscreen": {
+            "frames": 327,
+            "rafMedianMs": 5,
+            "rafP95Ms": 5,
+            "rafOver34ms": 7
+          },
+          "pausedLoops": 9,
+          "queuedPhotoAnimations": 1
+        },
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "visible": [
+            {
+              "frames": 439,
+              "rafMedianMs": 5,
+              "rafP95Ms": 5,
+              "rafOver34ms": 0
+            },
+            {
+              "frames": 440,
+              "rafMedianMs": 5,
+              "rafP95Ms": 5,
+              "rafOver34ms": 0
+            },
+            {
+              "frames": 440,
+              "rafMedianMs": 5,
+              "rafP95Ms": 5,
+              "rafOver34ms": 0
+            }
+          ],
+          "offscreen": {
+            "frames": 420,
+            "rafMedianMs": 5,
+            "rafP95Ms": 5,
+            "rafOver34ms": 0
+          },
+          "pausedLoops": 9,
+          "queuedPhotoAnimations": 1
+        }
+      ],
+      "errors": [],
+      "limitations": "Headless rAF timing measures scheduling, not physical display FPS, CPU/GPU utilization or Android hardware. No CPU throttling is claimed for Gecko."
+    },
+    "comparisons": [
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "medianP95Ms": {
+          "before": 35.02000000000044,
+          "after": 30
+        },
+        "medianCallbacks": {
+          "before": 122,
+          "after": 165
+        },
+        "medianIntervalsOver34Ms": {
+          "before": 19,
+          "after": 3
+        },
+        "queuedPhotoAnimations": {
+          "before": 30,
+          "after": 1
+        }
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "medianP95Ms": {
+          "before": 10,
+          "after": 5
+        },
+        "medianCallbacks": {
+          "before": 366,
+          "after": 440
+        },
+        "medianIntervalsOver34Ms": {
+          "before": 0,
+          "after": 0
+        },
+        "queuedPhotoAnimations": {
+          "before": 30,
+          "after": 1
+        }
+      }
+    ]
+  },
+  "chromiumPerformance": {
+    "engine": "chromium",
+    "browser": "156.0.4314.50",
+    "label": "gecko-audit-blink",
+    "quick": true,
+    "verification": true,
+    "profiles": [
+      {
+        "profile": {
+          "name": "desktop",
+          "width": 1440,
+          "height": 900,
+          "cpu": 1
+        },
+        "samples": [
+          {
+            "scenario": "desktop/hero/0",
+            "taskMs": 324.823,
+            "scriptMs": 6.269,
+            "styleMs": 64.952,
+            "layoutMs": 0,
+            "styleCount": 443,
+            "layoutCount": 0,
+            "frames": 440,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 443,
+                "ms": 64.70800000000001
+              },
+              "Paint": {
+                "count": 796,
+                "ms": 58.9110000000001
+              },
+              "RasterTask": {
+                "count": 397,
+                "ms": 4.28099999999998
+              },
+              "FunctionCall": {
+                "count": 442,
+                "ms": 8.584999999999988
+              }
+            }
+          },
+          {
+            "scenario": "desktop/pointer",
+            "taskMs": 136.36400000000003,
+            "scriptMs": 12.110000000000001,
+            "styleMs": 32.96300000000002,
+            "layoutMs": 0,
+            "styleCount": 313,
+            "layoutCount": 0,
+            "frames": 192,
+            "rafP95Ms": 5.099999999999454,
+            "rafOver34ms": 0,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 314,
+                "ms": 33.02599999999998
+              },
+              "FunctionCall": {
+                "count": 433,
+                "ms": 28.318999999999978
+              }
+            }
+          },
+          {
+            "scenario": "desktop/offscreen",
+            "taskMs": 63.97700000000006,
+            "scriptMs": 5.589,
+            "styleMs": 0,
+            "layoutMs": 0,
+            "styleCount": 0,
+            "layoutCount": 0,
+            "frames": 440,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 442,
+                "ms": 7.823999999999989
+              }
+            }
+          },
+          {
+            "scenario": "desktop/filter",
+            "taskMs": 133.76600000000005,
+            "scriptMs": 4.728000000000003,
+            "styleMs": 40.95500000000002,
+            "layoutMs": 2.5299999999999905,
+            "styleCount": 226,
+            "layoutCount": 12,
+            "frames": 226,
+            "rafP95Ms": 5.099999999998545,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 305,
+                "ms": 14.61499999999999
+              },
+              "UpdateLayoutTree": {
+                "count": 226,
+                "ms": 40.88799999999998
+              },
+              "Layout": {
+                "count": 12,
+                "ms": 2.463
+              },
+              "Paint": {
+                "count": 224,
+                "ms": 13.27899999999999
+              },
+              "RasterTask": {
+                "count": 85,
+                "ms": 5.989999999999999
+              }
+            }
+          },
+          {
+            "scenario": "desktop/sla",
+            "taskMs": 110.46299999999998,
+            "scriptMs": 5.4190000000000005,
+            "styleMs": 11.411999999999978,
+            "layoutMs": 0,
+            "styleCount": 443,
+            "layoutCount": 0,
+            "frames": 442,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 443,
+                "ms": 7.482999999999979
+              },
+              "UpdateLayoutTree": {
+                "count": 443,
+                "ms": 11.563999999999988
+              }
+            }
+          },
+          {
+            "scenario": "desktop/portrait",
+            "taskMs": 91.83999999999992,
+            "scriptMs": 5.479999999999999,
+            "styleMs": 15.950999999999993,
+            "layoutMs": 0,
+            "styleCount": 442,
+            "layoutCount": 0,
+            "frames": 441,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 443,
+                "ms": 7.603999999999978
+              },
+              "UpdateLayoutTree": {
+                "count": 443,
+                "ms": 16.088999999999984
+              }
+            }
+          }
+        ],
+        "offscreenLoops": [
+          {
+            "name": "heroSunSpin",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackCablePulse",
+            "state": "paused"
+          },
+          {
+            "name": "rackSheenDrift",
+            "state": "paused"
+          }
+        ],
+        "enteringAfterCompletion": 0
+      },
+      {
+        "profile": {
+          "name": "desktop-cpu6",
+          "width": 1440,
+          "height": 900,
+          "cpu": 6
+        },
+        "samples": [
+          {
+            "scenario": "desktop-cpu6/hero/0",
+            "taskMs": 1889.1779999999999,
+            "scriptMs": 36.47,
+            "styleMs": 325.84400000000005,
+            "layoutMs": 0,
+            "styleCount": 439,
+            "layoutCount": 0,
+            "frames": 436,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Paint": {
+                "count": 788,
+                "ms": 345.2719999999998
+              },
+              "RasterTask": {
+                "count": 393,
+                "ms": 3.689999999999997
+              },
+              "UpdateLayoutTree": {
+                "count": 440,
+                "ms": 327.0760000000002
+              },
+              "FunctionCall": {
+                "count": 438,
+                "ms": 48.362000000000116
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/pointer",
+            "taskMs": 967.3559999999997,
+            "scriptMs": 96.30900000000001,
+            "styleMs": 240.86699999999993,
+            "layoutMs": 0,
+            "styleCount": 329,
+            "layoutCount": 0,
+            "frames": 207,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 330,
+                "ms": 243.73100000000008
+              },
+              "FunctionCall": {
+                "count": 449,
+                "ms": 214.23599999999982
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/offscreen",
+            "taskMs": 370.54399999999976,
+            "scriptMs": 38.912,
+            "styleMs": 0,
+            "layoutMs": 0,
+            "styleCount": 0,
+            "layoutCount": 0,
+            "frames": 442,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 444,
+                "ms": 62.91200000000012
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/filter",
+            "taskMs": 859.801,
+            "scriptMs": 35.259999999999984,
+            "styleMs": 254.74099999999987,
+            "layoutMs": 23.718999999999934,
+            "styleCount": 216,
+            "layoutCount": 12,
+            "frames": 218,
+            "rafP95Ms": 10,
+            "rafOver34ms": 2,
+            "rendering": {
+              "FunctionCall": {
+                "count": 274,
+                "ms": 86.47299999999997
+              },
+              "UpdateLayoutTree": {
+                "count": 216,
+                "ms": 253.45799999999994
+              },
+              "Layout": {
+                "count": 12,
+                "ms": 23.107000000000003
+              },
+              "Paint": {
+                "count": 161,
+                "ms": 105.09899999999996
+              },
+              "RasterTask": {
+                "count": 73,
+                "ms": 6.009000000000002
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/sla",
+            "taskMs": 611.9879999999993,
+            "scriptMs": 27.516999999999985,
+            "styleMs": 68.7310000000001,
+            "layoutMs": 0,
+            "styleCount": 442,
+            "layoutCount": 0,
+            "frames": 441,
+            "rafP95Ms": 5.099999999998545,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 443,
+                "ms": 46.73500000000008
+              },
+              "UpdateLayoutTree": {
+                "count": 442,
+                "ms": 70.63499999999996
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/portrait",
+            "taskMs": 523.340000000001,
+            "scriptMs": 32.03899999999999,
+            "styleMs": 99.83199999999992,
+            "layoutMs": 0,
+            "styleCount": 441,
+            "layoutCount": 0,
+            "frames": 439,
+            "rafP95Ms": 5.099999999999909,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 441,
+                "ms": 53.219000000000065
+              },
+              "UpdateLayoutTree": {
+                "count": 441,
+                "ms": 98.71799999999995
+              }
+            }
+          }
+        ],
+        "offscreenLoops": [
+          {
+            "name": "heroSunSpin",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackCablePulse",
+            "state": "paused"
+          },
+          {
+            "name": "rackSheenDrift",
+            "state": "paused"
+          }
+        ],
+        "enteringAfterCompletion": 0
+      },
+      {
+        "profile": {
+          "name": "mobile-cpu6",
+          "width": 390,
+          "height": 844,
+          "cpu": 6,
+          "mobile": true
+        },
+        "samples": [
+          {
+            "scenario": "mobile-cpu6/hero/0",
+            "taskMs": 2010.4209999999996,
+            "scriptMs": 46.272999999999996,
+            "styleMs": 353.784,
+            "layoutMs": 0,
+            "styleCount": 424,
+            "layoutCount": 0,
+            "frames": 421,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Paint": {
+                "count": 760,
+                "ms": 312.09199999999953
+              },
+              "RasterTask": {
+                "count": 379,
+                "ms": 3.7739999999999903
+              },
+              "UpdateLayoutTree": {
+                "count": 424,
+                "ms": 353.8020000000001
+              },
+              "FunctionCall": {
+                "count": 423,
+                "ms": 59.00200000000005
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/offscreen",
+            "taskMs": 366.90500000000003,
+            "scriptMs": 43.835,
+            "styleMs": 0,
+            "layoutMs": 0,
+            "styleCount": 0,
+            "layoutCount": 0,
+            "frames": 441,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 443,
+                "ms": 60.96000000000001
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/filter",
+            "taskMs": 1228.631,
+            "scriptMs": 51.55599999999999,
+            "styleMs": 446.77500000000015,
+            "layoutMs": 23.580999999999964,
+            "styleCount": 284,
+            "layoutCount": 11,
+            "frames": 271,
+            "rafP95Ms": 10,
+            "rafOver34ms": 4,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 285,
+                "ms": 448.0729999999997
+              },
+              "FunctionCall": {
+                "count": 327,
+                "ms": 236.05599999999995
+              },
+              "Layout": {
+                "count": 11,
+                "ms": 22.790000000000003
+              },
+              "Paint": {
+                "count": 131,
+                "ms": 92.454
+              },
+              "RasterTask": {
+                "count": 104,
+                "ms": 5.555999999999999
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/sla",
+            "taskMs": 652.0979999999996,
+            "scriptMs": 29.116000000000003,
+            "styleMs": 74.85999999999993,
+            "layoutMs": 0,
+            "styleCount": 442,
+            "layoutCount": 0,
+            "frames": 440,
+            "rafP95Ms": 5.100000000002183,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 442,
+                "ms": 46.26300000000004
+              },
+              "UpdateLayoutTree": {
+                "count": 442,
+                "ms": 76.10800000000008
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/portrait",
+            "taskMs": 578.049,
+            "scriptMs": 29.57199999999999,
+            "styleMs": 101.55700000000012,
+            "layoutMs": 0,
+            "styleCount": 441,
+            "layoutCount": 0,
+            "frames": 439,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 441,
+                "ms": 44.85600000000006
+              },
+              "UpdateLayoutTree": {
+                "count": 441,
+                "ms": 98.48099999999985
+              }
+            }
+          }
+        ],
+        "offscreenLoops": [
+          {
+            "name": "heroSunSpin",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackCablePulse",
+            "state": "paused"
+          },
+          {
+            "name": "rackSheenDrift",
+            "state": "paused"
+          }
+        ],
+        "enteringAfterCompletion": 0
+      }
+    ],
+    "errors": []
+  },
+  "visualComparison": {
+    "criteria": {
+      "maximumSubstantialPercent": 0.6,
+      "substantialPixelChannelDelta": 16,
+      "maximumMeanDelta": 0.75
+    },
+    "firefox": [
+      {
+        "file": "404html-1440.png",
+        "changed": 2880,
+        "substantial": 2880,
+        "substantialPercent": 0.2,
+        "meanDelta": 0.1515951388888889
+      },
+      {
+        "file": "404html-390.png",
+        "changed": 780,
+        "substantial": 780,
+        "substantialPercent": 0.2,
+        "meanDelta": 0.1516076923076923
+      },
+      {
+        "file": "home-1440.png",
+        "changed": 37158,
+        "substantial": 5174,
+        "substantialPercent": 0.35930555555555554,
+        "meanDelta": 0.26026666666666665
+      },
+      {
+        "file": "home-390.png",
+        "changed": 23973,
+        "substantial": 2295,
+        "substantialPercent": 0.5884615384615385,
+        "meanDelta": 0.4442102564102564
+      },
+      {
+        "file": "home-phase-1800-1440.png",
+        "changed": 37552,
+        "substantial": 5149,
+        "substantialPercent": 0.35756944444444444,
+        "meanDelta": 0.26015625
+      },
+      {
+        "file": "home-phase-1800-390.png",
+        "changed": 24399,
+        "substantial": 2261,
+        "substantialPercent": 0.5797435897435897,
+        "meanDelta": 0.44475128205128206
+      },
+      {
+        "file": "home-phase-3000-1440.png",
+        "changed": 39650,
+        "substantial": 5154,
+        "substantialPercent": 0.35791666666666666,
+        "meanDelta": 0.26164930555555554
+      },
+      {
+        "file": "home-phase-3000-390.png",
+        "changed": 23942,
+        "substantial": 2268,
+        "substantialPercent": 0.5815384615384616,
+        "meanDelta": 0.4424205128205128
+      },
+      {
+        "file": "home-phase-5000-1440.png",
+        "changed": 39198,
+        "substantial": 5201,
+        "substantialPercent": 0.36118055555555556,
+        "meanDelta": 0.26197569444444446
+      },
+      {
+        "file": "home-phase-5000-390.png",
+        "changed": 24678,
+        "substantial": 2315,
+        "substantialPercent": 0.5935897435897436,
+        "meanDelta": 0.4480025641025641
+      },
+      {
+        "file": "mechanism-1440.png",
+        "changed": 2880,
+        "substantial": 2880,
+        "substantialPercent": 0.2,
+        "meanDelta": 0.1406388888888889
+      },
+      {
+        "file": "mechanism-390.png",
+        "changed": 780,
+        "substantial": 780,
+        "substantialPercent": 0.2,
+        "meanDelta": 0.14317435897435898
+      },
+      {
+        "file": "sla-1440.png",
+        "changed": 2880,
+        "substantial": 2880,
+        "substantialPercent": 0.2,
+        "meanDelta": 0.1515951388888889
+      },
+      {
+        "file": "sla-390.png",
+        "changed": 780,
+        "substantial": 780,
+        "substantialPercent": 0.2,
+        "meanDelta": 0.1516076923076923
+      }
+    ],
+    "chromium": [
+      {
+        "file": "404html-1440.png",
+        "changed": 0,
+        "substantial": 0,
+        "substantialPercent": 0,
+        "meanDelta": 0
+      },
+      {
+        "file": "404html-390.png",
+        "changed": 0,
+        "substantial": 0,
+        "substantialPercent": 0,
+        "meanDelta": 0
+      },
+      {
+        "file": "home-1440.png",
+        "changed": 93764,
+        "substantial": 2578,
+        "substantialPercent": 0.17902777777777779,
+        "meanDelta": 0.15913958333333333
+      },
+      {
+        "file": "home-390.png",
+        "changed": 41172,
+        "substantial": 884,
+        "substantialPercent": 0.22666666666666668,
+        "meanDelta": 0.28821025641025644
+      },
+      {
+        "file": "home-phase-1800-1440.png",
+        "changed": 93754,
+        "substantial": 2564,
+        "substantialPercent": 0.17805555555555555,
+        "meanDelta": 0.15896458333333333
+      },
+      {
+        "file": "home-phase-1800-390.png",
+        "changed": 41246,
+        "substantial": 887,
+        "substantialPercent": 0.22743589743589743,
+        "meanDelta": 0.2887
+      },
+      {
+        "file": "home-phase-3000-1440.png",
+        "changed": 94010,
+        "substantial": 2538,
+        "substantialPercent": 0.17625,
+        "meanDelta": 0.15859583333333332
+      },
+      {
+        "file": "home-phase-3000-390.png",
+        "changed": 41232,
+        "substantial": 883,
+        "substantialPercent": 0.22641025641025642,
+        "meanDelta": 0.2888102564102564
+      },
+      {
+        "file": "home-phase-5000-1440.png",
+        "changed": 93734,
+        "substantial": 2600,
+        "substantialPercent": 0.18055555555555555,
+        "meanDelta": 0.15943125
+      },
+      {
+        "file": "home-phase-5000-390.png",
+        "changed": 41092,
+        "substantial": 898,
+        "substantialPercent": 0.23025641025641025,
+        "meanDelta": 0.2894
+      },
+      {
+        "file": "mechanism-1440.png",
+        "changed": 0,
+        "substantial": 0,
+        "substantialPercent": 0,
+        "meanDelta": 0
+      },
+      {
+        "file": "mechanism-390.png",
+        "changed": 0,
+        "substantial": 0,
+        "substantialPercent": 0,
+        "meanDelta": 0
+      },
+      {
+        "file": "sla-1440.png",
+        "changed": 0,
+        "substantial": 0,
+        "substantialPercent": 0,
+        "meanDelta": 0
+      },
+      {
+        "file": "sla-390.png",
+        "changed": 0,
+        "substantial": 0,
+        "substantialPercent": 0,
+        "meanDelta": 0
+      }
+    ]
+  },
+  "clientAssetBytes": {
+    "before": {
+      "html": 192148,
+      "htmlGzip": 32909,
+      "js": 12577,
+      "jsGzip": 5213,
+      "css": 71040,
+      "cssGzip": 16626,
+      "svg": 0,
+      "svgGzip": 0,
+      "svgFiles": 0
+    },
+    "after": {
+      "html": 183871,
+      "htmlGzip": 30852,
+      "js": 14699,
+      "jsGzip": 5999,
+      "css": 71403,
+      "cssGzip": 16681,
+      "svg": 9036,
+      "svgGzip": 3006,
+      "svgFiles": 5
+    }
+  },
+  "verification": {
+    "unitTests": 95,
+    "designMutations": 15,
+    "typeErrors": 0,
+    "typeWarnings": 0,
+    "typeHints": 6,
+    "viewportCasesPerEngine": 77,
+    "visualPairs": 28
+  },
+  "limitations": [
+    "Headless scheduling timings are not physical display FPS or GPU/CPU utilization.",
+    "Gecko has no CDP CPU throttle in this test; Chromium was tested at CPU x1/x6.",
+    "Desktop Gecko still has individual frame timing spikes; universal 60 FPS is not claimed.",
+    "Native cross-document View Transitions and text-wrap:pretty are unavailable in the tested Gecko and keep normal navigation/wrapping fallbacks.",
+    "Physical Android/iOS devices, Safari, installed Firefox 159 and other browser versions were not tested."
+  ]
+}
