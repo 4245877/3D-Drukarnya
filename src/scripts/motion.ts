@@ -33,9 +33,13 @@ function initHeader() {
   if (!header) return;
 
   let frame = 0;
+  let scrolled: boolean | undefined;
   const update = () => {
     frame = 0;
-    header.classList.toggle('is-scrolled', window.scrollY > 8);
+    const next = window.scrollY > 8;
+    if (next === scrolled) return;
+    scrolled = next;
+    header.classList.toggle('is-scrolled', next);
   };
 
   window.addEventListener('scroll', () => {
@@ -60,6 +64,9 @@ function initReveal() {
 
         const element = entry.target as HTMLElement;
         observer.unobserve(element);
+        // Filtering may already have made this card visible. Do not replay a
+        // stale reveal when that card later returns to the viewport.
+        if (!element.classList.contains('reveal-pending')) continue;
         element.classList.remove('reveal-pending');
         element.classList.add('reveal-in');
         element.addEventListener('animationend', () => {
@@ -134,39 +141,70 @@ function initPhotos() {
 function initParallax() {
   const scene = document.querySelector<HTMLElement>('[data-parallax]');
   if (!scene || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  const layer = scene.querySelector<HTMLElement>('[data-parallax-layer]');
+  if (!layer) return;
+  const dx = Number(layer.dataset.parallaxX);
+  const dy = Number(layer.dataset.parallaxY);
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   let frame = 0;
-  let x = 0;
-  let y = 0;
+  let pointer: { x: number; y: number } | undefined;
+  let previous = '';
 
   const apply = () => {
     frame = 0;
-    scene.style.setProperty('--px', x.toFixed(3));
-    scene.style.setProperty('--py', y.toFixed(3));
+    if (motionQuery.matches) {
+      layer.style.removeProperty('transform');
+      previous = '';
+      return;
+    }
+    // Coalesce high-frequency input before reading layout. Write the transform
+    // on its one consumer: inherited variables on the scene used to invalidate
+    // every text node and SVG descendant on each pointer frame.
+    const box = pointer ? scene.getBoundingClientRect() : undefined;
+    const x = box && box.width ? Number(((pointer!.x - box.left) / box.width - 0.5).toFixed(3)) : 0;
+    const y = box && box.height ? Number(((pointer!.y - box.top) / box.height - 0.5).toFixed(3)) : 0;
+    const transform = `translate3d(${x * dx}px, ${y * dy}px, 0)`;
+    if (transform === previous) return;
+    previous = transform;
+    layer.style.transform = transform;
   };
 
   scene.addEventListener('pointermove', (event) => {
-    const box = scene.getBoundingClientRect();
-    x = (event.clientX - box.left) / box.width - 0.5;
-    y = (event.clientY - box.top) / box.height - 0.5;
+    pointer = { x: event.clientX, y: event.clientY };
     if (frame === 0) frame = requestAnimationFrame(apply);
   }, { passive: true });
 
   scene.addEventListener('pointerleave', () => {
-    x = 0;
-    y = 0;
+    pointer = undefined;
+    if (frame === 0) frame = requestAnimationFrame(apply);
+  });
+  motionQuery.addEventListener('change', () => {
+    pointer = undefined;
     if (frame === 0) frame = requestAnimationFrame(apply);
   });
 }
 
 export function initMotion() {
   initHeader();
+  // Keep the current animation phase across hidden tabs and the back/forward
+  // cache, including CSS/SVG animations managed by individual components.
+  const syncVisibility = () => document.documentElement.classList.toggle('motion-suspended', document.hidden);
+  document.addEventListener('visibilitychange', syncVisibility);
+  window.addEventListener('pageshow', syncVisibility);
+  syncVisibility();
 
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  initReveal();
-  initLive();
-  initEars();
-  initPhotos();
-  initParallax();
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let initialized = false;
+  const enhance = () => {
+    if (initialized || motionQuery.matches) return;
+    initialized = true;
+    initReveal();
+    initLive();
+    initEars();
+    initPhotos();
+    initParallax();
+  };
+  motionQuery.addEventListener('change', enhance);
+  enhance();
 }

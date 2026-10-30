@@ -9,13 +9,13 @@ const screwThreads = Array.from({ length: 46 }, (_, index) => 83 + index * 6);
 const railBolts = [90, 125, 245, 285, 325];
 ---
 
+<div class="sla-mechanism" data-sla-mechanism>
 <svg
-  class="sla-mechanism"
+  class="sla-mechanism__fixed"
   viewBox="40 -12 570 587"
   role="img"
   aria-labelledby={`${id}-title ${id}-description`}
   focusable="false"
-  data-sla-mechanism
 >
   <title id={`${id}-title`}>Механізм підйому платформи фотополімерного 3D-принтера</title>
   <desc id={`${id}-description`}>
@@ -223,7 +223,8 @@ const railBolts = [90, 125, 245, 285, 325];
   </g>
 
   <!-- One rigid moving assembly: carriage, arm, clamp, platform and print. -->
-  <g class="sla-mechanism__moving">
+</svg>
+  <div class="sla-mechanism__moving" aria-hidden="true"><svg viewBox="40 -12 570 587" focusable="false">
     <!-- Lead-screw nut and linear-bearing carriage both fasten to this block. -->
     <g class="sla-mechanism__carriage" transform="translate(60 -30)">
       <path d="M307 151 352 173 377 160 332 138Z" fill={paint('aluminium')} />
@@ -341,11 +342,16 @@ const railBolts = [90, 125, 245, 285, 325];
       <ellipse cx="290" cy="186" rx="3" ry="1.5" fill="#654137" />
       <path d="M282 190 282 193 M286 192 286 195 M291 193 291 196 M296 192 296 195" fill="none" stroke="#9DA7AE" stroke-width="1" stroke-opacity=".6" />
     </g>
-  </g>
-</svg>
+  </svg></div>
+</div>
 
 <style>
   .sla-mechanism {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sla-mechanism__fixed {
     display: block;
     width: 100%;
     height: auto;
@@ -353,9 +359,15 @@ const railBolts = [90, 125, 245, 285, 325];
   }
 
   .sla-mechanism__moving {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     animation: sla-platform-lift 8s ease-in-out infinite both;
     animation-play-state: paused;
   }
+
+  .sla-mechanism__moving svg { width: 100%; height: 100%; }
 
   .sla-mechanism[data-in-view='true'] .sla-mechanism__moving {
     animation-play-state: running;
@@ -363,7 +375,8 @@ const railBolts = [90, 125, 245, 285, 325];
 
   @keyframes sla-platform-lift {
     0%, 100% { transform: translateY(0); }
-    45%, 55% { transform: translateY(-8px); }
+    /* The original 8 SVG units in the shared 587-unit-high viewBox. */
+    45%, 55% { transform: translateY(-1.362862%); }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -372,7 +385,7 @@ const railBolts = [90, 125, 245, 285, 325];
 </style>
 
 <script>
-  const mechanisms = document.querySelectorAll<SVGSVGElement>('[data-sla-mechanism]');
+  const mechanisms = document.querySelectorAll<HTMLElement>('[data-sla-mechanism]');
 
   if ('IntersectionObserver' in window) {
     const mechanismObserver = new IntersectionObserver((entries) => {

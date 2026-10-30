@@ -146,19 +146,21 @@ const structuredData = graph([
         </div>
 
         <div class="catalog-hero__aside">
-          <svg class="catalog-hero__sun" viewBox="0 0 600 600" aria-hidden="true" focusable="false">
-            <circle cx="300" cy="300" r="238" stroke-opacity="0.34" />
-            <g class="catalog-hero__sun-spin">
+          <span class="catalog-hero__sun" aria-hidden="true">
+            <svg viewBox="0 0 600 600" focusable="false">
+              <circle cx="300" cy="300" r="238" stroke-opacity="0.34" />
+            </svg>
+            <span class="catalog-hero__sun-spin"><svg viewBox="0 0 600 600" focusable="false">
               <circle cx="300" cy="300" r="282" stroke-opacity="0.45" stroke-dasharray="2 14" stroke-linecap="round" />
-            </g>
-          </svg>
+            </svg></span>
+          </span>
 
           <span class="leaf catalog-hero__leaf catalog-hero__leaf--a"></span>
           <span class="leaf catalog-hero__leaf catalog-hero__leaf--b"></span>
           <span class="leaf catalog-hero__leaf catalog-hero__leaf--c"></span>
 
           <!-- Серверна стійка — обов'язковий елемент Hero на всіх екранах, включно з мобільними. Не приховувати й не видаляти під час адаптації. -->
-          <div class="catalog-hero__rack" aria-hidden="true">
+          <div class="catalog-hero__rack" aria-hidden="true" data-parallax-layer data-parallax-x="14" data-parallax-y="8">
               <!--
                 Isometric open 10" home-lab rack (5U): patch panel, switch,
                 mini-PC on a printed shelf, 4-bay NAS. 2:1 isometric grid:
@@ -266,10 +268,6 @@ const structuredData = graph([
                     <g class="rack-led">
                       <circle cx="203" cy="123" r="2.4" fill="#FFC98A" opacity="0.85" />
                     </g>
-                    <g class="rack-led rack-led--blink-a">
-                      <circle cx="212" cy="127.5" r="5" fill="#FFB25E" opacity="0.25" />
-                      <circle cx="212" cy="127.5" r="2.5" fill="#FFC98A" />
-                    </g>
                     <g class="rack-led">
                       <circle cx="221" cy="132" r="2.4" fill="#FFC98A" opacity="0.85" />
                     </g>
@@ -287,10 +285,6 @@ const structuredData = graph([
                       <g fill="#15100D">
                         <path d="M146 129 L151 131.5 L151 126.5 L146 124 Z" />
                         <path d="M154 133 L159 135.5 L159 130.5 L154 128 Z" />
-                      </g>
-                      <g class="rack-led rack-led--blink-c">
-                        <circle cx="177" cy="139" r="4.5" fill="#FFB25E" opacity="0.25" />
-                        <circle cx="177" cy="139" r="2.3" fill="#FFC98A" />
                       </g>
                     </g>
                     <path d="M131 123 L231 173 L231 179 L131 129 Z" fill="url(#hlr-shelf-front)" />
@@ -311,10 +305,6 @@ const structuredData = graph([
                       <path d="M185 191 L227 212 L227 236 L185 215 Z" />
                     </g>
                     <path d="M141 160 L175 177 M189 184 L223 201 M141 188 L175 205 M189 212 L223 229" stroke="#1D2126" stroke-width="2" fill="none" stroke-linecap="round" />
-                    <g class="rack-led rack-led--blink-b">
-                      <circle cx="173" cy="161" r="4" fill="#FFB25E" opacity="0.25" />
-                      <circle cx="173" cy="161" r="2.1" fill="#FFC98A" />
-                    </g>
                     <g class="rack-led">
                       <circle cx="221" cy="185" r="2" fill="#FFC98A" opacity="0.8" />
                       <circle cx="173" cy="189" r="2" fill="#FFC98A" opacity="0.8" />
@@ -326,7 +316,6 @@ const structuredData = graph([
                 <!-- Patch cable: panel port -> switch port, with light pulse -->
                 <g class="rack-cable-group" fill="none" stroke-linecap="round">
                   <path class="rack-cable" d="M158 84 C149 94 147 105 157 110 C163 113 172 111 179 107" stroke="#E2A87C" stroke-width="3" />
-                  <path class="rack-cable-pulse" d="M158 84 C149 94 147 105 157 110 C163 113 172 111 179 107" pathLength="100" stroke="#F6E7CB" stroke-width="3" />
                 </g>
 
                 <!-- Printed frame: rail, posts, top slab -->
@@ -353,11 +342,30 @@ const structuredData = graph([
                   <path d="M105 202 L229 264 M105 206 L229 268" />
                 </g>
 
-                <!-- Slow-drifting sheen across the front plane -->
-                <g clip-path="url(#hlr-front-clip)">
-                  <path class="rack-sheen" d="M150 30 L196 53 L176 292 L130 269 Z" fill="url(#hlr-sheen-grad)" />
-                </g>
               </svg>
+              {/* Small independent viewports retain the original SVG coordinates.
+                  Only the cable's short path still needs animated SVG paint;
+                  the equipment and its shared drop shadow remain unchanged. */}
+              <span class="rack-detail rack-led--blink-a"><svg viewBox="207 122.5 10 10" focusable="false">
+                <circle cx="212" cy="127.5" r="5" fill="#FFB25E" opacity="0.25" />
+                <circle cx="212" cy="127.5" r="2.5" fill="#FFC98A" />
+              </svg></span>
+              <span class="rack-detail rack-led--blink-b"><svg viewBox="169 157 8 8" focusable="false">
+                <circle cx="173" cy="161" r="4" fill="#FFB25E" opacity="0.25" />
+                <circle cx="173" cy="161" r="2.1" fill="#FFC98A" />
+              </svg></span>
+              <span class="rack-detail rack-led--blink-c"><svg viewBox="172.5 134.5 9 9" focusable="false">
+                <circle cx="177" cy="139" r="4.5" fill="#FFB25E" opacity="0.25" />
+                <circle cx="177" cy="139" r="2.3" fill="#FFC98A" />
+              </svg></span>
+              <span class="rack-detail rack-cable-window"><svg viewBox="145 82 36 33" focusable="false">
+                <path class="rack-cable-pulse" d="M158 84 C149 94 147 105 157 110 C163 113 172 111 179 107" pathLength="100" fill="none" stroke="#F6E7CB" stroke-width="3" stroke-linecap="round" />
+              </svg></span>
+              <span class="rack-sheen-clip">
+                <span class="rack-sheen"><svg viewBox="72 -12 256 312" focusable="false">
+                  <path d="M150 30 L196 53 L176 292 L130 269 Z" fill="url(#hlr-sheen-grad)" />
+                </svg></span>
+              </span>
           </div>
         </div>
       </div>
@@ -624,6 +632,7 @@ const structuredData = graph([
   </div>
 
   <script>
+    import { createCatalogEntrance } from '../scripts/catalog-motion';
     const catalogPage = document.querySelector<HTMLElement>('[data-catalog-page]');
 
     if (catalogPage) {
@@ -691,6 +700,7 @@ const structuredData = graph([
         // sidebar is a static column and "opening" it means nothing.
         const mobileQuery = window.matchMedia('(max-width: 900px)');
         const scrollBehavior = (): ScrollBehavior => (motionQuery.matches ? 'auto' : 'smooth');
+        const animateItems = createCatalogEntrance(catalogItems, motionQuery);
         let drawerOpen = false;
 
         // Sticky-header height, so a programmatic scroll never parks the mobile
@@ -938,21 +948,7 @@ const structuredData = graph([
           });
           if (filterEmpty) filterEmpty.hidden = shownItems !== 0;
 
-          // The cards settle into their new places in a short wave. One forced
-          // reflow restarts the animation on all of them at once.
-          if (!motionQuery.matches) {
-            catalogItems.forEach((item) => {
-              item.classList.remove('is-entering', 'reveal-pending', 'reveal-in');
-            });
-            void catalogPage.offsetWidth;
-            let enterIndex = 0;
-            catalogItems.forEach((item) => {
-              if (item.hidden) return;
-              item.style.setProperty('--enter-i', String(Math.min(enterIndex, 11)));
-              item.classList.add('is-entering');
-              enterIndex += 1;
-            });
-          }
+          animateItems();
 
           const activeLabel =
             activeButton.querySelector('[data-catalog-filter-label]')?.textContent?.trim() ?? '';

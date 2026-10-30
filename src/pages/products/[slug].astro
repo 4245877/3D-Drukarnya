@@ -724,7 +724,10 @@ const structuredData = graph([
       .filter((entry): entry is { link: HTMLAnchorElement; section: HTMLElement } => entry !== null);
 
     if (sections.length > 0) {
+      let activeLink: HTMLAnchorElement | undefined;
       const setActive = (active: HTMLAnchorElement) => {
+        if (active === activeLink) return;
+        activeLink = active;
         for (const { link } of sections) {
           link.setAttribute('aria-current', String(link === active));
         }
@@ -785,6 +788,7 @@ const structuredData = graph([
     // footer at the end of the page — it steps aside once the footer shows up.
     const footer = document.querySelector('.site-footer');
     let frame = 0;
+    let wasVisible: boolean | undefined;
 
     // Measured per frame rather than through IntersectionObserver: a deep
     // anchor jump moves the CTA out of view in a single frame, which the
@@ -796,11 +800,13 @@ const structuredData = graph([
       const atFooter = footer
         ? footer.getBoundingClientRect().top < window.innerHeight
         : false;
+      const visible = ctaPassed && !atFooter;
+      if (visible === wasVisible) return;
+      wasVisible = visible;
 
       // `hidden` is only the no-JS state; from here on the bar slides in and
       // out via a class so the transition has something to animate.
       buybar.hidden = false;
-      const visible = ctaPassed && !atFooter;
       buybar.classList.toggle('is-visible', visible);
       buybar.inert = !visible;
       buybar.setAttribute('aria-hidden', String(!visible));

@@ -678,6 +678,14 @@ p {
   animation: fadeUp var(--dur-slow) var(--ease-out) var(--reveal-delay, 0ms) both;
 }
 
+/* Preserve the animation phase while the document is hidden. This also covers
+   component-local SVG loops; no timers or polling are needed. */
+html.motion-suspended *,
+html.motion-suspended *::before,
+html.motion-suspended *::after {
+  animation-play-state: paused !important;
+}
+
 /* ── Page transitions ─────────────────────────────────────── */
 /* A native cross-fade between pages where the browser offers one; everywhere
    else navigation simply works as before. The header stays put. */

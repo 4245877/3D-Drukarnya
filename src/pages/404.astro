@@ -44,7 +44,7 @@ const description =
       </div>
 
       <div class="not-found__art">
-        <div class="not-found__portrait">
+        <div class="not-found__portrait" data-parallax-layer data-parallax-x="-10" data-parallax-y="-6">
           <RaphtaliaPortrait sizes="(max-width: 768px) min(90vw, 26rem), 36rem" priority />
         </div>
       </div>
@@ -99,7 +99,7 @@ const description =
   }
 
   .not-found__portrait {
-    transform: translate3d(calc(var(--px, 0) * -10px), calc(var(--py, 0) * -6px), 0);
+    transform: translate3d(0, 0, 0);
     transition: transform 500ms var(--ease-out);
     animation: portraitEnter 900ms var(--ease-out) 120ms both;
   }

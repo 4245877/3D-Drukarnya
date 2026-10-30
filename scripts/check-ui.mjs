@@ -286,7 +286,7 @@ try {
     assert.deepEqual(names, ['portraitBreath', 'earTwitchLeft', 'earTwitchRight', 'portraitBlink']);
     assert.equal(await motion.locator('.not-found__portrait').evaluate((el) => getComputedStyle(el).animationName), 'portraitEnter');
     await motion.mouse.move(1300, 180);
-    await motion.waitForFunction(() => Number(document.querySelector('.not-found').style.getPropertyValue('--px')) > 0);
+    await motion.waitForFunction(() => new DOMMatrix(getComputedStyle(document.querySelector('.not-found__portrait')).transform).m41 < 0);
     await motion.locator('.not-found__actions a').first().hover();
     assert.equal(await motion.locator('.portrait__ear--left').evaluate((el) => getComputedStyle(el).animationName), 'earPerkLeft');
     assert.equal(await motion.locator('.portrait__ear--right').evaluate((el) => getComputedStyle(el).animationName), 'earPerkRight');
@@ -328,6 +328,77 @@ try {
     const link = motion.locator('#product-contact [data-telegram-link]');
     await link.evaluate((el) => el.addEventListener('click', (e) => e.preventDefault()));
     await link.hover(); await motion.mouse.down(); await shot(motion, 'contact-pressed'); await motion.mouse.up();
+  });
+  await scenario('animation performance: pause/resume, hidden document, batched pointer and bounded filter wave', async () => {
+    await motion.setViewportSize({ width: 1440, height: 1000 });
+    await go(motion);
+    await motion.waitForFunction(() => document.querySelector('.catalog-hero').classList.contains('is-live'));
+    const loops = () => motion.locator('.catalog-hero').evaluate((el) => el.getAnimations({ subtree: true })
+      .filter((animation) => animation.effect.getTiming().iterations === Infinity)
+      .map((animation) => ({ name: animation.animationName, state: animation.playState, time: animation.currentTime, duration: animation.effect.getTiming().duration, delay: animation.effect.getTiming().delay })));
+    const initial = await loops();
+    assert.equal(initial.length, 9);
+    assert.ok(initial.every((animation) => animation.state === 'running'));
+    assert.deepEqual(initial.filter((animation) => animation.name === 'rackLedBlink').map(({ duration, delay }) => [duration, delay]).sort((a, b) => a[0] - b[0]), [[3400, 0], [4600, 1200], [5600, 2400]]);
+    await motion.evaluate(() => scrollTo({ top: 2400, behavior: 'instant' }));
+    await motion.waitForFunction(() => !document.querySelector('.catalog-hero').classList.contains('is-live'));
+    const paused = await loops();
+    assert.ok(paused.every((animation) => animation.state === 'paused'));
+    await motion.waitForTimeout(250);
+    assert.deepEqual((await loops()).map((animation) => animation.time), paused.map((animation) => animation.time));
+    await motion.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+    await motion.waitForFunction(() => document.querySelector('.catalog-hero').classList.contains('is-live'));
+    assert.ok((await loops()).every((animation, i) => animation.state === 'running' && animation.time >= paused[i].time));
+
+    // Simulate the browser's visibility notification; assert CSS pauses all
+    // loops without resetting their animation timelines.
+    await motion.evaluate(() => {
+      Object.defineProperty(document, 'hidden', { configurable: true, get: () => true });
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+    await motion.waitForFunction(() => document.documentElement.classList.contains('motion-suspended'));
+    assert.ok((await loops()).every((animation) => animation.state === 'paused'));
+    await motion.evaluate(() => {
+      delete document.hidden;
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+    assert.ok((await loops()).every((animation) => animation.state === 'running'));
+
+    const pointer = await motion.locator('[data-parallax]').evaluate(async (scene) => {
+      const original = scene.getBoundingClientRect.bind(scene);
+      let reads = 0;
+      scene.getBoundingClientRect = () => { reads++; return original(); };
+      for (let i = 0; i < 240; i++) scene.dispatchEvent(new PointerEvent('pointermove', { clientX: 1100 + i / 10, clientY: 200 }));
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      scene.getBoundingClientRect = original;
+      return { reads, transform: scene.querySelector('[data-parallax-layer]').style.transform, inherited: scene.style.getPropertyValue('--px') };
+    });
+    assert.ok(pointer.reads <= 1, `layout reads for 240 events: ${pointer.reads}`);
+    assert.match(pointer.transform, /translate3d/);
+    assert.equal(pointer.inherited, '');
+    await motion.emulateMedia({ reducedMotion: 'reduce' });
+    await motion.waitForFunction(() => getComputedStyle(document.querySelector('[data-parallax-layer]')).transform === 'none');
+    await motion.emulateMedia({ reducedMotion: 'no-preference' });
+
+    await motion.locator('[data-catalog-filter="featured"]').click();
+    await motion.waitForTimeout(100);
+    assert.equal(await motion.locator('.is-entering').evaluateAll((els) => els.every((el) => {
+      const r = el.getBoundingClientRect(); return r.top < innerHeight + 120 && r.bottom > -120;
+    })), true);
+    await motion.locator('[data-catalog-filter="all"]').click();
+    await motion.locator('[data-catalog-filter="featured"]').click();
+    await motion.locator('[data-catalog-filter="all"]').click();
+    await motion.waitForTimeout(1100);
+    assert.equal(await motion.locator('.is-entering').count(), 0);
+    assert.equal(await motion.locator('[data-catalog-item]:not([hidden])').count(), 49);
+    assert.equal(await motion.locator('[data-catalog-item].reveal-pending').count(), 0);
+    await scrollToElement(motion, '[data-sla-mechanism]');
+    await motion.waitForTimeout(250);
+    const mechanism = motion.locator('[data-sla-mechanism]');
+    assert.equal(await motion.locator('.sla-preview__inner').evaluate((el) => getComputedStyle(el).opacity), '1');
+    assert.ok((await mechanism.boundingBox()).height > 200);
+    assert.equal(await mechanism.locator('.sla-mechanism__moving').evaluate((el) => getComputedStyle(el).animationPlayState), 'running');
+    await shot(motion, 'sla-mechanism-visible');
   });
   await animated.close();
 

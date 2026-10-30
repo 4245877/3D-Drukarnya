@@ -188,8 +188,8 @@
 
 /* ── Catalog Hero — the scene ─────────────────────────────── */
 
-/* --px / --py come from src/scripts/motion.ts: a few pixels of depth under the
-   mouse. They stay 0 on touch screens and with reduced motion. */
+/* motion.ts applies a few pixels of depth directly to the rack under the mouse,
+   without invalidating inherited styles throughout the whole scene. */
 .catalog-hero__aside {
   position: relative;
   display: grid;
@@ -204,6 +204,7 @@
   left: 50%;
   top: 46%;
   width: min(116%, 40rem);
+  max-width: 100%;
   aspect-ratio: 1;
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -214,8 +215,18 @@
   stroke: var(--hair);
 }
 
+/* HTML animation layers let the compositor reuse the original SVG artwork. */
+.catalog-hero__sun > svg,
 .catalog-hero__sun-spin {
-  transform-box: fill-box;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.catalog-hero__sun-spin svg { width: 100%; height: 100%; }
+
+.catalog-hero__sun-spin {
   transform-origin: center;
   animation: heroSunSpin 90s linear infinite;
   animation-play-state: paused;
@@ -311,7 +322,7 @@
   z-index: 1;
   width: min(100%, 27rem);
   filter: drop-shadow(0 18px 24px rgba(74, 44, 26, 0.26));
-  transform: translate3d(calc(var(--px, 0) * 14px), calc(var(--py, 0) * 8px), 0);
+  transform: translate3d(0, 0, 0);
   transition: transform 500ms var(--ease-out);
   animation: heroRackIn 800ms var(--ease-out) 340ms both;
 }
@@ -325,6 +336,68 @@
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* Convert the original 256 × 312 viewBox (origin 72, -12) to percentages.
+   Tight LED/cable layers avoid allocating a rack-sized texture for each dot. */
+.catalog-hero__rack .rack-detail {
+  position: absolute;
+  max-width: none;
+  pointer-events: none;
+}
+
+.catalog-hero__rack .rack-detail svg { height: 100%; }
+
+.catalog-hero__rack .rack-led--blink-a {
+  left: calc((207 - 72) / 256 * 100%);
+  top: calc((122.5 + 12) / 312 * 100%);
+  width: calc(10 / 256 * 100%);
+  height: calc(10 / 312 * 100%);
+}
+
+.catalog-hero__rack .rack-led--blink-b {
+  left: calc((169 - 72) / 256 * 100%);
+  top: calc((157 + 12) / 312 * 100%);
+  width: calc(8 / 256 * 100%);
+  height: calc(8 / 312 * 100%);
+}
+
+.catalog-hero__rack .rack-led--blink-c {
+  left: calc((172.5 - 72) / 256 * 100%);
+  top: calc((134.5 + 12) / 312 * 100%);
+  width: calc(9 / 256 * 100%);
+  height: calc(9 / 312 * 100%);
+}
+
+.catalog-hero__rack .rack-cable-window {
+  left: calc((145 - 72) / 256 * 100%);
+  top: calc((82 + 12) / 312 * 100%);
+  width: calc(36 / 256 * 100%);
+  height: calc(33 / 312 * 100%);
+  contain: strict;
+}
+
+.rack-sheen-clip {
+  position: absolute;
+  inset: 0;
+  /* The four vertices of the original hlr-front-clip, in the same viewBox. */
+  clip-path: polygon(12.890625% 17.307692%, 61.328125% 37.179487%, 61.328125% 91.025641%, 12.890625% 71.153846%);
+  pointer-events: none;
+}
+
+.catalog-hero__rack .rack-sheen {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.catalog-hero__rack .rack-sheen svg { height: 100%; }
+
+/* The cable's dash offset must still be painted to preserve its exact pulse.
+   Keep that paint on its small viewport instead of invalidating the filtered
+   equipment beneath it. Allocate the layer only while the scene is visible. */
+html:not(.motion-suspended) .is-live .rack-cable-window {
+  will-change: transform;
 }
 
 /* Warm LEDs: staggered activity blink on three indicators */
@@ -345,6 +418,20 @@
   animation: rackSheenDrift 11s var(--ease-in-out) infinite alternate;
 }
 
+/* Every rack loop follows the same visibility policy as the ring and leaves.
+   Pausing retains the phase, duration and stagger for its next appearance. */
+.catalog-hero__rack .rack-led--blink-a,
+.catalog-hero__rack .rack-led--blink-b,
+.catalog-hero__rack .rack-led--blink-c,
+.catalog-hero__rack .rack-cable-pulse,
+.catalog-hero__rack .rack-sheen { animation-play-state: paused; }
+
+.is-live .catalog-hero__rack .rack-led--blink-a,
+.is-live .catalog-hero__rack .rack-led--blink-b,
+.is-live .catalog-hero__rack .rack-led--blink-c,
+.is-live .catalog-hero__rack .rack-cable-pulse,
+.is-live .catalog-hero__rack .rack-sheen { animation-play-state: running; }
+
 @keyframes rackLedBlink {
   0%, 100% { opacity: 1; }
   12%      { opacity: 0.25; }
@@ -361,8 +448,9 @@
 }
 
 @keyframes rackSheenDrift {
-  from { transform: translateX(-10px); }
-  to   { transform: translateX(12px); }
+  /* SVG user units become percentages of the identically sized SVG root. */
+  from { transform: translateX(-3.90625%); }
+  to   { transform: translateX(4.6875%); }
 }
 
 /* ─────────────────────────────────────────────────────────── */
@@ -679,7 +767,7 @@
    instead of snapping there. Only the first few wait; the rest are below the
    fold anyway. Set by the page script, on the items and never on their parents. */
 .catalog-grid__item.is-entering {
-  animation: catalogCardIn 340ms var(--ease-out) calc(var(--enter-i, 0) * 34ms) both;
+  animation: catalogCardIn 340ms var(--ease-out) var(--enter-delay, 0ms) both;
 }
 
 @keyframes catalogCardIn {

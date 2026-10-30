@@ -1,0 +1,2105 @@
+{
+  "date": "2026-10-30",
+  "baselineCommit": "efcc822f2191148b2d90a37ce6f292dc9e34e056",
+  "method": "Sequential production builds, CPU x1/x6; 3 fixed-phase hero samples, remaining scenarios sampled once. CDP tracing and rAF add instrumentation overhead. CPU time is not a real-device FPS guarantee.",
+  "baseline": {
+    "browser": "156.0.4314.50",
+    "label": "baseline",
+    "quick": false,
+    "verification": false,
+    "profiles": [
+      {
+        "profile": {
+          "name": "desktop",
+          "width": 1440,
+          "height": 900,
+          "cpu": 1
+        },
+        "samples": [
+          {
+            "scenario": "desktop/hero/0",
+            "taskMs": 662.1629999999999,
+            "scriptMs": 8.256,
+            "styleMs": 100.182,
+            "layoutMs": 105.22500000000001,
+            "styleCount": 442,
+            "layoutCount": 442,
+            "frames": 441,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 444,
+                "ms": 100.97999999999996
+              },
+              "Layout": {
+                "count": 444,
+                "ms": 101.39800000000005
+              },
+              "Paint": {
+                "count": 886,
+                "ms": 145.23299999999998
+              },
+              "RasterTask": {
+                "count": 396,
+                "ms": 6.755
+              },
+              "FunctionCall": {
+                "count": 443,
+                "ms": 12.56599999999998
+              }
+            }
+          },
+          {
+            "scenario": "desktop/hero/1",
+            "taskMs": 559.792,
+            "scriptMs": 7.692000000000001,
+            "styleMs": 73.63199999999998,
+            "layoutMs": 81.895,
+            "styleCount": 441,
+            "layoutCount": 441,
+            "frames": 440,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 443,
+                "ms": 74.17900000000002
+              },
+              "Layout": {
+                "count": 443,
+                "ms": 78.86999999999996
+              },
+              "Paint": {
+                "count": 884,
+                "ms": 126.9860000000001
+              },
+              "RasterTask": {
+                "count": 403,
+                "ms": 6.721999999999993
+              },
+              "FunctionCall": {
+                "count": 442,
+                "ms": 11.10199999999998
+              }
+            }
+          },
+          {
+            "scenario": "desktop/hero/2",
+            "taskMs": 549.0520000000001,
+            "scriptMs": 7.42,
+            "styleMs": 73.26899999999998,
+            "layoutMs": 81.91899999999997,
+            "styleCount": 444,
+            "layoutCount": 444,
+            "frames": 441,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 445,
+                "ms": 73.55099999999993
+              },
+              "Layout": {
+                "count": 445,
+                "ms": 78.80600000000001
+              },
+              "Paint": {
+                "count": 890,
+                "ms": 118.88900000000021
+              },
+              "RasterTask": {
+                "count": 403,
+                "ms": 6.101999999999988
+              },
+              "FunctionCall": {
+                "count": 443,
+                "ms": 10.680999999999985
+              }
+            }
+          },
+          {
+            "scenario": "desktop/pointer",
+            "taskMs": 453.7329999999997,
+            "scriptMs": 15.612,
+            "styleMs": 194.69200000000004,
+            "layoutMs": 34.63699999999997,
+            "styleCount": 193,
+            "layoutCount": 193,
+            "frames": 191,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 194,
+                "ms": 194.93600000000004
+              },
+              "Layout": {
+                "count": 194,
+                "ms": 33.54199999999999
+              },
+              "Paint": {
+                "count": 631,
+                "ms": 64.45600000000007
+              },
+              "FunctionCall": {
+                "count": 433,
+                "ms": 18.135000000000005
+              },
+              "RasterTask": {
+                "count": 1202,
+                "ms": 11.33899999999994
+              }
+            }
+          },
+          {
+            "scenario": "desktop/offscreen",
+            "taskMs": 434.4519999999998,
+            "scriptMs": 7.171999999999998,
+            "styleMs": 34.21399999999997,
+            "layoutMs": 24.391999999999967,
+            "styleCount": 443,
+            "layoutCount": 443,
+            "frames": 441,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 443,
+                "ms": 10.535999999999982
+              },
+              "UpdateLayoutTree": {
+                "count": 443,
+                "ms": 34.34299999999998
+              },
+              "Layout": {
+                "count": 443,
+                "ms": 20.936999999999998
+              },
+              "Paint": {
+                "count": 886,
+                "ms": 128.36699999999993
+              }
+            }
+          },
+          {
+            "scenario": "desktop/filter",
+            "taskMs": 238.7629999999996,
+            "scriptMs": 4.878999999999994,
+            "styleMs": 42.950999999999965,
+            "layoutMs": 31.127999999999933,
+            "styleCount": 233,
+            "layoutCount": 230,
+            "frames": 226,
+            "rafP95Ms": 5.100000000002183,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 293,
+                "ms": 20.204999999999945
+              },
+              "UpdateLayoutTree": {
+                "count": 233,
+                "ms": 42.918999999999976
+              },
+              "Layout": {
+                "count": 230,
+                "ms": 29.786999999999995
+              },
+              "Paint": {
+                "count": 597,
+                "ms": 40.65399999999993
+              },
+              "RasterTask": {
+                "count": 71,
+                "ms": 5.788
+              }
+            }
+          },
+          {
+            "scenario": "desktop/sla",
+            "taskMs": 400.8389999999995,
+            "scriptMs": 5.6219999999999954,
+            "styleMs": 26.23900000000001,
+            "layoutMs": 16.60700000000004,
+            "styleCount": 443,
+            "layoutCount": 443,
+            "frames": 442,
+            "rafP95Ms": 5.100000000002183,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 444,
+                "ms": 7.96899999999998
+              },
+              "UpdateLayoutTree": {
+                "count": 444,
+                "ms": 26.40099999999998
+              },
+              "Layout": {
+                "count": 444,
+                "ms": 13.170999999999987
+              },
+              "Paint": {
+                "count": 1332,
+                "ms": 152.463
+              }
+            }
+          },
+          {
+            "scenario": "desktop/portrait",
+            "taskMs": 100.78399999999999,
+            "scriptMs": 6.187999999999992,
+            "styleMs": 18.219999999999903,
+            "layoutMs": 0,
+            "styleCount": 442,
+            "layoutCount": 0,
+            "frames": 441,
+            "rafP95Ms": 5.099999999999909,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 442,
+                "ms": 8.278999999999987
+              },
+              "UpdateLayoutTree": {
+                "count": 442,
+                "ms": 18.28299999999998
+              }
+            }
+          }
+        ],
+        "offscreenLoops": [
+          {
+            "name": "heroSunSpin",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "running"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "running"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "running"
+          },
+          {
+            "name": "rackCablePulse",
+            "state": "running"
+          },
+          {
+            "name": "rackSheenDrift",
+            "state": "running"
+          }
+        ],
+        "enteringAfterCompletion": 8
+      },
+      {
+        "profile": {
+          "name": "desktop-cpu6",
+          "width": 1440,
+          "height": 900,
+          "cpu": 6
+        },
+        "samples": [
+          {
+            "scenario": "desktop-cpu6/hero/0",
+            "taskMs": 2215.961,
+            "scriptMs": 28.781000000000002,
+            "styleMs": 298.253,
+            "layoutMs": 318.0750000000001,
+            "styleCount": 255,
+            "layoutCount": 255,
+            "frames": 252,
+            "rafP95Ms": 14.900000000000546,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Paint": {
+                "count": 512,
+                "ms": 495.1999999999999
+              },
+              "RasterTask": {
+                "count": 224,
+                "ms": 3.819999999999993
+              },
+              "UpdateLayoutTree": {
+                "count": 255,
+                "ms": 300.30399999999986
+              },
+              "Layout": {
+                "count": 255,
+                "ms": 304.28900000000004
+              },
+              "FunctionCall": {
+                "count": 254,
+                "ms": 39.289000000000044
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/hero/1",
+            "taskMs": 2205.667,
+            "scriptMs": 25.073000000000004,
+            "styleMs": 292.4220000000001,
+            "layoutMs": 313.782,
+            "styleCount": 261,
+            "layoutCount": 261,
+            "frames": 258,
+            "rafP95Ms": 10.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Layout": {
+                "count": 262,
+                "ms": 300.54500000000024
+              },
+              "Paint": {
+                "count": 524,
+                "ms": 498.2400000000005
+              },
+              "RasterTask": {
+                "count": 234,
+                "ms": 3.5649999999999924
+              },
+              "UpdateLayoutTree": {
+                "count": 261,
+                "ms": 293.2799999999999
+              },
+              "FunctionCall": {
+                "count": 260,
+                "ms": 37.70700000000002
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/hero/2",
+            "taskMs": 2212.937999999999,
+            "scriptMs": 35.32599999999999,
+            "styleMs": 281.8530000000001,
+            "layoutMs": 312.9790000000001,
+            "styleCount": 268,
+            "layoutCount": 268,
+            "frames": 265,
+            "rafP95Ms": 15,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Layout": {
+                "count": 269,
+                "ms": 301.7959999999999
+              },
+              "Paint": {
+                "count": 538,
+                "ms": 488.71300000000014
+              },
+              "RasterTask": {
+                "count": 232,
+                "ms": 3.4689999999999928
+              },
+              "UpdateLayoutTree": {
+                "count": 268,
+                "ms": 283.64400000000006
+              },
+              "FunctionCall": {
+                "count": 267,
+                "ms": 47.82200000000002
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/pointer",
+            "taskMs": 3982.249000000001,
+            "scriptMs": 133.89399999999998,
+            "styleMs": 1657.665,
+            "layoutMs": 325.313,
+            "styleCount": 238,
+            "layoutCount": 238,
+            "frames": 235,
+            "rafP95Ms": 25.100000000000364,
+            "rafOver34ms": 1,
+            "rendering": {
+              "Paint": {
+                "count": 721,
+                "ms": 628.6049999999992
+              },
+              "UpdateLayoutTree": {
+                "count": 238,
+                "ms": 1657.9790000000003
+              },
+              "Layout": {
+                "count": 238,
+                "ms": 312.66800000000006
+              },
+              "FunctionCall": {
+                "count": 477,
+                "ms": 152.0059999999999
+              },
+              "RasterTask": {
+                "count": 1203,
+                "ms": 12.086999999999994
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/offscreen",
+            "taskMs": 1939.5220000000002,
+            "scriptMs": 41.398999999999994,
+            "styleMs": 149.90300000000013,
+            "layoutMs": 99.13999999999979,
+            "styleCount": 434,
+            "layoutCount": 434,
+            "frames": 431,
+            "rafP95Ms": 5.100000000002183,
+            "rafOver34ms": 0,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 435,
+                "ms": 152.59100000000012
+              },
+              "Layout": {
+                "count": 435,
+                "ms": 78.31100000000002
+              },
+              "Paint": {
+                "count": 870,
+                "ms": 593.7579999999998
+              },
+              "FunctionCall": {
+                "count": 433,
+                "ms": 54.22600000000006
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/filter",
+            "taskMs": 1447.9989999999993,
+            "scriptMs": 45.50399999999999,
+            "styleMs": 252.73800000000034,
+            "layoutMs": 159.1039999999997,
+            "styleCount": 134,
+            "layoutCount": 131,
+            "frames": 126,
+            "rafP95Ms": 15,
+            "rafOver34ms": 1,
+            "rendering": {
+              "Paint": {
+                "count": 316,
+                "ms": 250.86099999999993
+              },
+              "UpdateLayoutTree": {
+                "count": 134,
+                "ms": 252.56199999999998
+              },
+              "Layout": {
+                "count": 131,
+                "ms": 151.18300000000016
+              },
+              "FunctionCall": {
+                "count": 168,
+                "ms": 160.82100000000005
+              },
+              "RasterTask": {
+                "count": 36,
+                "ms": 3.858
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/sla",
+            "taskMs": 2195.345,
+            "scriptMs": 25.259000000000032,
+            "styleMs": 156.29899999999975,
+            "layoutMs": 98.60800000000003,
+            "styleCount": 291,
+            "layoutCount": 291,
+            "frames": 289,
+            "rafP95Ms": 10.100000000002183,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Paint": {
+                "count": 874,
+                "ms": 797.128000000001
+              },
+              "UpdateLayoutTree": {
+                "count": 291,
+                "ms": 155.84299999999993
+              },
+              "Layout": {
+                "count": 291,
+                "ms": 78.12100000000002
+              },
+              "FunctionCall": {
+                "count": 291,
+                "ms": 39.35800000000004
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/portrait",
+            "taskMs": 790.0740000000006,
+            "scriptMs": 42.247000000000035,
+            "styleMs": 168.91199999999972,
+            "layoutMs": 0,
+            "styleCount": 442,
+            "layoutCount": 0,
+            "frames": 440,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 442,
+                "ms": 61.55900000000002
+              },
+              "UpdateLayoutTree": {
+                "count": 442,
+                "ms": 167.4380000000001
+              }
+            }
+          }
+        ],
+        "offscreenLoops": [
+          {
+            "name": "heroSunSpin",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "running"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "running"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "running"
+          },
+          {
+            "name": "rackCablePulse",
+            "state": "running"
+          },
+          {
+            "name": "rackSheenDrift",
+            "state": "running"
+          }
+        ],
+        "enteringAfterCompletion": 8
+      },
+      {
+        "profile": {
+          "name": "mobile-cpu6",
+          "width": 390,
+          "height": 844,
+          "cpu": 6,
+          "mobile": true
+        },
+        "samples": [
+          {
+            "scenario": "mobile-cpu6/hero/0",
+            "taskMs": 2212.8579999999997,
+            "scriptMs": 27.134999999999998,
+            "styleMs": 294.659,
+            "layoutMs": 321.93000000000006,
+            "styleCount": 234,
+            "layoutCount": 234,
+            "frames": 231,
+            "rafP95Ms": 15,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Paint": {
+                "count": 470,
+                "ms": 433.22499999999985
+              },
+              "RasterTask": {
+                "count": 207,
+                "ms": 3.4389999999999956
+              },
+              "UpdateLayoutTree": {
+                "count": 234,
+                "ms": 295.6100000000001
+              },
+              "Layout": {
+                "count": 234,
+                "ms": 309.00099999999964
+              },
+              "FunctionCall": {
+                "count": 233,
+                "ms": 38.66899999999999
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/hero/1",
+            "taskMs": 2206.2929999999997,
+            "scriptMs": 23.318000000000005,
+            "styleMs": 308.0849999999999,
+            "layoutMs": 315.86899999999997,
+            "styleCount": 229,
+            "layoutCount": 229,
+            "frames": 226,
+            "rafP95Ms": 14.899999999999636,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Layout": {
+                "count": 230,
+                "ms": 305.41399999999993
+              },
+              "Paint": {
+                "count": 460,
+                "ms": 438.64099999999996
+              },
+              "RasterTask": {
+                "count": 204,
+                "ms": 3.268999999999995
+              },
+              "UpdateLayoutTree": {
+                "count": 229,
+                "ms": 308.7980000000001
+              },
+              "FunctionCall": {
+                "count": 228,
+                "ms": 35.156000000000034
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/hero/2",
+            "taskMs": 2216.6569999999997,
+            "scriptMs": 32.23899999999999,
+            "styleMs": 308.08299999999986,
+            "layoutMs": 318.4389999999999,
+            "styleCount": 232,
+            "layoutCount": 232,
+            "frames": 229,
+            "rafP95Ms": 14.899999999999636,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Paint": {
+                "count": 466,
+                "ms": 424.5309999999999
+              },
+              "RasterTask": {
+                "count": 210,
+                "ms": 3.2759999999999945
+              },
+              "UpdateLayoutTree": {
+                "count": 232,
+                "ms": 309.591
+              },
+              "Layout": {
+                "count": 232,
+                "ms": 306.35299999999967
+              },
+              "FunctionCall": {
+                "count": 231,
+                "ms": 44.00900000000003
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/offscreen",
+            "taskMs": 2091.0440000000003,
+            "scriptMs": 45.55999999999999,
+            "styleMs": 183.02700000000004,
+            "layoutMs": 92.08499999999998,
+            "styleCount": 426,
+            "layoutCount": 426,
+            "frames": 423,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 427,
+                "ms": 185.908
+              },
+              "Layout": {
+                "count": 427,
+                "ms": 76.59000000000005
+              },
+              "Paint": {
+                "count": 854,
+                "ms": 511.434
+              },
+              "FunctionCall": {
+                "count": 425,
+                "ms": 57.25600000000013
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/filter",
+            "taskMs": 2048.2629999999986,
+            "scriptMs": 65.79200000000002,
+            "styleMs": 527.6490000000002,
+            "layoutMs": 268.659,
+            "styleCount": 169,
+            "layoutCount": 164,
+            "frames": 155,
+            "rafP95Ms": 20,
+            "rafOver34ms": 4,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 171,
+                "ms": 530.6600000000002
+              },
+              "Layout": {
+                "count": 166,
+                "ms": 259.5409999999999
+              },
+              "Paint": {
+                "count": 369,
+                "ms": 319.1719999999999
+              },
+              "RasterTask": {
+                "count": 137,
+                "ms": 5.155999999999996
+              },
+              "FunctionCall": {
+                "count": 201,
+                "ms": 367.19699999999995
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/sla",
+            "taskMs": 2211.0420000000026,
+            "scriptMs": 26.494000000000018,
+            "styleMs": 194.89000000000001,
+            "layoutMs": 102.63599999999995,
+            "styleCount": 268,
+            "layoutCount": 268,
+            "frames": 265,
+            "rafP95Ms": 10.100000000002183,
+            "rafOver34ms": 0,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 269,
+                "ms": 196.27599999999993
+              },
+              "Layout": {
+                "count": 269,
+                "ms": 81.26499999999994
+              },
+              "Paint": {
+                "count": 807,
+                "ms": 916.688999999999
+              },
+              "FunctionCall": {
+                "count": 267,
+                "ms": 40.15500000000004
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/portrait",
+            "taskMs": 650.1400000000003,
+            "scriptMs": 34.519999999999996,
+            "styleMs": 128.95700000000022,
+            "layoutMs": 0,
+            "styleCount": 443,
+            "layoutCount": 0,
+            "frames": 441,
+            "rafP95Ms": 5.099999999999909,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 443,
+                "ms": 50.37700000000006
+              },
+              "UpdateLayoutTree": {
+                "count": 443,
+                "ms": 127.48499999999991
+              }
+            }
+          }
+        ],
+        "offscreenLoops": [
+          {
+            "name": "heroSunSpin",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "running"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "running"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "running"
+          },
+          {
+            "name": "rackCablePulse",
+            "state": "running"
+          },
+          {
+            "name": "rackSheenDrift",
+            "state": "running"
+          }
+        ],
+        "enteringAfterCompletion": 8
+      }
+    ],
+    "errors": []
+  },
+  "optimized": {
+    "browser": "156.0.4314.50",
+    "label": "after",
+    "quick": false,
+    "verification": true,
+    "profiles": [
+      {
+        "profile": {
+          "name": "desktop",
+          "width": 1440,
+          "height": 900,
+          "cpu": 1
+        },
+        "samples": [
+          {
+            "scenario": "desktop/hero/0",
+            "taskMs": 607.3629999999998,
+            "scriptMs": 5.66,
+            "styleMs": 76.30000000000001,
+            "layoutMs": 0,
+            "styleCount": 443,
+            "layoutCount": 0,
+            "frames": 441,
+            "rafP95Ms": 5.099999999999909,
+            "rafOver34ms": 0,
+            "rendering": {
+              "RasterTask": {
+                "count": 397,
+                "ms": 5.855999999999985
+              },
+              "FunctionCall": {
+                "count": 443,
+                "ms": 8.784
+              },
+              "UpdateLayoutTree": {
+                "count": 443,
+                "ms": 76.02999999999999
+              },
+              "Paint": {
+                "count": 794,
+                "ms": 96.31500000000013
+              }
+            }
+          },
+          {
+            "scenario": "desktop/hero/1",
+            "taskMs": 499.73999999999984,
+            "scriptMs": 3.91,
+            "styleMs": 59.642,
+            "layoutMs": 0,
+            "styleCount": 443,
+            "layoutCount": 0,
+            "frames": 442,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Paint": {
+                "count": 809,
+                "ms": 79.29200000000019
+              },
+              "RasterTask": {
+                "count": 404,
+                "ms": 4.658999999999992
+              },
+              "FunctionCall": {
+                "count": 443,
+                "ms": 6.264999999999978
+              },
+              "UpdateLayoutTree": {
+                "count": 443,
+                "ms": 59.32199999999996
+              }
+            }
+          },
+          {
+            "scenario": "desktop/hero/2",
+            "taskMs": 600.2239999999998,
+            "scriptMs": 5.064000000000001,
+            "styleMs": 78.544,
+            "layoutMs": 0,
+            "styleCount": 442,
+            "layoutCount": 0,
+            "frames": 441,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 443,
+                "ms": 78.41600000000005
+              },
+              "Paint": {
+                "count": 806,
+                "ms": 98.87800000000023
+              },
+              "RasterTask": {
+                "count": 402,
+                "ms": 6.102999999999984
+              },
+              "FunctionCall": {
+                "count": 442,
+                "ms": 8.085999999999977
+              }
+            }
+          },
+          {
+            "scenario": "desktop/pointer",
+            "taskMs": 221.16999999999987,
+            "scriptMs": 12.282000000000002,
+            "styleMs": 37.85100000000002,
+            "layoutMs": 0,
+            "styleCount": 314,
+            "layoutCount": 0,
+            "frames": 191,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 314,
+                "ms": 37.66000000000001
+              },
+              "FunctionCall": {
+                "count": 433,
+                "ms": 30.595000000000034
+              }
+            }
+          },
+          {
+            "scenario": "desktop/offscreen",
+            "taskMs": 92.9540000000002,
+            "scriptMs": 6.821999999999998,
+            "styleMs": 0,
+            "layoutMs": 0,
+            "styleCount": 0,
+            "layoutCount": 0,
+            "frames": 441,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 442,
+                "ms": 10.044999999999991
+              }
+            }
+          },
+          {
+            "scenario": "desktop/filter",
+            "taskMs": 251.17900000000003,
+            "scriptMs": 5.559000000000001,
+            "styleMs": 54.477,
+            "layoutMs": 3.044000000000005,
+            "styleCount": 227,
+            "layoutCount": 12,
+            "frames": 228,
+            "rafP95Ms": 5.099999999998545,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 308,
+                "ms": 18.107999999999947
+              },
+              "UpdateLayoutTree": {
+                "count": 228,
+                "ms": 54.506999999999984
+              },
+              "Layout": {
+                "count": 12,
+                "ms": 2.9550000000000005
+              },
+              "Paint": {
+                "count": 221,
+                "ms": 18.688999999999993
+              },
+              "RasterTask": {
+                "count": 84,
+                "ms": 8.493000000000004
+              }
+            }
+          },
+          {
+            "scenario": "desktop/sla",
+            "taskMs": 122.3209999999999,
+            "scriptMs": 5.936999999999998,
+            "styleMs": 14.817000000000025,
+            "layoutMs": 0,
+            "styleCount": 443,
+            "layoutCount": 0,
+            "frames": 441,
+            "rafP95Ms": 5.100000000002183,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 443,
+                "ms": 8.327999999999985
+              },
+              "UpdateLayoutTree": {
+                "count": 443,
+                "ms": 14.894999999999984
+              }
+            }
+          },
+          {
+            "scenario": "desktop/portrait",
+            "taskMs": 112.61700000000019,
+            "scriptMs": 6.498999999999998,
+            "styleMs": 21.507000000000055,
+            "layoutMs": 0,
+            "styleCount": 443,
+            "layoutCount": 0,
+            "frames": 441,
+            "rafP95Ms": 5.099999999999909,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 443,
+                "ms": 9.48099999999999
+              },
+              "UpdateLayoutTree": {
+                "count": 443,
+                "ms": 21.568
+              }
+            }
+          }
+        ],
+        "offscreenLoops": [
+          {
+            "name": "heroSunSpin",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackCablePulse",
+            "state": "paused"
+          },
+          {
+            "name": "rackSheenDrift",
+            "state": "paused"
+          }
+        ],
+        "enteringAfterCompletion": 0
+      },
+      {
+        "profile": {
+          "name": "desktop-cpu6",
+          "width": 1440,
+          "height": 900,
+          "cpu": 6
+        },
+        "samples": [
+          {
+            "scenario": "desktop-cpu6/hero/0",
+            "taskMs": 2208.9440000000004,
+            "scriptMs": 34.227000000000004,
+            "styleMs": 260.604,
+            "layoutMs": 0,
+            "styleCount": 203,
+            "layoutCount": 0,
+            "frames": 200,
+            "rafP95Ms": 15.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Paint": {
+                "count": 352,
+                "ms": 326.0829999999999
+              },
+              "RasterTask": {
+                "count": 175,
+                "ms": 3.1949999999999923
+              },
+              "UpdateLayoutTree": {
+                "count": 203,
+                "ms": 259.17999999999995
+              },
+              "FunctionCall": {
+                "count": 202,
+                "ms": 45.17300000000005
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/hero/1",
+            "taskMs": 2210.928,
+            "scriptMs": 18.973999999999997,
+            "styleMs": 267.76900000000006,
+            "layoutMs": 0,
+            "styleCount": 197,
+            "layoutCount": 0,
+            "frames": 194,
+            "rafP95Ms": 15.099999999999454,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Paint": {
+                "count": 344,
+                "ms": 327.85099999999966
+              },
+              "RasterTask": {
+                "count": 171,
+                "ms": 3.064999999999997
+              },
+              "UpdateLayoutTree": {
+                "count": 197,
+                "ms": 267.7420000000001
+              },
+              "FunctionCall": {
+                "count": 196,
+                "ms": 32.245000000000005
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/hero/2",
+            "taskMs": 2219.9620000000004,
+            "scriptMs": 30.897999999999996,
+            "styleMs": 268.29899999999986,
+            "layoutMs": 0,
+            "styleCount": 208,
+            "layoutCount": 0,
+            "frames": 205,
+            "rafP95Ms": 15.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Paint": {
+                "count": 358,
+                "ms": 331.5019999999996
+              },
+              "RasterTask": {
+                "count": 178,
+                "ms": 3.0849999999999973
+              },
+              "UpdateLayoutTree": {
+                "count": 208,
+                "ms": 268.8489999999999
+              },
+              "FunctionCall": {
+                "count": 207,
+                "ms": 40.390000000000065
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/pointer",
+            "taskMs": 2315.0309999999995,
+            "scriptMs": 140.90800000000004,
+            "styleMs": 394.72499999999997,
+            "layoutMs": 0,
+            "styleCount": 352,
+            "layoutCount": 0,
+            "frames": 229,
+            "rafP95Ms": 15.099999999998545,
+            "rafOver34ms": 0,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 353,
+                "ms": 396.8309999999998
+              },
+              "FunctionCall": {
+                "count": 471,
+                "ms": 316.7389999999999
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/offscreen",
+            "taskMs": 508.2260000000005,
+            "scriptMs": 49.846000000000004,
+            "styleMs": 0,
+            "layoutMs": 0,
+            "styleCount": 0,
+            "layoutCount": 0,
+            "frames": 442,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 444,
+                "ms": 67.70900000000006
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/filter",
+            "taskMs": 1330.1559999999988,
+            "scriptMs": 51.142999999999994,
+            "styleMs": 272.87699999999984,
+            "layoutMs": 29.738000000000042,
+            "styleCount": 160,
+            "layoutCount": 12,
+            "frames": 161,
+            "rafP95Ms": 15,
+            "rafOver34ms": 2,
+            "rendering": {
+              "FunctionCall": {
+                "count": 205,
+                "ms": 107.69199999999977
+              },
+              "UpdateLayoutTree": {
+                "count": 160,
+                "ms": 273.26399999999984
+              },
+              "Layout": {
+                "count": 12,
+                "ms": 29.103
+              },
+              "Paint": {
+                "count": 92,
+                "ms": 112.60199999999999
+              },
+              "RasterTask": {
+                "count": 56,
+                "ms": 5.045000000000001
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/sla",
+            "taskMs": 822.692,
+            "scriptMs": 50.09999999999998,
+            "styleMs": 103.87900000000005,
+            "layoutMs": 0,
+            "styleCount": 444,
+            "layoutCount": 0,
+            "frames": 442,
+            "rafP95Ms": 5.100000000002183,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 444,
+                "ms": 65.14700000000012
+              },
+              "UpdateLayoutTree": {
+                "count": 444,
+                "ms": 105.15699999999987
+              }
+            }
+          },
+          {
+            "scenario": "desktop-cpu6/portrait",
+            "taskMs": 701.3259999999981,
+            "scriptMs": 47.25799999999997,
+            "styleMs": 146.69500000000025,
+            "layoutMs": 0,
+            "styleCount": 444,
+            "layoutCount": 0,
+            "frames": 442,
+            "rafP95Ms": 5.099999999999909,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 444,
+                "ms": 62.051000000000144
+              },
+              "UpdateLayoutTree": {
+                "count": 444,
+                "ms": 143.25900000000001
+              }
+            }
+          }
+        ],
+        "offscreenLoops": [
+          {
+            "name": "heroSunSpin",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackCablePulse",
+            "state": "paused"
+          },
+          {
+            "name": "rackSheenDrift",
+            "state": "paused"
+          }
+        ],
+        "enteringAfterCompletion": 0
+      },
+      {
+        "profile": {
+          "name": "mobile-cpu6",
+          "width": 390,
+          "height": 844,
+          "cpu": 6,
+          "mobile": true
+        },
+        "samples": [
+          {
+            "scenario": "mobile-cpu6/hero/0",
+            "taskMs": 2210.038,
+            "scriptMs": 35.278000000000006,
+            "styleMs": 298.27000000000004,
+            "layoutMs": 0,
+            "styleCount": 208,
+            "layoutCount": 0,
+            "frames": 205,
+            "rafP95Ms": 15.099999999999454,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Paint": {
+                "count": 364,
+                "ms": 306.129
+              },
+              "RasterTask": {
+                "count": 181,
+                "ms": 3.189999999999994
+              },
+              "UpdateLayoutTree": {
+                "count": 208,
+                "ms": 297.4050000000002
+              },
+              "FunctionCall": {
+                "count": 207,
+                "ms": 47.397000000000055
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/hero/1",
+            "taskMs": 2215.7239999999997,
+            "scriptMs": 31.408000000000005,
+            "styleMs": 296.28599999999994,
+            "layoutMs": 0,
+            "styleCount": 218,
+            "layoutCount": 0,
+            "frames": 215,
+            "rafP95Ms": 15,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Paint": {
+                "count": 376,
+                "ms": 306.28799999999984
+              },
+              "RasterTask": {
+                "count": 187,
+                "ms": 3.1919999999999944
+              },
+              "UpdateLayoutTree": {
+                "count": 218,
+                "ms": 297.5779999999999
+              },
+              "FunctionCall": {
+                "count": 217,
+                "ms": 43.613
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/hero/2",
+            "taskMs": 2218.216999999999,
+            "scriptMs": 31.545999999999992,
+            "styleMs": 306.508,
+            "layoutMs": 0,
+            "styleCount": 211,
+            "layoutCount": 0,
+            "frames": 208,
+            "rafP95Ms": 15.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "Paint": {
+                "count": 372,
+                "ms": 299.3510000000001
+              },
+              "RasterTask": {
+                "count": 185,
+                "ms": 3.107999999999996
+              },
+              "UpdateLayoutTree": {
+                "count": 211,
+                "ms": 305.7059999999999
+              },
+              "FunctionCall": {
+                "count": 210,
+                "ms": 43.806000000000026
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/offscreen",
+            "taskMs": 537.2310000000002,
+            "scriptMs": 49.129000000000005,
+            "styleMs": 0,
+            "layoutMs": 0,
+            "styleCount": 0,
+            "layoutCount": 0,
+            "frames": 442,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 444,
+                "ms": 66.30900000000015
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/filter",
+            "taskMs": 1998.8259999999993,
+            "scriptMs": 53.540999999999976,
+            "styleMs": 500.8330000000001,
+            "layoutMs": 24.536,
+            "styleCount": 177,
+            "layoutCount": 11,
+            "frames": 163,
+            "rafP95Ms": 15.19999999999709,
+            "rafOver34ms": 4,
+            "rendering": {
+              "UpdateLayoutTree": {
+                "count": 177,
+                "ms": 500.2789999999999
+              },
+              "FunctionCall": {
+                "count": 216,
+                "ms": 289.82600000000025
+              },
+              "Layout": {
+                "count": 11,
+                "ms": 23.918
+              },
+              "Paint": {
+                "count": 84,
+                "ms": 105.15799999999997
+              },
+              "RasterTask": {
+                "count": 95,
+                "ms": 5.627999999999998
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/sla",
+            "taskMs": 939.9279999999983,
+            "scriptMs": 52.52899999999999,
+            "styleMs": 123.79600000000002,
+            "layoutMs": 0,
+            "styleCount": 444,
+            "layoutCount": 0,
+            "frames": 442,
+            "rafP95Ms": 5.100000000002183,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 444,
+                "ms": 67.93700000000001
+              },
+              "UpdateLayoutTree": {
+                "count": 444,
+                "ms": 122.30799999999985
+              }
+            }
+          },
+          {
+            "scenario": "mobile-cpu6/portrait",
+            "taskMs": 783.0389999999987,
+            "scriptMs": 46.53099999999999,
+            "styleMs": 162.65200000000002,
+            "layoutMs": 0,
+            "styleCount": 441,
+            "layoutCount": 0,
+            "frames": 439,
+            "rafP95Ms": 5.100000000000364,
+            "rafOver34ms": 0,
+            "rendering": {
+              "FunctionCall": {
+                "count": 441,
+                "ms": 65.86200000000012
+              },
+              "UpdateLayoutTree": {
+                "count": 441,
+                "ms": 161.36600000000007
+              }
+            }
+          }
+        ],
+        "offscreenLoops": [
+          {
+            "name": "heroSunSpin",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "leafDrift",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackLedBlink",
+            "state": "paused"
+          },
+          {
+            "name": "rackCablePulse",
+            "state": "paused"
+          },
+          {
+            "name": "rackSheenDrift",
+            "state": "paused"
+          }
+        ],
+        "enteringAfterCompletion": 0
+      }
+    ],
+    "errors": []
+  },
+  "comparisons": [
+    {
+      "profile": "desktop",
+      "scenarios": [
+        {
+          "name": "hero",
+          "before": {
+            "taskMs": 559.792,
+            "rafP95Ms": 5.100000000000364,
+            "layoutCount": 442,
+            "paintCount": 886,
+            "styleCount": 442
+          },
+          "after": {
+            "taskMs": 600.2239999999998,
+            "rafP95Ms": 5.100000000000364,
+            "layoutCount": 0,
+            "paintCount": 806,
+            "styleCount": 443
+          },
+          "taskReductionPercent": -7.222682710721087
+        },
+        {
+          "name": "pointer",
+          "before": {
+            "taskMs": 453.7329999999997,
+            "rafP95Ms": 5.100000000000364,
+            "layoutCount": 193,
+            "paintCount": 631,
+            "styleCount": 193
+          },
+          "after": {
+            "taskMs": 221.16999999999987,
+            "rafP95Ms": 5.100000000000364,
+            "layoutCount": 0,
+            "paintCount": 0,
+            "styleCount": 314
+          },
+          "taskReductionPercent": 51.25547403428888
+        },
+        {
+          "name": "offscreen",
+          "before": {
+            "taskMs": 434.4519999999998,
+            "rafP95Ms": 5.100000000000364,
+            "layoutCount": 443,
+            "paintCount": 886,
+            "styleCount": 443
+          },
+          "after": {
+            "taskMs": 92.9540000000002,
+            "rafP95Ms": 5.100000000000364,
+            "layoutCount": 0,
+            "paintCount": 0,
+            "styleCount": 0
+          },
+          "taskReductionPercent": 78.60431071786981
+        },
+        {
+          "name": "filter",
+          "before": {
+            "taskMs": 238.7629999999996,
+            "rafP95Ms": 5.100000000002183,
+            "layoutCount": 230,
+            "paintCount": 597,
+            "styleCount": 233
+          },
+          "after": {
+            "taskMs": 251.17900000000003,
+            "rafP95Ms": 5.099999999998545,
+            "layoutCount": 12,
+            "paintCount": 221,
+            "styleCount": 227
+          },
+          "taskReductionPercent": -5.2001356994176
+        },
+        {
+          "name": "sla",
+          "before": {
+            "taskMs": 400.8389999999995,
+            "rafP95Ms": 5.100000000002183,
+            "layoutCount": 443,
+            "paintCount": 1332,
+            "styleCount": 443
+          },
+          "after": {
+            "taskMs": 122.3209999999999,
+            "rafP95Ms": 5.100000000002183,
+            "layoutCount": 0,
+            "paintCount": 0,
+            "styleCount": 443
+          },
+          "taskReductionPercent": 69.48375781797678
+        },
+        {
+          "name": "portrait",
+          "before": {
+            "taskMs": 100.78399999999999,
+            "rafP95Ms": 5.099999999999909,
+            "layoutCount": 0,
+            "paintCount": 0,
+            "styleCount": 442
+          },
+          "after": {
+            "taskMs": 112.61700000000019,
+            "rafP95Ms": 5.099999999999909,
+            "layoutCount": 0,
+            "paintCount": 0,
+            "styleCount": 443
+          },
+          "taskReductionPercent": -11.740950944594577
+        }
+      ]
+    },
+    {
+      "profile": "desktop-cpu6",
+      "scenarios": [
+        {
+          "name": "hero",
+          "before": {
+            "taskMs": 2212.937999999999,
+            "rafP95Ms": 14.900000000000546,
+            "layoutCount": 261,
+            "paintCount": 524,
+            "styleCount": 261
+          },
+          "after": {
+            "taskMs": 2210.928,
+            "rafP95Ms": 15.100000000000364,
+            "layoutCount": 0,
+            "paintCount": 352,
+            "styleCount": 203
+          },
+          "taskReductionPercent": 0.09082947646971173
+        },
+        {
+          "name": "pointer",
+          "before": {
+            "taskMs": 3982.249000000001,
+            "rafP95Ms": 25.100000000000364,
+            "layoutCount": 238,
+            "paintCount": 721,
+            "styleCount": 238
+          },
+          "after": {
+            "taskMs": 2315.0309999999995,
+            "rafP95Ms": 15.099999999998545,
+            "layoutCount": 0,
+            "paintCount": 0,
+            "styleCount": 352
+          },
+          "taskReductionPercent": 41.86624191505858
+        },
+        {
+          "name": "offscreen",
+          "before": {
+            "taskMs": 1939.5220000000002,
+            "rafP95Ms": 5.100000000002183,
+            "layoutCount": 434,
+            "paintCount": 870,
+            "styleCount": 434
+          },
+          "after": {
+            "taskMs": 508.2260000000005,
+            "rafP95Ms": 5.100000000000364,
+            "layoutCount": 0,
+            "paintCount": 0,
+            "styleCount": 0
+          },
+          "taskReductionPercent": 73.79632713627376
+        },
+        {
+          "name": "filter",
+          "before": {
+            "taskMs": 1447.9989999999993,
+            "rafP95Ms": 15,
+            "layoutCount": 131,
+            "paintCount": 316,
+            "styleCount": 134
+          },
+          "after": {
+            "taskMs": 1330.1559999999988,
+            "rafP95Ms": 15,
+            "layoutCount": 12,
+            "paintCount": 92,
+            "styleCount": 160
+          },
+          "taskReductionPercent": 8.138334349678459
+        },
+        {
+          "name": "sla",
+          "before": {
+            "taskMs": 2195.345,
+            "rafP95Ms": 10.100000000002183,
+            "layoutCount": 291,
+            "paintCount": 874,
+            "styleCount": 291
+          },
+          "after": {
+            "taskMs": 822.692,
+            "rafP95Ms": 5.100000000002183,
+            "layoutCount": 0,
+            "paintCount": 0,
+            "styleCount": 444
+          },
+          "taskReductionPercent": 62.52561670261394
+        },
+        {
+          "name": "portrait",
+          "before": {
+            "taskMs": 790.0740000000006,
+            "rafP95Ms": 5.100000000000364,
+            "layoutCount": 0,
+            "paintCount": 0,
+            "styleCount": 442
+          },
+          "after": {
+            "taskMs": 701.3259999999981,
+            "rafP95Ms": 5.099999999999909,
+            "layoutCount": 0,
+            "paintCount": 0,
+            "styleCount": 444
+          },
+          "taskReductionPercent": 11.232871857573148
+        }
+      ]
+    },
+    {
+      "profile": "mobile-cpu6",
+      "scenarios": [
+        {
+          "name": "hero",
+          "before": {
+            "taskMs": 2212.8579999999997,
+            "rafP95Ms": 14.899999999999636,
+            "layoutCount": 232,
+            "paintCount": 466,
+            "styleCount": 232
+          },
+          "after": {
+            "taskMs": 2215.7239999999997,
+            "rafP95Ms": 15.099999999999454,
+            "layoutCount": 0,
+            "paintCount": 372,
+            "styleCount": 211
+          },
+          "taskReductionPercent": -0.12951576648840485
+        },
+        {
+          "name": "offscreen",
+          "before": {
+            "taskMs": 2091.0440000000003,
+            "rafP95Ms": 5.100000000000364,
+            "layoutCount": 426,
+            "paintCount": 854,
+            "styleCount": 426
+          },
+          "after": {
+            "taskMs": 537.2310000000002,
+            "rafP95Ms": 5.100000000000364,
+            "layoutCount": 0,
+            "paintCount": 0,
+            "styleCount": 0
+          },
+          "taskReductionPercent": 74.30800117070706
+        },
+        {
+          "name": "filter",
+          "before": {
+            "taskMs": 2048.2629999999986,
+            "rafP95Ms": 20,
+            "layoutCount": 164,
+            "paintCount": 369,
+            "styleCount": 169
+          },
+          "after": {
+            "taskMs": 1998.8259999999993,
+            "rafP95Ms": 15.19999999999709,
+            "layoutCount": 11,
+            "paintCount": 84,
+            "styleCount": 177
+          },
+          "taskReductionPercent": 2.413606065236703
+        },
+        {
+          "name": "sla",
+          "before": {
+            "taskMs": 2211.0420000000026,
+            "rafP95Ms": 10.100000000002183,
+            "layoutCount": 268,
+            "paintCount": 807,
+            "styleCount": 268
+          },
+          "after": {
+            "taskMs": 939.9279999999983,
+            "rafP95Ms": 5.100000000002183,
+            "layoutCount": 0,
+            "paintCount": 0,
+            "styleCount": 444
+          },
+          "taskReductionPercent": 57.48936474295843
+        },
+        {
+          "name": "portrait",
+          "before": {
+            "taskMs": 650.1400000000003,
+            "rafP95Ms": 5.099999999999909,
+            "layoutCount": 0,
+            "paintCount": 0,
+            "styleCount": 443
+          },
+          "after": {
+            "taskMs": 783.0389999999987,
+            "rafP95Ms": 5.100000000000364,
+            "layoutCount": 0,
+            "paintCount": 0,
+            "styleCount": 441
+          },
+          "taskReductionPercent": -20.44159719445017
+        }
+      ]
+    }
+  ],
+  "frames": [
+    {
+      "file": "404html-1440.png",
+      "changed": 1,
+      "substantial": 0,
+      "substantialPercent": 0,
+      "meanDelta": 6.944444444444445e-7
+    },
+    {
+      "file": "404html-390.png",
+      "changed": 542,
+      "substantial": 0,
+      "substantialPercent": 0,
+      "meanDelta": 0.0013923076923076923
+    },
+    {
+      "file": "home-1440.png",
+      "changed": 73112,
+      "substantial": 1148,
+      "substantialPercent": 0.07972222222222222,
+      "meanDelta": 0.12439791666666666
+    },
+    {
+      "file": "home-390.png",
+      "changed": 34355,
+      "substantial": 1729,
+      "substantialPercent": 0.44333333333333336,
+      "meanDelta": 0.33934871794871796
+    },
+    {
+      "file": "home-phase-1800-1440.png",
+      "changed": 73315,
+      "substantial": 1154,
+      "substantialPercent": 0.0801388888888889,
+      "meanDelta": 0.12467986111111111
+    },
+    {
+      "file": "home-phase-1800-390.png",
+      "changed": 34199,
+      "substantial": 1760,
+      "substantialPercent": 0.45128205128205123,
+      "meanDelta": 0.3425076923076923
+    },
+    {
+      "file": "home-phase-3000-1440.png",
+      "changed": 72914,
+      "substantial": 1122,
+      "substantialPercent": 0.07791666666666666,
+      "meanDelta": 0.12374027777777778
+    },
+    {
+      "file": "home-phase-3000-390.png",
+      "changed": 34136,
+      "substantial": 1749,
+      "substantialPercent": 0.44846153846153847,
+      "meanDelta": 0.34074358974358976
+    },
+    {
+      "file": "home-phase-5000-1440.png",
+      "changed": 71098,
+      "substantial": 1170,
+      "substantialPercent": 0.08125,
+      "meanDelta": 0.12307777777777777
+    },
+    {
+      "file": "home-phase-5000-390.png",
+      "changed": 34412,
+      "substantial": 1753,
+      "substantialPercent": 0.44948717948717953,
+      "meanDelta": 0.34155128205128205
+    },
+    {
+      "file": "mechanism-1440.png",
+      "changed": 13257,
+      "substantial": 98,
+      "substantialPercent": 0.006805555555555555,
+      "meanDelta": 0.023861805555555556
+    },
+    {
+      "file": "mechanism-390.png",
+      "changed": 10195,
+      "substantial": 1755,
+      "substantialPercent": 0.44999999999999996,
+      "meanDelta": 0.2512820512820513
+    },
+    {
+      "file": "sla-1440.png",
+      "changed": 0,
+      "substantial": 0,
+      "substantialPercent": 0,
+      "meanDelta": 0
+    },
+    {
+      "file": "sla-390.png",
+      "changed": 0,
+      "substantial": 0,
+      "substantialPercent": 0,
+      "meanDelta": 0
+    }
+  ],
+  "checks": {
+    "nodeTests": 95,
+    "astroErrors": 0,
+    "astroWarnings": 0,
+    "existingAstroHints": 6,
+    "fullBrowserScenarios": 19,
+    "responsivePages": 7,
+    "responsiveWidths": 11,
+    "productPages": 49,
+    "performanceAssertions": "passed",
+    "frameComparison": "passed",
+    "latestFunctionalBrowserAudit": {
+      "status": "passed",
+      "browser": "156.0.4314.50",
+      "functionalOnly": true,
+      "results": [
+        "mobile menu: keyboard, Escape, outside click",
+        "catalog drawer after deep scroll: viewport bounds, focus trap, filters, Escape",
+        "gallery: thumbnails, dialog, keyboard arrows/Home/End, Escape and focus return",
+        "Telegram: seller, Unicode product draft, canonical URL, browser fallback and new tab",
+        "product copy: complete inquiry, clipboard and visible success",
+        "Viber: encoded native URI, help, keyboard focus, phone copy, Escape and close",
+        "mobile buy bar: appears after inquiry, returns to contact and yields to footer",
+        "SLA form: editable draft, Unicode, copy and native validation",
+        "denied clipboard: product, Viber phone and SLA select complete manual text",
+        "404 portrait: entrance, breathing, ears, blink, parallax, hover and offscreen pause; home reveal",
+        "messenger hover, press, keyboard focus and pill shape",
+        "animation performance: pause/resume, hidden document, batched pointer and bounded filter wave",
+        "reduced motion: portrait, ambient effects and messenger hover are still",
+        "touch screen: 44px targets, no sticky messenger hover, Viber sheet within viewport",
+        "blocked web fonts: fallback typography remains readable and within 320px",
+        "failed product image: local placeholder and recovery on another thumbnail",
+        "no JavaScript: all products, native mobile menu, contacts, gallery links and SLA fallback"
+      ],
+      "pageErrors": [],
+      "consoleErrors": [],
+      "failedRequests": []
+    }
+  }
+}
