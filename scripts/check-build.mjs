@@ -121,6 +121,9 @@ export async function checkBuild() {
 
   // ── Branding assets must survive the build ──
   for (const asset of ['OGimage.png', 'logo.svg', 'images/product-placeholder.svg',
+    'images/brand/raphtalia-920.webp', 'images/brand/raphtalia-560.webp',
+    'images/brand/raphtalia-ear-left.webp', 'images/brand/raphtalia-ear-right.webp',
+    'images/brand/raphtalia-blink.webp',
     'favicon.ico', 'favicon-16x16.png', 'favicon-32x32.png', 'apple-touch-icon.png']) {
     const built = await fileSize(path.join(distDir, asset));
     check(built > 0, `branding/public asset missing or empty in dist: ${asset}`);

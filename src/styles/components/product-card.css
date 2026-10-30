@@ -5,65 +5,79 @@
    here depends on base-vs-component bundle order.
    ============================================================ */
 
+/* z-index: 0 makes the card its own stacking context, so the ears can sit on a
+   negative layer: behind the photo but in front of the card's background, with
+   their tips free above its top edge. */
 .product-card {
+  --card-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   position: relative;
+  z-index: 0;
   height: 100%;
   padding: 0;
-  overflow: hidden;
-  border: var(--border-soft);
-  border-radius: var(--radius-lg);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(232, 216, 190, 0.96) 100%);
-  box-shadow:
-    0 14px 34px rgba(42, 20, 8, 0.14),
-    0 4px 10px rgba(42, 20, 8, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  border: var(--border-card);
+  border-radius: var(--card-radius);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
   transition:
     transform var(--dur-normal) var(--ease-out),
     box-shadow var(--dur-normal) var(--ease-out),
     border-color var(--dur-normal) var(--ease-out);
 }
 
-/* Signature accent bar along the top edge (always visible). It used to show
-   through the image panel's translucent gradient; the photo backdrop that
-   replaced that gradient is opaque, so the bar is lifted over the image
-   layers instead. pointer-events stays off so the 3px strip it now covers
-   still belongs to the image link underneath. */
-.product-card::before {
-  content: '';
-  position: absolute;
-  z-index: 3;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  pointer-events: none;
-  background: linear-gradient(90deg, var(--burgundy), var(--dusty-rose), var(--copper));
-  opacity: 0.9;
-}
-
-/* Card-wide sheen — above the accent bar and the photo, as before. */
+/* The ears: whichever product the visitor looks at, pays attention back. They
+   rest fully behind the photo and rise only on hover or keyboard focus. */
+.product-card::before,
 .product-card::after {
   content: '';
   position: absolute;
-  z-index: 4;
-  inset: 0;
+  z-index: -1;
+  top: 0;
+  width: 62px;
+  aspect-ratio: 172 / 94;
+  background: url('../../assets/brand/ear-left.webp') center bottom / contain no-repeat;
+  transform-origin: 50% 100%;
+  transition: transform var(--dur-slow) var(--ease-spring);
   pointer-events: none;
-  background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.18), transparent 32%),
-    linear-gradient(180deg, transparent 60%, rgba(90, 58, 46, 0.04) 100%);
 }
 
-.product-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(142, 63, 67, 0.3);
-  box-shadow:
-    0 22px 48px rgba(42, 20, 8, 0.2),
-    0 8px 18px rgba(42, 20, 8, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+.product-card::before { left: 13%; transform: translateY(6%) rotate(-3deg); }
+
+.product-card::after {
+  right: 13%;
+  background-image: url('../../assets/brand/ear-right.webp');
+  transform: translateY(6%) rotate(3deg);
+  transition-delay: 40ms;
 }
+
+@media (hover: hover) {
+  .product-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(168, 100, 58, 0.34);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .product-card:hover::before { transform: translateY(-86%) rotate(-3deg); }
+  .product-card:hover::after  { transform: translateY(-86%) rotate(3deg); }
+
+  .product-card:hover .product-card__image { transform: scale(1.035); }
+
+  .product-card:hover .product-card__button {
+    color: var(--on-accent);
+    background: var(--accent-primary);
+    box-shadow: 0 8px 18px -8px rgba(172, 65, 81, 0.7);
+  }
+
+  .product-card:hover .product-card__title a { color: var(--burgundy); }
+}
+
+.product-card:focus-within {
+  border-color: rgba(168, 100, 58, 0.34);
+}
+
+.product-card:focus-within::before { transform: translateY(-86%) rotate(-3deg); }
+.product-card:focus-within::after  { transform: translateY(-86%) rotate(3deg); }
 
 /* 4:3 is the native ratio of most catalog photos (the rest are square, with
    a lone portrait and a lone panorama), so matching the block to it lets the
@@ -71,25 +85,15 @@
    below is only a base coat for missing images — a loaded photo always covers
    it, either with itself or with its blurred backdrop.
 
-   Three stacked layers share this box, hence the explicit z-indexes:
-   backdrop (0) · photo (1) · bottom scrim (2). */
+   Two stacked layers share this box, hence the explicit z-indexes:
+   backdrop (0) · photo (1). */
 .product-card__image-link {
   position: relative;
   display: block;
   aspect-ratio: 4 / 3;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.22), transparent 45%),
-    linear-gradient(135deg, rgba(217, 154, 116, 0.18), rgba(142, 63, 67, 0.08));
-}
-
-.product-card__image-link::after {
-  content: '';
-  position: absolute;
-  z-index: 2;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 55%, rgba(46, 27, 16, 0.1) 100%);
-  pointer-events: none;
+  border-radius: calc(var(--card-radius) - 1px) calc(var(--card-radius) - 1px) 0 0;
+  background: var(--bg-inset);
 }
 
 /* Gap filler for photos that are not 4:3. Where the photo does match the
@@ -107,7 +111,7 @@
   /* blur() fades an element's own edges into transparency; the over-scale
      pushes that fade outside the clip box so the fill reaches every corner. */
   transform: scale(1.2);
-  filter: blur(22px) saturate(1.15) brightness(0.9);
+  filter: blur(22px) saturate(1.1) brightness(1.02);
   pointer-events: none;
 }
 
@@ -122,156 +126,188 @@
   height: 100%;
   object-fit: contain;
   object-position: center;
-  transition: filter var(--dur-normal) var(--ease-out);
-}
-
-.product-card:hover .product-card__image {
-  filter: saturate(1.05) contrast(1.03);
+  transition:
+    transform var(--dur-slow) var(--ease-out),
+    opacity var(--dur-slow) var(--ease-out);
 }
 
 .product-card__body {
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-2);
   padding: var(--space-4);
 }
 
-.product-card__category {
+/* A quiet label, not a second button-like pill above the title. */
+.product-card__category.tag {
   align-self: flex-start;
-  /* Global .tag is nowrap; in the 2-col mobile grid a long category name is
-     wider than the column and gets clipped by the card's overflow:hidden.
-     Cap to the card width and let it wrap instead. */
   max-width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--hair-deep);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.03em;
   white-space: normal;
 }
 
 /* Titles run 42–84 characters. The clamps below cap the two text blocks so a
    long title or description can no longer stretch one card far past its
-   neighbours — the grid row height follows the tallest card. */
+   neighbours — the grid row height follows the tallest card. Set in Mulish:
+   at this size the display serif is too thin to scan a catalog. */
 .product-card__title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   line-clamp: 3;
   overflow: hidden;
-  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
-  line-height: 1.25;
-  color: var(--chocolate);
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  line-height: 1.35;
+  letter-spacing: 0;
+  color: var(--text-primary);
+  text-wrap: pretty;
 }
 
 .product-card__title a {
   color: inherit;
   text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
 }
 
-.product-card__title a:hover {
-  color: var(--burgundy);
+/* The whole card is one target: the title's link stretches over it. Its
+   containing block is the card, so the title's overflow clamp does not clip it. */
+.product-card__title a::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.product-card__title a:focus-visible { outline: none; }
+
+.product-card__title a:focus-visible::after {
+  border-radius: var(--card-radius);
+  outline: 2px solid var(--burgundy);
+  outline-offset: 2px;
 }
 
 .product-card__description {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
   margin: 0;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-size: var(--fs-sm);
-  line-height: 1.55;
+  line-height: 1.5;
 }
 
-/* Bottom bar: price panel + CTA side by side. Neither item shrinks below its
+/* Bottom bar: price + CTA side by side. Neither item shrinks below its
    content, so on the narrowest columns the row wraps and the button takes a
    full-width line of its own instead of squashing the price. */
 .product-card__footer {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--space-2) var(--space-3);
   margin-top: auto;
-  padding-top: var(--space-1);
+  padding-top: var(--space-3);
 }
 
 .product-card__price-block {
   display: flex;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   flex-direction: column;
-  gap: var(--space-1);
-  padding: var(--space-2) var(--space-3);
-  border: var(--border-faint);
-  border-radius: var(--radius-md);
-  background: rgba(245, 237, 224, 0.72);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.45),
-    0 4px 10px rgba(42, 20, 8, 0.05);
+  gap: 0.125rem;
 }
 
 .product-card__price-label {
   font-size: var(--fs-xs);
   font-weight: var(--fw-semibold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  line-height: 1.3;
   color: var(--text-muted);
 }
 
-.product-card__button {
-  flex: 1 1 auto;
-  justify-content: center;
+/* Tinted at rest: 49 solid red buttons would drown the photos. The card being
+   pointed at is the one whose button fills in. */
+.btn.product-card__button {
+  flex: 0 0 auto;
+  color: var(--burgundy);
+  background: rgba(142, 63, 67, 0.09);
 }
 
-/* 480px and below the grid is one card per row (see catalog.css): a portrait
-   card would be as wide as the screen with a huge image band, and the old
-   two-up grid squeezed it down to ~135px on a 320px phone. The image moves
-   beside the text instead, which keeps the card wide and short. */
+/* 480px and below the grid is one card per row (see catalog.css). The image
+   sits beside the text and the description gives way: a phone scans the catalog
+   in quick, short rows, and in a row this short the whole photo stays large. */
 @media (max-width: 480px) {
   .product-card {
     flex-direction: row;
   }
 
+  /* Rows are short and close together: there is no room for ears here. */
+  .product-card::before,
+  .product-card::after { display: none; }
+
   .product-card__image-link {
-    flex: 0 0 clamp(104px, 36%, 168px);
-    /* Stretch to the text column instead of holding a ratio, so the image
-       panel never leaves a gap under itself. */
+    flex: 0 0 38%;
     aspect-ratio: auto;
     align-self: stretch;
+    min-height: 8.25rem;
+    border-radius: calc(var(--card-radius) - 1px) 0 0 calc(var(--card-radius) - 1px);
   }
 
-  /* The column is ~1/3 of its desktop width here, so the desktop radius would
-     smear the backdrop into flat colour. Scaled down to match. */
   .product-card__image-backdrop {
     transform: scale(1.25);
-    filter: blur(12px) saturate(1.15) brightness(0.9);
+    filter: blur(12px) saturate(1.1) brightness(1.02);
   }
 
   .product-card__body {
-    gap: var(--space-2);
+    min-width: 0;
+    gap: var(--space-1);
     padding: var(--space-3);
   }
 
-  .product-card__description {
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+  .product-card__category.tag,
+  .product-card__description { display: none; }
+
+  .product-card__title {
+    font-size: 0.9375rem;
+    line-height: 1.32;
   }
 
   .product-card__footer {
-    gap: var(--space-2);
+    flex-wrap: nowrap;
+    align-items: center;
+    padding-top: var(--space-2);
   }
 
-  /* Label beside the amount: in the narrow text column the CTA usually wraps
-     under the price panel, so the panel keeps the full row width. */
-  .product-card__price-block {
-    flex-direction: row;
-    align-items: baseline;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: var(--space-1) var(--space-2);
+  .btn.product-card__button {
+    min-height: 36px;
+    padding-inline: 0.85em;
   }
+
+  .product-card .product-price { white-space: nowrap; }
+}
+
+/* The whole card is the link, so on the narrowest phones the price keeps the
+   room and the button gives way. */
+@media (max-width: 360px) {
+  .btn.product-card__button { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .product-card,
-  .product-card__image {
+  .product-card__image,
+  .product-card::before,
+  .product-card::after {
     transition: none;
   }
 
@@ -280,6 +316,16 @@
   }
 
   .product-card:hover .product-card__image {
-    filter: none;
+    transform: none;
   }
+}
+
+@media (forced-colors: active) {
+  .product-card::before,
+  .product-card::after { display: none; }
+}
+
+@media print {
+  .product-card::before,
+  .product-card::after { display: none; }
 }

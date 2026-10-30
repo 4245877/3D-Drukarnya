@@ -2,23 +2,19 @@
   max-width: none;
   margin: 0;
   color: var(--burgundy);
-  font-family: var(--font-serif);
-  font-size: var(--fs-lg);
-  font-weight: var(--fw-semibold);
-  line-height: 1;
-  letter-spacing: -0.02em;
-  /* Cormorant defaults to old-style figures, which made prices bob above and
-     below the baseline; lining + tabular keeps digits aligned in a column. */
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  font-weight: var(--fw-extrabold);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  /* Lining + tabular keeps digits aligned in a column. */
   font-variant-numeric: lining-nums tabular-nums;
 }
 
 /* The single source of the product-page price size (the `large` prop of
    <ProductPrice>); pages must not override it. */
 .product-price--large {
-  /* The page's headline is a serif; the price answers it in the UI font so
-     the two do not compete, and stays unambiguous at a glance. */
-  font-family: var(--font-body);
   font-size: clamp(1.875rem, 1.4rem + 1.4vw, 2.375rem);
-  font-weight: var(--fw-bold);
-  letter-spacing: -0.01em;
+  font-weight: var(--fw-extrabold);
+  letter-spacing: -0.015em;
 }

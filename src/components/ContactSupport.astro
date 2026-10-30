@@ -4,11 +4,15 @@ import { TELEGRAM_URL, TELEGRAM_WEB_URL, VIBER_DOWNLOAD_URL, VIBER_PHONE, VIBER_
 
 {/* Shown only after an intentional Viber click; never guesses app installation. */}
 <aside id="viber-support" class="contact-support" aria-labelledby="viber-help-title" tabindex="-1" data-viber-support hidden>
-  <button class="contact-support__close" type="button" aria-label="Закрити підказку Viber" data-viber-close>×</button>
+  <button class="contact-support__close" type="button" aria-label="Закрити підказку Viber" data-viber-close>
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+      <path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+    </svg>
+  </button>
   <h2 id="viber-help-title">Якщо Viber не відкрився</h2>
-  <p>Для чату потрібен застосунок Viber. Скопіюй номер і знайди мене в ньому або напиши в Telegram.</p>
+  <p>Для чату потрібен застосунок Viber. Скопіюй номер і знайди цей контакт у застосунку або напиши в Telegram.</p>
   <div class="contact-support__number" data-contact-actions>
-    <span>{VIBER_PHONE_LABEL}</span>
+    <span class="contact-support__phone">{VIBER_PHONE_LABEL}</span>
     <button class="contact-copy" type="button" data-contact-copy={VIBER_PHONE} data-contact-copy-success="Номер скопійовано. Встав його в пошук Viber.">Копіювати номер</button>
     <p class="contact-status" role="status" data-contact-status></p>
     <input class="contact-manual-copy" type="text" value={VIBER_PHONE} aria-label="Номер Viber для ручного копіювання" readonly data-contact-manual hidden />

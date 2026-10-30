@@ -14,11 +14,13 @@ const { message = '', compact = false, copyMessage = false } = Astro.props;
 
 <div class:list={['contact-actions', { 'contact-actions--compact': compact }]} data-contact-actions>
   <div class="contact-actions__links" role="group" aria-label="Написати продавцю">
-    <a class="btn contact-button" href={telegramChatUrl(message)} target="_blank" rel="noopener noreferrer" aria-label="Написати в Telegram" data-telegram-link>
-      <ContactIcon name="telegram" /><span>Telegram</span>
+    <a class="btn contact-button contact-button--telegram" href={telegramChatUrl(message)} target="_blank" rel="noopener noreferrer" aria-label="Написати в Telegram" data-telegram-link>
+      <span class="contact-button__badge"><ContactIcon name="telegram" /></span>
+      <span class="contact-button__label">Telegram</span>
     </a>
-    <a class="btn contact-button" href={VIBER_URL} aria-label="Написати у Viber" aria-controls="viber-support" data-viber-link>
-      <ContactIcon name="viber" /><span>Viber</span>
+    <a class="btn contact-button contact-button--viber" href={VIBER_URL} aria-label="Написати у Viber" aria-controls="viber-support" data-viber-link>
+      <span class="contact-button__badge"><ContactIcon name="viber" /></span>
+      <span class="contact-button__label">Viber</span>
     </a>
   </div>
   {!compact && (

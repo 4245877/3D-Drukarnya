@@ -3,6 +3,7 @@ import { isDraftPreview } from '../utils/draft-preview';
 import '../styles/base.css';
 import '../styles/layout.css';
 import '../styles/atmosphere.css';
+import '../styles/components/raphtalia.css';
 import SiteHeader from './SiteHeader.astro';
 import SiteFooter from './SiteFooter.astro';
 import ContactSupport from './ContactSupport.astro';
@@ -162,7 +163,7 @@ const robotsContent = noindex
     <meta name="twitter:url" content={canonicalUrl} />
     <meta name="twitter:image" content={resolvedImage} />
     <meta name="twitter:image:alt" content={resolvedImageAlt} />
-    <meta name="theme-color" content="#8E3F43" />
+    <meta name="theme-color" content="#FBF5EC" />
 
     <link rel="icon" href={faviconIcoPath} sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href={favicon32Path} />
@@ -173,12 +174,11 @@ const robotsContent = noindex
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     {/*
       Only the weights the CSS actually uses (verified against src/styles):
-      Playfair — 700 footer <strong>, 800 logo, 900 hero/pills (no italics);
-      Cormorant — 300 light headings + 300 italic subtitle, 400 fallback,
-      600 headings/price; Mulish — 400–700 body scale (300 was never used).
+      Cormorant — 600 headings, 700 logo and hero figures;
+      Mulish — 400–800 interface and body scale.
     */}
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Mulish:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Mulish:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
 
@@ -194,6 +194,11 @@ const robotsContent = noindex
 
     <SiteFooter />
     <ContactSupport />
+
+    <script>
+      import { initMotion } from '../scripts/motion';
+      initMotion();
+    </script>
 
     <script>
       // Local fallback for product images (~170 of them come from a single

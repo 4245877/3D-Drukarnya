@@ -3,6 +3,7 @@ import Layout from '../components/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import SlaPreview from '../components/SlaPreview.astro';
 import ContactActions from '../components/ContactActions.astro';
+import RaphtaliaPortrait from '../components/RaphtaliaPortrait.astro';
 import { CATEGORIES } from '../data/categories.mjs';
 import { FAQ_ITEMS } from '../data/faq';
 import { OLX_URL, SITE_NAME } from '../data/site.config.mjs';
@@ -100,33 +101,73 @@ const structuredData = graph([
   ></script>
 
   <div class="catalog-page" data-catalog-page>
-    <section class="catalog-hero">
-      <div class="container">
-        <div class="catalog-hero__inner">
-          <div class="catalog-hero__left">
-            <p class="catalog-hero__eyebrow">10" server rack · HomeLab · NAS</p>
+    <section class="catalog-hero ears-listen" data-live data-parallax>
+      {/* A few strands of her hair, lifted by the wind and running off the page.
+          They grow out from behind the portrait and stay clear of the text. */}
+      <svg class="catalog-hero__strands" viewBox="0 0 1440 700" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="hero-strand" x1="1" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#CE8C59" stop-opacity="0" />
+            <stop offset="0.45" stop-color="#CE8C59" stop-opacity="0.5" />
+            <stop offset="1" stop-color="#A8643A" stop-opacity="0.6" />
+          </linearGradient>
+        </defs>
+        <g stroke="url(#hero-strand)">
+          <path d="M1470 54C1404 96 1400 196 1338 268S1206 388 1146 520" />
+          <path d="M1490 196C1436 226 1418 300 1364 366S1262 470 1216 590" />
+          <path d="M1496 332C1452 352 1436 408 1398 462S1320 552 1282 650" />
+        </g>
+      </svg>
 
-            <h1 class="catalog-hero__title">
-              <span class="highlight">10-дюймові</span> серверні стійки та кріплення для HomeLab
-            </h1>
+      <div class="container catalog-hero__inner">
+        <div class="catalog-hero__left">
+          <p class="catalog-hero__eyebrow">10" server rack · HomeLab · NAS</p>
 
-            <p class="catalog-hero__subtitle">
-              Компактний HomeLab зручніше будувати, коли кожен пристрій має своє місце.
-              Тут є стійки, NAS-корпуси, кріплення для mini-PC, Raspberry Pi й мережевого
-              обладнання та аксесуари для робочого місця. Виготовлення на замовлення
-              в Києві, доставка по Україні.
-            </p>
+          <h1 class="catalog-hero__title">
+            <span class="highlight">10-дюймові</span> серверні стійки та кріплення для HomeLab
+          </h1>
 
-            <div class="catalog-hero__actions">
-              <a class="btn catalog-hero__browse" href="#catalog-title">Переглянути каталог</a>
-              <a class="catalog-hero__order-link" href="#order-title">Як замовити</a>
-              <a class="catalog-hero__order-link" href={href('sla/')}>SLA-друк смолою →</a>
-            </div>
+          <p class="catalog-hero__subtitle">
+            Компактний HomeLab зручніше будувати, коли кожен пристрій має своє місце.
+            Тут є стійки, NAS-корпуси, кріплення для mini-PC, Raspberry Pi й мережевого
+            обладнання та аксесуари для робочого місця. Виготовлення на замовлення
+            в Києві, доставка по Україні.
+          </p>
+
+          <div class="catalog-hero__actions">
+            <a class="btn btn--primary btn--lg" href="#catalog-title">Переглянути каталог</a>
+            <a class="btn btn--secondary btn--lg" href="#order-title">Як замовити</a>
+            <a class="catalog-hero__sla-link" href={href('sla/')}>SLA-друк смолою →</a>
+          </div>
+
+          <ul class="catalog-hero__facts" role="list">
+            <li class="catalog-hero__fact"><strong>{products.length}</strong> виробів у каталозі</li>
+            <li class="catalog-hero__fact"><strong>{CATEGORIES.length}</strong> розділи</li>
+            <li class="catalog-hero__fact"><strong>Київ</strong> доставка по Україні</li>
+          </ul>
+        </div>
+
+        <div class="catalog-hero__aside">
+          <svg class="catalog-hero__sun" viewBox="0 0 600 600" aria-hidden="true" focusable="false">
+            <circle cx="300" cy="300" r="238" stroke-opacity="0.34" />
+            <g class="catalog-hero__sun-spin">
+              <circle cx="300" cy="300" r="282" stroke-opacity="0.45" stroke-dasharray="2 14" stroke-linecap="round" />
+            </g>
+          </svg>
+
+          <span class="leaf catalog-hero__leaf catalog-hero__leaf--a"></span>
+          <span class="leaf catalog-hero__leaf catalog-hero__leaf--b"></span>
+          <span class="leaf catalog-hero__leaf catalog-hero__leaf--c"></span>
+
+          <div class="catalog-hero__portrait">
+            <RaphtaliaPortrait
+              priority
+              sizes="(max-width: 900px) min(100vw, 36rem), 46rem"
+            />
           </div>
 
           <!-- Серверна стійка — обов'язковий елемент Hero на всіх екранах, включно з мобільними. Не приховувати й не видаляти під час адаптації. -->
-          <div class="catalog-hero__aside" aria-hidden="true">
-            <div class="catalog-hero__rack">
+          <div class="catalog-hero__rack" aria-hidden="true">
               <!--
                 Isometric open 10" home-lab rack (5U): patch panel, switch,
                 mini-PC on a printed shelf, 4-bay NAS. 2:1 isometric grid:
@@ -326,10 +367,22 @@ const structuredData = graph([
                   <path class="rack-sheen" d="M150 30 L196 53 L176 292 L130 269 Z" fill="url(#hlr-sheen-grad)" />
                 </g>
               </svg>
-            </div>
           </div>
         </div>
       </div>
+
+      <svg class="catalog-hero__wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="hero-wave-line" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#CE8C59" stop-opacity="0" />
+            <stop offset="0.3" stop-color="#CE8C59" />
+            <stop offset="0.75" stop-color="#AC4151" />
+            <stop offset="1" stop-color="#AC4151" stop-opacity="0.2" />
+          </linearGradient>
+        </defs>
+        <path class="catalog-hero__wave-fill" d="M0 58C210 22 410 14 650 40S1050 86 1240 62S1400 26 1440 28V90H0Z" />
+        <path class="catalog-hero__wave-line" stroke="url(#hero-wave-line)" d="M0 58C210 22 410 14 650 40S1050 86 1240 62S1400 26 1440 28" />
+      </svg>
     </section>
 
     {/*
@@ -521,7 +574,7 @@ const structuredData = graph([
                   </div>
 
                   <div class="catalog-no-results" hidden data-catalog-filter-empty>
-                    <div class="catalog-no-results__art" aria-hidden="true">∅</div>
+                    <div class="catalog-no-results__art" aria-hidden="true"><span class="ears"></span></div>
                     <h2 class="catalog-no-results__title">За цим фільтром товарів немає</h2>
                     <p class="catalog-no-results__text">
                       Спробуй іншу категорію або «Усі товари», щоб побачити решту виробів.
@@ -530,7 +583,7 @@ const structuredData = graph([
                 </>
               ) : (
                 <div class="catalog-no-results">
-                  <div class="catalog-no-results__art">∅</div>
+                  <div class="catalog-no-results__art" aria-hidden="true"><span class="ears"></span></div>
                   <h2 class="catalog-no-results__title">Каталог поки порожній</h2>
                   <p class="catalog-no-results__text">
                     Опублікованих товарів ще немає. Контакти магазину є нижче.
@@ -569,7 +622,7 @@ const structuredData = graph([
 
         <div class="catalog-order__details">
           {FAQ_ITEMS.map((item) => (
-            <details class="catalog-order__item">
+            <details class="catalog-order__item disclosure">
               <summary data-faq-question>{item.question}</summary>
               <p data-faq-answer>{item.answer}</p>
             </details>
@@ -893,6 +946,22 @@ const structuredData = graph([
             count.textContent = String(shownItems);
           });
           if (filterEmpty) filterEmpty.hidden = shownItems !== 0;
+
+          // The cards settle into their new places in a short wave. One forced
+          // reflow restarts the animation on all of them at once.
+          if (!motionQuery.matches) {
+            catalogItems.forEach((item) => {
+              item.classList.remove('is-entering', 'reveal-pending', 'reveal-in');
+            });
+            void catalogPage.offsetWidth;
+            let enterIndex = 0;
+            catalogItems.forEach((item) => {
+              if (item.hidden) return;
+              item.style.setProperty('--enter-i', String(Math.min(enterIndex, 11)));
+              item.classList.add('is-entering');
+              enterIndex += 1;
+            });
+          }
 
           const activeLabel =
             activeButton.querySelector('[data-catalog-filter-label]')?.textContent?.trim() ?? '';

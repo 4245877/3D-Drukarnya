@@ -440,7 +440,7 @@ const structuredData = graph([
 
             {!isDraft && <div id="product-contact" class="product-buy__cta" tabindex="-1" role="group" aria-labelledby="product-contact-title" data-order-cta>
               <h2 id="product-contact-title" class="product-buy__contact-title">Обговорімо цей товар</h2>
-              <p class="product-buy__cta-note">Допоможу з вибором виконання та замовленням. Запит про цей товар уже готовий: відкрий Telegram або скопіюй його для Viber.</p>
+              <p class="product-buy__cta-note">Запит про цей товар уже готовий: відкрий Telegram або скопіюй його для Viber. Виконання й деталі замовлення зручно погодити там само.</p>
               <ContactActions message={inquiryMessage} copyMessage />
               <a
                 class="contact-marketplace"
@@ -566,7 +566,7 @@ const structuredData = graph([
               {isDraft ? 'Виготовлення методом FDM заплановане після перевірки моделі та дозволів.' : 'Виріб виготовляється на замовлення методом FDM.'} У комплект входять
               лише надруковані пластикові деталі. Метизи, металеві різьбові вставки, електроніка,
               кабелі, вентилятори та блоки живлення не входять і узгоджуються окремо.
-              Переглянь опис виконання, щоб підготувати потрібні компоненти до складання.
+              Переглянь опис виконання, щоб підготувати потрібні компоненти до складання.{' '}
               <a href={href('guides/petg-vs-pla-for-racks/')}>Як обрати матеріал</a>.
             </p>
           </section>
@@ -641,7 +641,7 @@ const structuredData = graph([
             {product.leadTime && (
               <p class="product-recap__meta">Термін виготовлення: {product.leadTime}</p>
             )}
-            {!isDraft && <a class="btn btn--secondary product-recap__button" href="#product-contact"><ContactIcon name="message" />Зв'язатися щодо товару</a>}
+            {!isDraft && <a class="btn btn--primary product-recap__button" href="#product-contact"><ContactIcon name="message" />Зв'язатися щодо товару</a>}
           </div>
         </aside>
       </div>
@@ -681,7 +681,7 @@ const structuredData = graph([
           <ProductPrice amount={product.price} />
         </div>
 
-        <a class="btn btn--secondary product-buybar__button" href="#product-contact"><ContactIcon name="message" />Зв'язатися</a>
+        <a class="btn btn--primary product-buybar__button" href="#product-contact"><ContactIcon name="message" />Зв'язатися</a>
       </div>
     </div>}
   </section>

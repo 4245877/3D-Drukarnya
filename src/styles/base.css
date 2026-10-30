@@ -1,14 +1,14 @@
 /* ============================================================
-   BASE.CSS — Anime Site Design System
-   Palette: Copper · Cream · Burgundy · Rose · Steel
+   BASE.CSS — TANMEK design system
+
+   Visual source: the brand illustration of Raphtalia. Warm auburn
+   hair, a cream blouse, a burgundy ribbon and brass buckles give
+   the palette; her calm, attentive and decisive manner gives the
+   motion. See docs/RAPHTALIA-DESIGN.md for the full mapping.
 
    Tokens (custom properties) + the shared building blocks that
    the site actually renders: reset, typography, .container,
-   buttons, kicker, tags, breadcrumbs, site footer, utilities.
-   Component-library blocks that no template/script referenced
-   (nav, hero, modal, tabs, forms, toasts, cards, …) and unused
-   tokens were removed after a usage audit — see
-   tests/build-output.test.mjs checks.
+   buttons, kicker, tags, disclosures, breadcrumbs, site footer.
 
    Canonical breakpoints: 1400 / 1200 / 1024 / 900 / 768 / 480
    ============================================================ */
@@ -17,26 +17,29 @@
 :root {
   /* Core palette */
   --copper:        #D99A74;
-  --caramel:       #C88463;
   --cream:         #E8D8BE;
   --gold-beige:    #B89A61;
   --burgundy:      #8E3F43;
   --raphtalia-red: #AC4151;
   --chocolate:     #5A3A2E;
-  --dusty-rose:    #B56A7C;
-  --steel:         #A9AEB8;
+
+  /* Sampled from the brand illustration: strands, ear fur, paper. */
+  --hair-light:    #E8B07C;
+  --hair:          #CE8C59;
+  --hair-deep:     #A8643A;
+  --hair-shadow:   #6E432B;
+  --ear-inner:     #F0CB94;
+  --paper:         #FCEDDB;
 
   /* Semantic roles */
-  --bg-base:       #F5EDE0;          /* page background */
-  --bg-surface:    #EFE3CE;          /* cards, panels */
+  --bg-base:       #FBF5EC;          /* page background */
   --bg-elevated:   #E8D8BE;          /* raised elements */
-  --bg-deep:       #5A3A2E;          /* footers, dark sections */
+  --bg-deep:       #5A3A2E;          /* footer */
   --bg-dark:       #3D2419;          /* darkest surface */
-  /* Milky card surface. The sand tones above sit too close to --bg-base for a
-     card to read as a separate plane; --bg-card is the light surface that
-     carries content, --bg-inset the quiet block *inside* such a card. */
-  --bg-card:       #FCF8F1;
-  --bg-inset:      #F4EADA;
+  /* Milky card surface. --bg-card carries content, --bg-inset is the quiet
+     block *inside* such a card. */
+  --bg-card:       #FFFCF7;
+  --bg-inset:      #F7EEE1;
 
   --text-primary:  #2E1B10;
   --text-secondary:#5A3A2E;
@@ -44,36 +47,39 @@
   --text-inverse:  #F5EDE0;
   --text-accent:   #AC4151;
   /* Kicker/eyebrow labels on LIGHT backgrounds. Copper (#D99A74) only reaches
-     ~2:1 on cream and fails WCAG; burgundy gives ~6:1. Use --copper only on
-     dark surfaces (hero, footer). */
+     ~2:1 on cream and fails WCAG; burgundy gives ~6:1. On the dark footer labels
+     use --hair-light. */
   --text-kicker:   #8E3F43;
+  /* Label on filled accent buttons: 5.5:1 on --accent-primary. */
+  --on-accent:     #FFF9F2;
 
   --accent-primary:  #AC4151;        /* Raphtalia red - CTAs, highlights */
   --accent-hover:    #8E3F43;
-  --accent-soft:     #A25A6C;        /* rose - tags, badges */
-  --accent-warm:     #D99A74;        /* copper - decor, dividers */
-  --accent-gold:     #B89A61;        /* gold — borders, stars */
-  --accent-steel:    #A9AEB8;        /* steel — icons, meta */
   /* Natural green, used sparingly for "ready / in stock" signals. Verified
      ≥4.5:1 on --bg-card and --bg-base; never the only carrier of meaning. */
   --accent-sage:     #4C6B4E;
 
-  /* Shadows */
-  --shadow-xs:   0 1px 3px rgba(42,20,8,.10);
-  --shadow-sm:   0 2px 8px rgba(42,20,8,.12);
-  --shadow-md:   0 6px 20px rgba(42,20,8,.15);
-  --shadow-xl:   0 32px 80px rgba(42,20,8,.28);
-  /* Soft two-part shadow for milky cards: a tight contact edge plus a wide,
-     very light ambient pool. Keeps cards lifted without a heavy drop. */
-  --shadow-card: 0 1px 2px rgba(58,35,20,.05), 0 10px 28px -14px rgba(58,35,20,.22);
-  --shadow-card-hover: 0 2px 4px rgba(58,35,20,.06), 0 18px 40px -16px rgba(58,35,20,.28);
+  /* Official messenger colours, kept recognisable on purpose. White glyphs on
+     them reach the 3:1 required for meaningful graphics (WCAG 1.4.11). */
+  --telegram:     #229ED9;
+  --telegram-rgb: 34, 158, 217;
+  --viber:        #7360F2;
+  --viber-rgb:    115, 96, 242;
 
-  /* Typography */
-  /* Display font must cover Cyrillic — Playfair Display ships full Cyrillic,
-     unlike Cinzel Decorative (Latin-only), which broke Ukrainian headings. */
-  --font-display: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
-  --font-serif:   'Cormorant Garamond', Georgia, serif;
-  --font-body:    'Mulish', system-ui, sans-serif;
+  /* Shadows: warm, wide and low so surfaces lift without a heavy drop. */
+  --shadow-xs:   0 1px 2px rgba(74,44,26,.07);
+  --shadow-sm:   0 3px 10px -2px rgba(74,44,26,.12);
+  --shadow-md:   0 14px 34px -14px rgba(74,44,26,.28);
+  --shadow-xl:   0 32px 80px rgba(42,20,8,.26);
+  --shadow-card: 0 1px 2px rgba(74,44,26,.05), 0 10px 26px -16px rgba(74,44,26,.24);
+  --shadow-card-hover: 0 2px 4px rgba(74,44,26,.05), 0 22px 42px -20px rgba(74,44,26,.34);
+
+  /* Typography: one display serif, one interface sans. Both carry full
+     Ukrainian Cyrillic, and Cormorant stays airy at large sizes only, so
+     anything under ~24px is set in Mulish. */
+  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-serif:   var(--font-display);
+  --font-body:    'Mulish', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
   --fs-xs:   0.75rem;    /*  12px */
   --fs-sm:   0.875rem;   /*  14px */
@@ -81,21 +87,22 @@
   --fs-md:   1.125rem;   /*  18px */
   --fs-lg:   1.375rem;   /*  22px */
   --fs-xl:   1.75rem;    /*  28px */
-  --fs-2xl:  2.25rem;    /*  36px */
-  --fs-3xl:  3rem;       /*  48px */
-  --fs-4xl:  4rem;       /*  64px */
 
-  --lh-snug:   1.3;
+  /* Fluid heading scale. Cormorant has a low x-height, hence the generous
+     sizes; the floor keeps long Ukrainian words inside a 320px screen. */
+  --fs-h1: clamp(2.25rem, 1.6rem + 2.7vw, 3.75rem);
+  --fs-h2: clamp(1.75rem, 1.45rem + 1.3vw, 2.5rem);
+  --fs-h3: clamp(1.375rem, 1.25rem + 0.5vw, 1.625rem);
+
+  --lh-snug:   1.2;
   --lh-normal: 1.6;
-  --lh-loose:  1.8;
+  --lh-loose:  1.7;
 
-  --fw-light:     300;
   --fw-regular:   400;
   --fw-medium:    500;
   --fw-semibold:  600;
   --fw-bold:      700;
   --fw-extrabold: 800;
-  --fw-black:     900;
 
   /* Spacing scale */
   --space-1:  0.25rem;
@@ -108,16 +115,14 @@
   --space-10: 2.5rem;
   --space-12: 3rem;
   --space-16: 4rem;
-  --space-20: 5rem;
-  --space-24: 6rem;
-  --space-32: 8rem;
+  /* One vertical rhythm between page sections. */
+  --section-y: clamp(2.75rem, 1.75rem + 4vw, 5rem);
 
   /* Border radius */
-  --radius-xs:   3px;
-  --radius-sm:   6px;
-  --radius-md:   10px;
-  --radius-lg:   16px;
-  --radius-xl:   24px;
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   18px;
+  --radius-xl:   26px;
   --radius-full: 9999px;
 
   /* Borders — the two canonical gold hairlines. Use these instead of
@@ -126,26 +131,26 @@
   --border-soft:   1px solid rgba(184,154,97,.28);
   /* Hairline for milky cards: the gold alphas above wash out on --bg-card,
      so this one is mixed from the warm ink instead. */
-  --border-card:   1px solid rgba(122,90,58,.16);
+  --border-card:   1px solid rgba(122,90,58,.14);
 
   /* Z-index (single layer in use: the sticky header) */
   --z-sticky: 200;
 
-  /* Transitions */
+  /* Transitions: calm and decisive. No element overshoots except the ears. */
   --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   --dur-fast:   150ms;
   --dur-normal: 280ms;
-  --dur-slow:   500ms;
+  --dur-slow:   560ms;
 
   /* Layout */
   --max-w-xl:   1280px;
   --container-px: clamp(1rem, 5vw, 3rem);
 
   /* Nav */
-  --header-h: 64px;
+  --header-h: 68px;
 }
 
 /* ── Reset & Base ─────────────────────────────────────────── */
@@ -163,6 +168,8 @@ html {
   /* 100%, not a px value: respects the user's browser font-size setting */
   font-size: 100%;
   line-height: var(--lh-normal);
+  /* Lets <details> content animate to its natural height where supported. */
+  interpolate-size: allow-keywords;
 }
 
 body {
@@ -182,31 +189,30 @@ body {
 }
 
 /* Custom scrollbar */
-::-webkit-scrollbar              { width: 6px; height: 6px; }
-::-webkit-scrollbar-track        { background: var(--bg-surface); }
-::-webkit-scrollbar-thumb        { background: var(--caramel); border-radius: var(--radius-full); }
-::-webkit-scrollbar-thumb:hover  { background: var(--burgundy); }
+::-webkit-scrollbar              { width: 10px; height: 10px; }
+::-webkit-scrollbar-track        { background: transparent; }
+::-webkit-scrollbar-thumb        { background: var(--hair-light); background-clip: content-box; border: 2px solid transparent; border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover  { background: var(--hair-deep); background-clip: content-box; border: 2px solid transparent; }
 
-/* Focus */
+/* Focus. The outline follows each element's own radius; setting a radius here
+   would square off every pill and card the moment it took keyboard focus. */
 :focus-visible {
   outline: 2px solid var(--burgundy);
   outline-offset: 3px;
-  border-radius: var(--radius-xs);
 }
 
-/* Burgundy is invisible against dark surfaces — switch to cream there.
-   (The catalog hero applies the same override in catalog.css.) */
+/* Burgundy is invisible against dark surfaces — switch to cream there. */
 .site-footer :focus-visible {
   outline-color: var(--cream);
 }
 
 /* Selection */
 ::selection {
-  background: rgba(142,63,67,.25);
-  color: var(--chocolate);
+  background: rgba(206,140,89,.32);
+  color: var(--text-primary);
 }
 
-/* On dark surfaces the default (dark text on translucent burgundy) is
+/* On dark surfaces the default (dark text on translucent copper) is
    unreadable — flip to a light selection with dark text. */
 .site-footer ::selection {
   background: rgba(232,216,190,.9);
@@ -227,34 +233,56 @@ a {
 }
 a:hover { color: var(--burgundy); }
 
+/* Links inside running text are always marked: colour alone is not enough. */
+.content-prose a,
+.content-lead a,
+.content-meta a,
+.content-list a,
+.product-section__lead a,
+.product-prose a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(172,65,81,.45);
+  text-underline-offset: 0.18em;
+  transition: color var(--dur-fast) var(--ease-out), text-decoration-color var(--dur-fast) var(--ease-out);
+}
+.content-prose a:hover,
+.content-lead a:hover,
+.content-meta a:hover,
+.content-list a:hover,
+.product-section__lead a:hover,
+.product-prose a:hover { text-decoration-color: currentColor; }
+
 /* Lists */
 ul, ol { list-style: none; }
 
 /* ── Typography ───────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-weight: var(--fw-semibold);
   line-height: var(--lh-snug);
   color: var(--text-primary);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.008em;
   /* Cormorant defaults to old-style figures, which rendered product model
      numbers like "10 Inch" as "1o Inch". Headings carry SKUs, sizes and
      rack units, so they ask for lining figures. */
   font-variant-numeric: lining-nums;
+  text-wrap: balance;
 }
 
-h1 { font-size: var(--fs-4xl); font-weight: var(--fw-light); letter-spacing: -0.03em; }
-h2 { font-size: var(--fs-3xl); }
-h3 { font-size: var(--fs-2xl); }
-h4 { font-size: var(--fs-xl); }
-h5 { font-size: var(--fs-lg); }
-h6 { font-size: var(--fs-md); }
+h1 { font-size: var(--fs-h1); line-height: 1.08; }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+h4 { font-size: var(--fs-lg); }
+h5 { font-size: var(--fs-md); }
+h6 { font-size: var(--fs-base); }
 
 p {
   font-size: var(--fs-base);
   line-height: var(--lh-loose);
   color: var(--text-secondary);
   max-width: 68ch;
+  text-wrap: pretty;
 }
 
 /* ── Layout ───────────────────────────────────────────────── */
@@ -271,87 +299,99 @@ p {
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
+  min-height: 46px;
+  padding: 0.55em 1.5em;
   font-family: var(--font-body);
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-semibold);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-size: 0.9375rem;
+  font-weight: var(--fw-bold);
+  line-height: 1.25;
+  letter-spacing: 0.005em;
   text-decoration: none;
-  padding: 0.7em 1.8em;
   border-radius: var(--radius-full);
-  border: 2px solid transparent;
+  border: 1.5px solid transparent;
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  isolation: isolate;
   white-space: nowrap;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
   transition:
     background-color var(--dur-normal) var(--ease-out),
     color            var(--dur-normal) var(--ease-out),
     border-color     var(--dur-normal) var(--ease-out),
     box-shadow       var(--dur-normal) var(--ease-out),
-    transform        var(--dur-fast)   var(--ease-spring);
+    transform        var(--dur-normal) var(--ease-out);
 }
 
-/* Pressed-state flash (centered; no JS-driven coordinates) */
+/* The blade's glint: one quick, narrow light that crosses a button when it is
+   about to be used, then stays out of the way. */
 .btn::after {
   content: '';
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.3) 0%, transparent 60%);
+  inset: 0 auto 0 -55%;
+  z-index: -1;
+  width: 38%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.42), transparent);
+  transform: skewX(-18deg);
   opacity: 0;
-  transition: opacity var(--dur-fast);
+  pointer-events: none;
 }
-.btn:active::after { opacity: 1; }
-.btn:active        { transform: scale(0.97); }
 
-/* Primary */
-/* Label is --text-inverse, not --cream: cream on the brand red is 4.13:1 and
-   misses AA for the 18px semibold CTA, while the lighter tint reaches 4.98:1
-   on the same background. */
+@media (hover: hover) {
+  .btn:hover::after {
+    animation: bladeGlint 760ms var(--ease-out);
+  }
+}
+
+.btn:active {
+  transform: scale(0.97);
+  transition-duration: var(--dur-fast);
+}
+
+/* Hover belongs to devices with a pointer: on a touch screen it would stick to
+   the last button tapped and read as a selected state. */
+
+/* Primary. Label is --on-accent: 5.5:1 on the brand red. */
 .btn--primary {
   background: var(--accent-primary);
-  color: var(--text-inverse);
+  color: var(--on-accent);
   border-color: var(--accent-primary);
-  box-shadow: 0 4px 18px rgba(172,65,81,.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.16),
+    0 8px 20px -8px rgba(172,65,81,.62);
 }
-.btn--primary:hover {
-  background: var(--accent-hover);
-  border-color: var(--accent-hover);
-  color: var(--text-inverse);
-  box-shadow: 0 8px 28px rgba(142,63,67,.45);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .btn--primary:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    color: var(--on-accent);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.14),
+      0 14px 26px -10px rgba(142,63,67,.72);
+    transform: translateY(-2px);
+  }
 }
 
 /* Secondary */
 .btn--secondary {
-  background: transparent;
+  background: rgba(255,252,247,.6);
   color: var(--burgundy);
-  border-color: var(--burgundy);
+  border-color: rgba(142,63,67,.45);
 }
-.btn--secondary:hover {
-  background: rgba(142,63,67,.08);
-  color: var(--burgundy);
-  box-shadow: var(--shadow-sm);
-}
-
-/* Ghost */
-.btn--ghost {
-  background: transparent;
-  color: var(--text-secondary);
-  /* Solid rose: ≥3:1 against the cream page background (WCAG 1.4.11),
-     unlike the old rgba(142,63,67,.25) hairline. */
-  border-color: var(--accent-soft);
-}
-.btn--ghost:hover {
-  border-color: var(--copper);
-  color: var(--chocolate);
-  background: rgba(217,154,116,.08);
+@media (hover: hover) {
+  .btn--secondary:hover {
+    background: rgba(142,63,67,.08);
+    border-color: var(--burgundy);
+    color: var(--burgundy);
+    box-shadow: 0 10px 22px -14px rgba(142,63,67,.6);
+    transform: translateY(-2px);
+  }
 }
 
 /* Sizes */
-.btn--sm { font-size: var(--fs-xs); padding: 0.5em 1.4em; }
-.btn--lg { font-size: var(--fs-base); padding: 0.9em 2.4em; }
+.btn--sm { min-height: 38px; font-size: 0.8125rem; padding: 0.4em 1.1em; }
+.btn--lg { min-height: 54px; font-size: var(--fs-base); padding: 0.7em 1.9em; }
 
 .btn:disabled {
   opacity: .45;
@@ -361,7 +401,8 @@ p {
 }
 
 /* ── Kicker (eyebrow label above section headings) ────────── */
-/* Shared label for headings across the catalog and content pages. */
+/* Shared label for headings across the catalog and content pages. The marker
+   is a small leaf, the tanuki's sign in folklore. */
 .kicker {
   display: inline-flex;
   align-items: center;
@@ -371,17 +412,17 @@ p {
   font-size: var(--fs-xs);
   font-weight: var(--fw-bold);
   letter-spacing: 0.12em;
+  line-height: 1.5;
   text-transform: uppercase;
 }
 
 .kicker::before {
   content: '';
-  width: 6px;
-  height: 6px;
-  background: currentColor;
-  transform: rotate(45deg);
-  opacity: 0.85;
   flex-shrink: 0;
+  width: 0.75em;
+  height: 0.75em;
+  background: currentColor;
+  border-radius: 0 72% 0 72%;
 }
 
 /* ── Tags & Badges ────────────────────────────────────────── */
@@ -391,7 +432,7 @@ p {
   gap: var(--space-1);
   font-size: var(--fs-xs);
   font-weight: var(--fw-semibold);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   padding: 0.3em 0.9em;
   border-radius: var(--radius-full);
   white-space: nowrap;
@@ -402,9 +443,60 @@ p {
 }
 
 .tag--copper {
-  background: rgba(217,154,116,.18);
-  color: var(--chocolate);
-  border: 1px solid rgba(217,154,116,.35);
+  background: rgba(206,140,89,.14);
+  color: var(--hair-shadow);
+  border: 1px solid rgba(206,140,89,.24);
+}
+
+/* ── Disclosure (every <details> on the site) ─────────────── */
+/* One accordion: same chevron, same movement, in the catalog, the SLA page and
+   the footer. Where ::details-content is unsupported the panel still opens,
+   with the fade below. */
+.disclosure > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 44px;
+  list-style: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.disclosure > summary::-webkit-details-marker { display: none; }
+
+.disclosure > summary::after {
+  content: '';
+  flex-shrink: 0;
+  width: 0.6em;
+  height: 0.6em;
+  margin-right: 0.3em;
+  border-right: 1.75px solid currentColor;
+  border-bottom: 1.75px solid currentColor;
+  opacity: 0.7;
+  transform: translateY(-20%) rotate(45deg);
+  transition: transform var(--dur-normal) var(--ease-out);
+}
+
+.disclosure[open] > summary::after {
+  transform: translateY(20%) rotate(-135deg);
+}
+
+.disclosure::details-content {
+  block-size: 0;
+  overflow: clip;
+  transition:
+    block-size var(--dur-normal) var(--ease-out),
+    content-visibility var(--dur-normal) allow-discrete;
+}
+
+.disclosure[open]::details-content {
+  block-size: auto;
+}
+
+.disclosure[open] > :not(summary) {
+  animation: fadeUp var(--dur-normal) var(--ease-out) both;
 }
 
 /* ── Breadcrumbs ──────────────────────────────────────────── */
@@ -442,6 +534,7 @@ p {
   padding-block: var(--space-1);
   color: var(--text-muted);
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .breadcrumbs__item a:hover {
@@ -459,20 +552,16 @@ p {
 }
 
 /* ── Footer ───────────────────────────────────────────────── */
+/* The page ends on a soft rise, with the ears (raphtalia.css) peeking over it:
+   the last thing on any page is someone paying attention. */
 .site-footer {
   position: relative;
-  overflow: hidden;
-  padding: var(--space-8) 0;
+  margin-top: var(--space-16);
+  padding: clamp(2.5rem, 1.75rem + 3vw, 4rem) 0 var(--space-8);
   background: var(--bg-deep);
   color: var(--text-inverse);
-}
-
-.site-footer::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto;
-  height: 1px;
-  background: linear-gradient(90deg, var(--burgundy), var(--copper), var(--dusty-rose));
+  border-top-left-radius: 50% clamp(16px, 3vw, 40px);
+  border-top-right-radius: 50% clamp(16px, 3vw, 40px);
 }
 
 .site-footer__inner {
@@ -487,12 +576,15 @@ p {
   margin-bottom: var(--space-2);
   color: var(--cream);
   font-family: var(--font-display);
-  font-size: var(--fs-lg);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.04em;
+  line-height: 1.1;
 }
 
 .site-footer__text {
   margin: 0;
-  color: rgba(232, 216, 190, 0.7);
+  color: rgba(232, 216, 190, 0.78);
   font-size: var(--fs-sm);
   line-height: 1.65;
 }
@@ -503,17 +595,17 @@ p {
   flex-direction: column;
   gap: var(--space-2);
   flex-shrink: 0;
-  color: rgba(232, 216, 190, 0.55);
+  color: rgba(232, 216, 190, 0.7);
   font-size: var(--fs-sm);
 }
 
 .site-footer__link {
-  color: rgba(232, 216, 190, 0.72);
+  color: rgba(232, 216, 190, 0.86);
   font-weight: var(--fw-semibold);
 }
 
 .site-footer__link:hover {
-  color: var(--copper);
+  color: var(--hair-light);
 }
 
 /* Short catalog and information navigation above the brand line. */
@@ -528,7 +620,8 @@ p {
 
 .site-footer__column-title {
   margin: 0 0 var(--space-3);
-  color: var(--copper);
+  /* 5.3:1 on the footer; --copper reaches only 4.2:1 at this small size. */
+  color: var(--hair-light);
   font-family: var(--font-body);
   font-size: var(--fs-xs);
   font-weight: var(--fw-bold);
@@ -539,44 +632,82 @@ p {
 .site-footer__list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-1);
   margin: 0;
   padding: 0;
 }
 
 .site-footer__nav-link {
-  color: rgba(232, 216, 190, 0.72);
+  display: inline-block;
+  padding-block: 0.3rem;
+  color: rgba(232, 216, 190, 0.86);
   font-size: var(--fs-sm);
   line-height: 1.5;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-normal) var(--ease-out);
 }
 
 .site-footer__nav-link:hover {
-  color: var(--copper);
+  color: var(--hair-light);
+  transform: translateX(3px);
 }
 
 /* ── Animations & Enter Effects ───────────────────────────── */
-/* Kept: fadeUp and floatY are referenced by catalog.css. */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes floatY {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-8px); }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
+
+@keyframes bladeGlint {
+  0%   { opacity: 0; transform: translateX(0) skewX(-18deg); }
+  18%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(420%) skewX(-18deg); }
+}
+
+/* Applied by src/scripts/motion.ts to content below the first screen. Nothing
+   is hidden without JavaScript, and nothing already on screen ever flickers. */
+.reveal-pending { opacity: 0; }
+
+.reveal-in {
+  animation: fadeUp var(--dur-slow) var(--ease-out) var(--reveal-delay, 0ms) both;
+}
+
+/* ── Page transitions ─────────────────────────────────────── */
+/* A native cross-fade between pages where the browser offers one; everywhere
+   else navigation simply works as before. The header stays put. */
+@view-transition {
+  navigation: auto;
+}
+
+.site-header { view-transition-name: site-header; }
+
+::view-transition-group(site-header) { animation: none; }
+
+::view-transition-old(root) {
+  animation: 140ms var(--ease-in-out) both fadeOutPage;
+}
+
+::view-transition-new(root) {
+  animation: 300ms var(--ease-out) both fadeInPage;
+}
+
+@keyframes fadeOutPage { to { opacity: 0; } }
+@keyframes fadeInPage { from { opacity: 0; transform: translateY(8px); } }
 
 /* ── Utility Classes ──────────────────────────────────────── */
 .sr-only        { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
 /* ── Media Queries ────────────────────────────────────────── */
 @media (max-width: 768px) {
-  h1 { font-size: var(--fs-3xl); }
-  h2 { font-size: var(--fs-2xl); }
-  h3 { font-size: var(--fs-xl); }
-
   .site-footer {
-    padding: var(--space-6) 0;
+    margin-top: var(--space-12);
+    padding-bottom: var(--space-6);
   }
 
   .site-footer__inner {
@@ -586,15 +717,37 @@ p {
   }
 
   .site-footer__meta {
-    align-items: flex-start;
+    align-items: center;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: var(--space-3);
+    gap: var(--space-2) var(--space-4);
   }
 
   .site-footer__nav {
-    gap: var(--space-4);
+    gap: var(--space-5);
     margin-bottom: var(--space-6);
+  }
+
+  /* One line that scrolls sideways: wrapped crumbs left a stray "/" at the
+     start of a line and pushed the page title below the fold on phones. */
+  .breadcrumbs {
+    margin-inline: calc(var(--container-px) * -1);
+  }
+
+  .breadcrumbs__list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-inline: var(--container-px);
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .breadcrumbs__list::-webkit-scrollbar { display: none; }
+
+  .breadcrumbs__item { flex: 0 0 auto; }
+
+  .breadcrumbs__item [aria-current='page'] {
+    max-width: 70vw;
   }
 }
 
@@ -612,6 +765,13 @@ p {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  @view-transition { navigation: none; }
+
+  .reveal-pending { opacity: 1; }
+
+  .btn:hover,
+  .btn:active { transform: none; }
 }
 
 /* ── Print ────────────────────────────────────────────────── */
@@ -619,4 +779,5 @@ p {
   .site-header, .site-footer { display: none !important; }
   body { background: #fff; color: #000; }
   a    { color: var(--burgundy); text-decoration: underline; }
+  .reveal-pending { opacity: 1 !important; }
 }

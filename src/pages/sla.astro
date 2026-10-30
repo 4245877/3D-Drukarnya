@@ -140,7 +140,7 @@ const structuredData = graph([
               <div class="sla-field"><label for="sla-model">Посилання на модель <span>необов’язково</span></label><input id="sla-model" name="model" type="url" placeholder="https://…" autocomplete="url" maxlength="2000" /><small>Перевір, що файл відкривається за посиланням.</small></div>
               <div class="sla-field-row"><div class="sla-field"><label for="sla-size">Бажаний розмір</label><input id="sla-size" name="size" type="text" placeholder="Висота 50 мм" maxlength="120" /></div><div class="sla-field"><label for="sla-quantity">Кількість</label><input id="sla-quantity" name="quantity" type="number" inputmode="numeric" min="1" max="10000" value="1" required /></div></div>
               <div class="sla-field"><label for="sla-purpose">Призначення та побажання</label><textarea id="sla-purpose" name="purpose" rows="2" placeholder="Наприклад: мініатюра під фарбування, важливо зберегти дрібні написи" maxlength="1500"></textarea></div>
-              <details class="sla-message-preview"><summary>Текст запиту</summary><label class="sr-only" for="sla-message">Текст повідомлення для месенджера</label><textarea id="sla-message" data-sla-message readonly rows="6"></textarea></details>
+              <details class="sla-message-preview disclosure"><summary>Текст запиту</summary><label class="sr-only" for="sla-message">Текст повідомлення для месенджера</label><textarea id="sla-message" data-sla-message readonly rows="6"></textarea></details>
               <ContactActions message="Вітаю! Хочу замовити SLA-друк." />
               <div class="sla-order__actions"><button class="btn btn--secondary" type="submit" data-sla-copy>Скопіювати запит</button><a class="contact-marketplace" href={OLX_URL} target="_blank" rel="noopener noreferrer">Або через OLX ↗</a></div>
               <p class="sla-form-status" data-sla-status role="status" aria-live="polite">Запит ще не надіслано. Відкрий Telegram із готовим текстом або скопіюй його для Viber.</p>
@@ -152,7 +152,7 @@ const structuredData = graph([
     </section>
 
     <section class="sla-section sla-faq" aria-labelledby="sla-faq-title">
-      <div class="container sla-faq__inner"><div><h2 id="sla-faq-title">Умови замовлення</h2><p><a class="sla-text-link" href="#sla-order">Поставити питання <SlaIcon name="arrow" /></a></p></div><div>{faq.map((item) => <details class="sla-faq__item"><summary data-faq-question>{item.question}</summary><p data-faq-answer>{item.answer}</p></details>)}</div></div>
+      <div class="container sla-faq__inner"><div><h2 id="sla-faq-title">Умови замовлення</h2><p><a class="sla-text-link" href="#sla-order">Поставити питання <SlaIcon name="arrow" /></a></p></div><div>{faq.map((item) => <details class="sla-faq__item disclosure"><summary data-faq-question>{item.question}</summary><p data-faq-answer>{item.answer}</p></details>)}</div></div>
     </section>
   </div>
 </Layout>

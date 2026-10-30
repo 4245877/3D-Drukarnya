@@ -1,107 +1,359 @@
-/* Shared contact UI follows the site's warm surfaces and rounded buttons. */
+/* ============================================================
+   CONTACT.CSS — Telegram and Viber
+   Depends on: base.css (tokens, .btn)
+
+   Warm pill, official coloured badge: the brand colour is confined
+   to the badge at rest and spreads into the surface on hover, so
+   the pair is instantly recognisable without leaving the palette.
+   ============================================================ */
+
 .contact-actions { min-width: 0; }
-.contact-actions__links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+
+.contact-actions__links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
 .btn.contact-button {
+  --brand: var(--telegram);
+  --brand-rgb: var(--telegram-rgb);
+  justify-content: flex-start;
+  gap: 0.625rem;
   min-width: 0;
-  min-height: 48px;
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-md);
-  font-size: var(--fs-sm);
-  letter-spacing: 0;
-  text-transform: none;
-  white-space: normal;
-  text-align: center;
-  line-height: 1.4;
-  color: var(--burgundy);
-  border: 1px solid var(--accent-soft);
+  min-height: 54px;
+  padding: 0.4375rem 1.125rem 0.4375rem 0.4375rem;
+  color: var(--text-primary);
   background: var(--bg-card);
+  border: 1px solid rgba(122, 90, 58, 0.2);
+  box-shadow: var(--shadow-xs);
+  font-size: 0.9375rem;
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+}
+
+.btn.contact-button--viber {
+  --brand: var(--viber);
+  --brand-rgb: var(--viber-rgb);
+}
+
+/* Chevron: says "this goes somewhere" and takes up the free width. */
+.btn.contact-button::before {
+  content: '';
+  order: 3;
+  flex-shrink: 0;
+  width: 0.45em;
+  height: 0.45em;
+  margin-left: auto;
+  border-top: 1.75px solid currentColor;
+  border-right: 1.75px solid currentColor;
+  opacity: 0.4;
+  transform: rotate(45deg);
+  transition:
+    opacity var(--dur-normal) var(--ease-out),
+    transform var(--dur-normal) var(--ease-out);
+}
+
+.contact-button__label {
+  min-width: 0;
+}
+
+.contact-button__badge {
+  position: relative;
+  display: grid;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  overflow: hidden;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--brand);
+  place-items: center;
+  transition: box-shadow var(--dur-normal) var(--ease-out);
+}
+
+.contact-button__badge svg { display: block; }
+.contact-button--telegram .contact-button__badge svg { width: 38px; height: 38px; }
+.contact-button--viber .contact-button__badge svg { width: 22px; height: 22px; }
+
+@media (hover: hover) {
+  .btn.contact-button:hover {
+    color: var(--text-primary);
+    background: rgba(var(--brand-rgb), 0.09);
+    border-color: rgba(var(--brand-rgb), 0.55);
+    box-shadow: 0 14px 26px -16px rgba(var(--brand-rgb), 0.9);
+    transform: translateY(-2px);
+  }
+
+  .btn.contact-button:hover::before {
+    opacity: 0.85;
+    transform: translateX(2px) rotate(45deg);
+  }
+
+  .btn.contact-button:hover .contact-button__badge {
+    box-shadow: 0 0 0 5px rgba(var(--brand-rgb), 0.16);
+  }
+
+  /* The plane leaves and comes back; the handset rings. Once per hover. */
+  .contact-button--telegram:hover .contact-button__badge svg {
+    animation: telegramFly 640ms var(--ease-in-out);
+  }
+
+  .contact-button--viber:hover .contact-button__badge svg {
+    animation: viberRing 620ms var(--ease-in-out);
+  }
+}
+
+.btn.contact-button:active {
+  background: rgba(var(--brand-rgb), 0.14);
+  border-color: rgba(var(--brand-rgb), 0.6);
   box-shadow: none;
+  transform: scale(0.97);
 }
-.contact-button svg { flex: 0 0 20px; }
-.btn.contact-button:hover {
-  color: var(--burgundy);
-  border-color: var(--burgundy);
-  background: var(--bg-inset);
+
+.btn.contact-button:focus-visible {
+  outline-color: var(--brand);
+  border-color: rgba(var(--brand-rgb), 0.6);
 }
-.btn.contact-button:active { transform: scale(.98); }
+
+@keyframes telegramFly {
+  0%   { transform: translate(0, 0); opacity: 1; }
+  44%  { transform: translate(16px, -16px); opacity: 0; }
+  45%  { transform: translate(-16px, 16px); opacity: 0; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
+
+@keyframes viberRing {
+  0%, 100% { transform: rotate(0); }
+  18% { transform: rotate(-13deg); }
+  38% { transform: rotate(11deg); }
+  58% { transform: rotate(-7deg); }
+  78% { transform: rotate(4deg); }
+}
+
 .contact-actions--compact .contact-actions__links { gap: var(--space-2); }
-.contact-actions--compact .contact-button { min-height: 44px; padding: var(--space-2) var(--space-3); }
-.contact-actions__tools { display: flex; align-items: center; flex-wrap: wrap; gap: 0 var(--space-4); margin-top: var(--space-1); }
-.contact-browser { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--fs-xs); text-decoration: underline; text-underline-offset: 4px; }
+
+.contact-actions--compact .btn.contact-button {
+  min-height: 48px;
+  padding: 0.3125rem 1rem 0.3125rem 0.3125rem;
+}
+
+.contact-actions--compact .contact-button__badge { width: 36px; height: 36px; }
+.contact-actions--compact .contact-button--telegram .contact-button__badge svg { width: 36px; height: 36px; }
+.contact-actions--compact .contact-button--viber .contact-button__badge svg { width: 20px; height: 20px; }
+
+/* ── Quiet companions: copy, browser link, marketplace ────── */
+
+.contact-actions__tools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-3);
+}
+
+.contact-browser,
+.contact-marketplace {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 32px;
+  font-size: 0.8125rem;
+  font-weight: var(--fw-semibold);
+  color: var(--burgundy);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(142, 63, 67, 0.4);
+  text-underline-offset: 3px;
+  transition: color var(--dur-fast) var(--ease-out), text-decoration-color var(--dur-fast) var(--ease-out);
+}
+
+.contact-browser:hover,
+.contact-marketplace:hover { text-decoration-color: currentColor; }
+
+.contact-marketplace { font-size: var(--fs-sm); }
+
 .contact-copy {
-  min-height: 44px;
-  padding: var(--space-2) 0;
-  border: 0;
-  background: none;
+  min-height: 36px;
+  padding: 0.25rem 0.9rem;
+  border: 1px solid rgba(142, 63, 67, 0.28);
+  border-radius: var(--radius-full);
+  background: transparent;
   color: var(--burgundy);
   font: inherit;
-  font-size: var(--fs-xs);
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  font-size: 0.8125rem;
+  font-weight: var(--fw-bold);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
 }
-.contact-status { font-size: var(--fs-xs); line-height: 1.5; }
+
+.contact-copy:hover {
+  border-color: var(--burgundy);
+  background: rgba(142, 63, 67, 0.07);
+}
+
+.contact-copy:active { transform: scale(0.97); }
+.contact-copy[hidden] { display: none; }
+
+/* Comfortable tap targets where the pointer is a finger. */
+@media (pointer: coarse) {
+  .contact-browser,
+  .contact-marketplace,
+  .contact-copy { min-height: 44px; }
+}
+
+.contact-status {
+  margin-top: var(--space-2);
+  color: var(--accent-sage);
+  font-size: 0.8125rem;
+  font-weight: var(--fw-semibold);
+  line-height: 1.5;
+  animation: fadeUp var(--dur-normal) var(--ease-out) both;
+}
+
 .contact-status:empty { display: none; }
+
 .contact-manual-copy {
   width: 100%;
   margin-top: var(--space-2);
   padding: var(--space-3);
   border: var(--border-card);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: var(--bg-card);
   color: var(--text-primary);
   font: inherit;
   font-size: var(--fs-sm);
   resize: vertical;
 }
+
+/* ── Help panel (catalog and category pages) ──────────────── */
+
 .contact-panel {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: var(--space-4) var(--space-6);
-  margin-block: var(--space-6);
-  padding: var(--space-5);
+  gap: var(--space-4) var(--space-8);
+  margin-block: var(--space-8);
+  padding: var(--space-5) var(--space-6);
   border: var(--border-card);
   border-radius: var(--radius-lg);
   background: var(--bg-card);
   box-shadow: var(--shadow-card);
-  animation: pageEnter 240ms var(--ease-out);
 }
-.contact-panel > div:first-child { flex: 1 1 22rem; }
-.contact-panel .contact-panel__title { margin: 0 0 var(--space-1); font-size: var(--fs-xl); }
-.contact-panel .contact-panel__text { margin: 0; font-size: var(--fs-sm); line-height: 1.65; }
-.contact-panel .contact-actions { flex: 1 1 15rem; max-width: 22rem; }
+
+/* The surface listens: its ears lift while the visitor is here. */
+.contact-panel .ears {
+  right: clamp(2rem, 6vw, 4.5rem);
+  clip-path: inset(-40px -40px 0 -40px);
+}
+
+@media (hover: hover) {
+  .contact-panel:hover .ears::before { transform: translateY(0) rotate(-8deg); }
+  .contact-panel:hover .ears::after { transform: translateY(0) rotate(8deg); }
+}
+
+.contact-panel .contact-panel__copy { flex: 1 1 22rem; }
+.contact-panel .contact-panel__title { margin: 0 0 var(--space-1); font-size: var(--fs-h3); }
+.contact-panel .contact-panel__text { margin: 0; font-size: 0.9375rem; line-height: 1.6; }
+.contact-panel .contact-actions { flex: 1 1 19rem; max-width: 24rem; }
+
+/* ── Footer block (dark surface) ──────────────────────────── */
+
 .footer-contacts {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: var(--space-5) var(--space-8);
+  gap: var(--space-5) var(--space-12);
   margin-bottom: var(--space-8);
-  padding-bottom: var(--space-6);
-  border-bottom: 1px solid rgba(232,216,190,.16);
-  scroll-margin-top: calc(var(--header-h) + var(--space-4));
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid rgba(232, 216, 190, 0.16);
+  scroll-margin-top: calc(var(--header-h) + var(--space-8));
 }
-.footer-contacts__intro { flex: 1 1 16rem; }
-.footer-contacts h2 { margin-bottom: var(--space-2); font-size: var(--fs-xl); color: var(--cream); }
-.footer-contacts p, .footer-contacts details { color: var(--cream); font-size: var(--fs-sm); }
-.footer-contacts .contact-browser { color: var(--copper); }
-.footer-contacts .footer-contacts__web-note { margin-top: var(--space-2); font-size: var(--fs-xs); line-height: 1.6; }
-.footer-contacts__actions { flex: 1 1 22rem; max-width: 32rem; }
-.footer-contacts .contact-button {
+
+.footer-contacts:focus { outline: none; }
+.footer-contacts__intro { flex: 1 1 18rem; }
+
+.footer-contacts h2 {
+  margin-bottom: var(--space-3);
+  font-size: var(--fs-h2);
   color: var(--cream);
-  border-color: var(--gold-beige);
-  background: rgba(232,216,190,.06);
 }
-.footer-contacts .contact-button:hover {
+
+.footer-contacts p {
+  color: rgba(245, 237, 224, 0.86);
+  font-size: 0.9375rem;
+}
+
+.footer-contacts__actions { flex: 1 1 24rem; max-width: 34rem; }
+
+.footer-contacts .btn.contact-button {
+  color: var(--text-inverse);
+  background: rgba(255, 252, 247, 0.08);
+  border-color: rgba(255, 252, 247, 0.24);
+  box-shadow: none;
+}
+
+@media (hover: hover) {
+  .footer-contacts .btn.contact-button:hover {
+    color: var(--chocolate);
+    background: var(--bg-card);
+    border-color: var(--bg-card);
+    box-shadow: 0 16px 30px -18px rgba(0, 0, 0, 0.8);
+  }
+}
+
+.footer-contacts .btn.contact-button:active {
   color: var(--chocolate);
-  border-color: var(--cream);
   background: var(--cream);
 }
-.footer-contacts details { margin-top: var(--space-3); }
-.footer-contacts summary { min-height: 44px; padding-block: var(--space-2); cursor: pointer; }
-.footer-contacts details a { display: inline-flex; align-items: center; min-height: 44px; color: var(--copper); text-decoration: underline; }
-.contact-marketplace { display: inline-flex; gap: var(--space-2); min-height: 44px; align-items: center; font-size: var(--fs-sm); text-decoration: underline; text-underline-offset: 4px; }
+
+.footer-contacts .btn.contact-button:focus-visible { outline-color: var(--cream); }
+
+.footer-contacts .contact-browser,
+.footer-contacts details a {
+  color: var(--hair-light);
+  text-decoration-color: rgba(232, 176, 124, 0.5);
+}
+
+.footer-contacts .contact-browser:hover,
+.footer-contacts details a:hover { color: var(--ear-inner); text-decoration-color: currentColor; }
+
+.footer-contacts .footer-contacts__web-note {
+  margin-top: var(--space-2);
+  color: rgba(245, 237, 224, 0.74);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.footer-contacts details {
+  margin-top: var(--space-2);
+  color: var(--cream);
+  font-size: var(--fs-sm);
+}
+
+.footer-contacts summary {
+  justify-content: flex-start;
+  gap: var(--space-3);
+  font-weight: var(--fw-semibold);
+}
+
+.footer-contacts details a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── Viber help popover ───────────────────────────────────── */
+
 .contact-support {
   position: fixed;
   z-index: 210;
@@ -110,45 +362,171 @@
   width: min(24rem, calc(100% - 2rem));
   max-height: calc(100dvh - var(--header-h) - 2rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   overflow-y: auto;
-  padding: var(--space-5);
+  padding: var(--space-6);
   border: var(--border-card);
-  border-top: 3px solid var(--copper);
   border-radius: var(--radius-lg);
   background: var(--bg-card);
-  box-shadow: var(--shadow-md);
-  animation: pageEnter 180ms var(--ease-out);
+  box-shadow: var(--shadow-xl);
+  animation: supportEnter var(--dur-normal) var(--ease-out);
 }
-.contact-support h2 { padding-right: var(--space-8); font-size: var(--fs-xl); }
-.contact-support p { margin-block: var(--space-2); font-size: var(--fs-sm); line-height: 1.6; }
+
+.contact-support:focus { outline: none; }
+
+/* The badge's violet, as a thin line along the top: ties the panel to the button
+   that opened it. */
+.contact-support::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, var(--viber), rgba(var(--viber-rgb), 0.25));
+}
+
+@keyframes supportEnter {
+  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.contact-support h2 {
+  padding-right: var(--space-10);
+  font-size: var(--fs-h3);
+}
+
+.contact-support p {
+  margin-block: var(--space-2);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+}
+
 .contact-support__close {
   position: absolute;
-  top: var(--space-2);
-  right: var(--space-2);
+  top: var(--space-3);
+  right: var(--space-3);
+  display: grid;
   width: 44px;
   height: 44px;
   border: 0;
-  border-radius: var(--radius-sm);
-  color: var(--text-primary);
-  background: none;
-  font: inherit;
-  font-size: 1.75rem;
+  border-radius: 50%;
+  color: var(--text-secondary);
+  background: transparent;
   cursor: pointer;
+  place-items: center;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-normal) var(--ease-out);
 }
-.contact-support__close:hover { background: var(--bg-inset); }
-.contact-support__number { margin-block: var(--space-3); }
-.contact-support__number > span { display: block; font-size: var(--fs-lg); font-weight: var(--fw-bold); }
-.contact-support__links { display: flex; flex-wrap: wrap; gap: 0 var(--space-4); }
-.contact-support__links a { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--fs-sm); text-decoration: underline; }
+
+.contact-support__close:hover {
+  color: var(--burgundy);
+  background: var(--bg-inset);
+  transform: rotate(90deg);
+}
+
+.contact-support__number {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  margin-block: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--bg-inset);
+}
+
+.contact-support__phone {
+  flex: 1 1 auto;
+  font-size: 1.125rem;
+  font-weight: var(--fw-bold);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.contact-support__number .contact-status,
+.contact-support__number .contact-manual-copy { flex: 1 0 100%; margin: 0; }
+
+.contact-support__links {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.contact-support__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--burgundy);
+  text-decoration: underline;
+  text-decoration-color: rgba(142, 63, 67, 0.4);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--dur-fast) var(--ease-out);
+}
+
+.contact-support__links a:hover { text-decoration-color: currentColor; }
+
+/* ── Small screens ────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  /* On a phone the help rises from the bottom, within the thumb's reach. */
+  .contact-support {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 85dvh;
+    padding: var(--space-6) var(--space-4) max(var(--space-5), env(safe-area-inset-bottom));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    animation-name: supportSheet;
+  }
+
+  .contact-panel { margin-block: var(--space-10) var(--space-6); padding: var(--space-5) var(--space-4); }
+}
+
+@keyframes supportSheet {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
 @media (max-width: 480px) {
-  .contact-panel { padding: var(--space-4); }
-  .contact-panel .contact-actions { max-width: none; }
-  .btn.contact-button { padding-inline: var(--space-3); }
+  .contact-panel .contact-actions { flex-basis: 100%; max-width: none; }
+
+  .btn.contact-button { padding-right: 0.75rem; font-size: var(--fs-sm); }
+  .contact-actions__links { gap: var(--space-2); }
 }
+
+/* Two pills side by side on a 320px phone: the chevron gives way to the name,
+   which must always fit in full. */
+@media (max-width: 380px) {
+  .btn.contact-button::before { display: none; }
+
+  .btn.contact-button,
+  .contact-actions--compact .btn.contact-button {
+    gap: 0.4rem;
+    padding: 0.25rem 0.625rem 0.25rem 0.25rem;
+  }
+
+  .contact-button__badge,
+  .contact-actions--compact .contact-button__badge { width: 34px; height: 34px; }
+
+  .contact-button--telegram .contact-button__badge svg,
+  .contact-actions--compact .contact-button--telegram .contact-button__badge svg { width: 34px; height: 34px; }
+
+  .contact-button--viber .contact-button__badge svg,
+  .contact-actions--compact .contact-button--viber .contact-button__badge svg { width: 20px; height: 20px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .contact-support, .contact-panel { animation: none; }
-  .btn.contact-button { transition: none; }
-  .btn.contact-button:hover, .btn.contact-button:active { transform: none; }
+  .btn.contact-button:hover,
+  .btn.contact-button:active { transform: none; }
+
+  .contact-button--telegram:hover .contact-button__badge svg,
+  .contact-button--viber:hover .contact-button__badge svg { animation: none; }
+
+  .contact-support__close:hover { transform: none; }
 }
+
 @media print {
   .contact-support, .contact-actions__copy, .contact-actions__tools { display: none !important; }
 }

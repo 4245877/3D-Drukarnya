@@ -1,10 +1,11 @@
 ---
 import Layout from '../components/Layout.astro';
+import RaphtaliaPortrait from '../components/RaphtaliaPortrait.astro';
 import '../styles/pages/catalog.css';
 
 // GitHub Pages serves dist/404.html for every missing URL under the site.
-// The page reuses the catalog's anime-styled empty-state block, the shared
-// header/footer and the standard buttons — no separate design.
+// Same header, footer, buttons and brand illustration as the rest of the site:
+// a wrong address is still a page where someone is paying attention.
 const base = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
@@ -20,29 +21,102 @@ const description =
   canonicalPath="/404.html"
   noindex={true}
 >
-  <div class="catalog-page">
-    <section aria-labelledby="not-found-title">
-      <div class="container">
-        <div class="catalog-no-results">
-          <div class="catalog-no-results__art" aria-hidden="true">∅</div>
+  <div class="catalog-page not-found" data-live>
+    <section class="not-found__inner container" aria-labelledby="not-found-title">
+      <div class="not-found__copy">
+        <p class="kicker">Помилка 404</p>
 
-          <h1 id="not-found-title" class="catalog-no-results__title">
-            Сторінку не знайдено
-          </h1>
+        <h1 id="not-found-title" class="not-found__title">
+          Сторінку не знайдено
+        </h1>
 
-          <p class="catalog-no-results__text">
-            Ця адреса не веде до сторінки (404). Перевір її написання
-            або повернися до товарів — каталог доступний за посиланням нижче.
-          </p>
+        <p class="not-found__text">
+          Ця адреса не веде до сторінки (404). Перевір її написання
+          або повернися до товарів — каталог доступний за посиланням нижче.
+        </p>
 
-          <div class="catalog-no-results__actions">
-            <a class="btn btn--primary" href={base}>Переглянути товари</a>
-            <a class="btn btn--secondary" href={`${base}#order-title`}>
-              Строки та доставка
-            </a>
-          </div>
+        <div class="not-found__actions">
+          <a class="btn btn--primary btn--lg" href={base}>Переглянути товари</a>
+          <a class="btn btn--secondary btn--lg" href={`${base}#order-title`}>
+            Строки та доставка
+          </a>
         </div>
+      </div>
+
+      <div class="not-found__art">
+        <RaphtaliaPortrait sizes="(max-width: 768px) 90vw, 34rem" priority />
       </div>
     </section>
   </div>
 </Layout>
+
+<style>
+  .not-found {
+    min-height: 0;
+    display: flex;
+    align-items: stretch;
+    background:
+      radial-gradient(ellipse 52% 80% at 76% 50%, rgba(255, 216, 162, 0.5), rgba(255, 216, 162, 0) 74%);
+  }
+
+  .not-found__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: end;
+    gap: var(--space-8);
+  }
+
+  .not-found__copy {
+    align-self: center;
+    padding-block: var(--space-12);
+    animation: fadeUp var(--dur-slow) var(--ease-out) both;
+  }
+
+  .not-found__title {
+    margin-bottom: var(--space-4);
+    font-size: var(--fs-h1);
+  }
+
+  .not-found__text {
+    max-width: 46ch;
+  }
+
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  /* The footer paints over her: it comes later and is positioned. Sinking past
+     its margin and its curve means the artwork's lower edge never shows. */
+  .not-found__art {
+    align-self: end;
+    margin-bottom: calc(var(--space-16) * -1 - 44px);
+    padding-top: var(--space-8);
+  }
+
+  @media (max-width: 768px) {
+    .not-found__inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+
+    .not-found__copy {
+      padding-block: var(--space-8) var(--space-4);
+    }
+
+    .not-found__art {
+      width: min(100%, 26rem);
+      margin-inline: auto;
+      margin-bottom: calc(var(--space-12) * -1 - 26px);
+      padding-top: var(--space-2);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .not-found__actions :global(.btn) {
+      flex: 1 1 100%;
+    }
+  }
+</style>

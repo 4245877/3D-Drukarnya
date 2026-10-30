@@ -226,6 +226,25 @@ test('production build generates every product page and the sitemap', async (t) 
     }
   });
 
+  await t.test('the home hero keeps the required rack and shows the brand illustration', async () => {
+    const html = await readFile(path.join(distDir, 'index.html'), 'utf8');
+    const hero = html.match(/<section class="catalog-hero[\s\S]*?<\/section>/)?.[0] ?? '';
+    assert.ok(hero.includes('catalog-hero__rack'), 'the server rack is a mandatory part of the hero');
+    assert.match(hero, /alt="Брендова ілюстрація TANMEK: Рафталія"/);
+    assert.match(hero, /fetchpriority="high"/, 'the portrait is the first screen and must not wait');
+    assert.ok(!/\sstyle="/.test(hero), 'style attributes would break the strict-CSP readiness');
+  });
+
+  await t.test('messenger buttons carry the official marks and their own colours', async () => {
+    const html = await readFile(path.join(distDir, 'catalog', 'index.html'), 'utf8');
+    const telegram = html.match(/<a\b[^>]*data-telegram-link[^>]*>[\s\S]*?<\/a>/)?.[0] ?? '';
+    const viber = html.match(/<a\b[^>]*data-viber-link[^>]*>[\s\S]*?<\/a>/)?.[0] ?? '';
+    assert.match(telegram, /contact-button--telegram/);
+    assert.match(telegram, /M16\.906 7\.224/, 'Telegram must use the official plane');
+    assert.match(viber, /contact-button--viber/);
+    assert.match(viber, /M11\.4 0C9\.473/, 'Viber must use the official mark');
+  });
+
   await t.test('every category landing page exists', async () => {
     for (const { slug } of CATEGORIES) {
       await access(path.join(distDir, 'catalog', slug, 'index.html'));

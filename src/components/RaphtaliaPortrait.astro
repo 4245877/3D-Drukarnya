@@ -1,0 +1,72 @@
+---
+// The brand illustration, cut out of public/OGimage.png and split into layers
+// that stack pixel-exact: the figure, each ear behind the hair so it can twitch,
+// and a small closed-eyes frame painted from the artwork's own skin. Every layer
+// is placed in percentages of the box, so they scale in lock-step.
+//
+// The character is shown, never voiced: no speech, no first person, no
+// consultant role (docs/RAPHTALIA-VOICE.md).
+import { SITE_NAME } from '../data/site.config.mjs';
+import { href } from '../utils/urls';
+
+import '../styles/components/raphtalia.css';
+
+interface Props {
+  /** The `sizes` attribute: how wide the portrait renders at each viewport. */
+  sizes?: string;
+  /** Eager for the first screen, lazy anywhere else. */
+  priority?: boolean;
+}
+
+const { sizes = '100vw', priority = false } = Astro.props;
+
+const image = (name: string) => href(`images/brand/${name}.webp`);
+---
+
+<span class="portrait">
+  <span class="portrait__body">
+    <img
+      class="portrait__ear portrait__ear--left"
+      src={image('raphtalia-ear-left')}
+      width="170"
+      height="194"
+      alt=""
+      aria-hidden="true"
+      decoding="async"
+      draggable="false"
+    />
+    <img
+      class="portrait__ear portrait__ear--right"
+      src={image('raphtalia-ear-right')}
+      width="183"
+      height="224"
+      alt=""
+      aria-hidden="true"
+      decoding="async"
+      draggable="false"
+    />
+    <img
+      class="portrait__base"
+      src={image('raphtalia-920')}
+      srcset={`${image('raphtalia-560')} 560w, ${image('raphtalia-920')} 920w`}
+      sizes={sizes}
+      width="920"
+      height="777"
+      alt={`Брендова ілюстрація ${SITE_NAME}: Рафталія`}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+      decoding="async"
+      draggable="false"
+    />
+    <img
+      class="portrait__blink"
+      src={image('raphtalia-blink')}
+      width="282"
+      height="120"
+      alt=""
+      aria-hidden="true"
+      decoding="async"
+      draggable="false"
+    />
+  </span>
+</span>

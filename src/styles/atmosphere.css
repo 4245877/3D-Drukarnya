@@ -13,25 +13,24 @@ body {
      block of the catalog's fixed drawer or the existing sticky elements. */
   isolation: isolate;
   background-color: var(--ambient-paper);
+  /* The first wash ends at 34rem and the second begins past 70rem. Between them
+     lies the bottom of the home hero, whose wave is filled with the flat page
+     colour and has to meet flat page colour. */
   background-image:
-    radial-gradient(ellipse 46rem 34rem at 0 9rem,
-      rgba(var(--ambient-copper), .12), rgba(var(--ambient-copper), .04) 48%, transparent 76%),
-    radial-gradient(ellipse 48rem 38rem at 100% 38rem,
-      rgba(var(--ambient-rose), .08), transparent 76%),
-    radial-gradient(ellipse 60rem 30rem at 18% 100%,
-      rgba(var(--ambient-copper), .1), transparent 74%),
-    linear-gradient(90deg,
-      rgba(217, 154, 116, .06), transparent 24%, transparent 78%, rgba(181, 106, 124, .03));
+    radial-gradient(ellipse 44rem 26rem at 0 8rem,
+      rgba(var(--ambient-copper), .13), rgba(var(--ambient-copper), .04) 48%, transparent 76%),
+    radial-gradient(ellipse 44rem 34rem at 100% 112rem,
+      rgba(var(--ambient-rose), .07), transparent 76%);
   background-repeat: no-repeat;
   /* Fixed rem heights keep the opening composition intact on a 49-product
      catalog. The cream field continues for any page length.
      No fixed attachment, blur, blend mode, JS or animated paint surfaces. */
 }
 
-/* Two fine, unequal contours suggest the fall of fabric and a clearing's
-   edge. The ellipses close outside the canvas; their lower ends fade fully
-   before this bounded box ends, so there is no visible seam on long pages.
-   Only this pseudo-element is behind content: no new page-level z-index. */
+/* Two fine, unequal contours suggest long strands falling past the page edge.
+   The ellipses close outside the canvas; their lower ends fade fully before
+   this bounded box ends, so there is no visible seam on long pages. Only this
+   pseudo-element is behind content: no new page-level z-index. */
 body::before {
   content: '';
   position: absolute;
@@ -41,9 +40,9 @@ body::before {
   pointer-events: none;
   background:
     radial-gradient(ellipse 48rem 52rem at -36rem 12rem,
-      transparent calc(100% - 1px), rgba(184, 154, 97, .18) 100%, transparent calc(100% + 1px)),
+      transparent calc(100% - 1px), rgba(206, 140, 89, .22) 100%, transparent calc(100% + 1px)),
     radial-gradient(ellipse 50rem 44rem at calc(100% + 43rem) 38rem,
-      transparent calc(100% - 1px), rgba(181, 106, 124, .12) 100%, transparent calc(100% + 1px));
+      transparent calc(100% - 1px), rgba(181, 106, 124, .14) 100%, transparent calc(100% + 1px));
   background-repeat: no-repeat;
 }
 
@@ -52,10 +51,8 @@ body::before {
 @media (max-width: 768px) {
   body {
     background-image:
-      radial-gradient(ellipse 30rem 28rem at -14rem 8rem,
-        rgba(var(--ambient-copper), .08), transparent 76%),
-      radial-gradient(ellipse 30rem 34rem at calc(100% + 18rem) 34rem,
-        rgba(var(--ambient-rose), .05), transparent 76%);
+      radial-gradient(ellipse 30rem 24rem at -14rem 6rem,
+        rgba(var(--ambient-copper), .08), transparent 76%);
   }
 
   body::before { display: none; }

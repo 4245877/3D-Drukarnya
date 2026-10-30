@@ -8,7 +8,8 @@ Pi, полиці, патч-панелі та кабельні органайзе
 `https://4245877.github.io/3D-Drukarnya/`.
 
 SEO, structured data й доступність для пошукових та AI-систем описані окремо:
-**[SEO-AI-SEARCH-SETUP.md](SEO-AI-SEARCH-SETUP.md)**.
+**[SEO-AI-SEARCH-SETUP.md](SEO-AI-SEARCH-SETUP.md)**. Візуальна система, мотиви
+й правила анімації: **[docs/RAPHTALIA-DESIGN.md](docs/RAPHTALIA-DESIGN.md)**.
 
 ## Вимоги
 

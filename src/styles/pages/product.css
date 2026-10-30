@@ -15,7 +15,7 @@
    stays on one ladder.
 
    TYPE SCALE (this page)
-   h1 .......... Playfair 700, clamp 30→44px   product name
+   h1 .......... Cormorant 600, clamp 32→46px  product name
    h2 .......... Cormorant 600, clamp 26→34px  section titles
    h3 .......... Mulish 700, 17px              variant names
    lead ........ 17–18px / 1.65                intro paragraphs
@@ -91,13 +91,13 @@
 
 .product-summary__title {
   margin: 0;
-  /* Playfair, not Cormorant: product names carry model numbers ("10 Inch",
-     "M920q") and need lining figures plus a sturdier stroke. */
+  /* Product names carry model numbers ("10 Inch", "M920q"): the base heading
+     rule's lining figures apply, and the size keeps the thin strokes legible. */
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 1.2rem + 1.5vw, 2.5rem);
-  font-weight: var(--fw-bold);
-  line-height: 1.14;
-  letter-spacing: -0.015em;
+  font-size: clamp(2rem, 1.45rem + 1.7vw, 2.875rem);
+  font-weight: var(--fw-semibold);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
   color: var(--text-primary);
   /* Long single-token model names must never push the column wide. */
   overflow-wrap: break-word;
@@ -229,14 +229,16 @@
 .product-buy__cta {
   display: grid;
   gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: var(--border-card);
   scroll-margin-top: calc(var(--product-nav-h) + var(--space-4));
 }
 
+.product-buy__cta:focus { outline: none; }
+
 .product-buy__contact-title {
   margin: 0;
-  font-family: var(--font-body);
-  font-size: var(--fs-base);
-  font-weight: var(--fw-bold);
+  font-size: var(--fs-h3);
   line-height: var(--lh-snug);
 }
 
@@ -381,9 +383,9 @@
   /* Nearly opaque on purpose: the blur is an enhancement, and where
      backdrop-filter is unsupported the content underneath must not read
      through a bar that scrolls over it. */
-  background: rgba(252, 248, 241, 0.97);
-  backdrop-filter: blur(16px) saturate(170%);
-  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  background: rgba(255, 252, 247, 0.97);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
   box-shadow: var(--shadow-card);
 }
 
@@ -419,13 +421,13 @@
 .product-nav::before {
   left: 1px;
   border-radius: var(--radius-full) 0 0 var(--radius-full);
-  background: linear-gradient(90deg, rgba(252, 248, 241, 0.97), rgba(252, 248, 241, 0));
+  background: linear-gradient(90deg, rgba(255, 252, 247, 0.97), rgba(255, 252, 247, 0));
 }
 
 .product-nav::after {
   right: 1px;
   border-radius: 0 var(--radius-full) var(--radius-full) 0;
-  background: linear-gradient(270deg, rgba(252, 248, 241, 0.97), rgba(252, 248, 241, 0));
+  background: linear-gradient(270deg, rgba(255, 252, 247, 0.97), rgba(255, 252, 247, 0));
 }
 
 .product-nav.has-start::before,
@@ -437,13 +439,13 @@
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
-  min-height: 44px;
+  min-height: 42px;
   padding: 0 var(--space-4);
   border-radius: var(--radius-full);
   /* A faint plate on every tab, not just the active one: it makes the strip
      read as a segmented control, and a half-scrolled tab is then visibly a
      cut-off tab instead of empty padding. */
-  background: rgba(122, 90, 58, 0.06);
+  background: rgba(122, 90, 58, 0.05);
   color: var(--text-secondary);
   font-size: 0.9375rem;
   font-weight: var(--fw-semibold);
@@ -451,8 +453,9 @@
   white-space: nowrap;
   scroll-snap-align: center;
   transition:
-    background-color var(--dur-fast) var(--ease-out),
-    color var(--dur-fast) var(--ease-out);
+    background-color var(--dur-normal) var(--ease-out),
+    color var(--dur-normal) var(--ease-out),
+    box-shadow var(--dur-normal) var(--ease-out);
 }
 
 .product-nav__link:hover {
@@ -462,8 +465,8 @@
 
 .product-nav__link[aria-current='true'] {
   background: var(--burgundy);
-  color: var(--cream);
-  box-shadow: 0 4px 14px -4px rgba(142, 63, 67, 0.55);
+  color: var(--on-accent);
+  box-shadow: 0 6px 14px -6px rgba(142, 63, 67, 0.6);
 }
 
 /* ── Content body ─────────────────────────────────────────── */
@@ -517,7 +520,7 @@
 }
 
 .product-specs__title {
-  font-size: clamp(1.5rem, 1.2rem + 0.7vw, 1.75rem);
+  font-size: clamp(1.5rem, 1.2rem + 0.7vw, 1.875rem);
 }
 
 /* The opening paragraph carries hierarchy through size and colour — the
@@ -704,9 +707,7 @@
   padding: var(--space-6);
   border: var(--border-soft);
   border-radius: var(--radius-xl);
-  background:
-    linear-gradient(180deg, rgba(184, 154, 97, 0.14), rgba(184, 154, 97, 0.04)),
-    var(--bg-card);
+  background: var(--bg-inset);
 }
 
 .product-recap__label {
@@ -726,18 +727,15 @@
   line-height: 1.5;
 }
 
-.btn.product-recap__button,
-.btn.product-buybar__button {
-  min-height: 44px;
-  padding: var(--space-2) var(--space-4);
-  border-width: 1px;
-  border-radius: var(--radius-md);
-  font-size: var(--fs-sm);
-  letter-spacing: 0;
-  text-transform: none;
+.btn.product-recap__button {
+  margin-top: var(--space-2);
   white-space: normal;
   text-align: center;
-  line-height: 1.4;
+}
+
+.btn.product-buybar__button {
+  flex-shrink: 0;
+  min-height: 48px;
 }
 
 .product-recap__button svg,
@@ -754,10 +752,10 @@
   padding: var(--space-3) var(--container-px);
   padding-bottom: max(var(--space-3), env(safe-area-inset-bottom));
   border-top: var(--border-card);
-  background: rgba(252, 248, 241, 0.97);
-  backdrop-filter: blur(16px) saturate(170%);
-  -webkit-backdrop-filter: blur(16px) saturate(170%);
-  box-shadow: 0 -10px 34px -20px rgba(58, 35, 20, 0.65);
+  background: rgba(255, 252, 247, 0.97);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: 0 -12px 34px -22px rgba(74, 44, 26, 0.7);
   transform: translateY(105%);
   transition: transform var(--dur-normal) var(--ease-out);
 }
@@ -866,10 +864,6 @@
     gap: var(--space-2);
   }
 
-  .btn.product-page__cta-button {
-    font-size: var(--fs-base);
-  }
-
   /* The bar repeats the hero CTA, so the rail copy would be a third one. */
   .product-recap {
     display: none;
@@ -886,7 +880,7 @@
 
 @media (max-width: 480px) {
   .product-buy__facts {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(5.25rem, 1fr));
     gap: var(--space-3);
   }
 

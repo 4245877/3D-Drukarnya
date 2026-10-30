@@ -1,0 +1,244 @@
+/* ============================================================
+   RAPHTALIA.CSS — the character's visual vocabulary
+   Depends on: base.css
+
+   Three motifs, each with one job (docs/RAPHTALIA-DESIGN.md):
+     · portrait — her presence, on the hero and the 404 page;
+     · ears     — attention: they rise wherever the visitor is
+                  looking or is about to get in touch;
+     · leaves   — quiet life in the air around her.
+
+   Everything here is decorative. Ambient loops only run while
+   their section is on screen (.is-live, src/scripts/motion.ts).
+   ============================================================ */
+
+/* ── Portrait ─────────────────────────────────────────────── */
+
+/* All layers share one coordinate system: the box keeps the artwork's ratio
+   and every offset below is a percentage of it, so nothing drifts on resize.
+   isolation keeps their z-indexes inside this box. Without it, as soon as the
+   breathing animation is off (reduced motion), the figure would rise above the
+   page's footer. */
+.portrait {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 920 / 777;
+  isolation: isolate;
+}
+
+.portrait__body {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 100%;
+  animation: portraitBreath 5.8s var(--ease-in-out) infinite alternate;
+  animation-play-state: paused;
+}
+
+.portrait__base,
+.portrait__ear,
+.portrait__blink {
+  position: absolute;
+  display: block;
+  max-width: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.portrait__base {
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+/* The ears sit behind the hair, exactly where they are in the artwork. A twitch
+   flicks them toward the head, further behind the hair: moving outward would
+   open a gap along the line where they meet it. */
+.portrait__ear {
+  z-index: 0;
+  animation: 9.4s linear infinite;
+  animation-play-state: paused;
+}
+
+.portrait__ear--left {
+  left: 22.174%;
+  top: 7.079%;
+  width: 18.478%;
+  height: 24.968%;
+  transform-origin: 38.8% 74%;
+  animation-name: earTwitchLeft;
+}
+
+.portrait__ear--right {
+  left: 48.478%;
+  top: 1.673%;
+  width: 19.891%;
+  height: 28.829%;
+  transform-origin: 51% 60.7%;
+  animation-name: earTwitchRight;
+  animation-duration: 12.2s;
+}
+
+/* The closed-eyes frame, shown for a blink's length. */
+.portrait__blink {
+  left: 32.391%;
+  top: 33.462%;
+  z-index: 2;
+  width: 30.652%;
+  height: 15.444%;
+  opacity: 0;
+  pointer-events: none;
+  animation: portraitBlink 7.6s linear infinite;
+  animation-play-state: paused;
+}
+
+.is-live .portrait__body,
+.is-live .portrait__ear,
+.is-live .portrait__blink {
+  animation-play-state: running;
+}
+
+/* She notices when something is about to be pressed. */
+.ears-listen:has(a:hover) .portrait__ear--left { animation: earPerkLeft 560ms var(--ease-out); }
+.ears-listen:has(a:hover) .portrait__ear--right { animation: earPerkRight 560ms var(--ease-out); }
+
+@keyframes portraitBreath {
+  from { transform: translateY(0) scale(1); }
+  to   { transform: translateY(-3px) scale(1.004); }
+}
+
+@keyframes portraitBlink {
+  0%, 44%, 45.9%, 90%, 91.6%, 93.2%, 94.9%, 100% { opacity: 0; }
+  44.2%, 45.6%, 90.2%, 91.3%, 93.4%, 94.6% { opacity: 1; }
+}
+
+@keyframes earTwitchLeft {
+  0%, 62%, 69%, 100% { transform: none; }
+  63.2% { transform: translate(2.4%, 3.2%) rotate(1.5deg); }
+  65%   { transform: translate(0.4%, 0.6%); }
+  67%   { transform: translate(1.6%, 2.2%) rotate(1deg); }
+}
+
+@keyframes earTwitchRight {
+  0%, 26%, 31.5%, 100% { transform: none; }
+  27%   { transform: translate(-2.2%, 3%) rotate(-1.5deg); }
+  28.4% { transform: translate(-0.4%, 0.6%); }
+  30%   { transform: translate(-1.5%, 2%) rotate(-1deg); }
+}
+
+@keyframes earPerkLeft {
+  35% { transform: translate(2.4%, 3.2%) rotate(1.5deg); }
+  65% { transform: translate(0.6%, 0.8%); }
+}
+
+@keyframes earPerkRight {
+  35% { transform: translate(-2.2%, 3%) rotate(-1.5deg); }
+  65% { transform: translate(-0.6%, 0.8%); }
+}
+
+/* ── Ears (the attention motif) ───────────────────────────── */
+
+/* Her own ears, cut from the illustration and turned so that the line where
+   they meet the head lies flat: they can rise from behind any straight edge.
+   Shared by every surface that "listens". */
+.ears {
+  --ear-w: 62px;
+  --ear-gap: 34px;
+  position: absolute;
+  bottom: 100%;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--ear-gap);
+  pointer-events: none;
+}
+
+.ears::before,
+.ears::after {
+  content: '';
+  flex: 0 0 auto;
+  width: var(--ear-w);
+  aspect-ratio: 172 / 94;
+  background: url('../../assets/brand/ear-left.webp') center bottom / contain no-repeat;
+  transform-origin: 50% 100%;
+  transition: transform var(--dur-slow) var(--ease-spring);
+}
+
+.ears::after {
+  background-image: url('../../assets/brand/ear-right.webp');
+}
+
+/* A little of each ear always stays behind the edge, spring included. */
+.ears::before { transform: translateY(14%) rotate(-3deg); }
+.ears::after  { transform: translateY(14%) rotate(3deg); }
+
+/* Tucked behind the surface, ready to rise. */
+.ears.is-tucked::before { transform: translateY(100%) rotate(-3deg); }
+.ears.is-tucked::after  { transform: translateY(100%) rotate(3deg); transition-delay: 90ms; }
+
+/* The footer's ears sit behind its soft rise. Nothing above it paints a
+   background in this gap, so a negative layer is enough: the footer's top edge
+   curves, which a straight clip could not follow. */
+.site-footer__ears {
+  --ear-w: clamp(76px, 7.5vw, 116px);
+  --ear-gap: clamp(44px, 5vw, 84px);
+  z-index: -1;
+  bottom: calc(100% - clamp(2px, 0.9vw, 12px));
+  right: clamp(1.5rem, 13vw, 17rem);
+}
+
+/* On the 404 page she is already standing right there. */
+body:has(.not-found) .site-footer__ears { display: none; }
+
+/* ── Drifting leaves ──────────────────────────────────────── */
+
+.leaf {
+  position: absolute;
+  z-index: 0;
+  width: var(--leaf-size, 16px);
+  height: var(--leaf-size, 16px);
+  border-radius: 0 74% 0 74%;
+  background: linear-gradient(135deg, var(--hair-light), var(--hair-deep));
+  opacity: var(--leaf-opacity, 0.7);
+  pointer-events: none;
+  animation: leafDrift var(--leaf-time, 15s) var(--ease-in-out) var(--leaf-delay, 0s) infinite alternate;
+  animation-play-state: paused;
+}
+
+.leaf::after {
+  content: '';
+  position: absolute;
+  left: 12%;
+  top: 50%;
+  width: 76%;
+  height: 1px;
+  background: rgba(110, 67, 43, 0.55);
+  transform: rotate(-45deg);
+}
+
+.is-live .leaf { animation-play-state: running; }
+
+@keyframes leafDrift {
+  from { transform: translate3d(0, 0, 0) rotate(0deg); }
+  to   { transform: translate3d(var(--leaf-x, 18px), var(--leaf-y, 30px), 0) rotate(var(--leaf-turn, 38deg)); }
+}
+
+/* ── Accessibility & output modes ─────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .portrait__body,
+  .portrait__ear,
+  .portrait__blink,
+  .leaf { animation: none !important; }
+
+  .ears-listen:has(a:hover) .portrait__ear--left,
+  .ears-listen:has(a:hover) .portrait__ear--right { animation: none !important; }
+}
+
+@media (forced-colors: active) {
+  .ears, .leaf { display: none; }
+}
+
+@media print {
+  .ears, .leaf, .portrait { display: none !important; }
+}

@@ -1,6 +1,7 @@
 ---
 import { SITE_NAME } from '../data/site.config.mjs';
 import ContactIcon from './ContactIcon.astro';
+import { CATEGORIES } from '../data/categories.mjs';
 import { href } from '../utils/urls';
 import { SITE_COPY } from '../data/i18n.mjs';
 
@@ -10,6 +11,7 @@ interface Props { contactHref?: string }
 const { contactHref = '#contacts' } = Astro.props;
 
 const base = href();
+const currentPath = Astro.url.pathname;
 
 // Every entry is a real page, not an on-page anchor: the header is the main
 // navigation crawlers follow, so it has to expose the site's actual sections.
@@ -17,6 +19,18 @@ const links = [
   { label: copy.catalog, href: href('catalog/') },
   { label: copy.sla, href: href('sla/') },
 ];
+
+// The menu also lists the catalog's sections: on a phone it is the fastest way
+// to a category, and the links work without JavaScript.
+const categoryLinks = CATEGORIES.map((category, index) => ({
+  label: copy.categoryLabels[index],
+  href: href(`catalog/${category.slug}/`),
+}));
+
+// A section stays marked on its inner pages; the exact page also says so to
+// assistive technology.
+const isActive = (link: string) => currentPath === link || currentPath.startsWith(link);
+const currentOf = (link: string) => (currentPath === link ? 'page' : isActive(link) ? 'true' : undefined);
 ---
 
 <header class="site-header">
@@ -35,7 +49,7 @@ const links = [
 
     <nav class="site-header__nav" aria-label={copy.navigation}>
       {links.map((link) => (
-        <a class="site-header__link" href={link.href}>{link.label}</a>
+        <a class="site-header__link" href={link.href} aria-current={currentOf(link.href)}>{link.label}</a>
       ))}
     </nav>
 
@@ -61,8 +75,12 @@ const links = [
     class="site-header__drawer"
     aria-label={copy.mobileNavigation}
   >
-    {links.map((link) => (
-      <a class="site-header__drawer-link" href={link.href}>{link.label}</a>
+    <a class="site-header__drawer-link" href={links[0].href} aria-current={currentOf(links[0].href)}>{links[0].label}</a>
+    {categoryLinks.map((link) => (
+      <a class="site-header__drawer-link site-header__drawer-link--sub" href={link.href} aria-current={currentOf(link.href)}>{link.label}</a>
+    ))}
+    {links.slice(1).map((link) => (
+      <a class="site-header__drawer-link" href={link.href} aria-current={currentOf(link.href)}>{link.label}</a>
     ))}
   </nav>
 </header>
@@ -72,6 +90,8 @@ const links = [
   const drawer = document.getElementById('site-header-menu');
 
   if (burger && drawer) {
+    const isOpen = () => burger.getAttribute('aria-expanded') === 'true';
+
     const setOpen = (open: boolean) => {
       burger.setAttribute('aria-expanded', String(open));
       burger.setAttribute('aria-label', (open ? burger.dataset.closeLabel : burger.dataset.openLabel) ?? '');
@@ -79,7 +99,7 @@ const links = [
     };
 
     burger.addEventListener('click', () => {
-      setOpen(burger.getAttribute('aria-expanded') !== 'true');
+      setOpen(!isOpen());
     });
 
     drawer.querySelectorAll('a').forEach((link) => {
@@ -87,7 +107,16 @@ const links = [
     });
 
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape' && isOpen()) {
+        setOpen(false);
+        burger.focus();
+      }
+    });
+
+    // A tap anywhere outside the menu dismisses it, as on any phone.
+    document.addEventListener('click', (event) => {
+      const target = event.target as Node;
+      if (isOpen() && !drawer.contains(target) && !burger.contains(target)) setOpen(false);
     });
   }
 </script>

@@ -19,7 +19,7 @@ body {
   margin-top: 0;
 }
 
-/* Smooth page-entry animation (used by .catalog-page > *) */
+/* Soft entry for panels that appear on demand. */
 @keyframes pageEnter {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -27,6 +27,8 @@ body {
 
 /* ── Site Header ──────────────────────────────────────────── */
 
+/* Nearly opaque on purpose: with a lighter alpha, headings scrolling underneath
+   stayed legible through the bar and competed with the logo. */
 .site-header {
   position: sticky;
   top: 0;
@@ -34,30 +36,51 @@ body {
   height: var(--header-h);
   display: flex;
   align-items: center;
-  background: rgba(245, 237, 224, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: var(--border-soft);
+  background: rgba(251, 245, 236, 0.94);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid rgba(122, 90, 58, 0.1);
+  transition:
+    background-color var(--dur-normal) var(--ease-out),
+    box-shadow var(--dur-normal) var(--ease-out);
 }
 
-/* Warm signature accent line under the header */
+/* Set by src/scripts/motion.ts once the page has moved. */
+.site-header.is-scrolled {
+  background: rgba(255, 252, 247, 0.97);
+  box-shadow: 0 12px 30px -22px rgba(74, 44, 26, 0.6);
+}
+
+/* A single auburn strand along the edge. Where scroll timelines exist it grows
+   with reading progress; elsewhere it is simply a quiet hairline. */
 .site-header::after {
   content: '';
   position: absolute;
   left: 0;
   right: 0;
   bottom: -1px;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--copper) 22%,
-    var(--dusty-rose) 50%,
-    var(--burgundy) 78%,
-    transparent 100%
-  );
+  height: 2px;
+  background: linear-gradient(90deg, var(--hair-light), var(--hair) 40%, var(--raphtalia-red));
+  transform-origin: 0 50%;
   opacity: 0.55;
   pointer-events: none;
+}
+
+/* Longhands on purpose: given the `animation` shorthand, the CSS minifier folds
+   the timeline into it, a form Chromium rejects as a whole. */
+@supports (animation-timeline: scroll()) {
+  .site-header::after {
+    opacity: 1;
+    animation-name: headerProgress;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+@keyframes headerProgress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
 }
 
 .site-header__inner {
@@ -76,17 +99,17 @@ body {
 .site-header__logo {
   display: inline-flex;
   align-items: center;
-  gap: 0.35em;
+  gap: 0.4em;
   font-family: var(--font-display);
-  font-size: var(--fs-lg);
-  font-weight: var(--fw-extrabold);
-  letter-spacing: -0.01em;
+  font-size: 1.625rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.05em;
+  line-height: 1;
   color: var(--chocolate);
   white-space: nowrap;
-  transition: opacity var(--dur-fast) var(--ease-out);
 }
 
-.site-header__logo:hover { opacity: 0.8; color: var(--chocolate); }
+.site-header__logo:hover { color: var(--burgundy); }
 
 .site-header__logo-mark {
   display: block;
@@ -94,6 +117,14 @@ body {
   width: 40px;
   height: 46px;
   object-fit: contain;
+  transform-origin: 50% 90%;
+  transition: transform var(--dur-slow) var(--ease-spring);
+}
+
+@media (hover: hover) {
+  .site-header__logo:hover .site-header__logo-mark {
+    transform: rotate(-5deg) translateY(-1px);
+  }
 }
 
 .site-header__nav {
@@ -106,38 +137,45 @@ body {
 
 .site-header__link {
   position: relative;
-  padding: var(--space-2) var(--space-3);
+  padding: 0.55rem 0.9rem;
   border-radius: var(--radius-full);
-  font-size: var(--fs-sm);
+  font-size: 0.9375rem;
   font-weight: var(--fw-semibold);
   color: var(--text-secondary);
-  letter-spacing: 0.01em;
+  letter-spacing: 0.005em;
   transition:
     color var(--dur-fast) var(--ease-out),
-    background var(--dur-fast) var(--ease-out);
+    background-color var(--dur-fast) var(--ease-out);
 }
 
 .site-header__link::after {
   content: '';
   position: absolute;
-  bottom: 5px;
-  left: 50%;
-  width: 0;
+  bottom: 4px;
+  left: 0.9rem;
+  right: 0.9rem;
   height: 2px;
   border-radius: var(--radius-full);
-  background: var(--burgundy);
-  transform: translateX(-50%);
-  transition: width var(--dur-normal) var(--ease-spring);
+  background: linear-gradient(90deg, var(--hair), var(--raphtalia-red));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform var(--dur-normal) var(--ease-out);
 }
 
 .site-header__link:hover {
   color: var(--burgundy);
-  background: rgba(142, 63, 67, 0.07);
+  background: rgba(142, 63, 67, 0.06);
 }
 
-.site-header__link:hover::after { width: 55%; }
+.site-header__link:hover::after,
+.site-header__link[aria-current]::after { transform: scaleX(1); }
 
-/* One quiet, named entry point; product pages point to their own inquiry. */
+.site-header__link[aria-current] {
+  color: var(--burgundy);
+}
+
+/* One named entry point; product pages point to their own inquiry. Tinted, not
+   filled: each page keeps a single solid action of its own to look at first. */
 .site-header__contact {
   display: inline-flex;
   align-items: center;
@@ -145,22 +183,35 @@ body {
   flex-shrink: 0;
   gap: var(--space-2);
   min-height: 44px;
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-2) 1.1rem var(--space-2) 0.9rem;
   border-radius: var(--radius-full);
-  color: var(--text-secondary);
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-semibold);
+  color: var(--burgundy);
+  background: rgba(142, 63, 67, 0.09);
+  font-size: 0.9375rem;
+  font-weight: var(--fw-bold);
   white-space: nowrap;
-  transition: color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color var(--dur-normal) var(--ease-out),
+    background-color var(--dur-normal) var(--ease-out),
+    box-shadow var(--dur-normal) var(--ease-out),
+    transform var(--dur-normal) var(--ease-out);
 }
 
 .site-header__contact svg { flex: 0 0 20px; }
-.site-header__contact:hover { color: var(--burgundy); background: rgba(142,63,67,.07); }
 
-@media (max-width: 640px) {
-  .site-header__inner { gap: 8px; }
-  .site-header__logo { margin-right: auto; }
-  .site-header__logo-mark { width: 28px; height: 34px; }
+@media (hover: hover) {
+  .site-header__contact:hover {
+    color: var(--on-accent);
+    background: var(--accent-primary);
+    box-shadow: 0 10px 22px -10px rgba(172, 65, 81, 0.7);
+    transform: translateY(-1px);
+  }
+}
+
+.site-header__contact:active {
+  transform: scale(0.97);
+  transition-duration: var(--dur-fast);
 }
 
 /* ── Mobile burger + drawer (hidden on desktop) ───────────── */
@@ -171,13 +222,19 @@ body {
   justify-content: center;
   gap: 5px;
   flex-shrink: 0;
-  width: 42px;
-  height: 42px;
-  padding: 9px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
   background: none;
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .site-header__burger:hover { background: rgba(142, 63, 67, 0.07); }
 }
 
 .site-header__burger span {
@@ -188,7 +245,7 @@ body {
   background: var(--chocolate);
   border-radius: var(--radius-full);
   transition:
-    transform var(--dur-normal) var(--ease-spring),
+    transform var(--dur-normal) var(--ease-out),
     opacity var(--dur-fast) var(--ease-out);
 }
 
@@ -202,28 +259,50 @@ body {
   top: 100%;
   left: 0;
   right: 0;
-  flex-direction: column;
   gap: var(--space-1);
+  max-height: calc(100dvh - var(--header-h));
+  overflow-y: auto;
   padding: var(--space-3) var(--container-px) var(--space-5);
-  background: rgba(245, 237, 224, 0.97);
-  border-bottom: var(--border-soft);
+  background: var(--bg-card);
+  border-bottom: var(--border-card);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
   box-shadow: var(--shadow-md);
 }
 
 .site-header__drawer-link {
-  padding: var(--space-3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-md);
   font-size: var(--fs-base);
-  font-weight: var(--fw-semibold);
-  color: var(--text-secondary);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  -webkit-tap-highlight-color: transparent;
   transition:
     color var(--dur-fast) var(--ease-out),
-    background var(--dur-fast) var(--ease-out);
+    background-color var(--dur-fast) var(--ease-out);
 }
 
-.site-header__drawer-link:hover {
+.site-header__drawer-link[aria-current] {
   color: var(--burgundy);
   background: rgba(142, 63, 67, 0.07);
+}
+
+@media (hover: hover) {
+  .site-header__drawer-link:hover {
+    color: var(--burgundy);
+    background: rgba(142, 63, 67, 0.07);
+  }
+}
+
+.site-header__drawer-link--sub {
+  min-height: 44px;
+  padding-left: var(--space-6);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-secondary);
 }
 
 /* 768px: aligned with the site-wide breakpoint ladder (was a bespoke
@@ -234,11 +313,26 @@ body {
   /* Logo stays left; CTA + burger group on the right */
   .site-header__logo { margin-right: auto; }
   .site-header__burger { display: flex; }
-  .site-header__drawer.is-open { display: flex; }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .site-header__burger span, .site-header__contact { transition: none; }
+  /* Rendered at all times so it can move; visibility keeps the closed menu out
+     of the tab order and the accessibility tree. */
+  .site-header__drawer {
+    display: grid;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition:
+      opacity var(--dur-normal) var(--ease-out),
+      transform var(--dur-normal) var(--ease-out),
+      visibility 0s linear var(--dur-normal);
+  }
+
+  .site-header__drawer.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition-delay: 0s;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -247,9 +341,23 @@ body {
 
 /* Keep the logo, order action and menu within narrow phone viewports. */
 @media (max-width: 480px) {
-  .site-header__inner { gap: var(--space-2); }
-  .site-header__logo { font-size: var(--fs-md); }
+  .site-header__inner { gap: var(--space-1); }
+  .site-header__logo { font-size: 1.375rem; }
   .site-header__logo-mark { width: 32px; height: 38px; }
-  .site-header__contact { padding-inline: var(--space-2); }
+  .site-header__contact { padding-inline: 0.85rem; font-size: var(--fs-sm); }
   .site-header__contact svg { display: none; }
+}
+
+@media (max-width: 360px) {
+  .site-header__logo { gap: 0.3em; font-size: 1.1875rem; letter-spacing: 0.03em; }
+  .site-header__logo-mark { width: 28px; height: 33px; }
+  .site-header__contact { padding-inline: 0.7rem; font-size: 0.8125rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header__burger span, .site-header__contact { transition: none; }
+  .site-header__contact:hover, .site-header__contact:active { transform: none; }
+  .site-header__logo:hover .site-header__logo-mark { transform: none; }
+  /* A bar that fills while scrolling is motion: keep the plain hairline. */
+  .site-header::after { animation: none; transform: none; opacity: 0.55; }
 }

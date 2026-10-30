@@ -5,9 +5,10 @@ const { message = 'Вітаю! Допоможіть підібрати вирі�
 ---
 
 <aside class="contact-panel" aria-label="Допомога з вибором і замовленням">
-  <div>
+  <span class="ears" aria-hidden="true"></span>
+  <div class="contact-panel__copy">
     <h2 class="contact-panel__title">Потрібна порада чи інше виконання?</h2>
-    <p class="contact-panel__text">Напиши напряму. Допоможу перевірити сумісність і погодити деталі замовлення.</p>
+    <p class="contact-panel__text">Напиши напряму: сумісність і деталі замовлення зручно звірити ще до друку.</p>
   </div>
   <ContactActions compact message={message} />
 </aside>

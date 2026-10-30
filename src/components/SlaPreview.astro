@@ -46,7 +46,7 @@ import { href } from '../utils/urls';
 
 <style>
   .sla-preview {
-    padding-block: var(--space-10);
+    padding-block: 0 var(--section-y);
   }
 
   .sla-preview__inner {
@@ -75,14 +75,11 @@ import { href } from '../utils/urls';
 
   .sla-preview h2 {
     margin-bottom: var(--space-5);
-    font-family: var(--font-display);
-    font-size: clamp(1.875rem, 3vw, 2.75rem);
-    font-weight: var(--fw-extrabold);
-    line-height: 1.18;
-    letter-spacing: -.035em;
+    font-size: clamp(2.25rem, 1.6rem + 2.2vw, 3.25rem);
+    line-height: 1.08;
   }
 
-  .sla-preview h2 span { color: var(--burgundy); }
+  .sla-preview h2 span { color: var(--raphtalia-red); }
 
   .sla-preview__lead {
     max-width: 43ch;
@@ -118,11 +115,9 @@ import { href } from '../utils/urls';
 
   .sla-preview .btn {
     max-width: 100%;
-    min-height: 48px;
     gap: var(--space-3);
     margin-top: var(--space-8);
     padding-inline: var(--space-6);
-    font-size: var(--fs-sm);
     white-space: normal;
   }
 
@@ -150,22 +145,17 @@ import { href } from '../utils/urls';
     justify-self: end;
   }
 
+  /* The same sunlit paper as the opening of the page: the printer is the darkest
+     thing on it, and stands out without a dark box around it. */
   .sla-preview__stage {
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    border: 1px solid rgba(232, 216, 190, .14);
+    border: var(--border-card);
     border-radius: var(--radius-lg);
     background:
-      radial-gradient(ellipse at 75% 15%, rgba(169, 174, 184, .16), transparent 55%),
-      radial-gradient(ellipse at 25% 70%, rgba(217, 154, 116, .15), transparent 60%),
-      linear-gradient(135deg, #30251f, #3b2b29 50%, #64333e);
-    box-shadow: inset 0 1px 0 rgba(245, 237, 224, .08);
-  }
-
-  .sla-preview__stage ::selection {
-    background: rgba(232, 216, 190, .9);
-    color: var(--chocolate);
+      radial-gradient(ellipse 72% 62% at 58% 42%, rgba(255, 216, 162, .6), rgba(255, 216, 162, 0) 76%),
+      linear-gradient(180deg, #FFF9F1, var(--paper));
   }
 
   .sla-preview__stage-heading,
@@ -177,7 +167,7 @@ import { href } from '../utils/urls';
     justify-content: space-between;
     gap: var(--space-3);
     padding: var(--space-5) var(--space-6);
-    color: var(--cream);
+    color: var(--text-secondary);
     font-size: var(--fs-xs);
     line-height: 1.5;
   }
@@ -185,7 +175,7 @@ import { href } from '../utils/urls';
   .sla-preview__stage-heading { padding-bottom: 0; }
 
   .sla-preview__technology {
-    color: var(--copper);
+    color: var(--text-kicker);
     font-weight: var(--fw-bold);
     letter-spacing: .12em;
     white-space: nowrap;
@@ -209,9 +199,9 @@ import { href } from '../utils/urls';
     flex-shrink: 0;
     width: 32px;
     height: 28px;
-    border: 1px solid rgba(217, 154, 116, .35);
+    border: 1px solid rgba(142, 63, 67, .3);
     border-radius: var(--radius-sm);
-    color: var(--copper);
+    color: var(--text-kicker);
     font-weight: var(--fw-bold);
   }
 
@@ -233,14 +223,11 @@ import { href } from '../utils/urls';
   @media (max-width: 1024px) {
     .sla-preview__inner { gap: var(--space-5); }
     .sla-preview__copy { padding: var(--space-4); padding-right: 0; }
-    .sla-preview h2 { font-size: clamp(1.75rem, 3.6vw, 2.25rem); }
   }
 
   @media (max-width: 768px) {
-    .sla-preview { padding-block: var(--space-6); }
     .sla-preview__inner { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
     .sla-preview__copy { padding: var(--space-5) var(--space-4) 0; }
-    .sla-preview h2 { font-size: clamp(1.875rem, 5.6vw, 2.5rem); }
     .sla-preview__lead { max-width: 54ch; }
     .sla-preview__visual { max-width: 400px; justify-self: center; }
     .sla-preview .btn { margin-top: var(--space-6); }
@@ -250,7 +237,6 @@ import { href } from '../utils/urls';
     .sla-preview__inner { padding: var(--space-3); border-radius: var(--radius-lg); }
     .sla-preview__copy { padding: var(--space-3) var(--space-2) 0; }
     .sla-preview .kicker { letter-spacing: .06em; margin-bottom: var(--space-4); }
-    .sla-preview h2 { font-size: clamp(1.65rem, 7vw, 2rem); }
     .sla-preview .btn { width: 100%; padding-inline: var(--space-4); }
     .sla-preview__stage-heading,
     .sla-preview__stage-footer { padding-inline: var(--space-4); }

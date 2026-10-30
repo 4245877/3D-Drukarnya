@@ -34,6 +34,7 @@ const columns = [
 ---
 
 <footer class="site-footer">
+  <span class="ears site-footer__ears" aria-hidden="true" data-ears-rise></span>
   <div class="container">
     <section id="contacts" class="footer-contacts" aria-labelledby="contacts-title" tabindex="-1">
       <div class="footer-contacts__intro">
@@ -42,10 +43,10 @@ const columns = [
       </div>
       <div class="footer-contacts__actions">
         <ContactActions />
-        <p class="footer-contacts__web-note">Без застосунку скористайся Telegram у браузері. Потрібен вхід у свій акаунт; мій контакт — @{telegramUsername}.</p>
-        <details>
+        <p class="footer-contacts__web-note">Без застосунку скористайся Telegram у браузері. Потрібен вхід у свій акаунт; контакт — @{telegramUsername}.</p>
+        <details class="disclosure">
           <summary>Не відкрився Viber?</summary>
-          <p>Знайди мене у Viber за номером {VIBER_PHONE_LABEL}. Для чату потрібен застосунок. На комп’ютері спершу активуй Viber на телефоні.</p>
+          <p>У Viber цей контакт знаходиться за номером {VIBER_PHONE_LABEL}. Для чату потрібен застосунок. На комп’ютері спершу активуй Viber на телефоні.</p>
           <a href={VIBER_DOWNLOAD_URL} target="_blank" rel="noopener noreferrer">Встановити Viber ↗</a>
         </details>
       </div>
