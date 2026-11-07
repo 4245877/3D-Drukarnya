@@ -10,15 +10,18 @@ const loadProducts = async () => Promise.all((await readdir(productsDirectory))
   .filter((name) => name.endsWith('.json'))
   .map(async (name) => JSON.parse(await readFile(new URL(name, productsDirectory), 'utf8'))));
 
-test('ten additions are public with approved rights and honest preliminary prices', async () => {
+test('P40-P49 are public with approved rights and honest preliminary prices', async () => {
   const all = await loadProducts();
-  const additions = all.filter((product) => Number(product.sku.slice(1)) >= 40);
+  const additions = all.filter((product) => {
+    const number = Number(product.sku.slice(1));
+    return number >= 40 && number <= 49;
+  });
   const prices = { P40: 165, P41: 250, P42: 100, P43: 125, P44: 165,
     P45: 140, P46: 175, P47: 300, P48: 425, P49: 450 };
   assert.equal(additions.length, 10);
   assert.equal(all.filter((product) => product.publicationStatus === 'draft').length, 0);
-  assert.equal(selectCatalogProducts(all).length, 49);
-  assert.equal(selectCatalogProducts(all, true).length, 49);
+  assert.equal(selectCatalogProducts(all).length, 50);
+  assert.equal(selectCatalogProducts(all, true).length, 50);
   for (const product of additions) {
     assert.equal(product.publicationStatus, 'published', product.sku);
     assert.equal(product.commercialRightsStatus, 'approved', product.sku);

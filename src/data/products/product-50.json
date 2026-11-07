@@ -1,0 +1,51 @@
+{
+  "slug": "xikii-ff04-mini-itx-korpus",
+  "sku": "P50",
+  "merchandisingPriority": 0,
+  "featured": false,
+  "publicationStatus": "published",
+  "commercialRightsStatus": "permission_required",
+  "photoRightsStatus": "review_required",
+  "author": "qiyun; оригінальний дизайн — Xikii",
+  "sourceUrl": "https://makerworld.com/ru/models/1424388-replicated-xikii-ff04-itx-chassis#profileId-1480323",
+  "license": "Standard Digital File License",
+  "title": "Xikii FF04 — корпус Mini-ITX із відкритою відеокартою",
+  "shortDescription": "Вертикальний корпус у стилі Xikii FF04 для Mini-ITX і SFX-блока живлення. Авторська збірка з ASUS Prime RTX 5070; верхня кришка на магнітах.",
+  "description": "Xikii FF04 від qiyun — адаптована до 3D-друку репліка вертикального ITX-корпусу Xikii. Відеокарта залишається відкритою збоку та доповнює форму корпусу. Панелі мають вентиляційні отвори, а верхня кришка фіксується магнітами.\n\nАвтор показує збірку з платою Maxsun Z790i, Intel Core i5-14600K, SFX-блоком живлення Thermalright 750 Вт, кулером Thermalright APX120-X67 та ASUS Prime GeForce RTX 5070. Форма деталей біля GPU повторює кожух цієї відеокарти. Перед замовленням звір точні моделі плати, GPU, кулера, блока живлення та PCIe-riser: інші відеокарти, навіть схожого розміру, можуть потребувати зміни деталей через форму кожуха або розташування роз'єму живлення.\n\nБазове виконання — комплект друкованих деталей за профілем MakerWorld №1480323: 9 пластин, приблизно 1537 г PETG та 46 год 35 хв машинного часу на Bambu Lab P1S із соплом 0,4 мм. Параметри профілю: шар 0,2 мм, 4 стінки, 20% заповнення. Це витрата й прогноз авторського профілю, а не вимірювання готового корпусу. Авторський зразок виготовлено з PETG-CF; такий матеріал і колір узгоджуються окремо.\n\nДля складання автор указує гвинти M3 довжиною 6, 8 і 10 мм, термовставки M3-4-5 та 4 магніти 15 × 1,5 мм для кришки. Кількість гвинтів, посадку вставок, PCIe-riser і кнопку живлення потрібно погодити під обрану конфігурацію. Корпус збирають знизу вгору: спочатку встановлюють материнську плату та підключають кабелі, далі зовнішні панелі й блок живлення, а відеокарту — останньою.\n\nУ базову ціну входять лише друковані PETG-деталі корпусу. Материнська плата, процесор, охолодження, відеокарта, блок живлення, накопичувачі, PCIe-riser, кнопка, ARGB-підсвічування, кабелі, гвинти, термовставки, магніти та складання не входять. Остаточний комплект і термін виготовлення узгоджуються після перевірки конфігурації.\n\nАвтор адаптації — qiyun, оригінального дизайну FF04 — Xikii. Джерело — MakerWorld №1424388, профіль №1480323. Модель поширюється за Standard Digital File License; комерційне виготовлення потребує окремого дозволу правовласника.",
+  "weightGrams": 1537,
+  "price": 3843,
+  "priceType": "from",
+  "availability": "unconfirmed",
+  "publishOffer": false,
+  "priceNote": "Початкова ціна — за друковані PETG-деталі профілю №1480323: 1537 г × 2,5 грн/г з округленням. PETG-CF, адаптація, кріплення, магніти, електроніка та складання розраховуються окремо після перевірки конфігурації.",
+  "category": "Корпуси та дискові модулі",
+  "material": "PETG; PETG-CF за погодженням",
+  "leadTime": "Термін узгоджується після перевірки конфігурації",
+  "variantSummary": "Mini-ITX / SFX; авторська збірка з ASUS Prime RTX 5070; 9 пластин, 1537 г PETG",
+  "variants": [
+    {
+      "name": "Базовий комплект PETG — профіль №1480323",
+      "badge": "ціна від",
+      "description": "Друковані деталі корпусу з 9 пластин авторського профілю: приблизно 1537 г PETG, шар 0,2 мм, 4 стінки та 20% заповнення. Електроніка, кріплення, магніти й складання не входять."
+    },
+    {
+      "name": "PETG-CF — за погодженням",
+      "description": "Матеріал авторського зразка. Вартість, колір і профіль друку погоджуються окремо перед виготовленням."
+    }
+  ],
+  "imageNotice": "Авторські фото qiyun показують корпус із установленими комплектуючими. У комплекті лише друковані деталі; відеокарта, інша електроніка, підсвічування, кріплення та магніти не входять.",
+  "images": [
+    "https://makerworld.bblmw.com/makerworld/model/USc82c77afbdb5d3/design/2025-05-17_773018d4222e4.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USc82c77afbdb5d3/design/2025-05-17_0341d664baf25.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USc82c77afbdb5d3/design/2025-05-17_4ce35481b8134.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USc82c77afbdb5d3/design/2025-05-17_3cf1f6e6a6a78.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USc82c77afbdb5d3/design/2025-05-17_3343e686a2f9c8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USc82c77afbdb5d3/design/2025-05-17_95d9a934d77d.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USc82c77afbdb5d3/design/2025-05-17_2a035d1932838.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USc82c77afbdb5d3/design/2025-05-17_6c53cda712ccd8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USc82c77afbdb5d3/design/2025-05-17_2036ceccccfa8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USc82c77afbdb5d3/design/2025-05-17_b66d33f4102d48.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USc82c77afbdb5d3/design/2025-05-17_54bc7585cf8778.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USc82c77afbdb5d3/design/2025-05-17_3ddf6fbe1cb16.jpg?x-oss-process=image/resize,w_1000/format,webp"
+  ]
+}

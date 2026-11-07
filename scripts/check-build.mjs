@@ -87,7 +87,7 @@ export async function checkBuild() {
       JSON.parse(await readFile(path.join(productsDir, name), 'utf8')),
     ),
   );
-  check(allProducts.length === 49, `expected 49 product JSON files, found ${allProducts.length}`);
+  check(allProducts.length === 50, `expected 50 product JSON files, found ${allProducts.length}`);
   const products = selectCatalogProducts(allProducts);
   for (const draft of allProducts.filter((product) => product.publicationStatus === 'draft')) {
     check((await fileSize(path.join(distDir, 'products', draft.slug, 'index.html'))) === -1,

@@ -6,6 +6,7 @@ import { LANGUAGE_REDIRECTS } from '../src/data/language-redirects.mjs';
 import { SITE_REDIRECTS } from '../src/data/category-redirects.mjs';
 import { STATIC_ROUTE_PATHS } from '../src/data/routes.mjs';
 import { getSearchTerms } from '../src/data/search-terms.mjs';
+import { RUSSIAN_PRODUCTS } from '../src/data/products.ru.mjs';
 
 const directory = new URL('../src/data/products/', import.meta.url);
 const products = await Promise.all((await readdir(directory))
@@ -13,13 +14,13 @@ const products = await Promise.all((await readdir(directory))
   .map(async (name) => JSON.parse(await readFile(new URL(name, directory), 'utf8'))));
 const published = products.filter((product) => product.publicationStatus !== 'draft');
 
-test('all 56 former language URLs go directly to their primary-language equivalent', () => {
+test('language aliases go directly to their primary-language equivalent', () => {
   const expected = {
     '/en/': '/', '/ru/': '/', '/ru/catalog/': '/catalog/',
     ...Object.fromEntries(CATEGORIES.map(({slug}) => [`/ru/catalog/${slug}/`, `/catalog/${slug}/`])),
     ...Object.fromEntries(published.map(({slug}) => [`/ru/products/${slug}/`, `/products/${slug}/`])),
   };
-  assert.equal(Object.keys(expected).length, 56);
+  assert.equal(Object.keys(expected).length, 3 + CATEGORIES.length + published.length);
   assert.deepEqual(LANGUAGE_REDIRECTS, expected);
   for (const [from, to] of Object.entries(expected)) {
     assert.equal(SITE_REDIRECTS[from], to);
@@ -34,7 +35,7 @@ test('retired search terms stay relevant to the primary page and translations ar
   for (const category of CATEGORIES) {
     assert.ok(getSearchTerms(`/catalog/${category.slug}/`).length >= 2);
   }
-  for (const product of published) {
+  for (const product of published.filter(({ sku }) => Object.hasOwn(RUSSIAN_PRODUCTS, sku))) {
     const terms = getSearchTerms(`/products/${product.slug}/`, products);
     assert.equal(terms.length, 1, `${product.sku} lost its archived product name`);
     assert.ok(terms[0].length > 10);

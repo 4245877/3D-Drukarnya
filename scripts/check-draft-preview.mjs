@@ -28,7 +28,7 @@ const escape = (text) => text.replaceAll('&', '&amp;').replaceAll('"', '&quot;')
 
 try {
   const catalog = await get();
-  assert.equal([...catalog.matchAll(/data-product-sku="P\d+"/g)].length, 49);
+  assert.equal([...catalog.matchAll(/data-product-sku="P\d+"/g)].length, products.length);
   assert.match(catalog, /name="robots" content="noindex/);
   const sitemap = await get('sitemap.xml');
   for (const product of additions) {
@@ -48,7 +48,7 @@ try {
     const node = ld.find((item) => item['@type'] === 'Product');
     assert.ok(node, draft.sku);
     assert.equal(node.offers, undefined, draft.sku);
-    assert.equal(node.weight, undefined, draft.sku);
+    assert.equal(node.weight?.value, draft.weightGrams, draft.sku);
     assert.equal(node.image.length, draft.images.length, draft.sku);
     for (const image of draft.images) {
       assert.ok(html.includes(escape(image)), `${draft.sku}: missing gallery image ${image}`);
@@ -67,7 +67,7 @@ try {
     const items = products.filter((product) => product.category === category.name);
     for (const item of items) assert.ok(html.includes(`products/${item.slug}/`), `${category.slug}: ${item.sku}`);
   }
-  console.log(`OK: 49 preview cards, ${additions.length} new product pages (${drafts.length} drafts), four categories, covers, gallery order, sitemap and order buttons.`);
+  console.log(`OK: ${products.length} preview cards, ${additions.length} new product pages (${drafts.length} drafts), four categories, covers, gallery order, sitemap and order buttons.`);
 } finally {
   await server.stop();
 }

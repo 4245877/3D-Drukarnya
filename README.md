@@ -159,7 +159,7 @@ production-збірка їх не показують. `npm run dev:drafts` за�
    `public/images/products/...` та локальний шлях до нього.
 6. Заповніть відомі поля автора/джерела/ліцензії та окремі статуси прав на
    модель і фото; непідтверджені права залишайте `review_required`.
-7. Якщо каталог свідомо розширюється понад P1–P49, оновіть зафіксовані SKU,
+7. Якщо каталог свідомо розширюється понад P1–P50, оновіть зафіксовані SKU,
    slug і очікуваний порядок у `tests/product-data.test.mjs`.
 8. Запустіть `npm run validate:data` і `npm test` — помилки вкажуть файл і поле.
 9. Для опублікованого товару сторінка, каталог і `sitemap.xml` оновляться автоматично.
@@ -180,10 +180,10 @@ production-збірка їх не показують. `npm run dev:drafts` за�
 | `/catalog/<slug>/` | 4 | [`src/pages/catalog/[category].astro`](src/pages/catalog/[category].astro) з [`src/data/categories.mjs`](src/data/categories.mjs) |
 | `/guides/<slug>/` | 6 | сторінки в [`src/pages/guides/`](src/pages/guides/) + [`src/layouts/GuideLayout.astro`](src/layouts/GuideLayout.astro) |
 | `/sla/` | 1 | [`src/pages/sla.astro`](src/pages/sla.astro) |
-| `/products/<slug>/` | 49 | [`src/pages/products/[slug].astro`](src/pages/products/[slug].astro) з JSON товарів |
+| `/products/<slug>/` | 50 | [`src/pages/products/[slug].astro`](src/pages/products/[slug].astro) з JSON товарів |
 
-Публічний сайт має лише українську версію: 62 канонічні сторінки. Колишні
-56 адрес `/en/` та `/ru/…` збережено як миттєві HTML-перенаправлення на
+Публічний сайт має лише українську версію: 63 канонічні сторінки. Сумісні
+57 адрес `/en/` та `/ru/…` збережено як миттєві HTML-перенаправлення на
 відповідні українські сторінки. Вони не входять у sitemap і навігацію.
 Деталі та перевірки після публікації: [міграція мов](docs/LANGUAGE-MIGRATION-2026-10-22.md).
 
