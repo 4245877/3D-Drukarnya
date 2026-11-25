@@ -34,7 +34,7 @@ const EXPECTED_SKUS_IN_CATALOG_ORDER = [
   'P14', 'P13', 'P7', 'P25', 'P34', 'P17', 'P19', 'P24',
   'P35', 'P31', 'P36', 'P20', 'P28', 'P16', 'P18', 'P29',
   'P33', 'P30', 'P27', 'P32', 'P37', 'P38', 'P39',
-  'P40', 'P41', 'P42', 'P43', 'P44', 'P45', 'P46', 'P47', 'P48', 'P49', 'P50',
+  'P40', 'P41', 'P42', 'P43', 'P44', 'P45', 'P46', 'P47', 'P48', 'P49', 'P50', 'P51',
 ];
 
 const EXPECTED_SLUGS_BY_SKU = {
@@ -111,7 +111,7 @@ const validProduct = {
 test('every product JSON file passes the schema and collection rules', async () => {
   const entries = await loadEntries();
 
-  assert.equal(entries.length, 50, 'the catalog must keep all 50 products');
+  assert.equal(entries.length, 51, 'the catalog must keep all 51 products');
 
   const { products, errors } = validateProductCollection(entries);
 
@@ -119,9 +119,9 @@ test('every product JSON file passes the schema and collection rules', async () 
   assert.equal(products.length, entries.length);
 });
 
-test('P1-P50 filenames and SKUs match; existing published slugs remain stable', async () => {
+test('P1-P51 filenames and SKUs match; existing published slugs remain stable', async () => {
   const entries = await loadEntries();
-  const expectedFiles = Array.from({ length: 50 }, (_, index) => `product-${index + 1}.json`);
+  const expectedFiles = Array.from({ length: 51 }, (_, index) => `product-${index + 1}.json`);
 
   assert.deepEqual(
     entries.map(({ source }) => source).sort((a, b) => {

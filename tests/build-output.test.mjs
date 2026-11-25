@@ -54,7 +54,7 @@ test('production build generates every product page and the sitemap', async (t) 
   const allProducts = await loadProducts();
   const products = selectCatalogProducts(allProducts);
   const slugs = products.map(({ slug }) => slug);
-  assert.equal(products.length, 50, 'production build must contain all 50 products');
+  assert.equal(products.length, 51, 'production build must contain all 51 products');
 
   await t.test('drafts never leak into production pages, catalogs, sitemap or photos', async () => {
     const catalog = await readFile(path.join(distDir, 'index.html'), 'utf8');
@@ -276,8 +276,8 @@ test('production build generates every product page and the sitemap', async (t) 
       }
       categorized.push(...urls);
     }
-    assert.equal(new Set(categorized).size, 50);
-    assert.equal(categorized.length, 50);
+    assert.equal(new Set(categorized).size, products.length);
+    assert.equal(categorized.length, products.length);
   });
 
   await t.test('retired routes redirect without appearing in navigation', async () => {

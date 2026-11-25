@@ -1,0 +1,32 @@
+{
+  "slug": "skadis-collection-trymachi-dlia-instrumentiv",
+  "sku": "P51",
+  "merchandisingPriority": 0,
+  "featured": false,
+  "publicationStatus": "published",
+  "commercialRightsStatus": "permission_required",
+  "photoRightsStatus": "review_required",
+  "author": "Zeyrox",
+  "sourceUrl": "https://makerworld.com/ru/models/2245625-skadis-collection#profileId-2444938",
+  "license": "Standard Digital File License",
+  "title": "SKÅDIS Collection — набір тримачів для інструментів",
+  "shortDescription": "Набір друкованих тримачів для перфорованої панелі IKEA SKÅDIS. До комплекту входять деталі з двох пластин авторського профілю Zeyrox.",
+  "description": "SKÅDIS Collection від Zeyrox — набір тримачів, з яким можна розкласти ручний інструмент на перфорованій панелі IKEA SKÅDIS. Частина деталей має щільну посадку, тож перед виготовленням варто звірити розміри інструментів із посадковими місцями.\n\nБазовий комплект містить друковані деталі з обох пластин профілю MakerWorld №2444938. Авторський профіль для Bambu Lab P1S із соплом 0,4 мм використовує PLA, шар 0,2 мм, 3 стінки та 20% заповнення. За розрахунком профілю на комплект потрібно близько 414 г PLA та 11 год 56 хв друку. Автор також допускає PETG, а колір і матеріал узгоджуються до виготовлення.\n\nФото показують, як автор організував інструменти на панелі. Ціна стосується друкованих деталей зазначеного профілю. Панель IKEA SKÅDIS, інструменти та інші аксесуари на фото не входять у комплект.\n\nАвтор — Zeyrox. Модель поширюється за Standard Digital File License. Для комерційного виготовлення потрібен дозвіл правовласника.",
+  "weightGrams": 414,
+  "price": 1035,
+  "priceType": "from",
+  "availability": "unconfirmed",
+  "publishOffer": false,
+  "priceNote": "Ціна від за комплект із двох пластин профілю №2444938: близько 414 г PLA за розрахунком профілю. Панель, інструменти та інші аксесуари окремо. Вартість PETG погоджується окремо.",
+  "category": "Аксесуари для стійок",
+  "material": "PLA, PETG за погодженням",
+  "leadTime": "Термін узгоджується після перевірки конфігурації",
+  "variantSummary": "IKEA SKÅDIS, 2 пластини профілю №2444938, близько 414 г PLA",
+  "imageNotice": "Авторські фото Zeyrox показують облаштовану панель. У комплекті лише друковані деталі з двох пластин профілю №2444938. Панель, інструменти та інші аксесуари на фото окремо.",
+  "images": [
+    "https://makerworld.bblmw.com/makerworld/model/USaf3f58afdef01c/design/2026-01-14_6c835fd1a4daf.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USaf3f58afdef01c/design/2026-01-14_fcf38be4fd98b8.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USaf3f58afdef01c/design/2026-01-14_f4ad10bea3b378.jpg?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/USaf3f58afdef01c/design/2026-01-14_f2b15b69fc4c18.jpg?x-oss-process=image/resize,w_1000/format,webp"
+  ]
+}
