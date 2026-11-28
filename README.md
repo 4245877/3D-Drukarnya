@@ -180,10 +180,10 @@ production-збірка їх не показують. `npm run dev:drafts` за�
 | `/catalog/<slug>/` | 4 | [`src/pages/catalog/[category].astro`](src/pages/catalog/[category].astro) з [`src/data/categories.mjs`](src/data/categories.mjs) |
 | `/guides/<slug>/` | 6 | сторінки в [`src/pages/guides/`](src/pages/guides/) + [`src/layouts/GuideLayout.astro`](src/layouts/GuideLayout.astro) |
 | `/sla/` | 1 | [`src/pages/sla.astro`](src/pages/sla.astro) |
-| `/products/<slug>/` | 51 | [`src/pages/products/[slug].astro`](src/pages/products/[slug].astro) з JSON товарів |
+| `/products/<slug>/` | 52 | [`src/pages/products/[slug].astro`](src/pages/products/[slug].astro) з JSON товарів |
 
-Публічний сайт має лише українську версію: 64 канонічні сторінки. Сумісні
-58 адрес `/en/` та `/ru/…` збережено як миттєві HTML-перенаправлення на
+Публічний сайт має лише українську версію: 65 канонічних сторінок. Сумісні
+59 адрес `/en/` та `/ru/…` збережено як миттєві HTML-перенаправлення на
 відповідні українські сторінки. Вони не входять у sitemap і навігацію.
 Деталі та перевірки після публікації: [міграція мов](docs/LANGUAGE-MIGRATION-2026-10-22.md).
 

@@ -137,7 +137,7 @@ try {
     }
   });
 
-  if (!process.argv.includes('--functional-only')) await scenario('all 51 product pages load with working contact drafts', async () => {
+  if (!process.argv.includes('--functional-only')) await scenario('all 52 product pages load with working contact drafts', async () => {
     const { readdir } = await import('node:fs/promises');
     const files = await readdir(new URL('../src/data/products/', import.meta.url));
     for (const file of files.filter((f) => f.endsWith('.json'))) {
@@ -182,14 +182,14 @@ try {
     await drawer.locator('[data-catalog-filter="featured"]').click();
     assert.equal(await trigger.getAttribute('aria-expanded'), 'false');
     const featured = await page.locator('[data-catalog-item]:not([hidden])').count();
-    assert.ok(featured > 0 && featured < 51);
+    assert.ok(featured > 0 && featured < 52);
     assert.equal(await page.locator('[data-catalog-item]:not([hidden])[data-catalog-featured="false"]').count(), 0);
     await trigger.click();
     await drawer.locator('[data-catalog-filter="category"]').first().click();
     const categories = await page.locator('[data-catalog-item]:not([hidden])').evaluateAll((els) => [...new Set(els.map((el) => el.dataset.catalogCategory))]);
     assert.equal(categories.length, 1);
     await trigger.click(); await drawer.locator('[data-catalog-filter="all"]').click();
-    assert.equal(await page.locator('[data-catalog-item]:not([hidden])').count(), 51);
+    assert.equal(await page.locator('[data-catalog-item]:not([hidden])').count(), 52);
     await trigger.click(); await page.keyboard.press('Escape');
     assert.equal(await page.evaluate(() => document.body.classList.contains('catalog-drawer-open')), false);
     assert.equal(await trigger.evaluate((el) => el === document.activeElement), true);
@@ -413,7 +413,7 @@ try {
     await motion.locator('[data-catalog-filter="all"]').click();
     await motion.waitForTimeout(1100);
     assert.equal(await motion.locator('.is-entering').count(), 0);
-    assert.equal(await motion.locator('[data-catalog-item]:not([hidden])').count(), 51);
+    assert.equal(await motion.locator('[data-catalog-item]:not([hidden])').count(), 52);
     assert.equal(await motion.locator('[data-catalog-item].reveal-pending').count(), 0);
     await scrollToElement(motion, '[data-sla-mechanism]');
     await motion.waitForTimeout(250);
@@ -542,7 +542,7 @@ try {
   await scenario('no JavaScript: all products, native mobile menu, contacts, gallery links and SLA fallback', async () => {
     await go(native);
     assert.equal(await native.locator('.portrait').count(), 0);
-    assert.equal(await native.locator('[data-catalog-item]').count(), 51);
+    assert.equal(await native.locator('[data-catalog-item]').count(), 52);
     assert.equal(await native.locator('.reveal-pending').count(), 0);
     assert.equal(await native.locator('.site-header__burger').isVisible(), false, 'do not expose an inert burger without JS');
     await native.locator('.site-header__native-menu summary').click();

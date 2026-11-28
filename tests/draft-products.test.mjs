@@ -20,8 +20,8 @@ test('P40-P49 are public with approved rights and honest preliminary prices', as
     P45: 140, P46: 175, P47: 300, P48: 425, P49: 450 };
   assert.equal(additions.length, 10);
   assert.equal(all.filter((product) => product.publicationStatus === 'draft').length, 0);
-  assert.equal(selectCatalogProducts(all).length, 51);
-  assert.equal(selectCatalogProducts(all, true).length, 51);
+  assert.equal(selectCatalogProducts(all).length, 52);
+  assert.equal(selectCatalogProducts(all, true).length, 52);
   for (const product of additions) {
     assert.equal(product.publicationStatus, 'published', product.sku);
     assert.equal(product.commercialRightsStatus, 'approved', product.sku);

@@ -1,0 +1,32 @@
+{
+  "slug": "4-bay-nas-korpus-hp-elitedesk-800-g1-mini",
+  "sku": "P52",
+  "merchandisingPriority": 0,
+  "featured": false,
+  "publicationStatus": "published",
+  "commercialRightsStatus": "permission_required",
+  "photoRightsStatus": "review_required",
+  "author": "李潘 (lp21355)",
+  "sourceUrl": "https://makerworld.com/ru/models/823054-4-bay-nas-enclosure#profileId-766360",
+  "license": "Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA)",
+  "attributionRequired": true,
+  "title": "NAS-корпус на 4 диски для HP EliteDesk 800 G1 Mini",
+  "shortDescription": "Настільний корпус із PETG для перетворення HP EliteDesk 800 G1 Desktop Mini на NAS із чотирма відсіками для жорстких дисків.",
+  "description": "Корпус розроблено для HP EliteDesk 800 G1 Desktop Mini (HP 800 G1 DM). Дисковий кошик розраховано на чотири накопичувачі, а на задній панелі є вентиляційні решітки й вирізи для портів міні-ПК. Перед збиранням звір точну модель ПК, розташування роз’ємів, формат дисків і спосіб їх підключення. Сумісність з іншими модифікаціями EliteDesk треба перевіряти окремо.\n\nБазовий комплект охоплює всі друковані деталі з шести пластин профілю MakerWorld №766360, зокрема корпус, дисковий кошик і панелі. Профіль для Bambu Lab P1S із соплом 0,4 мм використовує PETG, шар 0,2 мм, 3 стінки та 40% заповнення. За розрахунком профілю на комплект потрібно близько 1525 г PETG і 52 год 29 хв друку. Автор також рекомендує ABS.\n\nУ комплекті лише друковані деталі. Міні-ПК, накопичувачі, вентилятори, блок живлення, кабелі, кріплення та складання потрібно передбачити окремо.\n\nАвтор моделі — 李潘 (lp21355). На MakerWorld вказано ліцензію CC BY-NC-SA. Комерційне виготовлення можливе після отримання окремого дозволу правовласника.",
+  "weightGrams": 1525,
+  "price": 3813,
+  "priceType": "from",
+  "availability": "unconfirmed",
+  "publishOffer": false,
+  "priceNote": "Початкова ціна охоплює друковані PETG-деталі з шести пластин профілю №766360. Витрата 1525 г наведена за розрахунком слайсера.",
+  "category": "Корпуси та дискові модулі",
+  "material": "PETG",
+  "leadTime": "Термін узгоджується після перевірки конфігурації",
+  "imageNotice": "Авторські фото показують зібраний NAS спереду й ззаду. У комплекті лише друковані деталі корпусу. Комплектуючі на фото показані для прикладу.",
+  "images": [
+    "https://makerworld.bblmw.com/makerworld/model/US2756db27031b05/design/548522a9-e721-4079-9a7b-7f47f84493bb.webp?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US2756db27031b05/design/00f1923d-de08-4bc3-a14d-1801b4f39d79.webp?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US2756db27031b05/design/2faaa766-bc2b-4ebd-a43b-a38c7ae413e6.webp?x-oss-process=image/resize,w_1000/format,webp",
+    "https://makerworld.bblmw.com/makerworld/model/US2756db27031b05/design/a4fad303-3b29-47b0-a802-086af09061df.webp?x-oss-process=image/resize,w_1000/format,webp"
+  ]
+}
